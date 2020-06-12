@@ -2,7 +2,8 @@
 class Protection :public IAbstractModuleBase, public Singleton<Protection>
 {
 private:
-	DWORD lastTimeAutoLogin =0;
+	
+	string lastPlayerName="";
 	bool isShowLogs = false;
 public:
 	void OnStart()
@@ -43,20 +44,26 @@ public:
 	void OnUpdate()
 	{
 #ifdef METINPL
-		if ((GetTickCount() - lastTimeAutoLogin) > 16000 && Settings::ProtectionAutoLogin)
+		if (DynamicTimer::Check("AutoLogin", 16000) && Settings::ProtectionAutoLogin)
 		{
 			if (!GameFunctions::PlayerNEW_GetMainActorPtr())
 			{
 				GameFunctions::NetworkStreamConnectGameServer(0);
 #else
-		if ((GetTickCount() - lastTimeAutoLogin) > 1000 && Settings::ProtectionAutoLogin)
+		if (DynamicTimer::Check("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
 		{
-			if (GameFunctionsCustom::PlayerDirectEnter())
+			string playerName = GameFunctionsCustom::PlayerGetNameString();
+			if (playerName !="")
+			{
+				lastPlayerName = playerName;
+			}
+			
+			if (lastPlayerName != "" && GameFunctionsCustom::PlayerDirectEnter(lastPlayerName))
 			{
 			
 #endif
 				Main::Instance().ResetSkillTimer();
-				lastTimeAutoLogin = GetTickCount();
+				
 			}
 		}
 
