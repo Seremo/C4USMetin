@@ -34,7 +34,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		const char* test = "testowo";
 		DWORD sizeTwojejStarej = 45345;
 		MainCore::Crack();
-		int sdasdplsa = 69;
+		
 		
 #ifdef DEVELOPER_MODE
 		/*AllocConsole();
