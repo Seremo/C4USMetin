@@ -81,12 +81,13 @@ public:
 		}
 		else
 		{
-			return NULL;
+			return "";
 		}
 	}
 	static int GetLastCharSlot()
 	{
-		string charName = string(PlayerGetName());
+
+		string charName = PlayerGetNameString();
 		for (int i = 0; i < 8; i++) {
 			string slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 1);
 			if (slotName != "" && slotName == charName) {
@@ -949,7 +950,7 @@ public:
 	{
 		if (!GameFunctions::NetworkStreamIsOnline())
 		{
-			GameFunctions::NetworkStreamConnectGameServer(0);
+			/*GameFunctions::NetworkStreamConnectGameServer(0);*/
 			int last_slot = GameFunctionsCustom::GetLastCharSlot();
 			if (last_slot != -1)
 			{

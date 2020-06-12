@@ -55,7 +55,7 @@ public:
 		if (ImGui::Button("Send Packet"))
 		{
 			
-			char* v = StringExtension::UTF8ToANSI(&packetHex[0]); PacketSniffer::Instance().ProcessRecvPacket(strlen(v), (void*)v);
+			GameFunctionsCustom::SendPacket(string(packetHex));
 			
 		}
 		D3DVECTOR oldPosition;

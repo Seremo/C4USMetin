@@ -134,7 +134,7 @@ using namespace std;
 //#define CHECK_OFFSETS
 //#define NEED_LICENSE
 //#define ADDRESS_FROM_FILE
-#define DLL_VERSION "0.0.22"
+#define DLL_VERSION "0.0.25"
 
 
 #ifdef VIDGAR
