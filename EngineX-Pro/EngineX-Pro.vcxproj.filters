@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Hotkey.cpp">
+      <Filter>ImGui\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx8.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx9.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="CRender.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="MainForm.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="MainCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="HookCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreen.cpp">
+      <Filter>Utils\Other</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameFunctions.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFunctionsCustom.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MainCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="FileExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="StringExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtectExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketSniffer.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Protection.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx8.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx9.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Hotkey.h">
+      <Filter>ImGui\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CRender.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="MainForm.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Fish.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Farm.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Spam.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoTalk.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="MathExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="StdV80-110.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="MiscExtension.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="detours.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleIni.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="StopWatch.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayActions.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternScan.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Smietnik.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Refine.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PythonScript.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="TAbstractSingleton.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="HookCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiExtension.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Radar.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="IAbstractModuleBase.h">
+      <Filter>Core\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreen.h">
+      <Filter>Utils\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicTimer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{9e1f9e63-29fe-4f1d-8d6c-ee3a1ee6c5cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{f12ccb86-c2ab-4b5f-ad90-2e618eb6f406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules">
+      <UniqueIdentifier>{6f4ed837-1141-43f6-a90e-8382aed6c732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{0c563931-1248-464b-ad4d-018b6397902f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Custom">
+      <UniqueIdentifier>{442d0af1-d12f-41a2-9f37-455b6ce04d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form">
+      <UniqueIdentifier>{519f1a77-3132-4970-907e-55f047829ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{c05f3c23-7e53-4507-85f5-87cf26ad0a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Other">
+      <UniqueIdentifier>{d0cbde09-b11d-48b6-996b-1aef9d152f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{32c70d04-5b8e-4841-9eb4-0d4fa951509d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MultiHackImgui.rc">
+      <Filter>Form</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

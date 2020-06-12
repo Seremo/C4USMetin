@@ -1,0 +1,663 @@
+
+#include "Hotkey.h"
+const char* const KeyNames[] = {
+	"Unknown",
+	"LBUTTON",
+	"RBUTTON",
+	"CANCEL",
+	"MBUTTON",
+	"XBUTTON1",
+	"XBUTTON2",
+	"Unknown",
+	"BACK",
+	"TAB",
+	"Unknown",
+	"Unknown",
+	"CLEAR",
+	"RETURN",
+	"Unknown",
+	"Unknown",
+	"SHIFT",
+	"CONTROL",
+	"MENU",
+	"PAUSE",
+	"CAPITAL",
+	"KANA",
+	"Unknown",
+	"JUNJA",
+	"FINAL",
+	"KANJI",
+	"Unknown",
+	"ESCAPE",
+	"CONVERT",
+	"NONCONVERT",
+	"ACCEPT",
+	"MODECHANGE",
+	"SPACE",
+	"PRIOR",
+	"NEXT",
+	"END",
+	"HOME",
+	"LEFT",
+	"UP",
+	"RIGHT",
+	"DOWN",
+	"SELECT",
+	"PRINT",
+	"EXECUTE",
+	"SNAPSHOT",
+	"INSERT",
+	"DELETE",
+	"HELP",
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
+	"LWIN",
+	"RWIN",
+	"APPS",
+	"Unknown",
+	"SLEEP",
+	"NUMPAD0",
+	"NUMPAD1",
+	"NUMPAD2",
+	"NUMPAD3",
+	"NUMPAD4",
+	"NUMPAD5",
+	"NUMPAD6",
+	"NUMPAD7",
+	"NUMPAD8",
+	"NUMPAD9",
+	"MULTIPLY",
+	"ADD",
+	"SEPARATOR",
+	"SUBTRACT",
+	"DECIMAL",
+	"DIVIDE",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
+	"F13",
+	"F14",
+	"F15",
+	"F16",
+	"F17",
+	"F18",
+	"F19",
+	"F20",
+	"F21",
+	"F22",
+	"F23",
+	"F24",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"NUMLOCK",
+	"SCROLL",
+	"OEM_NEC_EQUAL",
+	"OEM_FJ_MASSHOU",
+	"OEM_FJ_TOUROKU",
+	"OEM_FJ_LOYA",
+	"OEM_FJ_ROYA",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"LSHIFT",
+	"RSHIFT",
+	"LCONTROL",
+	"RCONTROL",
+	"LMENU",
+	"RMENU",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown",
+	"Unknown"
+};
+
+
+
+bool ImGui::Selectable2(const char* label, bool selected, ImGuiSelectableFlags flags, const ImVec2& size_arg)
+{
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	if ((flags & ImGuiSelectableFlags_SpanAllColumns) && window->DC.CurrentColumns) // FIXME-OPT: Avoid if vertically clipped.
+		PushColumnsBackground();
+
+	ImGuiID id = window->GetID(label);
+	ImVec2 label_size = CalcTextSize(label, NULL, true);
+	ImVec2 size(size_arg.x != 0.0f ? size_arg.x : label_size.x, size_arg.y != 0.0f ? size_arg.y : label_size.y);
+	ImVec2 pos = window->DC.CursorPos;
+	pos.y += window->DC.CurrLineTextBaseOffset;
+	ImRect bb_inner(pos, pos + size);
+	ItemSize(size, 0.0f);
+
+	// Fill horizontal space.
+	ImVec2 window_padding = window->WindowPadding;
+	float max_x = (flags & ImGuiSelectableFlags_SpanAllColumns) ? GetWindowContentRegionMax().x : GetContentRegionMax().x;
+	float w_draw = ImMax(label_size.x, window->Pos.x + max_x - window_padding.x - pos.x);
+	ImVec2 size_draw((size_arg.x != 0 && !(flags & ImGuiSelectableFlags_DrawFillAvailWidth)) ? size_arg.x : w_draw, size_arg.y != 0.0f ? size_arg.y : size.y);
+	ImRect bb(pos, pos + size_draw);
+	if (size_arg.x == 0.0f || (flags & ImGuiSelectableFlags_DrawFillAvailWidth))
+		bb.Max.x += window_padding.x;
+
+	// Selectables are tightly packed together so we extend the box to cover spacing between selectable.
+	const float spacing_x = style.ItemSpacing.x;
+	const float spacing_y = style.ItemSpacing.y;
+	const float spacing_L = IM_FLOOR(spacing_x * 0.50f);
+	const float spacing_U = IM_FLOOR(spacing_y * 0.50f);
+	bb.Min.x -= spacing_L;
+	bb.Min.y -= spacing_U;
+	bb.Max.x += (spacing_x - spacing_L);
+	bb.Max.y += (spacing_y - spacing_U);
+
+	bool item_add;
+	if (flags & ImGuiSelectableFlags_Disabled)
+	{
+		ImGuiItemFlags backup_item_flags = window->DC.ItemFlags;
+		window->DC.ItemFlags |= ImGuiItemFlags_Disabled | ImGuiItemFlags_NoNavDefaultFocus;
+		item_add = ItemAdd(bb, id);
+		window->DC.ItemFlags = backup_item_flags;
+	}
+	else
+	{
+		item_add = ItemAdd(bb, id);
+	}
+	if (!item_add)
+	{
+		if ((flags & ImGuiSelectableFlags_SpanAllColumns) && window->DC.CurrentColumns)
+			PopColumnsBackground();
+		return false;
+	}
+
+	// We use NoHoldingActiveID on menus so user can click and _hold_ on a menu then drag to browse child entries
+	ImGuiButtonFlags button_flags = 0;
+	//if (flags & ImGuiSelectableFlags_NoHoldingActiveID) button_flags |= ImGuiButtonFlags_NoHoldingActiveID;
+	if (flags & ImGuiSelectableFlags_PressedOnClick) button_flags |= ImGuiButtonFlags_PressedOnClick;
+	if (flags & ImGuiSelectableFlags_PressedOnRelease) button_flags |= ImGuiButtonFlags_PressedOnRelease;
+	if (flags & ImGuiSelectableFlags_Disabled) button_flags |= ImGuiButtonFlags_Disabled;
+	if (flags & ImGuiSelectableFlags_AllowDoubleClick) button_flags |= ImGuiButtonFlags_PressedOnClickRelease | ImGuiButtonFlags_PressedOnDoubleClick;
+	if (flags & ImGuiSelectableFlags_AllowItemOverlap) button_flags |= ImGuiButtonFlags_AllowItemOverlap;
+
+	if (flags & ImGuiSelectableFlags_Disabled)
+		selected = false;
+
+	const bool was_selected = selected;
+	bool hovered, held;
+	bool pressed = ButtonBehavior(bb, id, &hovered, &held, button_flags);
+
+	// Update NavId when clicking or when Hovering (this doesn't happen on most widgets), so navigation can be resumed with gamepad/keyboard
+	if (pressed || (hovered && (flags & ImGuiSelectableFlags_SetNavIdOnHover)))
+	{
+		if (!g.NavDisableMouseHover && g.NavWindow == window && g.NavLayer == window->DC.NavLayerCurrent)
+		{
+			g.NavDisableHighlight = true;
+#ifdef NDEBUG
+			SetNavID(id, window->DC.NavLayerCurrent, 0);
+#else
+			SetNavID(id, window->DC.NavLayerCurrent, 0);
+#endif
+		}
+	}
+	if (pressed)
+		MarkItemEdited(id);
+
+	if (flags & ImGuiSelectableFlags_AllowItemOverlap)
+		SetItemAllowOverlap();
+
+	// In this branch, Selectable() cannot toggle the selection so this will never trigger.
+	if (selected != was_selected) //-V547
+		window->DC.LastItemStatusFlags |= ImGuiItemStatusFlags_ToggledSelection;
+
+	// Render
+	if (held && (flags & ImGuiSelectableFlags_DrawHoveredWhenHeld))
+		hovered = true;
+	if (hovered || selected)
+	{
+		const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_HeaderActive : hovered ? ImGuiCol_HeaderHovered : ImGuiCol_Header);
+		RenderFrame(bb.Min, bb.Max, col, false, 0.0f);
+		RenderNavHighlight(bb, id, ImGuiNavHighlightFlags_TypeThin | ImGuiNavHighlightFlags_NoRounding);
+		ImGuiWindow* window = GetCurrentWindow();
+		window->DrawList->AddRect(ImVec2(bb.Min.x, bb.Min.y), ImVec2(bb.Min.x, bb.Max.y), GetColorU32(ImGuiCol_NavHighlight), 0.0f, ~0, 1.0f);		//window->DrawList->AddRectFilled(bb.Min, bb.Max, GetColorU32(col));
+		//(window->DrawList, pos, GetColorU32(ImGuiCol_Text), ImGuiDir_Down);
+		//RenderBullet(bb.Min);
+	}
+
+	if ((flags & ImGuiSelectableFlags_SpanAllColumns) && window->DC.CurrentColumns)
+	{
+		PopColumnsBackground();
+		bb.Max.x -= (GetContentRegionMax().x - max_x);
+	}
+
+	if (flags & ImGuiSelectableFlags_Disabled) PushStyleColor(ImGuiCol_Text, style.Colors[ImGuiCol_TextDisabled]);
+	RenderTextClipped(bb_inner.Min, bb_inner.Max, label, NULL, &label_size, style.SelectableTextAlign, &bb);
+	if (flags & ImGuiSelectableFlags_Disabled) PopStyleColor();
+
+	// Automatically close popups
+	if (pressed && (window->Flags & ImGuiWindowFlags_Popup) && !(flags & ImGuiSelectableFlags_DontClosePopups) && !(window->DC.ItemFlags & ImGuiItemFlags_SelectableDontClosePopup))
+		CloseCurrentPopup();
+
+	IMGUI_TEST_ENGINE_ITEM_INFO(id, label, window->DC.ItemFlags);
+	return pressed;
+}
+
+void ImGui::DrawImagePos(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& Pos, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col, const ImVec4& border_col) {
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return;
+
+	ImRect bb(Pos, Pos + size);
+	window->DrawList->AddImage(user_texture_id, bb.Min, bb.Max, uv0, uv1, GetColorU32(tint_col));
+}
+
+void ImGui::DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col, const ImVec4& border_col) {
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return;
+
+	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
+	//if (border_col.w > 0.0f)
+	//	bb.Max += ImVec2(2, 2);
+	//ItemSize(bb);
+	//if (!ItemAdd(bb, 0))
+	//	return;
+	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 15), bb.Max + ImVec2(15, 15), uv0, uv1, GetColorU32(tint_col));
+	//if (border_col.w > 0.0f)
+	//{
+	//	window->DrawList->AddRect(bb.Min, bb.Max, GetColorU32(border_col), 0.0f);
+	//	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 1), bb.Max + ImVec2(1, 1), uv0, uv1, GetColorU32(tint_col));
+	//}
+	//else
+	//{
+	//	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 1), bb.Max + ImVec2(1, 1), uv0, uv1, GetColorU32(tint_col));
+	//}
+}
+
+void ImGui::ImageAuto(DirectTexture user_texture_id, float scale, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col, const ImVec4& border_col) {
+	if (user_texture_id == NULL)
+		return;
+	D3DSURFACE_DESC desc;
+	user_texture_id->GetLevelDesc(0, &desc);
+	float width = desc.Width * scale;
+	float height = desc.Height * scale;
+	if (width > 0 && height > 0) {
+		ImGui::Image(user_texture_id, ImVec2(width, height));
+	}
+}
+
+bool ImGui::PopupButton(const char* tooltip, ImTextureID texture, const ImVec2& size) {
+	int frame_padding = -1;
+	const ImVec2& uv0 = ImVec2(0, 0);
+	const ImVec2& uv1 = ImVec2(1, 1);
+	const ImVec4& bg_col = ImVec4(0, 0, 0, 0);
+	const ImVec4& tint_col = ImVec4(1, 1, 1, 1);
+	ImTextureID user_texture_id = NULL;
+	user_texture_id = texture;
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	// Default to using texture ID as ID. User can still push string/integer prefixes.
+	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
+	PushID((void*)(intptr_t)tooltip);
+	const ImGuiID id = window->GetID("#image");
+	PopID();
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	const ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, id))
+		return false;
+
+	bool hovered, held;
+	bool pressed = ButtonBehavior(bb, id, &hovered, &held);
+	if (hovered) {
+		ImGui::BeginTooltip();
+		ImGui::SetTooltip(tooltip);
+		ImGui::EndTooltip();
+	}
+	// Render
+	const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	RenderNavHighlight(bb, id);
+	RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
+	if (bg_col.w > 0.0f)
+		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
+	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
+
+	return pressed;
+}
+
+bool ImGui::IconButton(bool* state, const char* tooltip, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size) {
+	int frame_padding = -1;
+	const ImVec2& uv0 = ImVec2(0, 0);
+	const ImVec2& uv1 = ImVec2(1, 1);
+	const ImVec4& bg_col = ImVec4(0, 0, 0, 0);
+	const ImVec4& tint_col = ImVec4(1, 1, 1, 1);
+	ImTextureID user_texture_id = NULL;
+	if (*state) {
+		user_texture_id = textureOn;
+	}
+	else {
+		user_texture_id = textureOff;
+	}
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	// Default to using texture ID as ID. User can still push string/integer prefixes.
+	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
+	PushID((void*)(intptr_t)tooltip);
+	const ImGuiID id = window->GetID("#image");
+	PopID();
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	const ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, id))
+		return false;
+
+	bool hovered, held;
+	bool pressed = ButtonBehavior(bb, id, &hovered, &held);
+	if (hovered) {
+		ImGui::BeginTooltip();
+		ImGui::SetTooltip(tooltip);
+		ImGui::EndTooltip();
+	}
+	if (pressed) {
+		*state = !(*state);
+	}
+
+	// Render
+	const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	RenderNavHighlight(bb, id);
+	RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
+	if (bg_col.w > 0.0f)
+		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
+	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
+
+	return pressed;
+}
+
+bool ImGui::IconButton2(bool* state, const char* tooltip, ImTextureID texture, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size) {
+	int frame_padding = -1;
+	const ImVec2& uv0 = ImVec2(0, 0);
+	const ImVec2& uv1 = ImVec2(1, 1);
+	const ImVec4& bg_col = ImVec4(0, 0, 0, 0);
+	const ImVec4& tint_col = ImVec4(1, 1, 1, 1);
+	ImTextureID user_texture_id = texture;
+	ImTextureID user_texture_id2 = NULL;
+	if (*state) {
+		user_texture_id2 = textureOn;
+	}
+	else {
+		user_texture_id2 = textureOff;
+	}
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	// Default to using texture ID as ID. User can still push string/integer prefixes.
+	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
+	PushID((void*)(intptr_t)tooltip);
+	const ImGuiID id = window->GetID("#image");
+	PopID();
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	const ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, id))
+		return false;
+
+	bool hovered, held;
+	bool pressed = ButtonBehavior(bb, id, &hovered, &held);
+	if (hovered) {
+		ImGui::BeginTooltip();
+		ImGui::SetTooltip(tooltip);
+		ImGui::EndTooltip();
+	}
+	if (pressed) {
+		*state = !(*state);
+	}
+
+	// Render
+	const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	RenderNavHighlight(bb, id);
+	RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
+	if (bg_col.w > 0.0f)
+		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
+
+	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
+	window->DrawList->AddImage(user_texture_id2, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
+
+	return pressed;
+}
+
+bool ImGui::InputFloatAdvanced(const char* label, float* v, float Min, float Max, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", ImGuiInputTextFlags flags = 0)
+{
+	float value = *v;
+	if (*v > Max) {
+		value = Max;
+	}
+	else if (*v < Min) {
+		value = Min;
+	}
+	return ImGui::InputFloat(label, &value, step, step_fast, format, flags);
+}
+
+bool ImGui::Hotkey( DWORD& hotKeyTime,const char* label, int* k, const ImVec2& size_arg)
+{
+	ImGuiWindow* window = ImGui::GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	ImGuiIO& io = g.IO;
+	const ImGuiStyle& style = g.Style;
+
+	const ImGuiID id = window->GetID(label);
+	const ImVec2 label_size = ImGui::CalcTextSize(label, NULL, true);
+	ImVec2 size = ImGui::CalcItemSize(size_arg, ImGui::CalcItemWidth(), label_size.y + style.FramePadding.y*2.0f);
+	const ImRect frame_bb(window->DC.CursorPos + ImVec2(label_size.x + style.ItemInnerSpacing.x, 0.0f), window->DC.CursorPos + size);
+	const ImRect total_bb(window->DC.CursorPos, frame_bb.Max);
+
+	ImGui::ItemSize(total_bb, style.FramePadding.y);
+	if (!ImGui::ItemAdd(total_bb, id))
+		return false;
+
+	const bool focus_requested = ImGui::FocusableItemRegister(window, g.ActiveId == id);
+	const bool focus_requested_by_code = focus_requested;//&& (window->FocusIdxAllCounter == window->FocusIdxAllRequestCurrent)
+	const bool focus_requested_by_tab = focus_requested && !focus_requested_by_code;
+
+	const bool hovered = ImGui::ItemHoverable(frame_bb, id);
+
+	if (hovered) {
+		ImGui::SetHoveredID(id);
+		g.MouseCursor = ImGuiMouseCursor_TextInput;
+	}
+
+	const bool user_clicked = hovered && io.MouseClicked[0];
+
+	if (focus_requested || user_clicked) {
+		if (g.ActiveId != id) {
+			// Start edition
+			memset(io.MouseDown, 0, sizeof(io.MouseDown));
+			memset(io.KeysDown, 0, sizeof(io.KeysDown));
+			*k = 0;
+		}
+		ImGui::SetActiveID(id, window);
+		ImGui::FocusWindow(window);
+	}
+	else if (io.MouseClicked[0]) {
+		// Release focus when we click outside
+		if (g.ActiveId == id)
+			ImGui::ClearActiveID();
+	}
+
+	bool value_changed = false;
+	int key = *k;
+
+	if (g.ActiveId == id) {
+		for (auto i = 0; i < 5; i++) {
+			if (io.MouseDown[i]) {
+				switch (i) {
+				case 0:
+					key = VK_LBUTTON;
+					break;
+				case 1:
+					key = VK_RBUTTON;
+					break;
+				case 2:
+					key = VK_MBUTTON;
+					break;
+				case 3:
+					key = VK_XBUTTON1;
+					break;
+				case 4:
+					key = VK_XBUTTON2;
+					break;
+				}
+				value_changed = true;
+				ImGui::ClearActiveID();
+			}
+		}
+		if (!value_changed) {
+			for (auto i = VK_BACK; i <= VK_RMENU; i++) {
+				if (io.KeysDown[i]) {
+					key = i;
+					value_changed = true;
+					ImGui::ClearActiveID();
+				}
+			}
+		}
+
+		if (IsKeyPressedMap(ImGuiKey_Escape)) {
+			*k = 0;
+			ImGui::ClearActiveID();
+		}
+		else {
+			*k = key;
+		}
+	}
+
+	// Render
+	// Select which buffer we are going to display. When ImGuiInputTextFlags_NoLiveEdit is Set 'buf' might still be the old value. We Set buf to NULL to prevent accidental usage from now on.
+
+	char buf_display[64] = "None";
+
+	ImGui::RenderFrame(frame_bb.Min, frame_bb.Max, ImGui::GetColorU32(ImVec4(0.20f, 0.25f, 0.30f, 1.0f)), true, style.FrameRounding);
+
+	if (*k != 0 && g.ActiveId != id) {
+		strcpy_s(buf_display, KeyNames[*k]);
+	}
+	else if (g.ActiveId == id) {
+		strcpy_s(buf_display, "<Press a key>");
+		hotKeyTime = GetTickCount();
+	}
+
+	const ImRect clip_rect(frame_bb.Min.x, frame_bb.Min.y, frame_bb.Min.x + size.x, frame_bb.Min.y + size.y); // Not using frame_bb.Max because we have adjusted size
+	ImVec2 render_pos = frame_bb.Min + style.FramePadding;
+	ImGui::RenderTextClipped(frame_bb.Min + style.FramePadding, frame_bb.Max - style.FramePadding, buf_display, NULL, NULL, style.ButtonTextAlign, &clip_rect);
+	//RenderTextClipped(frame_bb.Min + style.FramePadding, frame_bb.Max - style.FramePadding, buf_display, NULL, NULL, GetColorU32(ImGuiCol_Text), style.ButtonTextAlign, &clip_rect);
+	//draw_window->DrawList->AddText(g.Font, g.FontSize, render_pos, GetColorU32(ImGuiCol_Text), buf_display, NULL, 0.0f, &clip_rect);
+
+	if (label_size.x > 0)
+		ImGui::RenderText(ImVec2(total_bb.Min.x, frame_bb.Min.y + style.FramePadding.y), label);
+	return value_changed;
+}
