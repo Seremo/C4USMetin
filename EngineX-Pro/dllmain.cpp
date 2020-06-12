@@ -32,7 +32,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 
 		"SEREMO TO HUJ";
 		const char* test = "testowo";
-		DWORD sizeTwojejStarej = 45345;
 		MainCore::Crack();
 		
 		
