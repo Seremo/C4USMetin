@@ -1,4 +1,7 @@
 *.obj
+.vs/
 Microsoft DirectX SDK 8/
+Debug/
+Release/
 EngineX-Pro/Debug/
 EngineX-Pro/Release/

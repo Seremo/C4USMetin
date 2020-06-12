@@ -529,7 +529,7 @@ bool ImGui::IconButton2(bool* state, const char* tooltip, ImTextureID texture, I
 	return pressed;
 }
 
-bool ImGui::InputFloatAdvanced(const char* label, float* v, float Min, float Max, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", ImGuiInputTextFlags flags = 0)
+bool ImGui::InputFloatAdvanced(const char* label, float* v, float Min, float Max, float step, float step_fast, const char* format, ImGuiInputTextFlags flags)
 {
 	float value = *v;
 	if (*v > Max) {
