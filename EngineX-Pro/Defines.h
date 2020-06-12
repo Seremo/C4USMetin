@@ -615,6 +615,9 @@ typedef struct SMobTable_r255
 	char        szLocaleName[CHARACTER_NAME_MAX_LEN + 1];
 
 	BYTE        bType;                  // Monster, NPC
+#ifdef RUBINUM
+	BYTE		unk[249];
+#endif
 	BYTE        bRank;                  // PAWN, KNIGHT, KING
 	//BYTE        bBattleType;            // MELEE, etc..
 	//BYTE        bLevel;                 // Level

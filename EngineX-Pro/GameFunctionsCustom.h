@@ -603,7 +603,7 @@ public:
 			}
 			if (objectType & OBJECT_MOB)
 			{
-				if (instanceType == TYPE_ENEMY /*&& !GameFunctionsCustom::InstanceIsBoss(instance)*/)
+				if (instanceType == TYPE_ENEMY && !GameFunctionsCustom::InstanceIsBoss(instance))
 				{
 					objectList.insert(std::make_pair(iIndex, instance));
 				}
@@ -617,10 +617,10 @@ public:
 			}
 			if (objectType & OBJECT_BOSS)
 			{
-				/*if (instanceType == TYPE_ENEMY && GameFunctionsCustom::InstanceIsBoss(instance))
+				if (instanceType == TYPE_ENEMY && GameFunctionsCustom::InstanceIsBoss(instance))
 				{
 					objectList.insert(std::make_pair(iIndex, instance));
-				}*/
+				}
 			}
 			if (objectType & OBJECT_PC)
 			{
@@ -853,7 +853,7 @@ public:
 	//#################################################################################################################################
 	static bool InstanceIsBoss(DWORD* instance) 
 	{
-		/*DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
+		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
 		const TMobTable* mob_info = GameFunctions::NonPlayerGetMobTable(mob_vnum);
 		int mob_grade = mob_info->bRank;
 		if (mob_grade >= 4)
@@ -863,7 +863,7 @@ public:
 		else
 		{
 			return false;
-		}*/
+		}
 			
 		return false;
 	}
