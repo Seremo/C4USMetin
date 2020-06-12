@@ -3,7 +3,12 @@
 
  void MainCore::Crack()
 {
+	 
 
+#ifdef RUBINUM
+	 const char* version = "1591958395";
+	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x18F2E4C), (void*)version, strlen(version));
+#endif
 #ifdef VIDGAR
 	 MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x28E6BC9), 0x35, 1);
 #endif

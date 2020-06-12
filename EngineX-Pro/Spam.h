@@ -63,7 +63,7 @@ public:
 						text += normalTextMessage;
 					}
 					
-					GameFunctions::NetworkStreamSendChatPacket(text.c_str(), CHAT_TYPE_TALKING);
+					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8ToANSI((char*)text.c_str()), CHAT_TYPE_TALKING);
 
 				}
 			}
@@ -84,7 +84,7 @@ public:
 						text += shoutTextMessage;
 					}
 					
-					GameFunctions::NetworkStreamSendChatPacket(text.c_str(), CHAT_TYPE_SHOUT);
+					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8ToANSI((char*)text.c_str()), CHAT_TYPE_SHOUT);
 
 				}
 			}
@@ -109,7 +109,7 @@ public:
 						text += whisperTextMessage;
 					}
 					
-					DelayActions::AppendBlock(false, (50 * targetNumber), &GameFunctions::NetworkStreamSendWhisperPacket, GameFunctions::InstanceBaseGetNameString(itor->second), text.c_str());
+					DelayActions::AppendBlock(false, (50 * targetNumber), &GameFunctions::NetworkStreamSendWhisperPacket, GameFunctions::InstanceBaseGetNameString(itor->second), StringExtension::UTF8ToANSI((char*)text.c_str()));
 					targetNumber++;
 				}
 

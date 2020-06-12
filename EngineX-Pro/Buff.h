@@ -159,7 +159,7 @@ public:
 							{
 								if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
 								{
-									
+									GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
 									GameFunctionsCustom::UseSkillSlot(4);
 									itor->second.get()->lastTimeBuff_1 = GetTickCount();
 									
@@ -192,7 +192,7 @@ public:
 							{
 								if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
 								{
-									
+									GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
 									GameFunctionsCustom::UseSkillSlot(5);
 									itor->second.get()->lastTimeBuff_2 = GetTickCount();
 									
@@ -225,7 +225,7 @@ public:
 							{
 								if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
 								{
-									
+									GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
 									GameFunctionsCustom::UseSkillSlot(6);
 									itor->second.get()->lastTimeBuff_3 = GetTickCount();
 									
