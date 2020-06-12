@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 class Debug :public IAbstractModuleBase, public Singleton<Debug>
 {
 private:
@@ -24,7 +24,7 @@ public:
 	void OnRender()
 	{
 	}
-
+	
 	void OnMenu()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -54,7 +54,9 @@ public:
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
 		{
-			GameFunctionsCustom::SendPacket(string(packetHex));
+			
+			char* v = StringExtension::UTF8ToANSI(&packetHex[0]); PacketSniffer::Instance().ProcessRecvPacket(strlen(v), (void*)v);
+			
 		}
 		D3DVECTOR oldPosition;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
@@ -71,10 +73,7 @@ public:
 				MainForm::orbital_log_uart(0, string("(" + to_string(it->x) + " " + to_string(it->y) + ")").c_str());
 
 			}*/
-			const char* u = "ĄŚĆŃÓŹŻ";
-			MainForm::LogSniffer(0, "ĄŚĆŃÓŹŻ");
-			MainForm::LogSniffer(0, to_string(strlen(u)).c_str());
-			MainForm::LogSniffer(0, StringExtension::MakeHexString((BYTE*)u, strlen(u), true, true).c_str());
+		
 		}
 		if (ImGui::Button("TEST 2"))
 		{

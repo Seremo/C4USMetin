@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 class Fish : public IAbstractModuleBase, public Singleton<Fish>
 {
 private:
@@ -580,7 +580,7 @@ public:
 				if (slot != -1)
 				{
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-					MainForm::LogFish(0, string("UÅ¼yto " + itor->second.second + "z slotu " + to_string(slot) + " \n").c_str());
+					MainForm::LogFish(0, string("U¿yto " + itor->second.second + "z slotu " + to_string(slot) + " \n").c_str());
 					return true;
 				}
 				else
@@ -591,7 +591,7 @@ public:
 		}
 		if (Settings::FishBotUseFirstSlot)
 		{
-			MainForm::LogFish(0, "PrzynÄ™ta 1 Slot\n");
+			MainForm::LogFish(0, "Przynêta 1 Slot\n");
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 0));
 			return true;
 		}
@@ -773,27 +773,27 @@ public:
 		}
 #endif
 #ifdef VAROS
-		if (StringExtension::Contains(message, "NaciÅ›nij 1 razy"))
+		if (StringExtension::Contains(message, "Naciœnij 1 razy"))
 		{
 
 			action = 1;
 		}
-		else if (StringExtension::Contains(message, "NaciÅ›nij 2 razy"))
+		else if (StringExtension::Contains(message, "Naciœnij 2 razy"))
 		{
 
 			action = 2;
 		}
-		else if (StringExtension::Contains(message, "NaciÅ›nij 3 razy"))
+		else if (StringExtension::Contains(message, "Naciœnij 3 razy"))
 		{
 
 			action = 3;
 		}
-		else if (StringExtension::Contains(message, "NaciÅ›nij 4 razy"))
+		else if (StringExtension::Contains(message, "Naciœnij 4 razy"))
 		{
 
 			action = 4;
 		}
-		else if (StringExtension::Contains(message, "NaciÅ›nij 5 razy"))
+		else if (StringExtension::Contains(message, "Naciœnij 5 razy"))
 		{
 
 			action = 5;
@@ -869,27 +869,27 @@ public:
 		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
 #endif
 #ifdef AVENTUS2
-		if (StringExtension::Contains(message, "Kliknij 1 razy spacjÄ™, aby sprÃ³bowaÄ‡ wyÅ‚owiÄ‡ rybÄ™"))
+		if (StringExtension::Contains(message, "Kliknij 1 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
 		{
 
 			action = 1;
 		}
-		else if (StringExtension::Contains(message, "Kliknij 2 razy spacjÄ™, aby sprÃ³bowaÄ‡ wyÅ‚owiÄ‡ rybÄ™"))
+		else if (StringExtension::Contains(message, "Kliknij 2 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
 		{
 
 			action = 2;
 		}
-		else if (StringExtension::Contains(message, "Kliknij 3 razy spacjÄ™, aby sprÃ³bowaÄ‡ wyÅ‚owiÄ‡ rybÄ™"))
+		else if (StringExtension::Contains(message, "Kliknij 3 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
 		{
 
 			action = 3;
 		}
-		else if (StringExtension::Contains(message, "Kliknij 4 razy spacjÄ™, aby sprÃ³bowaÄ‡ wyÅ‚owiÄ‡ rybÄ™"))
+		else if (StringExtension::Contains(message, "Kliknij 4 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
 		{
 
 			action = 4;
 		}
-		else if (StringExtension::Contains(message, "Kliknij 5 razy spacjÄ™, aby sprÃ³bowaÄ‡ wyÅ‚owiÄ‡ rybÄ™"))
+		else if (StringExtension::Contains(message, "Kliknij 5 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
 		{
 
 			action = 5;
@@ -901,27 +901,27 @@ public:
 		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
 #endif
 #ifdef ELENIUM
-		if (StringExtension::Contains(message, "1x|h|r aby wyÅ‚owiÄ‡"))
+		if (StringExtension::Contains(message, "1x|h|r aby wy³owiæ"))
 		{
 
 			action = 1;
 		}
-		else if (StringExtension::Contains(message, "2x|h|r aby wyÅ‚owiÄ‡"))
+		else if (StringExtension::Contains(message, "2x|h|r aby wy³owiæ"))
 		{
 
 			action = 2;
 		}
-		else if (StringExtension::Contains(message, "3x|h|r aby wyÅ‚owiÄ‡"))
+		else if (StringExtension::Contains(message, "3x|h|r aby wy³owiæ"))
 		{
 
 			action = 3;
 		}
-		else if (StringExtension::Contains(message, "4x|h|r aby wyÅ‚owiÄ‡"))
+		else if (StringExtension::Contains(message, "4x|h|r aby wy³owiæ"))
 		{
 
 			action = 4;
 		}
-		else if (StringExtension::Contains(message, "5x|h|r aby wyÅ‚owiÄ‡"))
+		else if (StringExtension::Contains(message, "5x|h|r aby wy³owiæ"))
 		{
 
 			action = 5;
@@ -933,27 +933,27 @@ public:
 		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
 #endif
 #ifdef BALMORA
-		if (StringExtension::Contains(message, "Zatnij rybÄ™ 1 razy"))
+		if (StringExtension::Contains(message, "Zatnij rybê 1 razy"))
 		{
 
 			action = 1;
 		}
-		else if (StringExtension::Contains(message, "Zatnij rybÄ™ 2 razy"))
+		else if (StringExtension::Contains(message, "Zatnij rybê 2 razy"))
 		{
 
 			action = 2;
 		}
-		else if (StringExtension::Contains(message, "Zatnij rybÄ™ 3 razy"))
+		else if (StringExtension::Contains(message, "Zatnij rybê 3 razy"))
 		{
 
 			action = 3;
 		}
-		else if (StringExtension::Contains(message, "Zatnij rybÄ™ 4 razy"))
+		else if (StringExtension::Contains(message, "Zatnij rybê 4 razy"))
 		{
 
 			action = 4;
 		}
-		else if (StringExtension::Contains(message, "Zatnij rybÄ™ 5 razy"))
+		else if (StringExtension::Contains(message, "Zatnij rybê 5 razy"))
 		{
 
 			action = 5;
@@ -1118,35 +1118,35 @@ public:
 #endif
 #if defined(AKADEMIA_VESTERIS) || defined(VESTERIS)
 		//VMProtectBeginMutation("VesterisFB");
-		if (StringExtension::Contains(message, "uÅ¼yj animacji: Klaszcz"))
+		if (StringExtension::Contains(message, "u¿yj animacji: Klaszcz"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/clap", 0);
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 			Start();
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: Zgoda"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: Zgoda"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/congratulation", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: DenerwowaÄ†"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: DenerwowaÆ"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/angry", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: WybaczyÄ†"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: WybaczyÆ"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/forgive", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: Smutek"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: Smutek"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/sad", 0);
@@ -1156,62 +1156,62 @@ public:
 
 
 
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: Odmowa"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: Odmowa"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/shy", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: RozweselaÄ†"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: RozweselaÆ"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/cheerup", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: DrwiÄ†"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: DrwiÆ"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/banter", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: RadoÅšÄ†"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: RadoŒÆ"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/joy", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj animacji: Powitanie 1"))
+		else if (StringExtension::Contains(message, "u¿yj animacji: Powitanie 1"))
 		{
 
 			GameFunctions::NetworkStreamSendChatPacket("/cheer1", 0);
 			Start();
 			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
 		}
-		if (StringExtension::Contains(message, "uÅ¼yj spacji 1"))
+		if (StringExtension::Contains(message, "u¿yj spacji 1"))
 		{
 
 			action = 1;
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj spacji 2"))
+		else if (StringExtension::Contains(message, "u¿yj spacji 2"))
 		{
 
 			action = 2;
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj spacji 3"))
+		else if (StringExtension::Contains(message, "u¿yj spacji 3"))
 		{
 
 			action = 3;
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj spacji 4"))
+		else if (StringExtension::Contains(message, "u¿yj spacji 4"))
 		{
 
 			action = 4;
 		}
-		else if (StringExtension::Contains(message, "uÅ¼yj spacji 5"))
+		else if (StringExtension::Contains(message, "u¿yj spacji 5"))
 		{
 
 			action = 5;
@@ -1223,61 +1223,61 @@ public:
 		MainForm::orbital_log_fishing(0, ("Wymagane Klikniecia :" + to_string(action) + "\n").c_str());//
 #endif
 #ifdef EGORIA
-		if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: J"))
+		if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: J"))
 		{
 			action = 1;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: D"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: D"))
 		{
 			action = 2;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: T"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: T"))
 		{
 			action = 3;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: C"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: C"))
 		{
 			action = 4;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: P"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: P"))
 		{
 			action = 5;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: 1"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 1"))
 		{
 			action = 1;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: 2"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 2"))
 		{
 			action = 2;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: 3"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 3"))
 		{
 			action = 3;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: 4"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 4"))
 		{
 			action = 4;
 
 
 		}
-		else if (StringExtension::Contains(message, "Aby wyciÄ…gnÄ…Ä‡ RybÄ™ wciÅ›nij: 5"))
+		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 5"))
 		{
 			action = 5;
 

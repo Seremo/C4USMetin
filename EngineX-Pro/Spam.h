@@ -119,7 +119,7 @@ public:
 	}
 	void OnMenu()
 	{
-
+		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("WhisperBorder", ImVec2(640, 200), true);

@@ -847,33 +847,35 @@ void MainForm::Initialize() {
 	ImGuiIO& io = ImGui::GetIO();
 	static const ImWchar ranges[] = {
 		0x0020, 0x00FF,
-		0x0100, 0x017F,
-
-		0x00A5, 0x0104,
-		0x00C6, 0x0106,
-		0x00CA, 0x0118,
-		0x00A3, 0x0141,
-		0x00D1, 0x0143,
-		0x00D3, 0x00D3,
-		0x008C, 0x015A,
-		0x008F, 0x0179,
-		0x00AF, 0x017B,
-
-
-
-
-		0x00B9, 0x0105,
-		0x00E6, 0x0107,
-		0x00EA, 0x0119,
-		0x00B3, 0x0142,
-		0x00F1, 0x0144,
-		0x00F3, 0x00F3,
-		0x009C, 0x015B,
-		0x009F, 0x017A,
-		0x00BF, 0x017C,
+		0x0104, 0x017C,
 		0,
 	};
-	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahomabd.ttf", 12.0f, 0, ranges);
+	ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahomabd.ttf", 12.0f, 0, ranges);
+	unsigned char* pixels;
+	int width, height, BYTEs_per_pixel;
+	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &BYTEs_per_pixel);
+
+	font->AddRemapChar(0xA5, 0x0104);
+	font->AddRemapChar(0xC6, 0x0106);
+	font->AddRemapChar(0xCA, 0x0118);
+	font->AddRemapChar(0xA3, 0x0141);
+	font->AddRemapChar(0xD1, 0x0143);
+	font->AddRemapChar(0xD3, 0x00D3);
+	font->AddRemapChar(0x8C, 0x015A);
+	font->AddRemapChar(0x8F, 0x0179);
+	font->AddRemapChar(0xAF, 0x017B);
+
+	font->AddRemapChar(0xB9, 0x0105);
+	font->AddRemapChar(0xE6, 0x0107);
+	font->AddRemapChar(0xEA, 0x0119);
+	font->AddRemapChar(0xB3, 0x0142);
+	font->AddRemapChar(0xF1, 0x0144);
+	font->AddRemapChar(0xF3, 0x00F3);
+	font->AddRemapChar(0x9C, 0x015B);
+	font->AddRemapChar(0x9F, 0x017A);
+	font->AddRemapChar(0xBF, 0x017C);
+
+	font->AddRemapChar(0x0104, 0xA5);
 	//io.Fonts->AddFontFromMemoryCompressedTTF(RudaBold_compressed_data, RudaBold_compressed_size, 13.0f, 0, ranges);
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 	ImGuiStyle* style = &ImGui::GetStyle();
@@ -939,7 +941,7 @@ void MainForm::Initialize() {
 	D3DXCreateCylinder(Device::pDevice, 1.0f, 1.0f, 1.0f, 8, 8, &Device::ms_lpCylinderMesh, NULL);
 	oWndProc = (WNDPROC)SetWindowLongPtr(Globals::mainHwnd, GWL_WNDPROC, (LONG)WndProc);
 
-
+	
 	ui.logs_sniffer =orbital_logs_create();
 	ui.logs_chat = orbital_logs_create();
 	ui.logs_fishing = orbital_logs_create();

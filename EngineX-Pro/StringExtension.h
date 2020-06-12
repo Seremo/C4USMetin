@@ -241,5 +241,21 @@ public:
 
 		return bytes;
 	}
+
+
+	static char* UTF8ToANSI(char* szU8)
+	{
+		int wcsLen = ::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), NULL, 0);
+		wchar_t* wszString = new wchar_t[wcsLen + 1];
+		::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), wszString, wcsLen);
+		wszString[wcsLen] = '\0';
+
+		int ansiLen = ::WideCharToMultiByte(CP_ACP, NULL, wszString, wcslen(wszString), NULL, 0, NULL, NULL);
+		char* szAnsi = new char[ansiLen + 1];
+		::WideCharToMultiByte(CP_ACP, NULL, wszString, wcslen(wszString), szAnsi, ansiLen, NULL, NULL);
+		szAnsi[ansiLen] = '\0';
+
+		return szAnsi;
+	}
 };
 
