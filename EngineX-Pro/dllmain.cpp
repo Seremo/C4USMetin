@@ -33,7 +33,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		"SEREMO TO HUJ";
 		const char* test = "testowo";
 		MainCore::Crack();
-		
+		int sdasdplsa = 69;
 		
 #ifdef DEVELOPER_MODE
 		/*AllocConsole();
