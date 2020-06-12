@@ -875,7 +875,7 @@ void MainForm::Initialize() {
 	font->AddRemapChar(0x9F, 0x017A);
 	font->AddRemapChar(0xBF, 0x017C);
 
-	font->AddRemapChar(0x0104, 0xA5);
+	
 	//io.Fonts->AddFontFromMemoryCompressedTTF(RudaBold_compressed_data, RudaBold_compressed_size, 13.0f, 0, ranges);
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 	ImGuiStyle* style = &ImGui::GetStyle();
