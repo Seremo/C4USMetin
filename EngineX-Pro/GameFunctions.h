@@ -95,6 +95,11 @@ public:
 	{
 		return Globals::CPythonPlayerGetTargetVID((void*)Globals::iCPythonPlayerInstance);
 	}
+
+	static void PlayerSetTarget(DWORD dwVID, BOOL bForceChange = true)
+	{
+		return Globals::CPythonPlayerSetTarget((void*)Globals::iCPythonPlayerInstance, dwVID, bForceChange);
+	}
 	//#################################################################################################################################
 	static bool PlayerIsSkillActive(DWORD dwSlotIndex)
 	{
