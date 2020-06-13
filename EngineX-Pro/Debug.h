@@ -77,11 +77,17 @@ public:
 		}
 		if (ImGui::Button("TEST 2"))
 		{
-			D3DVECTOR g;
-			g = D3DVECTOR{ 0, 0, 0 };
-			GameFunctions::NetworkStreamSendCharacterStatePacket(g,0, 1, 0);
+
+
+		}
+
+		if (ImGui::Button("TEST 4"))
+		{
+			
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+
+
 	}
 };

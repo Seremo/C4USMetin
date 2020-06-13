@@ -21,7 +21,10 @@ LONG WINAPI Handler(EXCEPTION_POINTERS* pException)
 	system("pause");
 	return EXCEPTION_CONTINUE_SEARCH;
 }
+__declspec(dllexport) void __cdecl ImportAttach(void)
+{
 
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
@@ -46,7 +49,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	
 
 		MainCore::Initialize();
-
+		/*CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);*/
 
 	}
 	case DLL_THREAD_ATTACH:

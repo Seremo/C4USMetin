@@ -388,9 +388,15 @@ public:
 	//#################################################################################################################################
 	static void InstanceBaseSCRIPT_SetPixelPosition(DWORD* instance, float x, float y)
 	{
-#if defined(EGORIA) || defined(ZRUBINUM)
-		const D3DVECTOR& pos{ x, y, 0 };
-		return Globals::CInstanceBaseNEW_SetPixelPosition(instance, pos);
+#if defined(EGORIA) || defined(RUBINUM)
+		__asm
+		{
+			mov     eax, [0x481CF0]
+			mov     ecx, instance
+			movss   xmm2, [y]
+			movss   xmm1, [x]
+			call	eax
+	}
 #else
 		return Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
 #endif

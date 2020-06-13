@@ -137,7 +137,15 @@ public:
 	typedef void(__thiscall* tCInstanceBaseSCRIPT_SetPixelPosition)(void* This, float fx, float fy);
 	typedef void(__thiscall* tCInstanceBaseNEW_LookAtDestPixelPosition)(void* This, const D3DVECTOR& c_rkPPosDst);
 	typedef int(__thiscall* tCInstanceBaseGetInstanceVirtualNumber)(void* This);
-	typedef float(__thiscall* tCInstanceBaseGetRotation)(void* This);
+
+#ifdef RUBINUM
+	typedef DWORD(__thiscall* tCInstanceBaseGetRotation)(void* This)
+#else
+	typedef float(__thiscall* tCInstanceBaseGetRotation)(void* This)
+#endif
+
+
+	;
 	//############################### CHARACTER MANAGER
 	typedef DWORD* (__thiscall* tCPythonCharacterManagerGetInstancePtr)(void* This, DWORD VirtualID);
 

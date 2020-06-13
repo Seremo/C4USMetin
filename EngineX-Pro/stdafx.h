@@ -130,11 +130,11 @@ using namespace std;
 #define MULTIHACK
 
 
-#define DEVELOPER_MODE
+//#define DEVELOPER_MODE
 //#define CHECK_OFFSETS
 //#define NEED_LICENSE
 //#define ADDRESS_FROM_FILE
-#define DLL_VERSION "0.0.25"
+#define DLL_VERSION "0.0.33"
 
 
 #ifdef VIDGAR

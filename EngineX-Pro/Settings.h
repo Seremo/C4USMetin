@@ -287,7 +287,7 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 
 
 	{ make_pair(25,  make_pair("Rubinum","CH1")), make_pair(13010, "51.83.151.177") },
-	{ make_pair(26,  make_pair("Rubinum","CH2")), make_pair(13000, "51.83.151.177") },
+	{ make_pair(26,  make_pair("Rubinum","CH2")), make_pair(13040, "51.83.151.177") },
 	{ make_pair(27,  make_pair("Rubinum","CH3")), make_pair(13070, "51.83.151.177") },
 	{ make_pair(28,  make_pair("Rubinum","CH4")), make_pair(13340, "51.210.33.62") },
 	{ make_pair(29,  make_pair("Rubinum","CH5")), make_pair(13130, "51.83.151.177") },

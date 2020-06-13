@@ -133,7 +133,7 @@
 ///##################################################################################################################
  void MainCore::Initialize()
  {
-	 // Sleep(500);
+	/* Sleep(2000);*/
 	 Globals::ReAddressingLocas();
 	 Globals::ReDeclarationLocals();
 

@@ -922,8 +922,23 @@ public:
 	//#################################################################################################################################
 	static float PlayerGetCameraRotation()
 	{
-		float rotation = Globals::CInstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
+		float rotation = 0;
+#if defined(RUBINUM)
+		DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
+		__asm
+		{
+			mov     eax, [0x481E30]
+			mov     ecx, playerInstance
+			call	eax
+			movss	[rotation], xmm0
+		}
+#else
+		rotation = Globals::CInstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
+#endif
+		
+	
 		float frotation = 180.0f - rotation;
+
 		return frotation;
 	}
 	//#################################################################################################################################
