@@ -96,7 +96,7 @@ public:
 		}
 		if (ImGui::Button("TEST 7"))
 		{
-			
+			GameFunctionsCustom::GetGroundItemList();
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

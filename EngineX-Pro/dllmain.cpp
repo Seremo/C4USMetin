@@ -41,12 +41,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		/*AllocConsole();
 		freopen("CONOUT$", "w", stdout);
 		std::cout << "Debug Console" << std::endl;
-		*/MessageBox(NULL, "Break Point", "BP", 0);
+		//*///MessageBox(NULL, "Break Point", "BP", 0);
 #endif
 		Globals::hModule = hModule;
 		
 
-		MessageBox(NULL, "Break Point", "BP", 0);
+		/*MessageBox(NULL, "Break Point", "BP", 0)*/;
 
 		MainCore::Initialize();
 		/*CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);*/
