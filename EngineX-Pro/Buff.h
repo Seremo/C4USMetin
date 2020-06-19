@@ -149,103 +149,143 @@ public:
 			}
 			if (Settings::BUFF_ENABLE)
 			{
-				if (Settings::BUFF_SKILL_1)
+				if(DynamicTimer::CheckAutoSet("Skill", 500))
 				{
-					if (DynamicTimer::Check("Skill", 100) && DynamicTimer::Check("BuffBotSkill1Time", Settings::BUFF_SKILL_1_TIME))
+					if (Settings::BUFF_SKILL_1)
 					{
-						for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
+						if (DynamicTimer::Check("BuffBotSkill1Time", Settings::BUFF_SKILL_1_TIME * 100))
 						{
-							if (GetTickCount() -itor->second.get()->lastTimeBuff_1 > 30000)
+							for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
 							{
-								if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
+								if ((GetTickCount() - itor->second.get()->lastTimeBuff_1) > 30000)
 								{
-									GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
-									GameFunctionsCustom::UseSkillSlot(4);
-									itor->second.get()->lastTimeBuff_1 = GetTickCount();
-									
-									
+									if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
+									{
+										DWORD targetVID = GameFunctionsCustom::GetCharacterVidByName(itor->second.get()->targetName.c_str());
+										if (targetVID)
+										{
+											GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
+											GameFunctionsCustom::UseSkillSlot(4);
+											itor->second.get()->lastTimeBuff_3 = GetTickCount();
+											DynamicTimer::SetTick("BuffBotSkill1Time");
+											continue;
+										}
+
+										else
+										{
+											itor->second.get()->lastTimeBuff_3 = GetTickCount();
+											continue;
+										}
+
+
+									}
+									else
+									{
+										continue;
+									}
 								}
 								else
 								{
 									continue;
 								}
 							}
-							else
-							{
-								continue;
-							}
+
+
+
 						}
-
-						
-							
 					}
-				}
 
 
-				if (Settings::BUFF_SKILL_2)
-				{
-					if (DynamicTimer::Check("Skill",100) && DynamicTimer::Check("BuffBotSkill2Time", Settings::BUFF_SKILL_2_TIME))
+					if (Settings::BUFF_SKILL_2)
 					{
-						for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
+						if (DynamicTimer::Check("BuffBotSkill2Time", Settings::BUFF_SKILL_2_TIME * 100))
 						{
-							if (GetTickCount() - itor->second.get()->lastTimeBuff_2 > 30000)
+							for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
 							{
-								if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
+								if (GetTickCount() - itor->second.get()->lastTimeBuff_2 > 30000)
 								{
-									GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
-									GameFunctionsCustom::UseSkillSlot(5);
-									itor->second.get()->lastTimeBuff_2 = GetTickCount();
-									
-									
+									if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
+									{
+										DWORD targetVID = GameFunctionsCustom::GetCharacterVidByName(itor->second.get()->targetName.c_str());
+										if (targetVID)
+										{
+											GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
+											GameFunctionsCustom::UseSkillSlot(5);
+											itor->second.get()->lastTimeBuff_3 = GetTickCount();
+											DynamicTimer::SetTick("BuffBotSkill2Time");
+											continue;
+										}
+
+										else
+										{
+											itor->second.get()->lastTimeBuff_3 = GetTickCount();
+											continue;
+										}
+
+
+									}
+									else
+									{
+										continue;
+									}
 								}
 								else
 								{
 									continue;
 								}
 							}
-							else
-							{
-								continue;
-							}
+
+
+
 						}
-
-					
-
 					}
-				}
 
 
-				if (Settings::BUFF_SKILL_3)
-				{
-					if (DynamicTimer::Check("Skill", 100) && DynamicTimer::Check("BuffBotSkill3Time", Settings::BUFF_SKILL_3_TIME))
+					if (Settings::BUFF_SKILL_3)
 					{
-						for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
+						if (DynamicTimer::Check("BuffBotSkill3Time", Settings::BUFF_SKILL_3_TIME * 100))
 						{
-							if (GetTickCount() - itor->second.get()->lastTimeBuff_3 > 30000)
+							for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
 							{
-								if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
+								if (GetTickCount() - itor->second.get()->lastTimeBuff_3 > 30000)
 								{
-									GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
-									GameFunctionsCustom::UseSkillSlot(6);
-									itor->second.get()->lastTimeBuff_3 = GetTickCount();
-									
-									
+									if (GameFunctionsCustom::PlayerGetCharacterDistance(itor->first) < 10000)
+									{
+										DWORD targetVID = GameFunctionsCustom::GetCharacterVidByName(itor->second.get()->targetName.c_str());
+										if (targetVID)
+										{
+											GameFunctions::PlayerSetTarget(itor->second.get()->targetVid);
+											GameFunctionsCustom::UseSkillSlot(6);
+											itor->second.get()->lastTimeBuff_3 = GetTickCount();
+											DynamicTimer::SetTick("BuffBotSkill3Time");
+											continue;
+										}
+
+										else
+										{
+											itor->second.get()->lastTimeBuff_3 = GetTickCount();
+											continue;
+										}
+
+
+									}
+									else
+									{
+										continue;
+									}
 								}
 								else
 								{
 									continue;
 								}
 							}
-							else
-							{
-								continue;
-							}
+
+
+
 						}
-
-						
-
 					}
 				}
+				
 			}
 		}
 	}
@@ -263,13 +303,13 @@ public:
 		ImGui::Checkbox("Buff Enable", &Settings::BUFF_ENABLE);
 		ImGui::IconButton2(&Settings::BUFF_SKILL_1, "Skill 1", textureSkill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::InputInt("Skill 1 Time", &Settings::BUFF_SKILL_3_TIME, 1, 10000);
+		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 1 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 		ImGui::IconButton2(&Settings::BUFF_SKILL_2, "Skill 2", textureSkill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::InputInt("Skill 2 Time", &Settings::BUFF_SKILL_3_TIME,	1, 10000);
+		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 2 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 		ImGui::IconButton2(&Settings::BUFF_SKILL_3, "Skill 3", textureSkill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::InputInt("Skill 3 Time", &Settings::BUFF_SKILL_3_TIME, 1, 10000);
+		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 3 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 
 		
 		ImGui::BeginChild("BuffTargetList", ImVec2(190, 240), true);

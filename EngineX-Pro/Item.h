@@ -31,14 +31,20 @@ public:
 
 	void OnMenu()
 	{
-		if (!Globals::itemProtoList.size())
+		/*if (!Globals::itemProtoList.size())
 		{
 			Globals::itemProtoList = GameFunctionsCustom::GetItemProtoList();
+		}*/
+		if (!Globals::itemProtoNames.size())
+		{
+			Globals::itemProtoNames = GameFunctionsCustom::GetItemProtoNames();
 		}
+		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("PickupBorder", ImVec2(420, 405), true);
+		ImGui::BeginChild("PickupBorder", ImVec2(420, 420), true);
 		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); 
+		ImGui::SliderInt("Pickup Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 1000);
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1); 
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER); ImGui::SameLine();
@@ -46,28 +52,46 @@ public:
 		ImGui::Separator();
 		ImGui::Columns(2, "PickupList", false);
 		ImGui::BeginChild("ItemProtoList", ImVec2(190, 255), true);
-		if (strlen(&filterItemLine[0]) >= 3)
+		if (strlen(&filterItemLine[0]) >= 2)
 		{
 			if (filterItemLine != filterItemLineLast)
 			{
 				filterItemLineLast = filterItemLine;
 				itemPickupFilteredList.clear();
-				for (map<DWORD, TCItemData*>::iterator itor = Globals::itemProtoList.begin(); itor != Globals::itemProtoList.end(); itor++)
+				/*for (map<DWORD, TCItemData*>::iterator itor = Globals::itemProtoList.begin(); itor != Globals::itemProtoList.end(); itor++)
 				{
 
 
-
+#ifdef RUBINUM
 					if (!StringExtension::Equals(itor->second->m_ItemTable.szName, "") && StringExtension::Contains(itor->second->m_ItemTable.szName,filterItemLine.c_str()))
 					{
 						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second->m_ItemTable.szName), false)));
 					}
-					
+#else
+
+					if (!StringExtension::Equals(itor->second->m_ItemTable.szLocaleName, "") && StringExtension::Contains(itor->second->m_ItemTable.szLocaleName, filterItemLine.c_str()))
+					{
+						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second->m_ItemTable.szLocaleName), false)));
+					}
+#endif
 						
 					
 
+				}*/
+
+				for (map<DWORD, const char*>::iterator itor = Globals::itemProtoNames.begin(); itor != Globals::itemProtoNames.end(); itor++)
+				{
+
+
+					
+					if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
+					{
+						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(StringExtension::to_utf8(itor->second) +" " + to_string(itor->first), false)));
+					}
+
+
+
 				}
-
-
 
 
 			}
@@ -213,75 +237,76 @@ public:
 		
 		if (Settings::GLOBAL_SWITCH && GameFunctionsCustom::PlayerIsInstance())
 		{
-		
+			
 			Pickup();
+
 			Slots();
 		}
 
 	} 
 	void Slots()
 	{
-		if (  Settings::MAIN_SLOT_ENABLE_3 && DynamicTimer::Check ("UseSlot3",Settings::ITEM_SLOT_TIME_3 *100))
+		if (  Settings::MAIN_SLOT_ENABLE_3 && DynamicTimer::CheckAutoSet ("UseSlot3",Settings::ITEM_SLOT_TIME_3 *1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 2));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_4 && DynamicTimer::Check("UseSlot4", Settings::ITEM_SLOT_TIME_4 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_4 && DynamicTimer::CheckAutoSet("UseSlot4", Settings::ITEM_SLOT_TIME_4 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 3));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_5 && DynamicTimer::Check("UseSlot5", Settings::ITEM_SLOT_TIME_5 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_5 && DynamicTimer::CheckAutoSet("UseSlot5", Settings::ITEM_SLOT_TIME_5 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 4));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_6 && DynamicTimer::Check("UseSlot6", Settings::ITEM_SLOT_TIME_6 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_6 && DynamicTimer::CheckAutoSet("UseSlot6", Settings::ITEM_SLOT_TIME_6 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 5));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_7 && DynamicTimer::Check("UseSlot7", Settings::ITEM_SLOT_TIME_7 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_7 && DynamicTimer::CheckAutoSet("UseSlot7", Settings::ITEM_SLOT_TIME_7 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 6));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_8 && DynamicTimer::Check("UseSlot8", Settings::ITEM_SLOT_TIME_8 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_8 && DynamicTimer::CheckAutoSet("UseSlot8", Settings::ITEM_SLOT_TIME_8 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 7));
 
 		}
-		if (Settings::MAIN_SLOT_ENABLE_9 && DynamicTimer::Check("UseSlot9", Settings::ITEM_SLOT_TIME_9 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_9 && DynamicTimer::CheckAutoSet("UseSlot9", Settings::ITEM_SLOT_TIME_9 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 8));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_10 && DynamicTimer::Check("UseSlot10", Settings::ITEM_SLOT_TIME_10 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_10 && DynamicTimer::CheckAutoSet("UseSlot10", Settings::ITEM_SLOT_TIME_10 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 9));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_11 && DynamicTimer::Check("UseSlot11", Settings::ITEM_SLOT_TIME_11 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_11 && DynamicTimer::CheckAutoSet("UseSlot11", Settings::ITEM_SLOT_TIME_11 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 10));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_12 && DynamicTimer::Check("UseSlot12", Settings::ITEM_SLOT_TIME_12 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_12 && DynamicTimer::CheckAutoSet("UseSlot12", Settings::ITEM_SLOT_TIME_12 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 11));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_13 && DynamicTimer::Check("UseSlot13", Settings::ITEM_SLOT_TIME_13 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_13 && DynamicTimer::CheckAutoSet("UseSlot13", Settings::ITEM_SLOT_TIME_13 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 12));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_14 && DynamicTimer::Check("UseSlot14", Settings::ITEM_SLOT_TIME_14 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_14 && DynamicTimer::CheckAutoSet("UseSlot14", Settings::ITEM_SLOT_TIME_14 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 13));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_15 && DynamicTimer::Check("UseSlot15", Settings::ITEM_SLOT_TIME_15 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_15 && DynamicTimer::CheckAutoSet("UseSlot15", Settings::ITEM_SLOT_TIME_15 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 14));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_16 && DynamicTimer::Check("UseSlot16", Settings::ITEM_SLOT_TIME_16 * 100))
+		if (Settings::MAIN_SLOT_ENABLE_16 && DynamicTimer::CheckAutoSet("UseSlot16", Settings::ITEM_SLOT_TIME_16 * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 15));
 		}
 	}
 	void Pickup()
 	{
-		if (DynamicTimer::Check("PickUp", Settings::ITEM_PICKUP_TIME) && Settings::ITEM_PICKUP_ENABLE)
+		if (DynamicTimer::CheckAutoSet("PickUp", Settings::ITEM_PICKUP_TIME) && Settings::ITEM_PICKUP_ENABLE)
 		{
 			map<DWORD, TGroundItemInstance*> groundItemList = GameFunctionsCustom::GetGroundItemList();
 			for (map<DWORD, TGroundItemInstance*>::iterator itor = groundItemList.begin(); itor != groundItemList.end(); itor++)
@@ -306,18 +331,21 @@ public:
 					if (Distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
+						return;
 					}
 					break;
 				case 1://range
 					if (Distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
+						return;
 					}
 					else if (Distance > 300 && Distance < 2200)
 					{
 						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, 0, 0, 0);
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
 						GameFunctions::NetworkStreamSendCharacterStatePacket(playerPosition, 0, 0, 0);
+						return;
 					}
 					else if (Distance >= 2200 && Distance < 4400) 
 					{
@@ -329,6 +357,7 @@ public:
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
 						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ MidPointX, MidPointY, MidPointZ }, 0, 0, 0);
 						GameFunctions::NetworkStreamSendCharacterStatePacket(playerPosition, 0, 0, 0);
+						return;
 					}
 					break;
 				}

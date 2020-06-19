@@ -576,7 +576,7 @@ typedef struct packet_update_char
 typedef struct packet_sfishing
 {
 	BYTE header;
-} TPacketCGFishing;
+} TPacketCGFishingX;
 typedef struct packet_fishing
 {
 	BYTE header;
@@ -588,11 +588,30 @@ typedef struct packet_fishing
 #endif
 } TPacketGCFishing;
 
-typedef struct packet_del_char
+
+
+#ifdef PANGEA
+typedef struct packet_fishing_pangea
 {
-	BYTE	header;
-	DWORD	dwVID;
-} TPacketGCCharacterDelete;
+	BYTE header;
+	BYTE subheader;
+	
+	DWORD vid;
+BYTE unk;
+	BYTE count;
+
+} TPacketGCFishingPangea;
+#else
+
+
+#endif
+
+
+typedef struct packet_ground_del_item
+{
+	BYTE		header;
+	DWORD		vid;
+} TPacketGCItemGroundDel;
 
 typedef struct packet_ground_add_item
 {
@@ -604,6 +623,12 @@ typedef struct packet_ground_add_item
 	DWORD       dwVID;
 	DWORD       dwVnum;
 } TPacketGCItemGroundAdd;
+typedef struct packet_del_char
+{
+	BYTE	header;
+	DWORD	dwVID;
+} TPacketGCCharacterDelete;
+
 
 typedef struct packet_whisper   // °¡º¯ ÆÐÅ¶    
 {
@@ -626,6 +651,9 @@ typedef struct SMobTable_r255
 	char        szLocaleName[CHARACTER_NAME_MAX_LEN + 1];
 
 	BYTE        bType;                  // Monster, NPC
+#ifdef SAMIAS2
+	BYTE		unk[72];
+#endif
 #ifdef RUBINUM
 	BYTE		unk[249];
 #endif
@@ -747,14 +775,23 @@ typedef struct SItemTable_r156
 
 typedef struct CItemData
 {
-	/*DWORD Instance;*/
+#ifdef PANGEA
+	BYTE	unk[200];
 
+#endif
+#ifdef RUBINUM
 	BYTE	unk[252];
-	
+#endif
+#ifdef VIDGAR
+	BYTE	unk[228];
+
+#endif
 #ifdef METINPL
 	BYTE	unk2[60];
 #endif
+	
 	TItemTable m_ItemTable;
+	
 } TCItemData;
 
 #ifdef METINPL

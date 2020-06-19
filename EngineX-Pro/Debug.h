@@ -1,4 +1,7 @@
 #pragma once
+
+
+
 class Debug :public IAbstractModuleBase, public Singleton<Debug>
 {
 private:
@@ -18,7 +21,7 @@ public:
 
 	void OnUpdate()
 	{
-
+		
 	}
 
 	void OnRender()
@@ -48,9 +51,9 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonItemInstance).c_str());
 		ImGui::Text("CItemManagerInstance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
-		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
-		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
-		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
+		/*ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
+		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();*/
+		/*ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());*/
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
 		{
@@ -77,11 +80,21 @@ public:
 		}
 		if (ImGui::Button("TEST 2"))
 		{
+			typedef void(__thiscall* tCPythonItemCreateItem)(void* This, DWORD dwVirtualID, DWORD dwVirtualNumber, float x, float y, float z, bool bDrop,int unk,int unk2,int unk3);
+			tCPythonItemCreateItem CPythonItemCreateItem = (tCPythonItemCreateItem)(Globals::hEntryBaseAddress + 0x1AF210);
 
-
+			CPythonItemCreateItem((void*)Globals::iCPythonItemInstance, 19, 454, 1, 1, 1, 1,1,1,1);
 		}
 
 		if (ImGui::Button("TEST 4"))
+		{
+			
+		}
+		if (ImGui::Button("TEST 6"))
+		{
+		
+		}
+		if (ImGui::Button("TEST 7"))
 		{
 			
 		}

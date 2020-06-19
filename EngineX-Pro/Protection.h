@@ -16,7 +16,7 @@ public:
 	}
 	void OnMenu()
 	{
-		MainForm::orbital_logs_draw(MainForm::ui.logs_main, "Logs", &this->isShowLogs);
+		Logger::Draw(Logger::MAIN);
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("ProtectionBorder", ImVec2(655, 310), true);;
@@ -50,15 +50,9 @@ public:
 			{
 				GameFunctions::NetworkStreamConnectGameServer(0);
 #else
-		if (DynamicTimer::Check("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
+		if (DynamicTimer::CheckAutoSet("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
 		{
-			string playerName = GameFunctionsCustom::PlayerGetNameString();
-			if (playerName !="")
-			{
-				lastPlayerName = playerName;
-			}
-			
-			if (lastPlayerName != "" && GameFunctionsCustom::PlayerDirectEnter(lastPlayerName))
+			if(GameFunctionsCustom::PlayerDirectEnter())
 			{
 			
 #endif

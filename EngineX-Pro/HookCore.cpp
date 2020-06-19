@@ -117,8 +117,8 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 		if (Settings::ProtectionShowWisperLogs)
 		{
 
-			MainForm::LogMain(0, line);
-			MainForm::LogMain(0, "\n");
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, line);
+			
 		}
 		if (Settings::ProtectionShowWisperBalloon)
 		{
@@ -302,11 +302,46 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 
 	BYTE header;
 	memcpy(&header, destBuf, sizeof(header));
+#ifdef VIDGAR
+	if (header == HEADER_CG_LOGIN3 && len == 361)
+	{
+	}
 
+
+
+	/*if (header == HEADER_GC_ITEM_GROUND_DEL && len == sizeof(TPacketGCItemGroundDel))
+	{
+		TPacketGCItemGroundDel	packet_item_ground_del;
+		memcpy(&packet_item_ground_del, destBuf, sizeof(TPacketGCItemGroundDel));
+
+	}
+
+	if (header == HEADER_GC_ITEM_GROUND_DEL && len == sizeof(TPacketGCItemGroundAdd))
+	{
+		TPacketGCItemGroundAdd packet_item_ground_add;
+		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
+		
+	}*/
+#endif
 #ifdef VAROS
 	if (header == 0x5B && len == 70)
 	{
 		return false;
+	}
+#endif
+
+#ifdef PANGEA
+	if (header == 0x32 && len == 8)
+	{
+		TPacketGCFishingPangea packetGCFishingPangea;
+		memcpy(&packetGCFishingPangea, destBuf, sizeof(TPacketGCFishingPangea));
+		DWORD vid = GameFunctions::PlayerGetMainCharacterIndex();
+		if (packetGCFishingPangea.subheader == 2 &&packetGCFishingPangea.vid == vid)
+		{
+			Fish::Instance().AppendCastDirect(packetGCFishingPangea.count);
+		}
+
+		
 	}
 #endif
 
@@ -387,6 +422,15 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 {
 	BYTE header;
 	memcpy(&header, pDestBuf, sizeof(header));
+
+#ifdef VIDGAR
+	if (header == HEADER_CG_LOGIN3 && len == 361)
+	{
+		strncpy((char*)pDestBuf + 72, MiscExtension::RandomString(36).c_str(), 36);
+		strncpy((char*)pDestBuf + 169, MiscExtension::RandomString(36).c_str(), 36);
+		strncpy((char*)pDestBuf + 268, MiscExtension::RandomString(36).c_str(), 36);
+	}
+#endif
 #ifdef ELITEMT2
 	if (header == 0xEF && len == 1059)
 	{
@@ -533,8 +577,8 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 
 		if (Settings::ProtectionShowTalkLogs)
 		{
-			MainForm::LogMain(0, c_szChat);
-			MainForm::LogMain(0, "\n");
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);
+			
 		}
 		
 	}
@@ -601,18 +645,21 @@ void _fastcall Hooks::NewCPythonApplicationOnUIRender(void* This, void* EDX)
 	}
 }
 Globals::tCPythonNetworkStreamSendCharacterStatePacket nCPythonNetworkStreamSendCharacterStatePacket;
-bool _fastcall NewCPythonNetworkStreamSendCharacterStatePacket(void* This, void* EDX, const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg, BYTE unk)
+bool _fastcall NewCPythonNetworkStreamSendCharacterStatePacket(void* This, void* EDX, const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg /*,BYTE unk*/)
 {
 
-	string u =StringExtension::StringFormat( "z[%f] y[% f] z[%f]   fDstRot [%f]    eFunc [%d]  uArg [%d]  unk [%d]\n", c_rkPPosDst.x, c_rkPPosDst.y, c_rkPPosDst.z, fDstRot,  eFunc,  uArg,  unk);
-	MainForm::LogMain(0, u.c_str());
-	return nCPythonNetworkStreamSendCharacterStatePacket( This, c_rkPPosDst,  fDstRot, eFunc, uArg, unk);
+	string u =StringExtension::StringFormat( "z[%f] y[% f] z[%f]   fDstRot [%f]    eFunc [%d]  uArg [%d]  unk [%d]\n", c_rkPPosDst.x, c_rkPPosDst.y, c_rkPPosDst.z, fDstRot,  eFunc,  uArg/*,  unk*/);
+	Logger::Add(Logger::MAIN, true, Logger::WHITE, u.c_str());
+	return nCPythonNetworkStreamSendCharacterStatePacket( This, c_rkPPosDst,  fDstRot, eFunc, uArg/*, unk*/);
 }
 
-void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX) {
-	if (MainForm::IsInitialized && MainForm::SideBarIsOpen) {
+void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX) 
+{
+	if (MainForm::IsInitialized && MainForm::SideBarIsOpen) 
+	{
 		ImGuiIO& io = ImGui::GetIO();
-		if (io.WantCaptureKeyboard || io.WantTextInput) {
+		if (io.WantCaptureKeyboard || io.WantTextInput)
+		{
 			return;
 		}
 	}
@@ -622,6 +669,41 @@ void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX) {
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void Hooks::Initialize()
 {
+#ifdef PANGEA
+	nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
+	nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);
+	nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+	nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
+	nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+	nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+
+
+	nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+	nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+	nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+	nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
+	nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+	nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+
+#endif
+
+#ifdef SAMIAS2
+	nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
+	nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);
+	nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+	nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
+	nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+	nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+
+
+	nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+	nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+	nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+	nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
+	nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+	nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+
+#endif
 #ifdef RUBINUM
 	nCPythonNetworkStreamSendCharacterStatePacket = (Globals::tCPythonNetworkStreamSendCharacterStatePacket)DetourFunction((PBYTE)Globals::CPythonNetworkStreamSendCharacterStatePacket, (PBYTE)NewCPythonNetworkStreamSendCharacterStatePacket);
 
@@ -648,11 +730,14 @@ void Hooks::Initialize()
 	nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
 	nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 	nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+
+
 	nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
 	nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
 	nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
 	nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 	nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+	nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 
 #endif
 #ifdef METINPL

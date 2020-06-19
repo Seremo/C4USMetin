@@ -11,7 +11,7 @@ public:
 	static map< pair<DWORD, bool>, pair<DWORD, string>> FISHBOT_DROP_LIST;
 	static map< pair<DWORD, bool>, pair<DWORD, string>> FISHBOT_SELL_LIST;
 
-
+	static map<DWORD, pair<string, DWORD>> FISHBOT_COMMAND_LIST;
 	static map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST;
 
 	static DWORD INVENTORY_PAGE_SIZE;
@@ -32,12 +32,12 @@ public:
 	
 	}
 	static bool DropBotEnable;
-	static bool LevelBotEnable;
-	static bool LevelBotMob;
-	static bool LevelBotBoss;
-	static bool LevelBotMetin;
-	static int	LevelBotDistance;
-	static int	LevelBotMoveType;
+	static bool FARM_ENABLE;
+	static bool FARM_MOB_ENABLE;
+	static bool FARM_BOSS_ENABLE;
+	static bool FARM_METIN_ENABLE;
+	static int	FARM_DISTANCE;
+	static int	FARM_MOVE_TYPE;
 	static int	LevelBotAttackType;
 	static float LevelBotCoordsX[250];
 	static float LevelBotCoordsY[250];
@@ -149,6 +149,7 @@ public:
 	static bool ITEM_PICKUP_ENABLE;
 	static bool ITEM_PICKUP_FILTER;
 	static int ITEM_PICKUP_TIME;
+
 	static int ITEM_PICKUP_TYPE;
 	static map< DWORD, pair<string, bool>> ITEM_PICKUP_SELECTED_LIST;
 	static bool MiniMHUseRedPotion;
@@ -172,17 +173,17 @@ public:
 	static bool BUFF_SKILL_1;
 	static bool BUFF_SKILL_2;
 	static bool BUFF_SKILL_3;
-	static int BUFF_SKILL_1_TIME;
-	static int BUFF_SKILL_2_TIME;
-	static int BUFF_SKILL_3_TIME;
+	static float BUFF_SKILL_1_TIME;
+	static float BUFF_SKILL_2_TIME;
+	static float BUFF_SKILL_3_TIME;
 
 	static bool SPAM_NORMAL_ENABLE;
 	static bool SPAM_SHOUT_ENABLE;
 	static bool SPAM_WISPER_ENABLE;
 
-	static int  SPAM_NORMAL_TIME;
-	static int  SPAM_WHISPER_TIME;
-	static int  SPAM_SHOUT_TIME;
+	static float  SPAM_NORMAL_TIME;
+	static float  SPAM_WHISPER_TIME;
+	static float  SPAM_SHOUT_TIME;
 
 
 
@@ -212,6 +213,7 @@ public:
 	static int	BoostKey;
 	static int	RelogKey;
 	static int  OnOffMH;
+	static int  HideUI;
 	static DWORD HotkeyTime;
 	static int BoostSpeed1;
 	static int BoostSpeed2;
@@ -277,27 +279,43 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(17,  make_pair("Carptura","CH8")), make_pair(12800, "79.110.92.189") },
 	{ make_pair(18,  make_pair("Carptura","CH9")), make_pair(12900, "79.110.92.190") },
 
-	{ make_pair(19,  make_pair("Vidgar","CH1")), make_pair(60103, "137.74.5.73") },
-	{ make_pair(20,  make_pair("Vidgar","CH2")), make_pair(60203, "137.74.5.73") },
-	{ make_pair(21,  make_pair("Vidgar","CH3")), make_pair(60303, "137.74.5.73") },
-	{ make_pair(22,  make_pair("Vidgar","CH4")), make_pair(60403, "137.74.5.73") },
-	{ make_pair(23,  make_pair("Vidgar","CH5")), make_pair(60503, "137.74.5.73") },
-	{ make_pair(24,  make_pair("Vidgar","CH6")), make_pair(60603, "137.74.5.73") },
+	{ make_pair(19,  make_pair("Vidgar","CH1")), make_pair(60106, "137.74.5.73") },
+	{ make_pair(20,  make_pair("Vidgar","CH2")), make_pair(60206, "137.74.5.73") },
+	{ make_pair(21,  make_pair("Vidgar","CH3")), make_pair(60306, "137.74.5.73") },
+	{ make_pair(22,  make_pair("Vidgar","CH4")), make_pair(60406, "137.74.5.73") },
+	{ make_pair(23,  make_pair("Vidgar","CH5")), make_pair(60506, "137.74.5.73") },
+	{ make_pair(24,  make_pair("Vidgar","CH6")), make_pair(60606, "137.74.5.73") },
+	{ make_pair(25,  make_pair("Vidgar","CH7")), make_pair(60706, "137.74.5.73") },
+	{ make_pair(26,  make_pair("Vidgar","CH8")), make_pair(60806, "137.74.5.73") },
 
 
+	{ make_pair(27,  make_pair("Rubinum","CH1")), make_pair(13010, "51.83.151.177") },
+	{ make_pair(28,  make_pair("Rubinum","CH2")), make_pair(13040, "51.83.151.177") },
+	{ make_pair(29,  make_pair("Rubinum","CH3")), make_pair(13070, "51.83.151.177") },
+	{ make_pair(30,  make_pair("Rubinum","CH4")), make_pair(13340, "51.210.33.62") },
+	{ make_pair(31,  make_pair("Rubinum","CH5")), make_pair(13130, "51.83.151.177") },
+	{ make_pair(32,  make_pair("Rubinum","CH6")), make_pair(13160, "51.210.33.62") },
+	{ make_pair(33,  make_pair("Rubinum","CH7")), make_pair(13190, "51.83.151.177") },
+	{ make_pair(34,  make_pair("Rubinum","CH8")), make_pair(13220, "51.210.33.62") },
+	{ make_pair(35,  make_pair("Rubinum","CH9")), make_pair(13250, "185.100.87.115") },
+	{ make_pair(36,  make_pair("Rubinum","CH10")), make_pair(13280, "185.100.87.115") },
+	{ make_pair(37,  make_pair("Rubinum","CH11")), make_pair(13310, "185.100.87.115") },
+	{ make_pair(38,  make_pair("Rubinum","CH12")), make_pair(13340, "185.100.87.115") },
 
-	{ make_pair(25,  make_pair("Rubinum","CH1")), make_pair(13010, "51.83.151.177") },
-	{ make_pair(26,  make_pair("Rubinum","CH2")), make_pair(13040, "51.83.151.177") },
-	{ make_pair(27,  make_pair("Rubinum","CH3")), make_pair(13070, "51.83.151.177") },
-	{ make_pair(28,  make_pair("Rubinum","CH4")), make_pair(13340, "51.210.33.62") },
-	{ make_pair(29,  make_pair("Rubinum","CH5")), make_pair(13130, "51.83.151.177") },
-	{ make_pair(30,  make_pair("Rubinum","CH6")), make_pair(13160, "51.210.33.62") },
-	{ make_pair(31,  make_pair("Rubinum","CH7")), make_pair(13190, "51.83.151.177") },
-	{ make_pair(32,  make_pair("Rubinum","CH8")), make_pair(13220, "51.210.33.62") },
-	{ make_pair(32,  make_pair("Rubinum","CH9")), make_pair(13250, "185.100.87.115") },
-	{ make_pair(33,  make_pair("Rubinum","CH10")), make_pair(13280, "185.100.87.115") },
-	{ make_pair(34,  make_pair("Rubinum","CH11")), make_pair(13310, "185.100.87.115") },
-	{ make_pair(35,  make_pair("Rubinum","CH12")), make_pair(13340, "185.100.87.115") },
+	{ make_pair(39,  make_pair("Pangea","CH1")), make_pair(41007, "51.77.43.124") },
+	{ make_pair(40,  make_pair("Pangea","CH2")), make_pair(42007, "51.77.43.124") },
+	{ make_pair(41,  make_pair("Pangea","CH3")), make_pair(43007, "51.77.43.124") },
+	{ make_pair(42,  make_pair("Pangea","CH4")), make_pair(44007, "51.77.43.124") },
+	{ make_pair(43,  make_pair("Pangea","CH5")), make_pair(45007, "51.77.43.124") },
+	{ make_pair(44,  make_pair("Pangea","CH6")), make_pair(46007, "51.77.43.124") },
+
+	{ make_pair(45,  make_pair("Samia","CH1")), make_pair(16211, "54.38.85.102") },
+	{ make_pair(46,  make_pair("Samia","CH2")), make_pair(16221, "54.38.85.102") },
+	{ make_pair(47,  make_pair("Samia","CH3")), make_pair(16231, "54.38.85.102") },
+	{ make_pair(48,  make_pair("Samia","CH4")), make_pair(16241, "54.38.85.102") },
+	{ make_pair(49,  make_pair("Samia","CH5")), make_pair(16251, "54.38.85.102") },
+	{ make_pair(50,  make_pair("Samia","CH6")), make_pair(16261, "54.38.85.102") },
+	
 	
 };
 
@@ -469,15 +487,149 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 #endif
 };
 
+ map<DWORD, pair<string, DWORD>> Settings::FISHBOT_COMMAND_LIST
+ {
+	
+
+	// { 6, make_pair("Nacisnij 1 razy spacje", 1) },
+	// { 7, make_pair("Nacisnij 2 razy spacje", 2) },
+	// { 8, make_pair("Nacisnij 3 razy spacje", 3) },
+	// { 9, make_pair("Nacisnij 4 razy spacje", 4) },
+	// { 10, make_pair("Nacisnij 5 razy spacje", 5) },
+
+
+	// { 11, make_pair("Naciśnij 1 razy", 1) },
+	// { 12, make_pair("Naciśnij 2 razy", 2) },
+	// { 13, make_pair("Naciśnij 3 razy", 3) },
+	// { 14, make_pair("Naciśnij 4 razy", 4) },
+	// { 15, make_pair("Naciśnij 5 razy", 5) },
+
+	// { 16, make_pair("Kliknij 1 razy", 1) },
+	// { 17, make_pair("Kliknij 2 razy", 2) },
+	// { 18, make_pair("Kliknij 3 razy", 3) },
+	// { 19, make_pair("Kliknij 4 razy", 4) },
+	// { 20, make_pair("Kliknij 5 razy", 5) },
+
+	// { 21, make_pair("ile jest niebieskich kulek (1)", 1) },
+	// { 22, make_pair("ile jest niebieskich kulek (2)", 2) },
+	// { 23, make_pair("ile jest niebieskich kulek (3)", 3) },
+	// { 24, make_pair("ile jest niebieskich kulek (4)", 4) },
+	// { 25, make_pair("ile jest niebieskich kulek (5)", 5) },
+
+	// { 26, make_pair("Kliknij 1 razy spację, aby spróbować wyłowić rybę", 1) },
+	// { 27, make_pair("Kliknij 2 razy spację, aby spróbować wyłowić rybę", 2) },
+	// { 28, make_pair("Kliknij 3 razy spację, aby spróbować wyłowić rybę", 3) },
+	// { 29, make_pair("Kliknij 4 razy spację, aby spróbować wyłowić rybę", 4) },
+	// { 30, make_pair("Kliknij 5 razy spację, aby spróbować wyłowic rybę", 5) },
+
+	// { 31, make_pair("1x|h|r aby wyłowić", 1) },
+	// { 32, make_pair("2x|h|r aby wyłowić", 2) },
+	// { 33, make_pair("3x|h|r aby wyłowić", 3) },
+	// { 34, make_pair("4x|h|r aby wyłowić", 4) },
+	// { 35, make_pair("5x|h|r aby wyłowić", 5) },
+
+
+
+
+	// { 36, make_pair("Zatnij rybę 1 razy", 1) },
+	// { 37, make_pair("Zatnij rybę 2 razy", 2) },
+	// { 38, make_pair("Zatnij rybę 3 razy", 3) },
+	// { 39, make_pair("Zatnij rybę 4 razy", 4) },
+	// { 40, make_pair("Zatnij rybę 5 razy", 5) },
+
+	// { 41, make_pair("Wylosowano: 1", 1) },
+	// { 42, make_pair("Wylosowano: 2", 2) },
+	// { 43, make_pair("Wylosowano: 3", 3) },
+	// { 44, make_pair("Wylosowano: 4", 4) },
+	// { 45, make_pair("Wylosowano: 5", 5) },
+
+
+	// { 46, make_pair("liczba to... 1", 1) },
+	// { 47, make_pair("liczba to... 2", 2) },
+	// { 48, make_pair("liczba to... 3", 3) },
+	// { 49, make_pair("liczba to... 4", 4) },
+	// { 50, make_pair("liczba to... 5", 5) },
+
+	// { 51, make_pair("użyj spacji 1", 1) },
+	// { 52, make_pair("użyj spacji 2", 2) },
+	// { 53, make_pair("użyj spacji 3", 3) },
+	// { 54, make_pair("użyj spacji 4", 4) },
+	// { 55, make_pair("użyj spacji 5", 5) },
+
+	// { 56, make_pair("Aby wycićgnąć Rybę wciśnij: 1", 1) },
+	// { 57, make_pair("Aby wycićgnąć Rybę wciśnij: 2", 2) },
+	// { 58, make_pair("Aby wycićgnąć Rybę wciśnij: 3", 3) },
+	// { 59, make_pair("Aby wycićgnąć Rybę wciśnij: 4", 4) },
+	// { 60, make_pair("Aby wycićgnąć Rybę wciśnij: 5", 5) },
+
+	// { 61, make_pair("Aby wycićgnąć Rybę wciśnij: J", 1) },
+	// { 62, make_pair("Aby wycićgnąć Rybę wciśnij: D", 2) },
+	// { 63, make_pair("Aby wycićgnąć Rybę wciśnij: T", 3) },
+	// { 64, make_pair("Aby wycićgnąć Rybę wciśnij: C", 4) },
+	// { 65, make_pair("Aby wycićgnąć Rybę wciśnij: P", 5) },
+
+
+	//{ 66, make_pair("hohfcthbhy.sub", 1) },
+	//{ 67, make_pair("klnbahqfuk.sub", 1) },
+	//{ 68, make_pair("zqsdlotxlt.sub", 1) },
+	//{ 69, make_pair("gkxegfenjh.sub", 1) },
+	//
+	//{ 70, make_pair("gulnvvwzbm.sub", 2) },
+	//{ 71, make_pair("blsvtqsbdr.sub", 2) },
+	//{ 72, make_pair("cfqdfqfnpl.sub", 2) },
+	//{ 73, make_pair("znvtfvjjlg.sub", 2) },
+
+	//{ 74, make_pair("addjvbzupo.sub", 3) },
+	//{ 75, make_pair("wxzcbjqoau.sub", 3) },
+	//{ 76, make_pair("izpjrgxwmk.sub", 3) },
+	//{ 77, make_pair("ulvnibygka.sub", 3) },
+
+	// { 78, make_pair("mdscnufuca.sub", 4) },
+	// { 79, make_pair("egyfkgjofh.sub", 4) },
+	// { 80, make_pair("volexihnrf.sub", 4) },
+	// { 81, make_pair("okgeihgbod.sub", 4) },
+
+	// { 82, make_pair("mbiuatlxoc.sub", 5) },
+	// { 83, make_pair("aehpjaevyo.sub", 5) },
+	// { 84, make_pair("hmmngdctvb.sub", 5) },
+	// { 85, make_pair("frwikxzsrn.sub", 5) },
+
+	// { 86, make_pair("piscis_unum.mse", 1) },
+	// { 87, make_pair("piscis_duo.mse", 2) },
+	// { 88, make_pair("piscis_tribus.mse", 3) },
+	// { 89, make_pair("piscis_quattuor.mse", 4) },
+	// { 90, make_pair("piscis_quinque.mse", 5) },
+
+	// { 90, make_pair("piscis_quinque.mse", 5) },
+	// { 90, make_pair("piscis_quinque.mse", 5) },
+	// { 90, make_pair("piscis_quinque.mse", 5) },
+	// { 90, make_pair("piscis_quinque.mse", 5) },
+	// { 90, make_pair("piscis_quinque.mse", 5) },
+
+
+	/* { 91, make_pair("Naciśnij 1 raz/y przycisk spacji by wyłowić rybę", 1) },
+	 { 92, make_pair("Naciśnij 2 raz/y przycisk spacji by wyłowić rybę", 2) },
+	 { 93, make_pair("Naciśnij 3 raz/y przycisk spacji by wyłowić rybę", 3) },
+	 { 94, make_pair("Naciśnij 4 raz/y przycisk spacji by wyłowić rybę", 4) },
+	 { 95, make_pair("Naciśnij 5 raz/y przycisk spacji by wyłowić rybę", 5) },*/
+
+
+	 { 91, make_pair("nij 1 raz/y przycisk spacji by wy", 1) },
+	 { 92, make_pair("nij 2 raz/y przycisk spacji by wy", 2) },
+	 { 93, make_pair("nij 3 raz/y przycisk spacji by wy", 3) },
+	 { 94, make_pair("nij 4 raz/y przycisk spacji by wy", 4) },
+	 { 95, make_pair("nij 5 raz/y przycisk spacji by wy", 5) },
+
+ };
 
 bool Settings::DropBotEnable = false;
 
-bool Settings::LevelBotEnable = false;
-bool Settings::LevelBotMob = false;
-bool Settings::LevelBotBoss = false;
-bool Settings::LevelBotMetin = true;
-int Settings::LevelBotDistance = 3000;
-int Settings::LevelBotMoveType = 0;
+bool Settings::FARM_ENABLE = false;
+bool Settings::FARM_MOB_ENABLE = false;
+bool Settings::FARM_BOSS_ENABLE = false;
+bool Settings::FARM_METIN_ENABLE = true;
+int Settings::FARM_DISTANCE = 3000;
+int Settings::FARM_MOVE_TYPE = 0;
 int Settings::LevelBotAttackType = 0;
 float Settings::LevelBotCoordsX[250] = { 0 };
 float Settings::LevelBotCoordsY[250] = { 0 };
@@ -574,7 +726,8 @@ bool Settings::MiniMHWaitHackDetect = false;
 
 bool Settings::ITEM_PICKUP_ENABLE = false;
 bool Settings::ITEM_PICKUP_FILTER = false;
-int Settings::ITEM_PICKUP_TIME = 100;
+int Settings::ITEM_PICKUP_TIME = 50;
+
 int Settings::ITEM_PICKUP_TYPE = 0;
 map< DWORD, pair<string, bool>> Settings::ITEM_PICKUP_SELECTED_LIST;
 //#############################################################################################
@@ -592,9 +745,9 @@ bool Settings::BUFF_ENABLE = false;
 bool Settings::BUFF_SKILL_1 = false;
 bool Settings::BUFF_SKILL_2 = false;
 bool Settings::BUFF_SKILL_3 = false;
-int Settings::BUFF_SKILL_1_TIME = 11000;
-int Settings::BUFF_SKILL_2_TIME = 11000;
-int Settings::BUFF_SKILL_3_TIME = 11000;
+float Settings::BUFF_SKILL_1_TIME = 11;
+float Settings::BUFF_SKILL_2_TIME = 11;
+float Settings::BUFF_SKILL_3_TIME = 11;
 
 int Settings::FishBotSuccesPercentValue = 0;
 int Settings::FishBotCastTimeMinValue = 250;
@@ -602,7 +755,7 @@ int Settings::FishBotCastTimeMaxValue = 500;
 int Settings::FishBotRoundTimeMinValue = 9000;
 int Settings::FishBotRoundTimeMaxValue = 10000;
 int  Settings::FishBotEmergencyRunTimeValue = 50500;
-bool Settings::FISHBOT_DETECT_PLAYER = true;
+bool Settings::FISHBOT_DETECT_PLAYER = false;
 
 
 bool Settings::FishBotStopIfPositionChanged = false;
@@ -646,9 +799,9 @@ bool Settings::PerformanceDisableRenerFrames = false;
 bool Settings::SPAM_NORMAL_ENABLE = false;
 bool Settings::SPAM_SHOUT_ENABLE = false;
 bool Settings::SPAM_WISPER_ENABLE = false;
-int	Settings::SPAM_NORMAL_TIME = 15000;
-int	Settings::SPAM_WHISPER_TIME = 15000;
-int  Settings::SPAM_SHOUT_TIME = 15000;
+float	Settings::SPAM_NORMAL_TIME = 5;
+float	Settings::SPAM_WHISPER_TIME = 5;
+float  Settings::SPAM_SHOUT_TIME = 7;
 ImVec4 Settings::SPAM_NORMAL_COLOR = ImColor(255, 0, 102);
 ImVec4 Settings::SPAM_WHISPER_COLOR = ImColor(255, 0, 102);
 ImVec4 Settings::SPAM_SHOUT_COLOR = ImColor(255, 0, 102);
@@ -667,9 +820,10 @@ bool Settings::SPAM_SHOUT_COLOR_ENABLE = false;
 
 
 bool Settings::ProtectionAutoLogin = false;
-int Settings::BoostKey = VK_TAB;
-int Settings::RelogKey = VK_F9;
-int Settings::OnOffMH = VK_OEM_3;
+int Settings::BoostKey = VK_SHIFT;
+int Settings::RelogKey = VK_F11;
+int Settings::OnOffMH = VK_F1;
+int Settings::HideUI = VK_F12;
 DWORD Settings::HotkeyTime = 0;
 int Settings::BoostSpeed1 = 14;
 int Settings::BoostSpeed2 = 1;

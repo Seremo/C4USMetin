@@ -92,7 +92,7 @@ public:
 			const char* playerName = GameFunctionsCustom::PlayerGetName();
 			int playerIndex = GameFunctions::PlayerGetMainCharacterIndex();
 			int targetIndex = GameFunctions::PlayerGetTargetVID();
-			int targetType = GameFunctionsCustom::GetTypeByVid(targetIndex);
+			int targetType = GameFunctionsCustom::InstanceGetInstanceTypeByVID(targetIndex);
 			const char* targetName = GameFunctionsCustom::InstanceGetNameByVID(targetIndex);
 			float distance = GameFunctionsCustom::PlayerGetCharacterDistance(targetIndex);
 			int hpPercent = GameFunctionsCustom::GetHpProcentageStatus();

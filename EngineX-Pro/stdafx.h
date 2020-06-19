@@ -33,6 +33,7 @@
 #include <psapi.h>
 #include <regex>
 #include <winver.h>
+#include <codecvt>
 
 
 
@@ -69,13 +70,13 @@ using namespace std;
 //#define FORNAX
 //#define RAFON
 //#define DREIKON
-#define RUBINUM
+//#define RUBINUM
 //#define ITANOS
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
 //define METINPL
-//define PANGEA
+#define PANGEA
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION
@@ -126,15 +127,14 @@ using namespace std;
 
 
 
-#define FISHBOT
-#define MULTIHACK
 
 
-//#define DEVELOPER_MODE
+
+#define DEVELOPER_MODE
 //#define CHECK_OFFSETS
 //#define NEED_LICENSE
 //#define ADDRESS_FROM_FILE
-#define DLL_VERSION "0.0.33"
+#define DLL_VERSION "0.0.41 Alfa"
 
 
 #ifdef VIDGAR
@@ -212,7 +212,7 @@ using namespace std;
 #define SERVER_NAME "DIUMAR"
 #endif
 #ifdef  SAMIAS2
-#define SERVER_NAME "SAMIAS2"
+#define SERVER_NAME "Samia"
 #endif
 
 #ifdef  METINPL
@@ -250,7 +250,7 @@ using namespace std;
 #endif
 
 #ifdef PANGEA
-#define SERVER_NAME "PANGEA"
+#define SERVER_NAME "Pangea"
 
 
 #endif
@@ -361,6 +361,7 @@ using namespace std;
 #include "Device.h"
 #include "CRender.h"
 #include"SplashScreen.h"
+#include "Logger.h"
 #include "MainForm.h"
 #include "SimpleIni.h"
 
@@ -375,8 +376,9 @@ using namespace std;
 
 #include "Main.h"
 #include "Protection.h"
-#include "Fish.h"
 #include "PacketSniffer.h"
+#include "Fish.h"
+
 #include "Buff.h"
 #include "Item.h"
 #include "Farm.h"

@@ -61,7 +61,7 @@ public:
 
 	void OnUpdate()
 	{
-		if (Settings::GLOBAL_SWITCH && Settings::LevelBotEnable && GameFunctionsCustom::PlayerIsInstance())
+		if (Settings::GLOBAL_SWITCH && Settings::FARM_ENABLE && GameFunctionsCustom::PlayerIsInstance())
 		{
 			if (GameFunctions::InstanceBaseIsDead(GameFunctions::PlayerNEW_GetMainActorPtr()))
 			{
@@ -74,17 +74,17 @@ public:
 				map<DWORD, DWORD*> mobList;
 				map<DWORD, DWORD*> stoneList;
 				map<DWORD, DWORD*> bossList;
-				if (Settings::LevelBotMob)
+				if (Settings::FARM_MOB_ENABLE)
 				{
-					mobList = GameFunctionsCustom::GetObjectList(OBJECT_MOB , Settings::LevelBotDistance);
+					mobList = GameFunctionsCustom::GetObjectList(OBJECT_MOB , Settings::FARM_DISTANCE);
 				}
-				if (Settings::LevelBotBoss)
+				if (Settings::FARM_BOSS_ENABLE)
 				{
-					bossList = GameFunctionsCustom::GetObjectList( OBJECT_BOSS, Settings::LevelBotDistance);
+					bossList = GameFunctionsCustom::GetObjectList( OBJECT_BOSS, Settings::FARM_DISTANCE);
 				}
-				if (Settings::LevelBotMetin)
+				if (Settings::FARM_METIN_ENABLE)
 				{
-					stoneList	 = GameFunctionsCustom::GetObjectList(OBJECT_STONE , Settings::LevelBotDistance);
+					stoneList	 = GameFunctionsCustom::GetObjectList(OBJECT_STONE , Settings::FARM_DISTANCE);
 				}
 					
 					
@@ -125,7 +125,7 @@ public:
 						
 						
 					}
-					if (targetVID && DynamicTimer::Check("FarmOnPressActor", 1000))
+					if (targetVID && DynamicTimer::CheckAutoSet("FarmOnPressActor", 1000))
 					{
 						GameFunctions::Player__OnPressActor(GameFunctions::PlayerNEW_GetMainActorPtr(), targetVID, true);
 					}
@@ -145,7 +145,7 @@ public:
 					}
 					if (CordsLength >= 2 && !isINDistance)
 					{
-						if (Settings::LevelBotMoveType == 1)
+						if (Settings::FARM_MOVE_TYPE == 1)
 						{
 							TeleportToDestination(cordsMaps[MoveStep]);
 						}
@@ -173,8 +173,8 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("FarmBotBorder", ImVec2(655, 160), true);
-		if (ImGui::Checkbox("Farm Enable", &Settings::LevelBotEnable)) {
-			if (Settings::LevelBotEnable == true)
+		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE)) {
+			if (Settings::FARM_ENABLE == true)
 			{
 				OnStart();
 			}
@@ -184,39 +184,17 @@ public:
 			}
 		}
 		ImGui::Text("Move Type      "); ImGui::SameLine();
-		ImGui::RadioButton("Move", &Settings::LevelBotMoveType, 0); ImGui::SameLine();
-		ImGui::RadioButton("Teleport", &Settings::LevelBotMoveType, 1);
+		ImGui::RadioButton("Move", &Settings::FARM_MOVE_TYPE, 0); ImGui::SameLine();
+		ImGui::RadioButton("Teleport", &Settings::FARM_MOVE_TYPE, 1);
 		/*ImGui::RadioButton("Normal", &Settings::LevelBotAttackType, 0); ImGui::SameLine();
 		ImGui::RadioButton("WaitHack", &Settings::LevelBotAttackType, 1);*/
-		ImGui::PushItemWidth(200); ImGui::InputInt("Distance", &Settings::LevelBotDistance, 100, 1000);
-		ImGui::Checkbox("Mob", &Settings::LevelBotMob); ImGui::SameLine();
-		ImGui::Checkbox("Boss", &Settings::LevelBotBoss); ImGui::SameLine();
-		ImGui::Checkbox("Metin", &Settings::LevelBotMetin);
+		ImGui::PushItemWidth(200); ImGui::InputInt("Distance", &Settings::FARM_DISTANCE, 100, 1000);
+		ImGui::Checkbox("Mob", &Settings::FARM_MOB_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Boss", &Settings::FARM_BOSS_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Metin", &Settings::FARM_METIN_ENABLE);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
-		if (Settings::LevelBotAttackType == 1) 
-		{
-			ImGui::SameLine();
-			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			ImGui::SetNextWindowBgAlpha(0.75f);
-			ImGui::BeginChild("WHBorder", ImVec2(200, 210), true);
-			ImGui::Checkbox("WH", &Settings::MiniMHWaitHackEnable); ImGui::SameLine();
-			ImGui::Checkbox("Teleport", &Settings::MiniMHWaitHackSwordRange);
-			ImGui::RadioButton("Standard", &Settings::MiniMHWaitHackOneTarget, 0); ImGui::SameLine();
-			ImGui::RadioButton("Target", &Settings::MiniMHWaitHackOneTarget, 1);
-			ImGui::InputInt("Time", &Settings::MiniMHWaitHackTime, 5, 100);
-			ImGui::InputInt("Range", &Settings::MiniMHWaitHackDistanceValue, 100, 1000);
-			ImGui::RadioButton("Sword", &Settings::MiniMHWaitHackType, 0); ImGui::SameLine();
-			ImGui::RadioButton("Bow", &Settings::MiniMHWaitHackType, 1);
-			ImGui::Checkbox("Detect Player", &Settings::MiniMHWaitHackDetect);
-#ifdef DEVELOPER_MODE
-			ImGui::RadioButton("Skill", &Settings::MiniMHWaitHackType, 2);
-			ImGui::InputInt("SkillNumber", &Settings::MiniMHSkillNumber, 1, 111);
-			ImGui::InputInt("##STime", &Settings::MiniMHWaitHackSkillDelay, 1, 10);
-#endif	
-			ImGui::EndChild();
-			ImGui::PopStyleVar();
-		}
+		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("CordsBorder", ImVec2(655, 210), true);

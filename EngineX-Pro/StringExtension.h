@@ -90,12 +90,34 @@ public:
 		ss << setw(2) << static_cast<int>(BYTE);
 		return ss.str();
 	}
-	static string StringFormat(const string fmt_str, ...)
+
+	static string StringFormat(const std::string fmt, ...) {
+		int size = ((int)fmt.size()) * 2 + 50;   // Use a rubric appropriate for your code
+		std::string str;
+		va_list ap;
+		while (1) {     // Maximum two passes on a POSIX system...
+			str.resize(size);
+			va_start(ap, fmt);
+			int n = vsnprintf((char*)str.data(), size, fmt.c_str(), ap);
+			va_end(ap);
+			if (n > -1 && n < size) {  // Everything worked
+				str.resize(n);
+				return str;
+			}
+			if (n > -1)  // Needed size returned
+				size = n + 1;   // For null char
+			else
+				size *= 2;      // Guess at a larger size (OS specific)
+		}
+		return str;
+	}
+	static string StringFormat2(const string fmt_str, ...)
 	{
 		int final_n, n = ((int)fmt_str.size()) * 2;
 		unique_ptr<char[]> formatted;
 		va_list ap;
-		while (1) {
+		while (1)
+		{
 			formatted.reset(new char[n]); /* Wrap the plain char array into the unique_ptr */
 			strcpy(&formatted[0], fmt_str.c_str());
 			va_start(ap, fmt_str);
@@ -135,7 +157,7 @@ public:
 		for (int j = 0; j < len; j++)
 		{
 
-			if (dataBuff[j] > 32 && dataBuff[j] < 127)
+			if (dataBuff[j] > 0x20 && dataBuff[j] < 0x80)
 			{
 				ret += (char)dataBuff[j];
 			}
@@ -242,7 +264,9 @@ public:
 		return bytes;
 	}
 
-
+#define CP_WINDOWS 1250 
+#define CP_8859_2 28592 
+	
 	static char* UTF8ToANSI(char* szU8)
 	{
 		int wcsLen = ::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), NULL, 0);
@@ -256,6 +280,50 @@ public:
 		szAnsi[ansiLen] = '\0';
 
 		return szAnsi;
+	}
+	static char* UTF8ToANSI2(char* szU8)
+	{
+		int wcsLen = ::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), NULL, 0);
+		wchar_t* wszString = new wchar_t[wcsLen + 1];
+		::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), wszString, wcsLen);
+		wszString[wcsLen] = '\0';
+
+		int ansiLen = ::WideCharToMultiByte(CP_OEMCP, NULL, wszString, wcslen(wszString), NULL, 0, NULL, NULL);
+		char* szAnsi = new char[ansiLen + 1];
+		::WideCharToMultiByte(CP_OEMCP, NULL, wszString, wcslen(wszString), szAnsi, ansiLen, NULL, NULL);
+		szAnsi[ansiLen] = '\0';
+
+		return szAnsi;
+	}
+	//static char* UTF8ToANSI(char* szU8)
+	//{
+	//	int wcsLen = ::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), NULL, 0);
+	//	wchar_t* wszString = new wchar_t[wcsLen + 1];
+	//	::MultiByteToWideChar(CP_UTF8, NULL, szU8, strlen(szU8), wszString, wcsLen);
+	//	wszString[wcsLen] = '\0';
+
+	//	int ansiLen = ::WideCharToMultiByte(CP_ACP, NULL, wszString, wcslen(wszString), NULL, 0, NULL, NULL);
+	//	char* szAnsi = new char[ansiLen + 1];
+	//	::WideCharToMultiByte(CP_ACP, NULL, wszString, wcslen(wszString), szAnsi, ansiLen, NULL, NULL);
+	//	szAnsi[ansiLen] = '\0';
+
+	//	return szAnsi;
+	//}
+
+
+	static std::string to_utf8(const std::string& str, const std::locale& loc = std::locale{}) {
+		using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
+		std::u32string wstr(str.size(), '\0');
+		std::use_facet<std::ctype<char32_t>>(loc).widen(str.data(), str.data() + str.size(), &wstr[0]);
+		return wcvt{}.to_bytes(wstr.data(), wstr.data() + wstr.size());
+	}
+
+	static std::string UTF8_To_ASCII(const std::string& str, const std::locale& loc = std::locale{}) {
+		using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
+		auto wstr = wcvt{}.from_bytes(str);
+		std::string result(wstr.size(), '0');
+		std::use_facet<std::ctype<char32_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', &result[0]);
+		return result;
 	}
 };
 

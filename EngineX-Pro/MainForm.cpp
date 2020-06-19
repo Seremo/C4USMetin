@@ -38,7 +38,7 @@
 #define VK_Y 0x59
 #define VK_Z 0x5A
 
-MainForm::OrbitalUI MainForm::ui;
+
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 typedef HRESULT(WINAPI* Prototype_Present)(DirectDevice2, const RECT*, const RECT*, HWND, const RGNDATA*);
 Prototype_Present Original_Present;
@@ -272,17 +272,7 @@ bool GetKeyPressedTwice(int vKey, int vKey2, int time = 300)
 
 bool show = true;
 bool MainForm::ShowFishLog = true;
-void MainForm::OrbitalLogs(OrbitalUI* ui)
-{
-	if (PacketSniffer::Instance().IsEnablePacketSend() || PacketSniffer::Instance().IsEnablePacketRecv())
-	{
-		show = true;
-	}
-	else 
-	{
-		show = false;
-	}
-}
+
 
 #define DEG2RAD(x)  ( (float)(x) * (float)(M_PI / 180.f) )
 #define M_PI		3.14159265358979323846f
@@ -445,7 +435,8 @@ int tesk = 0;
 //using namespace std::chrono;
 
 
-void MainForm::ShowRadar() {
+void MainForm::ShowRadar() 
+{
 	ImGui::SetNextWindowBgAlpha(0.9f);
 	ImGui::SetNextWindowSize(ImVec2(386, 386));
 	if (ImGui::Begin("Radar", &m_radarIsActive, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar)) {
@@ -484,9 +475,11 @@ void MainForm::ShowRadar() {
 			float AtlasX = midRadar.x + (charpos.x / mapSizeX) * bgSize.x;
 			float AtlasY = midRadar.y - (charpos.y / mapSizeY) * bgSize.y;
 			float PosX = AtlasX;
-			for (int i = 0; i < Width; i++) {
+			for (int i = 0; i < Width; i++) 
+			{
 				float PosY = AtlasY;
-				for (int j = 0; j < Height; j++) {
+				for (int j = 0; j < Height; j++) 
+				{
 					string MapName = GetStr((DWORD)map_info->name);
 					MapName += "\\";
 					MapName += GetMapFolder(i, j);
@@ -669,31 +662,46 @@ void MainForm::Menu() {
 	if ((CurrentTickCount - LastTickCount) > 1.0f)
 	{
 		LastTickCount = CurrentTickCount;
-		sprintf(FrameRate, "[ FPS: %d ]", Fps);
+		sprintf(FrameRate, "[FPS: %d] ", Fps);
 		Fps = 0;
 	}
 	//
-	if (GetForegroundWindow() == Globals::mainHwnd) {
-		if (Hotkey(Settings::OnOffMH)) {
+	if (GetForegroundWindow() == Globals::mainHwnd)
+	{
+		if (Hotkey(Settings::OnOffMH))
+		{
 			Settings::GLOBAL_SWITCH = !Settings::GLOBAL_SWITCH;
-			if (Settings::GLOBAL_SWITCH == true) {
+			if (Settings::GLOBAL_SWITCH == true)
+			{
 				Main::Instance().OnStart();
 			}
-			else {
+			else 
+			{
 				Main::Instance().OnStop();
 			}
 		}
-		if (Hotkey(Settings::RelogKey)) {
-			GameFunctions::NetworkStreamConnectGameServer(0);
-			Main::Instance().ResetSkillTimer();
+		if (Hotkey(Settings::RelogKey))
+		{
+			/*GameFunctions::NetworkStreamConnectGameServer(0);
+			Main::Instance().ResetSkillTimer();*/
+
+			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+			if (lastSlot != -1)
+			{
+				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+				Main::Instance().ResetSkillTimer();
+			}
+				
+			
 		}
-#ifdef MULTIHACK
+
 											
-		if (HotkeyBoost(Settings::BoostKey, VK_A, VK_W, VK_S, VK_D, Settings::BoostSpeed1)) {
+		if (!CheatWindowOpen && HotkeyBoost(Settings::BoostKey, VK_A, VK_W, VK_S, VK_D, Settings::BoostSpeed1))
+		{
 			GameFunctionsCustom::Boost();
 		}
-#endif
-		if (Hotkey(VK_INSERT))
+
+		if (Hotkey(Settings::HideUI))
 		{
 			SideBarIsOpen = !SideBarIsOpen;
 		}
@@ -717,25 +725,32 @@ void MainForm::Menu() {
 				ImGui::TextColored(ImColor(249, 105, 14, 255), FrameRate);
 				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", WindowOn, WindowOff, ImVec2(20, 20));
 				ImGui::IconButton(&m_radarIsActive, "Radar Window", RadarOn, RadarOff, ImVec2(20, 20));
-				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH, "Multi Hack", MHOn, MHOff, ImVec2(20, 20))) {
-					if (Settings::GLOBAL_SWITCH == true) {
+				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH, "Multi Hack", MHOn, MHOff, ImVec2(20, 20))) 
+				{
+					if (Settings::GLOBAL_SWITCH == true) 
+					{
 						Main::Instance().OnStart();
 					}
-					else {
+					else
+					{
 						Main::Instance().OnStop();
 					}
 				}
 				ImGui::IconButton(&Settings::ProtectionAutoLogin, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
-#ifdef FISHBOT
-				if (ImGui::IconButton(&Settings::FishBotEnable, "Fishbot", FishbotOn, FishbotOff, ImVec2(20, 20))) {
-					if (Settings::FishBotEnable == true) {
+
+
+				if (ImGui::IconButton(&Settings::FishBotEnable, "Fishbot", FishbotOn, FishbotOff, ImVec2(20, 20))) 
+				{
+					if (Settings::FishBotEnable == true) 
+					{
 						Fish::Instance().OnStart();
 					}
-					else {
+					else
+					{
 						Fish::Instance().OnStop();
 					}
 				}
-#endif
+
 				if (ImGui::PopupButton("Channel Change", ChannelChangerIcon, ImVec2(20, 20)))
 				{
 					ImGui::OpenPopup("##channelchange");
@@ -795,9 +810,9 @@ void MainForm::Menu() {
 					//ImGui::SameLine();
 					
 	#ifdef DEVELOPER_MODE
-					OrbitalLogs(&ui);
+				
 
-					orbital_logs_draw(ui.logs_sniffer, "Sniffer Console", &show);
+					Logger::Draw(Logger::SNIFFER);
 	#endif				
 					ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 					ImGui::BeginGroup();
@@ -842,10 +857,12 @@ void MainForm::Menu() {
 }
 
 
-void MainForm::Initialize() {
+void MainForm::Initialize() 
+{
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
-	static const ImWchar ranges[] = {
+	static const ImWchar ranges[] = 
+	{
 		0x0020, 0x00FF,
 		0x0104, 0x017C,
 		0,
@@ -875,7 +892,6 @@ void MainForm::Initialize() {
 	font->AddRemapChar(0x9F, 0x017A);
 	font->AddRemapChar(0xBF, 0x017C);
 
-	
 	//io.Fonts->AddFontFromMemoryCompressedTTF(RudaBold_compressed_data, RudaBold_compressed_size, 13.0f, 0, ranges);
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 	ImGuiStyle* style = &ImGui::GetStyle();
@@ -942,18 +958,15 @@ void MainForm::Initialize() {
 	oWndProc = (WNDPROC)SetWindowLongPtr(Globals::mainHwnd, GWL_WNDPROC, (LONG)WndProc);
 
 	
-	ui.logs_sniffer =orbital_logs_create();
-	ui.logs_chat = orbital_logs_create();
-	ui.logs_fishing = orbital_logs_create();
-	ui.logs_char = orbital_logs_create();
-	ui.logs_main = orbital_logs_create();
+	
 	IsInitialized = true;
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (MainForm::SideBarIsOpen) {
+	if (MainForm::SideBarIsOpen) 
+	{
 		ImGuiIO& io = ImGui::GetIO();
 		switch (msg)
 		{
@@ -989,7 +1002,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case WM_MOUSEWHEEL:
 			io.MouseWheel += GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? +1.0f : -1.0f;
-			if (MainForm::IsRadarHovered) {
+			if (MainForm::IsRadarHovered)
+			{
 				Settings::radar_zoom *= GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? 2.0f : 0.5f;
 				if (Settings::radar_zoom >= 4.0f)
 					Settings::radar_zoom = 4.0f;
@@ -1016,19 +1030,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				io.AddInputCharacter((unsigned short)wParam);
 			break;
 		}
-		if (io.WantCaptureMouse || io.WantCaptureKeyboard || io.WantTextInput) {
+		if (io.WantCaptureMouse || io.WantCaptureKeyboard || io.WantTextInput) 
+		{
 			return true;
 		}
 	}
 	return CallWindowProc(oWndProc, hWnd, msg, wParam, lParam);
 }
 
-MainForm::MainForm()
-{
-	
-	
-}
-
-MainForm::~MainForm()
-{
-}

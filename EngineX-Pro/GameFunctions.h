@@ -98,7 +98,7 @@ public:
 
 	static void PlayerSetTarget(DWORD dwVID, BOOL bForceChange = true)
 	{
-		return Globals::CPythonPlayerSetTarget((void*)Globals::iCPythonPlayerInstance, dwVID, bForceChange);
+		return Globals::CPythonPlayerSetTarget((void*)(Globals::iCPythonPlayerInstance + 4), dwVID, bForceChange);
 	}
 	//#################################################################################################################################
 	static bool PlayerIsSkillActive(DWORD dwSlotIndex)
@@ -172,21 +172,7 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
 	{
-		//return Globals::CPythonNetworkStreamSendAttackPacket((void*)Globals::iCPythonNetworkStreamInstance, uMotAttack, dwVIDVictim);
-
-
-		TPacketCGAttack kPacketAtk;
-		kPacketAtk.header = HEADER_CG_ATTACK;
-		kPacketAtk.bType = uMotAttack;
-		kPacketAtk.dwVictimVID = dwVIDVictim;
-
-		if (!NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
-		{
-			
-			return false;
-		}
-		return true;
-		/*return NetworkStreamSendSequence();*/
+		return Globals::CPythonNetworkStreamSendAttackPacket((void*)Globals::iCPythonNetworkStreamInstance, uMotAttack, dwVIDVictim);
 	}
 	//#################################################################################################################################
 	static bool NetworkStreamSendUseSkillPacket(DWORD dwSkillIndex, DWORD dwTargetVID)
@@ -217,6 +203,11 @@ public:
 #else
 		return Globals::CPythonPlayerGetItemIndex((void*)(Globals::iCPythonPlayerInstance + 4), cell);
 #endif
+	}
+
+	static const char* GameFunctions::PlayerGetName() 
+	{
+		return Globals::CPythonPlayerGetName((void*)(Globals::iCPythonPlayerInstance + 4));
 	}
 	//#################################################################################################################################
 	static DWORD PlayerGetItemMetinSocket(int slot, DWORD dwMetinSocketIndex)
@@ -360,7 +351,7 @@ public:
 		return Globals::CNetworkStreamIsOnline((void*)Globals::iCPythonNetworkStreamInstance);
 #endif
 	}
-	//#################################################################################################################################
+	//########################################################################## b nm,                                                                                                                                                                             #######################################################
 	static DWORD NetworkStreamGetMainActorSkillGroup()
 	{
 		return Globals::CPythonNetworkStreamGetMainActorSkillGroup((void*)Globals::iCPythonNetworkStreamInstance);
@@ -437,7 +428,7 @@ public:
 		return Globals::CGraphicTextureGetD3DTexture((void*)instance);
 	}
 	//#################################################################################################################################
-	static const TMobTable* NonPlayerGetMobTable(int vid)
+	static const TMobTable* NonPlayerGetTable(int vid)
 	{
 		return (const TMobTable*)Globals::CPythonNonPlayerGetTable((void*)Globals::iCPythonNonPlayerInstance, vid);
 	}

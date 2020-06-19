@@ -312,5 +312,38 @@ public:
 		return points;
 		
 	}
+
+	//static string randomMac()
+	//{
+	//	 char letterAssign(int x)
+	//	{
+	//		char l;
+	//		if (x == 10) l = 'A';
+	//		if (x == 11) l = 'B';
+	//		if (x == 12) l = 'C';
+	//		if (x == 13) l = 'D';
+	//		if (x == 14) l = 'E';
+	//		if (x == 15) l = 'F';
+
+	//		return l;
+	//	}
+	//	std::string mac;
+	//	for (int i = 0; i < 12; i++)
+	//	{
+	//		if (i > 0 ? (i) % 2 == 0 : 0) mac += "::";
+
+	//		int x = rand() % 16;
+	//		if (x > 9)
+	//		{
+	//			char letter = letterAssign(x);
+	//			mac += letter;
+	//		}
+	//		else
+	//		{
+	//			mac += std::to_string(x);
+	//		}
+	//	}
+	//	return mac;
+	//}
 };
 

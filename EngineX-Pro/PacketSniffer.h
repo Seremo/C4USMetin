@@ -65,11 +65,11 @@ public:
 			string headerName = sClientToServer[header];
 			string packetHex = StringExtension::MakeHexString((BYTE*)pDestBuf, len, true, true);
 			string ascii = StringExtension::BYTEToAsciiString(pDestBuf, len);
-			ascii += "\n";
-			string line = "[SEND][L:" + std::to_string(len) + "][" + headerName + "][" + packetHex + "]\n";
-			MainForm::LogSniffer(0, line.c_str());
+			
+			string line = "[SEND][L:" + std::to_string(len) + "][" + headerName + "][" + packetHex + "]";
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, line);
 		
-			MainForm::LogSniffer(0, ascii.c_str());
+			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, ascii);
 		}
 	}
 	void ProcessRecvPacket(int len, void* pDestBuf)
@@ -88,11 +88,11 @@ public:
 		{
 			string headerName = sServerToClient[header];
 			string packetHex = StringExtension::MakeHexString((BYTE*)pDestBuf, len, true, true);
-			string line = "[RECV][L:" + std::to_string(len) + "][" + headerName + "][" + packetHex + "]\n";
+			string line = "[RECV][L:" + std::to_string(len) + "][" + headerName + "][" + packetHex + "]";
 			string ascii = StringExtension::BYTEToAsciiString(pDestBuf, len);
-			ascii += "\n";
-			MainForm::LogSniffer(0, line.c_str());
-			MainForm::LogSniffer(0, ascii.c_str());
+			
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, line);
+			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, ascii);
 		}
 	}
 

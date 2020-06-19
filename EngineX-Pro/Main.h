@@ -15,11 +15,11 @@ private:
 	DWORD lastWaitHackSkillDelay = 0;
 	DWORD lastTimeUpdateIcons = 0;
 	bool playerUsingHorse = false;
-	bool autoReviveNeedWait  =false;
+	bool autoReviveNeedWait = false;
 	DWORD lastMiniMHMoveSpeed = 0;
 	DWORD lastMiniMHAttackSpeed = 0;
 	bool canAttack = false;
-	
+
 
 	DWORD lastTimeStonesArrowShow = 0;
 
@@ -33,7 +33,7 @@ private:
 
 	void  SetJobRaceTextures(int job, int race)
 	{
-		
+
 		texture_Skill_None = MainForm::skill_none;
 		if (job == 0)
 		{
@@ -46,7 +46,7 @@ private:
 			return;
 		}
 		else
-		{	
+		{
 		}
 		if (race == 0 || race == 4)
 		{
@@ -63,7 +63,7 @@ private:
 			}
 			if (job == 2)
 			{
-				
+
 				texture_Skill_0 = MainForm::warrior_m_0;
 				texture_Skill_1 = MainForm::warrior_m_1;
 				texture_Skill_2 = MainForm::warrior_m_2;
@@ -149,7 +149,7 @@ private:
 
 
 public:
-	
+
 
 	void OnStart()
 	{
@@ -163,12 +163,12 @@ public:
 		Settings::GLOBAL_SWITCH = false;
 		GameFunctions::PlayerSetAttackKeyState(false);
 		autoReviveNeedWait = false;
-		playerUsingHorse = false; 
+		playerUsingHorse = false;
 	}
 
 	void OnUpdate()
 	{
-		
+
 		if (GameFunctionsCustom::PlayerIsInstance())
 		{
 			SetJobRaceTextures(GameFunctions::NetworkStreamGetMainActorSkillGroup(), GameFunctions::PlayerGetRace());
@@ -181,7 +181,7 @@ public:
 		{
 			if (GameFunctionsCustom::PlayerIsInstance())
 			{
-				
+
 				Potions();
 
 				Other();
@@ -202,7 +202,7 @@ public:
 				}
 				else
 				{
-					
+
 				}
 
 
@@ -210,20 +210,24 @@ public:
 
 				Skill();
 				WaitHack();
-				GameFunctions::PlayerSetAttackKeyState(canAttack);
+				if (Settings::MiniMHAttackEnable)
+				{
+					GameFunctions::PlayerSetAttackKeyState(canAttack);
+				}
 				
+
 			}
 			else
 			{
-				
-				
+
+
 			}
 		}
 
 		else
 		{
-			
-			
+
+
 		}
 	}
 
@@ -282,18 +286,18 @@ public:
 
 	void OnMenu()
 	{
-		
+
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("MHUsager", ImVec2(645, 110), true);
-		 ImGui::Checkbox("HP Potion           ", &Settings::MiniMHUseRedPotion); ImGui::SameLine();
-		 ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MiniMHUseRedPotionSpeed, 1, 1000); ImGui::SameLine();
-		 ImGui::PushItemWidth(150); ImGui::SliderInt("Below % HP", &Settings::MiniMHUseRedPotionValue, 1, 100);
-		
-		
-		  ImGui::Checkbox("MP Potion           ", &Settings::MiniMHUseBluePotion); ImGui::SameLine();
-		 ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MiniMHUseRedPotionSpeed, 1, 1000); ImGui::SameLine();
-		 ImGui::PushItemWidth(150); ImGui::SliderInt("Below % MP", &Settings::MiniMHUseBluePotionValue, 1, 100);
+		ImGui::Checkbox("HP Potion           ", &Settings::MiniMHUseRedPotion); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MiniMHUseRedPotionSpeed, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % HP", &Settings::MiniMHUseRedPotionValue, 1, 100);
+
+
+		ImGui::Checkbox("MP Potion           ", &Settings::MiniMHUseBluePotion); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MiniMHUseRedPotionSpeed, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % MP", &Settings::MiniMHUseBluePotionValue, 1, 100);
 
 
 		ImGui::Checkbox("Auto Revive        ", &Settings::MiniMHAutoRevive); ImGui::SameLine();
@@ -306,20 +310,24 @@ public:
 		ImGui::BeginChild("AtakBorder", ImVec2(645, 80), true);
 		if (ImGui::Checkbox("Auto Attack   ", &Settings::MiniMHAttackEnable))
 		{
-				lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-				canAttack = Settings::MiniMHAttackEnable;
+			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
+			canAttack = Settings::MiniMHAttackEnable;
+			if (!Settings::MiniMHAttackEnable)
+			{
+				GameFunctions::PlayerSetAttackKeyState(canAttack);
+			}
 		}
 		ImGui::SameLine();
 		ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance); ImGui::SameLine();
 		ImGui::Checkbox("Rotation", &Settings::MiniMHRotation); ImGui::SameLine();
-		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MiniMHRotationValue, 1, 100); 
-		
+		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MiniMHRotationValue, 1, 100);
+
 
 
 		ImGui::Checkbox("Wallhack Mob", &Settings::MainWallHackMob); ImGui::SameLine();
 		ImGui::Checkbox("Wallhack Object", &Settings::MainWallHackObject); ImGui::SameLine();
 		ImGui::Checkbox("Wallhack Terrain", &Settings::MainWallHackTerrain); ImGui::SameLine();
-		
+
 
 		ImGui::Checkbox("NOK", &Settings::MiniMHNOK); ImGui::SameLine();
 		ImGui::Checkbox("NOP", &Settings::MiniMHNOP);
@@ -348,7 +356,7 @@ public:
 		ImGui::BeginChild("WHBorder", ImVec2(315, 230), true);
 		ImGui::Checkbox("WaitHack", &Settings::MiniMHWaitHackEnable);
 		ImGui::Checkbox("Detect Player", &Settings::MiniMHWaitHackDetect);
-		
+
 		ImGui::RadioButton("Standard", &Settings::MiniMHWaitHackOneTarget, 0);
 		ImGui::SameLine();
 		ImGui::RadioButton("Target", &Settings::MiniMHWaitHackOneTarget, 1);
@@ -357,14 +365,14 @@ public:
 		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MiniMHWaitHackDistanceValue, 100, 1000);
 		ImGui::RadioButton("Sword", &Settings::MiniMHWaitHackType, 0); ImGui::SameLine();
 		ImGui::RadioButton("Bow", &Settings::MiniMHWaitHackType, 1);
-		
+
 #ifdef DEVELOPER_MODE
 		ImGui::RadioButton("Skill", &Settings::MiniMHWaitHackType, 2);
 		ImGui::InputInt("Skill Number", &Settings::MiniMHSkillNumber, 1, 111);
 		ImGui::InputInt("Skill Time", &Settings::MiniMHWaitHackSkillDelay, 1, 10);
 #endif	
 		ImGui::EndChild();
-		ImGui::PopStyleVar(); 
+		ImGui::PopStyleVar();
 #ifdef BZDETY
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
@@ -375,22 +383,25 @@ public:
 		ImGui::PopStyleVar();
 #endif
 
-	
-		
 
 
-		
+
+
+
 		ImGui::SameLine();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("OtherBorder", ImVec2(315, 230), true);
 
-		/*ImGui::SameLine();*/
-		ImGui::Checkbox("Wykrywaj metiny", &Settings::MainInfoStonesViewportShow);
 		
-		ImGui::Hotkey(Settings::HotkeyTime, "Boost", &Settings::BoostKey);
-		ImGui::Hotkey(Settings::HotkeyTime, "Relog", &Settings::RelogKey);
+		ImGui::Checkbox("Detect Stones", &Settings::MainInfoStonesViewportShow);
+
+		ImGui::Hotkey(Settings::HotkeyTime, "Boost         ", &Settings::BoostKey);
+		ImGui::Hotkey(Settings::HotkeyTime, "Relog         ", &Settings::RelogKey);
+		ImGui::Hotkey(Settings::HotkeyTime, "MH Switch", &Settings::OnOffMH);
+		ImGui::Hotkey(Settings::HotkeyTime, "Hide UI      ", &Settings::HideUI);
+		
 		ImGui::PushItemWidth(100); ImGui::InputInt("Boost Distance", &Settings::BoostSpeed3, 5, 100);
 
 
@@ -401,12 +412,12 @@ public:
 private:
 	bool Revive()
 	{
-		if (GameFunctionsCustom::PlayerIsDead() && Settings::MiniMHAutoRevive && !autoReviveNeedWait && DynamicTimer::Check("PlayerRevive",1000))
+		if (GameFunctionsCustom::PlayerIsDead() && Settings::MiniMHAutoRevive && !autoReviveNeedWait && DynamicTimer::CheckAutoSet("PlayerRevive", 1000))
 		{
 
 			GameFunctionsCustom::PlayerRevive();
 			autoReviveNeedWait = true;
-			
+
 			return true;
 
 		}
@@ -432,18 +443,18 @@ private:
 	{
 		if (((GetTickCount() - lastTimeAttackEnable) > 500))
 		{
-			
-				if (GameFunctionsCustom::GetObjectListCount(OBJECT_MOB, 300) == 0)
-				{
 
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			
-		
+			if (GameFunctionsCustom::GetObjectListCount(OBJECT_MOB, 300) == 0)
+			{
+
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+
+
 
 			lastTimeAttackEnable = GetTickCount();
 		}
@@ -568,7 +579,7 @@ private:
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 			}
-			GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+			GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 
 			if (Settings::MiniMHWaitHackSwordRange)
 			{
@@ -597,7 +608,8 @@ public:
 	}
 private:
 #ifdef DEVELOPER_MODE
-	void SkillWH() {
+	void SkillWH() 
+	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
@@ -628,7 +640,7 @@ private:
 			}
 			GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
 		}
-		
+
 	}
 #endif
 	void Target()
@@ -650,8 +662,8 @@ private:
 				switch (Settings::MiniMHWaitHackType)
 				{
 				case 0:
-
-					GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+					
+					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 					break;
 				case 1:
 					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
@@ -783,25 +795,26 @@ private:
 		{
 			if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHUseRedPotionValue)
 			{
-				if (DynamicTimer::Check("HPPotion", Settings::MiniMHUseRedPotionSpeed))
+				if (DynamicTimer::CheckAutoSet("HPPotion", Settings::MiniMHUseRedPotionSpeed))
 				{
 					HPPotion();
 				}
-				
+
 			}
 		}
 		if (Settings::MiniMHUseBluePotion)
 		{
 			if (GameFunctionsCustom::GetMpProcentageStatus() < Settings::MiniMHUseBluePotionValue)
 			{
-				if (DynamicTimer::Check("MPPotion", Settings::MiniMHUseBluePotionSpeed))
+				if (DynamicTimer::CheckAutoSet("MPPotion", Settings::MiniMHUseBluePotionSpeed))
 				{
 					MPPotion();
 				}
 			}
 		}
 	}
-	void HPPotion() {
+	void HPPotion() 
+	{
 		int slot = GameFunctionsCustom::FindItemSlotInInventory(27001);
 		if (slot != -1)
 		{

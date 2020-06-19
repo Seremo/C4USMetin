@@ -1,17 +1,10 @@
-#pragma once
+ï»¿#pragma once
 class Fish : public IAbstractModuleBase, public Singleton<Fish>
 {
 private:
 
 	
 public:
-
-	Fish(void)
-	{
-	}
-	virtual ~Fish(void)
-	{
-	}
 
 #ifdef IVEYA
 	 const char* actionString ="";
@@ -34,9 +27,10 @@ public:
 
 		lastTimeBotCast = GetTickCount();
 		lastTimeBotRoundTime = GetTickCount();
-		MainForm::LogFish(0, "Start\n");
+		Logger::Add(Logger::FISH, true, Logger::GREEN, "START");
+		
 		standingPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		MainForm::LogFish(0, ("Pozycja " + to_string((int)(standingPosition.x / 100)) + " " + to_string((int)(standingPosition.y / 100)) + "\n").c_str());//GREEN
+		Logger::Add(Logger::FISH, true, Logger::WHITE,"POSITION %f %f", (standingPosition.x / 100) ,(standingPosition.y / 100) );
 		NewCast();
 
 
@@ -44,7 +38,7 @@ public:
 	void OnStop()
 	{
 		isEnable = false;
-		MainForm::LogFish(0, "Stop\n");
+		Logger::Add(Logger::FISH, true, Logger::RED, "STOP");
 		standingPosition = { 0, 0, 0 };
 
 #ifdef METINPL
@@ -63,7 +57,7 @@ public:
 				if ((GetTickCount() - lastTimeFishing) > Settings::FishBotEmergencyRunTimeValue && lastTimeFishing != 0)
 				{
 					action = -1;
-					MainForm::LogFish(0, "Rozruch\n");
+					Logger::Add(Logger::FISH, true, Logger::RED, "RESUME");
 #ifdef METINPL
 					Cast2();
 #endif
@@ -78,12 +72,12 @@ public:
 					int loseRandom = MiscExtension::Random(1, 100);
 					if (loseRandom <= Settings::FishBotSuccesPercentValue)
 					{
-						MainForm::LogFish(0, "Celowa przegrana.\n");
+						Logger::Add(Logger::FISH, true, Logger::WHITE, "RANDOM FALSE");
 						action += 1;
 					}
 					else
 					{
-						MainForm::LogFish(0, ("Wymagane Klikniecia :" + to_string(action) + "\n").c_str());
+						
 
 					}
 				}
@@ -92,7 +86,7 @@ public:
 					int clickTime = MiscExtension::Random(Settings::FishBotCastTimeMinValue, Settings::FishBotCastTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotCast) > clickTime)
 					{
-						string clickInfo = "Klik: " + to_string(action) + " Po: " + to_string(clickTime) + "ms";
+						
 #ifdef METINPL
 
 						Cast2();
@@ -100,7 +94,7 @@ public:
 						Cast();
 #endif
 						action--;
-						MainForm::LogFish(0, (clickInfo + "\n").c_str());//GREEN
+						Logger::Add(Logger::FISH, true, Logger::WHITE, "CLICK %d AFTER %d (ms)", action, clickTime);
 						lastTimeBotCast = GetTickCount();
 						if (action == 0)
 						{
@@ -111,7 +105,7 @@ public:
 				}
 				else
 				{
-					string clickInfo = "Klik: " + to_string(action);
+				
 #ifdef METINPL
 
 					Cast2();
@@ -119,7 +113,7 @@ public:
 					Cast();
 #endif
 					action--;
-					MainForm::LogFish(0, (clickInfo + "\n").c_str());//GREEN
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "CLICK %d" , action);
 					if (action == 0)
 					{
 						lastTimeBotRoundTime = GetTickCount();
@@ -134,8 +128,8 @@ public:
 					int waitTime = MiscExtension::Random(Settings::FishBotRoundTimeMinValue, Settings::FishBotRoundTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotRoundTime) > waitTime && isNeedRoundTimeCast)
 					{
-						string waitInfo = "Odczekanie Konca Rundy: " + to_string(waitTime) + "ms";;
-						MainForm::LogFish(0, (waitInfo + "\n").c_str());//GREEN
+						
+						Logger::Add(Logger::FISH, true, Logger::WHITE, "WAIT FOR ENDING %d (ms)", waitTime);//GREEN
 						NewCast();
 						action = -1;
 						lastTimeBotRoundTime = GetTickCount();
@@ -147,8 +141,8 @@ public:
 					if ((GetTickCount() - lastTimeBotRoundTime) > 0 && isNeedRoundTimeCast)
 					{
 
-						string waitInfo = "Nowa Runda";;
-						MainForm::LogFish(0, (waitInfo + "\n").c_str());//WHITE
+						
+						Logger::Add(Logger::FISH, true, Logger::WHITE, "NEW START");
 						NewCast();
 						action = -1;
 						lastTimeBotRoundTime = GetTickCount();
@@ -204,28 +198,28 @@ public:
 
 	void OnMenu()
 	{
+		Logger::Draw(Logger::FISH);
 		
-		//Randomizer
 		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("RandomizerBorder", ImVec2(400, 200), true);
-		MainForm::orbital_logs_draw(MainForm::ui.logs_fishing, "Fishbot Output", &MainForm::ShowFishLog);
+		
 		//Przyciski
-		ImGui::Checkbox("STOP - Equipment Full", &Settings::FishBotStopIfPositionChanged); 	ImGui::SameLine();
-		ImGui::Checkbox("STOP - Equipment Full", &Settings::FishBotStopIfInventoryFull);
-		ImGui::Text("Randomizer(1000=1sekunda)");
+		ImGui::Checkbox("Stop - Position Changed", &Settings::FishBotStopIfPositionChanged); 	ImGui::SameLine();
+		ImGui::Checkbox("Stop - Equipment Full", &Settings::FishBotStopIfInventoryFull);
+		/*ImGui::Text("Randomizer(1000=1sekunda)");*/
 		ImGui::Columns(2, "randomizer", false);  // 3-ways, no border
-		ImGui::Checkbox("Celowy % porazki", &Settings::FishBotSuccesPercent);
+		ImGui::Checkbox("Random Falsa %", &Settings::FishBotSuccesPercent);
 		ImGui::SliderInt("%", &Settings::FishBotSuccesPercentValue, 0, 100);
-		ImGui::Checkbox("Losowe Czasy Klikniec", &Settings::FishBotCastTime);
+		ImGui::Checkbox("Random Click Time", &Settings::FishBotCastTime);
 		ImGui::InputInt("##randclick", &Settings::FishBotCastTimeMinValue, 100, 1000);
 		ImGui::InputInt("##randclick2", &Settings::FishBotCastTimeMaxValue, 100, 1000);
 		ImGui::NextColumn();
 		ImGui::Checkbox("Detect Player", &Settings::FISHBOT_DETECT_PLAYER);
-		ImGui::Checkbox("Rozruch Po Czasie", &Settings::FishBotEmergencyRunTime);
+		ImGui::Checkbox("Emergency Resume", &Settings::FishBotEmergencyRunTime);
 		ImGui::InputInt("##emergencytimeout", &Settings::FishBotEmergencyRunTimeValue, 100, 1000);
-		ImGui::Checkbox("Losowe Czasy Tury", &Settings::FishBotRoundTime);
+		ImGui::Checkbox("Random End Times", &Settings::FishBotRoundTime);
 		ImGui::InputInt("##randtour", &Settings::FishBotRoundTimeMinValue, 100, 1000);
 		ImGui::InputInt("##randtour2", &Settings::FishBotRoundTimeMaxValue, 100, 1000);
 		ImGui::EndChild();
@@ -244,7 +238,7 @@ public:
 			ImGui::NextColumn();
 
 		}
-#ifdef DEVELOPER_MODE
+#ifdef VERSION_PREMIUM
 		ImGui::Checkbox("Buy Bait", &Settings::FISHBOT_BUY_BAIT);
 		ImGui::InputInt("Count", &Settings::FISHBOT_BUY_BAIT_SHOP_COUNT);
 		ImGui::InputInt("Slot", &Settings::FISHBOT_BUY_BAIT_SHOP_SLOT);
@@ -298,7 +292,7 @@ public:
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 		//##########################################################################################
-#ifdef DEVELOPER_MODE
+#ifdef VERSION_PREMIUM
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("SellBorder", ImVec2(635, 190), true);
@@ -325,6 +319,8 @@ public:
 			return;
 		}
 		action = num;
+		Logger::Add(Logger::FISH, true, Logger::WHITE, string("REQUEST CLICK COUNT " + to_string(action) + "\n").c_str());
+		
 	}
 	void AppendCastDirectString(int num, const char* message)
 	{
@@ -350,7 +346,7 @@ public:
 			D3DVECTOR currentPosition = GameFunctionsCustom::PlayerGetPixelPosition();
 			if (standingPosition.x != currentPosition.x || standingPosition.y != currentPosition.y)
 			{
-				MainForm::LogFish(0, "Inna Pozycja - Stop\n");
+				Logger::Add(Logger::FISH, true, Logger::RED, "DIFFRENT POSITION ABORT!");
 				Settings::FishBotEnable = false;;
 				isEnable = false;
 				return;
@@ -386,6 +382,12 @@ public:
 		GameFunctions::NetworkStreamSend(1, &kPacketAtk2);
 		GameFunctions::NetworkStreamSendSequence();
 		//GameFunctions::PlayerSetAttackKeyState(true);
+
+	
+
+
+
+
 #elif defined(DEVELOPER_MODE)
 
 		if (Settings::FISHBOT_SHOP_CAST_TELEPORT)
@@ -399,17 +401,20 @@ public:
 			}
 			else
 			{
-				MainForm::LogFish(0, "Teleport Wiekszy Niz 2000\n");
+				Logger::Add(Logger::FISH, true, Logger::RED, "TP DISTANCE MORE THAN 2000");
 			}
 
 		}
 		else
 		{
 
-			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
+			/*GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);*/
+			GameFunctions::PlayerSetAttackKeyState(true);
+			/*GameFunctions::PythonPlayerNEW_Fishing();*/
 		}
 #else
-		GameFunctions::PythonPlayerNEW_Fishing();
+		GameFunctions::PlayerSetAttackKeyState(true);
+		/*GameFunctions::PythonPlayerNEW_Fishing();*/
 #endif
 		lastTimeFishing = GetTickCount();
 	}
@@ -421,7 +426,7 @@ public:
 			if (GameFunctionsCustom::DetectPlayer(Settings::DETECT_PLAYER_WHITE_LIST_NAMES))
 			{
 
-				MainForm::LogFish(0, "Player Detect - Czekanie na rozruch\n");
+				Logger::Add(Logger::FISH, true, Logger::RED, "DETECT PLAYER WAIT TO RESUME");
 				return;
 			}
 		}
@@ -435,7 +440,7 @@ public:
 		{
 			if (GameFunctionsCustom::IsFullInventory())
 			{
-				MainForm::LogFish(0, "Pelny ekwipunek - Stop\n");
+				Logger::Add(Logger::FISH, true, Logger::WHITE, "EQUPMENT FULL ABORT!");
 				Settings::FishBotEnable = false;
 				isEnable = false;
 			}
@@ -455,7 +460,7 @@ public:
 			if (GameFunctionsCustom::DetectPlayer(Settings::DETECT_PLAYER_WHITE_LIST_NAMES))
 			{
 
-				MainForm::LogFish(0, "Player Detect - Czekanie na rozruch\n");
+				Logger::Add(Logger::FISH, true, Logger::WHITE, "DETECT PLAYER WAIT TO RESUME");
 				return;
 			}
 		}
@@ -473,11 +478,13 @@ public:
 		}
 		if (!UseBait())
 		{
-			if (Settings::FISHBOT_BUY_BAIT) {
+			if (Settings::FISHBOT_BUY_BAIT) 
+			{
 				BuyBait();
-				if (!UseBait()) {
+				if (!UseBait()) 
+				{
 					/*Settings::FishBotEnable = false;*/
-					MainForm::LogFish(0, "Brak przynet - STOP\n");
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "NO BAITS ABORT!");
 					return;
 				}
 			}
@@ -491,7 +498,7 @@ public:
 		DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
 		if (!fishermanVid)
 		{
-			MainForm::LogFish(0, "Brak Rybaka");
+			Logger::Add(Logger::FISH, true, Logger::WHITE, "NO FISHERMAN!");
 			return false;
 		}
 		GameFunctions::NetworkStreamSendOnClickPacket(fishermanVid);
@@ -509,7 +516,7 @@ public:
 		DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
 		if (!fishermanVid)
 		{
-			MainForm::LogFish(0, "Brak Rybaka");
+			Logger::Add(Logger::FISH, true, Logger::WHITE, "NO FISHERMAN!");
 			return false;
 		}
 		GameFunctions::NetworkStreamSendOnClickPacket(fishermanVid);
@@ -524,7 +531,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendShopSellPacketNew(*it, 255);
-					MainForm::LogFish(0, string("Sprzedano " + itor->second.second + " z slotu " + to_string(*it) + " \n").c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE,"SELLED %s FROM SLOT %d",  itor->second.second.c_str(), *it);
 				}
 			}
 		}
@@ -545,7 +552,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendItemDropPacketNew(TItemPos(INVENTORY, *it), 0, 255);
-					MainForm::LogFish(0, string("Wywalono " + itor->second.second + " z slotu " + to_string(*it) + " \n").c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "DROPED %s FROM SLOT %d", itor->second.second.c_str(),*it);
 				}
 			}
 		}
@@ -564,7 +571,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, *it));
-					MainForm::LogFish(0, string("Zabito " + itor->second.second + " z slotu " + to_string(*it) + " \n").c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "KILLED %s FROM SLOT %d" , itor->second.second.c_str(),*it);
 				}
 			}
 		}
@@ -580,18 +587,18 @@ public:
 				if (slot != -1)
 				{
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-					MainForm::LogFish(0, string("U¿yto " + itor->second.second + "z slotu " + to_string(slot) + " \n").c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "USED %s FROM SLOT %d",  itor->second.second.c_str() ,slot);
 					return true;
 				}
 				else
 				{
-					MainForm::LogFish(0, string("Brak " + itor->second.second + "\n").c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "MISSING %s", itor->second.second.c_str());
 				}
 			}
 		}
 		if (Settings::FishBotUseFirstSlot)
 		{
-			MainForm::LogFish(0, "Przynêta 1 Slot\n");
+			Logger::Add(Logger::FISH, true, Logger::WHITE, "BAIT 1 SLOT");
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 0));
 			return true;
 		}
@@ -604,727 +611,17 @@ public:
 		{
 			return;
 		}
-#ifdef XENOX
-
-		if (StringExtension::Contains(message, "Uzyj ponownie, aby zakonczyc lowienie"))
+		for (map< DWORD, pair<string, DWORD>>::iterator itor = Settings::FISHBOT_COMMAND_LIST.begin(); itor != Settings::FISHBOT_COMMAND_LIST.end(); itor++)
 		{
-
-			Cast();
-
-		}
-		if (StringExtension::Contains(message, "Nacisnij 1 razy spacje"))
-		{
-
-			action = 1;
-		
-		}
-		else if (StringExtension::Contains(message, "Nacisnij 2 razy spacje"))
-		{
-
-			action = 2;
+			string messageASCI = StringExtension::UTF8ToANSI((char*)itor->second.first.c_str());
 			
-		}
-		else if (StringExtension::Contains(message, "Nacisnij 3 razy spacje"))
-		{
-
-			action = 3;
-			
-		}
-		else if (StringExtension::Contains(message, "Nacisnij 4 razy spacje"))
-		{
-
-			action = 4;
-		
-		}
-		else if (StringExtension::Contains(message, "Nacisnij 5 razy spacje"))
-		{
-
-			action = 5;
-
-		}
-		if (action > 0)
-		{
-
-		}
-		else
-		{
-			return;
-		}
-#endif
-#ifdef VALIUM
-		if (StringExtension::Contains(message, "hohfcthbhy.sub"))
-		{
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "klnbahqfuk.sub"))
-		{
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "zqsdlotxlt.sub"))
-		{
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "gkxegfenjh.sub"))
-		{
-			action = 1;
-		}
-
-
-
-		else if (StringExtension::Contains(message, "gulnvvwzbm.sub"))
-		{
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "blsvtqsbdr.sub"))
-		{
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "cfqdfqfnpl.sub"))
-		{
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "znvtfvjjlg.sub"))
-		{
-			action = 2;
-		}
-
-
-
-
-		else if (StringExtension::Contains(message, "addjvbzupo.sub"))
-		{
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "wxzcbjqoau.sub"))
-		{
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "izpjrgxwmk.sub"))
-		{
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "ulvnibygka.sub"))
-		{
-			action = 3;
-		}
-
-
-
-
-
-
-
-		else if (StringExtension::Contains(message, "mdscnufuca.sub"))
-		{
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "egyfkgjofh.sub"))
-		{
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "volexihnrf.sub"))
-		{
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "okgeihgbod.sub"))
-		{
-			action = 4;
-		}
-
-
-
-
-		else if (StringExtension::Contains(message, "mbiuatlxoc.sub"))
-		{
-			action = 5;
-		}
-		else if (StringExtension::Contains(message, "aehpjaevyo.sub"))
-		{
-			action = 5;
-		}
-		else if (StringExtension::Contains(message, "hmmngdctvb.sub"))
-		{
-			action = 5;
-		}
-		else if (StringExtension::Contains(message, "frwikxzsrn.sub"))
-		{
-			action = 5;
-		}
-		if (action > 0)
-		{
-			MainForm::orbital_log_fishing(0, (to_string(action) + " Ilosc Klikniec\n").c_str());//
-		}
-
-#endif
-#ifdef GLADOR
-		if (action < 5) {
-			if (StringExtension::Contains(message, "mieso.tga"))
+			if (StringExtension::Contains(message, messageASCI))
 			{
-				action += 1;
-			}
-			else if (StringExtension::Contains(message, "rozgwiazda.tga"))
-			{
-				action += 1;
-			}
-			else if (StringExtension::Contains(message, "osmiornica.tga"))
-			{
-				action += 1;
+				
+				action = itor->second.second;
+				Logger::Add(Logger::FISH, true, Logger::WHITE, string("REQUEST CLICK COUNT " + to_string(action)+"\n").c_str());
 			}
 		}
-#endif
-#ifdef VAROS
-		if (StringExtension::Contains(message, "Naciœnij 1 razy"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "Naciœnij 2 razy"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "Naciœnij 3 razy"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "Naciœnij 4 razy"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "Naciœnij 5 razy"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef ZAMORIA
-		if (StringExtension::Contains(message, "Kliknij 1 razy"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 2 razy"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 3 razy"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 4 razy"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 5 razy"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef DIUMAR
-		if (StringExtension::Contains(message, "ile jest niebieskich kulek (1)"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "ile jest niebieskich kulek (2)"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "ile jest niebieskich kulek (3)"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "ile jest niebieskich kulek (4)"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "ile jest niebieskich kulek (5)"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef AVENTUS2
-		if (StringExtension::Contains(message, "Kliknij 1 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 2 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 3 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 4 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 5 razy spacjê, aby spróbowaæ wy³owiæ rybê"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef ELENIUM
-		if (StringExtension::Contains(message, "1x|h|r aby wy³owiæ"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "2x|h|r aby wy³owiæ"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "3x|h|r aby wy³owiæ"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "4x|h|r aby wy³owiæ"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "5x|h|r aby wy³owiæ"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef BALMORA
-		if (StringExtension::Contains(message, "Zatnij rybê 1 razy"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "Zatnij rybê 2 razy"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "Zatnij rybê 3 razy"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "Zatnij rybê 4 razy"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "Zatnij rybê 5 razy"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef TENELIS
-		if (StringExtension::Contains(message, "Kliknij 1 razy"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 2 razy"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 3 razy"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 4 razy"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "Kliknij 5 razy"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef ZERIOS
-		if (StringExtension::Contains(message, "Wylosowano: 1"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "Wylosowano: 2"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "Wylosowano: 3"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "Wylosowano: 4"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "Wylosowano: 5"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef GLADOROLD
-		if (StringExtension::Contains(message, "1"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "2"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "3"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "4"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "5"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//	
-#endif
-#ifdef CLASSIC
-		if (StringExtension::Contains(message, "liczba to... 1"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "liczba to... 2"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "liczba to... 3"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "liczba to... 4"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "liczba to... 5"))
-		{
-
-			action = 5;
-		}
-
-		else
-		{
-			return;
-		}
-		MainForm::orbital_log_fishing(0, ("WYMAGANE KLIKNIECIA :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef PANGEA
-		if (StringExtension::Contains(message, "piscis_unum.mse"))
-		{
-			action = 1;
-		}
-		if (StringExtension::Contains(message, "piscis_duo.mse"))
-		{
-			action = 2;
-		}
-		if (StringExtension::Contains(message, "piscis_tribus.mse"))
-		{
-			action = 3;
-		}
-		if (StringExtension::Contains(message, "piscis_quattuor.mse"))
-		{
-			action = 4;
-		}
-		if (StringExtension::Contains(message, "piscis_quinque.mse"))
-		{
-			action = 5;
-		}
-
-#endif
-#if defined(AKADEMIA_VESTERIS) || defined(VESTERIS)
-		//VMProtectBeginMutation("VesterisFB");
-		if (StringExtension::Contains(message, "u¿yj animacji: Klaszcz"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/clap", 0);
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-			Start();
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: Zgoda"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/congratulation", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: DenerwowaÆ"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/angry", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: WybaczyÆ"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/forgive", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: Smutek"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/sad", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-
-
-
-		else if (StringExtension::Contains(message, "u¿yj animacji: Odmowa"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/shy", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: RozweselaÆ"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/cheerup", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: DrwiÆ"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/banter", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: RadoŒÆ"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/joy", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		else if (StringExtension::Contains(message, "u¿yj animacji: Powitanie 1"))
-		{
-
-			GameFunctions::NetworkStreamSendChatPacket("/cheer1", 0);
-			Start();
-			MainForm::orbital_log_fishing(0, "Kontrola!\n");//
-		}
-		if (StringExtension::Contains(message, "u¿yj spacji 1"))
-		{
-
-			action = 1;
-		}
-		else if (StringExtension::Contains(message, "u¿yj spacji 2"))
-		{
-
-			action = 2;
-		}
-		else if (StringExtension::Contains(message, "u¿yj spacji 3"))
-		{
-
-			action = 3;
-		}
-		else if (StringExtension::Contains(message, "u¿yj spacji 4"))
-		{
-
-			action = 4;
-		}
-		else if (StringExtension::Contains(message, "u¿yj spacji 5"))
-		{
-
-			action = 5;
-		}
-		else
-		{
-			return;
-		}	//VMProtectEnd();
-		MainForm::orbital_log_fishing(0, ("Wymagane Klikniecia :" + to_string(action) + "\n").c_str());//
-#endif
-#ifdef EGORIA
-		if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: J"))
-		{
-			action = 1;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: D"))
-		{
-			action = 2;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: T"))
-		{
-			action = 3;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: C"))
-		{
-			action = 4;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: P"))
-		{
-			action = 5;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 1"))
-		{
-			action = 1;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 2"))
-		{
-			action = 2;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 3"))
-		{
-			action = 3;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 4"))
-		{
-			action = 4;
-
-
-		}
-		else if (StringExtension::Contains(message, "Aby wyci¹gn¹æ Rybê wciœnij: 5"))
-		{
-			action = 5;
-
-
-		}
-		if (action > 0)
-		{
-			MainForm::orbital_log_fishing(0, ("Wymagane Klikniecia :" + to_string(action) + "\n").c_str());//
-		}
-#endif	
-#ifdef MATADIA
-		if (StringExtension::Contains(message, "Kliknij 1 razy"))
-		{
-			action = 1;
-
-
-		}
-		else if (StringExtension::Contains(message, "Kliknij 2 razy"))
-		{
-			action = 2;
-
-
-		}
-		else if (StringExtension::Contains(message, "Kliknij 3 razy"))
-		{
-			action = 3;
-
-
-		}
-		else if (StringExtension::Contains(message, "Kliknij 4 razy"))
-		{
-			action = 4;
-
-
-		}
-		else if (StringExtension::Contains(message, "Kliknij 5 razy"))
-		{
-			action = 5;
-
-
-		}
-		if (action > 0)
-		{
-			MainForm::orbital_log_fishing(0, ("Wymagane Klikniecia :" + to_string(action) + "\n").c_str());//
-		}
-
-#endif	
 	}
 
 

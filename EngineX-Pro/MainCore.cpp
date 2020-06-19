@@ -10,7 +10,8 @@
 	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x18F2E4C), (void*)version, strlen(version));
 #endif
 #ifdef VIDGAR
-	 MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x28E6BC9), 0x35, 1);
+	 const char* version = "000031";
+	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x2920DD0), (void*)version, strlen(version));
 #endif
 
 #ifdef BARIA
@@ -123,11 +124,7 @@
 #endif
 }
 ///##################################################################################################################
- void MainCore::RunInterface()
-{
-	new MainForm();
 
-}
  
 
 ///##################################################################################################################
@@ -139,7 +136,7 @@
 
 	 Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
 	 Hooks::Initialize();
-	 RunInterface();
+	 
 	 string title = "";
 	 title += "Version ";
 	 title += DLL_VERSION;

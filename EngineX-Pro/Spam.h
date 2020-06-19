@@ -38,7 +38,8 @@ public:
 
 	void OnStart()
 	{
-
+		
+		
 	}
 
 	void OnStop()
@@ -49,28 +50,39 @@ public:
 	{
 		if (Settings::SPAM_NORMAL_ENABLE)
 		{
-			if (DynamicTimer::Check("SpamNormal", Settings::SPAM_NORMAL_TIME))
+			if (DynamicTimer::CheckAutoSet("SpamNormal", Settings::SPAM_NORMAL_TIME * 1000))
 			{
 				if (shoutTextMessage != "")
 				{
 					string text = "";
-					if (Settings::SPAM_NORMAL_COLOR_ENABLE)
+					/*if (Settings::SPAM_NORMAL_COLOR_ENABLE)
 					{
 						text += GetTextColor(Settings::SPAM_NORMAL_COLOR,normalTextMessage.c_str());
 					}
 					else
 					{
 						text += normalTextMessage;
-					}
+					}*/
 					
-					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8ToANSI((char*)text.c_str()), CHAT_TYPE_TALKING);
+
+					
+					for (int i = 0; i < strlen(normalTextMessage.c_str()); i++)
+					{
+						string str = "";
+						char g= +normalTextMessage[i];
+						str += g;
+						text += GetTextColor(ImColor(MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), 255), str);
+					}
+
+
+					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8_To_ASCII(text).c_str(), CHAT_TYPE_TALKING);
 
 				}
 			}
 		}
 		if (Settings::SPAM_SHOUT_ENABLE)
 		{
-			if (DynamicTimer::Check("SpamShout", Settings::SPAM_SHOUT_TIME))
+			if (DynamicTimer::CheckAutoSet("SpamShout", Settings::SPAM_SHOUT_TIME * 1000))
 			{
 				if (shoutTextMessage != "")
 				{
@@ -84,14 +96,14 @@ public:
 						text += shoutTextMessage;
 					}
 					
-					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8ToANSI((char*)text.c_str()), CHAT_TYPE_SHOUT);
+					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8_To_ASCII(text).c_str(), CHAT_TYPE_SHOUT);
 
 				}
 			}
 		}
 		if (Settings::SPAM_WISPER_ENABLE)
 		{
-			if (DynamicTimer::Check("SpamWhisper", Settings::SPAM_WHISPER_TIME))
+			if (DynamicTimer::CheckAutoSet("SpamWhisper", Settings::SPAM_WHISPER_TIME * 1000))
 			{
 				map<DWORD, DWORD*> playerList = GameFunctionsCustom::GetObjectList(OBJECT_PC, 10000);
 				DWORD targetNumber = 0;
@@ -108,8 +120,9 @@ public:
 					{
 						text += whisperTextMessage;
 					}
-					
-					DelayActions::AppendBlock(false, (50 * targetNumber), &GameFunctions::NetworkStreamSendWhisperPacket, GameFunctions::InstanceBaseGetNameString(itor->second), StringExtension::UTF8ToANSI((char*)text.c_str()));
+					string ASCIIString = StringExtension::UTF8_To_ASCII(text).c_str();
+					const char* text_c = ASCIIString.c_str();
+					DelayActions::AppendBlock(false, (150 * targetNumber), &GameFunctions::NetworkStreamSendWhisperPacket, GameFunctions::InstanceBaseGetNameString(itor->second), text_c);
 					targetNumber++;
 				}
 
@@ -124,7 +137,7 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("WhisperBorder", ImVec2(640, 200), true);
 		ImGui::Checkbox("Whisper", &Settings::SPAM_WISPER_ENABLE);
-		ImGui::PushItemWidth(150); ImGui::InputInt("Time (ms)", &Settings::SPAM_WHISPER_TIME, 50, 100); ImGui::SameLine(); ImGui::ColorEdit4("##SpamWhisperColor", (float*)&Settings::SPAM_WHISPER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_WHISPER_COLOR_ENABLE);
+		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_WHISPER_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamWhisperColor", (float*)&Settings::SPAM_WHISPER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_WHISPER_COLOR_ENABLE);
 		ImGui::PushItemWidth(150); ImGui::InputTextMultiline("Text", &whisperTextMessage[0], whisperTextMessage.size());
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -133,7 +146,7 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("NormalBorder", ImVec2(645, 110), true);
 		ImGui::Checkbox("Normal", &Settings::SPAM_NORMAL_ENABLE);
-		ImGui::PushItemWidth(150); ImGui::InputInt("Time (ms)", &Settings::SPAM_NORMAL_TIME, 50, 100); ImGui::SameLine(); ImGui::ColorEdit4("##SpamNormalColor", (float*)&Settings::SPAM_NORMAL_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_NORMAL_COLOR_ENABLE);
+		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_NORMAL_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamNormalColor", (float*)&Settings::SPAM_NORMAL_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_NORMAL_COLOR_ENABLE);
 		ImGui::PushItemWidth(570); ImGui::InputText("Text", &normalTextMessage[0], normalTextMessage.size());
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -142,7 +155,7 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("ShoutBorder", ImVec2(645, 110), true); ImGui::SameLine();
 		ImGui::Checkbox("Shout", &Settings::SPAM_SHOUT_ENABLE);
-		ImGui::PushItemWidth(150); ImGui::InputInt("Time (ms)", &Settings::SPAM_SHOUT_TIME, 50, 100); ImGui::SameLine(); ImGui::ColorEdit4("##SpamShoutColor", (float*)&Settings::SPAM_SHOUT_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_SHOUT_COLOR_ENABLE);
+		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_SHOUT_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamShoutColor", (float*)&Settings::SPAM_SHOUT_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_SHOUT_COLOR_ENABLE);
 		ImGui::PushItemWidth(570); ImGui::InputText("Text", &shoutTextMessage[0], shoutTextMessage.size());
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

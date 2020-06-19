@@ -273,17 +273,17 @@ public:
 		}
 		return lastVid;
 	}
-
+	//#################################################################################################################################
 	static DWORD GetCloseObjectByVnum(int vnum)
 	{
-		map<DWORD, DWORD*> closestNPC = GameFunctionsCustom::GetObjectList(OBJECT_NPC | OBJECT_MOB | OBJECT_MINE | OBJECT_STONE | OBJECT_BOSS);
-		if (closestNPC.size() == 0)
+		map<DWORD, DWORD*> closestObjects = GameFunctionsCustom::GetObjectList(OBJECT_NPC | OBJECT_MOB | OBJECT_MINE | OBJECT_STONE | OBJECT_BOSS);
+		if (closestObjects.size() == 0)
 		{
 			return 0;
 		}
 		DWORD distance = 1000 * 1000;
 		DWORD lastVid = 0;
-		for (map<DWORD, DWORD*>::iterator itor = closestNPC.begin(); itor != closestNPC.end(); itor++)
+		for (map<DWORD, DWORD*>::iterator itor = closestObjects.begin(); itor != closestObjects.end(); itor++)
 		{
 			DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(itor->second);
 			if (mob_vnum != vnum) {
@@ -428,21 +428,6 @@ public:
 
 	}
 	//#################################################################################################################################
-	static int GetTypeByVid(int vid)
-	{
-
-		DWORD* pTargetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
-		if (pTargetInstance != NULL)
-		{
-			return GameFunctions::InstanceBaseGetInstanceType(pTargetInstance);
-		}
-		else
-		{
-			return -1;
-		}
-
-	}
-	//#################################################################################################################################
 	static const char* InstanceGetNameByVID(int vid)
 	{
 		DWORD* pTargetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
@@ -500,8 +485,8 @@ public:
 	//#################################################################################################################################
 	static int GetCharacterVidByName(const char* name)
 	{
-		map<DWORD, DWORD*> playersList = GetObjectList(OBJECT_PC);
-		for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)
+		map<DWORD, DWORD*> objectList = GetObjectList(OBJECT_PC);
+		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 
 			DWORD* instance = itor->second;
@@ -677,10 +662,16 @@ public:
 	//#################################################################################################################################
 	static map<DWORD, TGroundItemInstance*> GetGroundItemList()
 	{
+		
+		
 		map<DWORD, TGroundItemInstance*> vidList;
 		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
-#ifdef METINPL
+#if defined( METINPL)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 0));
+#elif defined( RUBINUM)
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
+#elif defined( VIDGAR)
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 8) + 4));
 #else
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
 #endif
@@ -712,6 +703,28 @@ public:
 		}
 		return itemsList;
 	}
+
+	static map<DWORD, const char*> GetItemProtoNames()
+	{
+		map<DWORD, const char*> itemsList;
+#ifdef METINPL
+		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 28) + 4));
+#else
+		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
+#endif
+		for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
+		{
+#if defined(SAMIAS2)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+#elif defined(PANGEA)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+#else
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+#endif
+			
+		}
+		return itemsList;
+	}
 	//#################################################################################################################################
 	string GetItemNameByVnum(DWORD vnum) 
 	{
@@ -723,12 +736,7 @@ public:
 			}
 		}
 	}
-	//#################################################################################################################################
-	static int RaceToJob(int race)
-	{
-		const int JOB_NUM = 4;
-		return race % JOB_NUM;
-	}
+
 	//#################################################################################################################################
 	static int RaceToSex(int race)
 	{
@@ -769,8 +777,7 @@ public:
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(instance, &d3VectorInstance);
 		return MiscExtension::CountDistanceTwoPoints(d3VectorInstance.x, d3VectorInstance.y, d3VectorTargetInst.x, d3VectorTargetInst.y);
 	}
-	//#################################################################################################################################
-	
+
 	//#################################################################################################################################
 	static void PlayerShowTargetArrow(DWORD vidTarget, DWORD targetType)
 	{
@@ -808,14 +815,15 @@ public:
 			int y = Position.y;
 			newPosition.x = x + xx;
 			newPosition.y = y - yy; 
-			/*LODWORD();*/
+			
 			GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(pCharInstance, newPosition.x, newPosition.y);
 			if (BoostCount >= Settings::BoostSpeed2)
 			{
 				BoostCount = 0;
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, rotation, 1, 0);
 			}
-			else {
+			else 
+			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, rotation, 0, 0);
 				BoostCount++;
 			}
@@ -854,21 +862,33 @@ public:
 	static bool InstanceIsBoss(DWORD* instance) 
 	{
 		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
-		const TMobTable* mob_info = GameFunctions::NonPlayerGetMobTable(mob_vnum);
-		int mob_grade = mob_info->bRank;
-		if (mob_grade >= 4)
+		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
+		
+		if (mob_info != NULL)
 		{
-			return true;
+/*			BYTE mob_grade;
+			
+#if defined( SAMIAS2)
+			memcpy(&mob_grade, mob_info + 0x7F, sizeof(BYTE));
+#elif defined (PANGEA)
+			memcpy(&mob_grade, mob_info + 0x37, sizeof(BYTE));
+			
+#endif*/ 
+
+			
+			if (mob_info->bRank >= 4)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		
 			
 		return false;
 	}
-
-	
 	//#################################################################################################################################
 	static void SendPacket(string packet)
 	{
@@ -946,14 +966,16 @@ public:
 	{
 		static int BoostCount = 0;
 		DWORD* pCharInstance = GameFunctions::PlayerNEW_GetMainActorPtr();
-		if (pCharInstance && TempPos.x > 0 && TempPos.y > 0) {
+		if (pCharInstance && TempPos.x > 0 && TempPos.y > 0) 
+		{
 			GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(pCharInstance, TempPos.x, TempPos.y);
 			if (BoostCount >= 1)
 			{
 				BoostCount = 0;
 				GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 1, 0);
 			}
-			else {
+			else 
+			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 0, 0);
 				BoostCount++;
 			}
@@ -978,25 +1000,20 @@ public:
 		}
 	}
 	//###############################################################################################################################
-	static bool PlayerDirectEnter(string playerName)
+	static bool PlayerDirectEnter()
 	{
-		
 		if (!GameFunctions::NetworkStreamIsOnline())
 		{
-			
-			int lastSlot = GameFunctionsCustom::GetCharSlotByName(playerName);
+			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
 			if (lastSlot != -1)
 			{
 				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
 			}
-
-			
-			
 			return true;
 		}
 		return false;
 	}
-
+	//#################################################################################################################################
 	static float GetDegreeFromDirection(int dir)
 	{
 		if (dir < 0)
@@ -1019,6 +1036,7 @@ public:
 
 		return s_dirRot[dir];
 	}
+	//#################################################################################################################################
 	static int GetDirectionFromDegree(int angle)
 	{
 		if (angle < 0)
@@ -1042,10 +1060,6 @@ public:
 		{
 			return 1;
 		}
-
-
-
-		
 		if (angle > 180 && angle <= 225)
 		{
 			return 2;
@@ -1078,6 +1092,7 @@ public:
 		/*int index = ((r %= 360) < 0 ? r + 360 : r) / 45;*/
 		GameFunctionsCustom::SetDirection(GetDirectionFromDegree(r));
 	}
+	//#################################################################################################################################
 	static void LookAtDestPixelPosition(D3DVECTOR tar)
 	{
 		DWORD* mainPtr = GameFunctions::PlayerNEW_GetMainActorPtr();
@@ -1090,6 +1105,29 @@ public:
 		r += 180;
 		
 		GameFunctionsCustom::SetDirection(GetDirectionFromDegree(r));
+	}
+
+	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
+	{
+		
+
+
+		TPacketCGAttack kPacketAtk;
+#ifdef SAMIAS2
+		kPacketAtk.header = 0x3A;
+#else
+		kPacketAtk.header = HEADER_CG_ATTACK;
+#endif
+		kPacketAtk.bType = uMotAttack;
+		kPacketAtk.dwVictimVID = dwVIDVictim;
+
+		if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
+		{
+
+			return false;
+		}
+		
+		return GameFunctions::NetworkStreamSendSequence();
 	}
 };
 

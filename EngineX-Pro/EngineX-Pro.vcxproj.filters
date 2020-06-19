@@ -218,6 +218,12 @@
       <Filter>Utils\Other</Filter>
     </ClInclude>
     <ClInclude Include="DynamicTimer.h" />
+    <ClInclude Include="Logger.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Locale.h">
+      <Filter>Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
