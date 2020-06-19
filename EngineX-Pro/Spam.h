@@ -55,24 +55,24 @@ public:
 				if (shoutTextMessage != "")
 				{
 					string text = "";
-					if (Settings::SPAM_NORMAL_COLOR_ENABLE)
+					/*if (Settings::SPAM_NORMAL_COLOR_ENABLE)
 					{
 						text += GetTextColor(Settings::SPAM_NORMAL_COLOR,normalTextMessage.c_str());
 					}
 					else
 					{
 						text += normalTextMessage;
-					}
+					}*/
 					
 
-					/*
+					
 					for (int i = 0; i < strlen(normalTextMessage.c_str()); i++)
 					{
 						string str = "";
 						char g= +normalTextMessage[i];
 						str += g;
 						text += GetTextColor(ImColor(MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), 255), str);
-					}*/
+					}
 
 
 					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8_To_ASCII(text).c_str(), CHAT_TYPE_TALKING);
@@ -87,15 +87,22 @@ public:
 				if (shoutTextMessage != "")
 				{
 					string text = "";
-					if (Settings::SPAM_SHOUT_COLOR_ENABLE)
+					/*if (Settings::SPAM_SHOUT_COLOR_ENABLE)
 					{
 						text += GetTextColor(Settings::SPAM_SHOUT_COLOR, shoutTextMessage.c_str());
 					}
 					else
 					{
 						text += shoutTextMessage;
-					}
+					}*/
 					
+					for (int i = 0; i < strlen(normalTextMessage.c_str()); i++)
+					{
+						string str = "";
+						char g= +normalTextMessage[i];
+						str += g;
+						text += GetTextColor(ImColor(MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), 255), str);
+					}
 					GameFunctions::NetworkStreamSendChatPacket(StringExtension::UTF8_To_ASCII(text).c_str(), CHAT_TYPE_SHOUT);
 
 				}

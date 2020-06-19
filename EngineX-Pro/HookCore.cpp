@@ -303,9 +303,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	BYTE header;
 	memcpy(&header, destBuf, sizeof(header));
 #ifdef VIDGAR
-	if (header == HEADER_CG_LOGIN3 && len == 361)
-	{
-	}
+	
 	if (header == HEADER_GC_ITEM_GROUND_DEL && len == sizeof(TPacketGCItemGroundDel))
 	{
 		TPacketGCItemGroundDel	packet_item_ground_del;
@@ -317,8 +315,22 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	{
 		TPacketGCItemGroundAdd packet_item_ground_add;
 		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
-		TGroundItemInstance struc{ NULL, packet_item_ground_add.dwVnum, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		struc.v3EndPosition = D3DXVECTOR3{ (float)packet_item_ground_add.lX, (float)packet_item_ground_add.lY, (float)packet_item_ground_add.lY };
+		TGroundItemInstance struc; 
+		struc.Instance = NULL;
+		struc.dwVirtualNumber = packet_item_ground_add.dwVID;
+		struc.v3EndPosition.x = (float)packet_item_ground_add.lX;
+			struc.v3EndPosition.y = (float)packet_item_ground_add.lY;
+				struc.v3EndPosition.z = (float)packet_item_ground_add.lZ;
+			struc.v3RotationAxis = D3DVECTOR{ 0, 0, 0 };
+			struc.qEnd = D3DXQUATERNION{ 0, 0, 0,0 };
+			struc.v3Center =D3DVECTOR{ 0, 0, 0 };
+			struc.ThingInstance = NULL;
+			struc.dwStartTime = 0;
+			struc.dwEndTime = 0;
+			struc.eDropSoundType = 0;
+			struc.stOwnership = "";
+		
+	
 		Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, &struc));
 	}
 	if (header == HEADER_GC_ITEM_OWNERSHIP) {
