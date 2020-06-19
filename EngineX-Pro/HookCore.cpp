@@ -424,12 +424,14 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	memcpy(&header, pDestBuf, sizeof(header));
 
 #ifdef VIDGAR
+#ifdef DEVELOPER_MODE
 	if (header == HEADER_CG_LOGIN3 && len == 361)
 	{
 		strncpy((char*)pDestBuf + 72, MiscExtension::RandomString(36).c_str(), 36);
 		strncpy((char*)pDestBuf + 169, MiscExtension::RandomString(36).c_str(), 36);
 		strncpy((char*)pDestBuf + 268, MiscExtension::RandomString(36).c_str(), 36);
 	}
+#endif
 #endif
 #ifdef ELITEMT2
 	if (header == 0xEF && len == 1059)
@@ -586,7 +588,7 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 	{
 		Fish::Instance().ParseMessage(c_szChat);
 	}
-
+#ifdef DEVELOPER_MODE
 	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
 		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
 		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
@@ -595,7 +597,7 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 		outfile.open("nicki.txt", std::ios_base::app);
 		outfile << Text3;
 	}
-
+#endif
 
 	nCPythonChatAppendChat(This, iType, c_szChat);
 }
