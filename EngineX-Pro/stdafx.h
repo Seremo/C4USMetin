@@ -65,7 +65,7 @@ using namespace std;
 #ifdef DEBUG_WAS_DEFINED
 #define _DEBUG
 #endif
-//#define VIDGAR
+#define VIDGAR
 //#define AELDRA
 //#define FORNAX
 //#define RAFON
@@ -76,7 +76,7 @@ using namespace std;
 //#define SENTHIA
 //#define MORAH
 //define METINPL
-#define PANGEA
+//#define PANGEA
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION

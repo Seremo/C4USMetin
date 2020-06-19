@@ -586,7 +586,17 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 	{
 		Fish::Instance().ParseMessage(c_szChat);
 	}
-	
+
+	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
+		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
+		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
+		string Text3 = Text2 + "\n";
+		std::ofstream outfile;
+		outfile.open("nicki.txt", std::ios_base::app);
+		outfile << Text3;
+	}
+
+
 	nCPythonChatAppendChat(This, iType, c_szChat);
 }
 //##################################################################################################################################################
