@@ -306,22 +306,29 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	if (header == HEADER_CG_LOGIN3 && len == 361)
 	{
 	}
-
-
-
-	/*if (header == HEADER_GC_ITEM_GROUND_DEL && len == sizeof(TPacketGCItemGroundDel))
+	if (header == HEADER_GC_ITEM_GROUND_DEL && len == sizeof(TPacketGCItemGroundDel))
 	{
 		TPacketGCItemGroundDel	packet_item_ground_del;
 		memcpy(&packet_item_ground_del, destBuf, sizeof(TPacketGCItemGroundDel));
-
+		Globals::GroundItemList.erase(packet_item_ground_del.vid);
 	}
 
-	if (header == HEADER_GC_ITEM_GROUND_DEL && len == sizeof(TPacketGCItemGroundAdd))
+	if (header == HEADER_GC_ITEM_GROUND_ADD && len == 58)
 	{
 		TPacketGCItemGroundAdd packet_item_ground_add;
 		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
-		
-	}*/
+		TGroundItemInstance struc{ NULL, packet_item_ground_add.dwVnum, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		struc.v3EndPosition = D3DXVECTOR3{ (float)packet_item_ground_add.lX, (float)packet_item_ground_add.lY, (float)packet_item_ground_add.lY };
+		Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, &struc));
+	}
+	if (header == HEADER_GC_ITEM_OWNERSHIP) {
+		TPacketGCItemOwnership packet_item_ownership;
+		memcpy(&packet_item_ownership, destBuf, sizeof(TPacketGCItemOwnership));
+		if (Globals::GroundItemList.count(packet_item_ownership.dwVID))
+		{
+			Globals::GroundItemList[packet_item_ownership.dwVID]->stOwnership = string(packet_item_ownership.szName);
+		}
+	}
 #endif
 #ifdef VAROS
 	if (header == 0x5B && len == 70)

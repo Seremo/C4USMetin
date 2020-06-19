@@ -623,6 +623,14 @@ typedef struct packet_ground_add_item
 	DWORD       dwVID;
 	DWORD       dwVnum;
 } TPacketGCItemGroundAdd;
+
+typedef struct packet_item_ownership
+{
+	BYTE        bHeader;
+	DWORD       dwVID;
+	char        szName[CHARACTER_NAME_MAX_LEN + 1];
+} TPacketGCItemOwnership;
+
 typedef struct packet_del_char
 {
 	BYTE	header;

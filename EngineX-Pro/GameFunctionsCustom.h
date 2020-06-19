@@ -663,7 +663,10 @@ public:
 	static map<DWORD, TGroundItemInstance*> GetGroundItemList()
 	{
 		
-		
+#if defined(VIDGAR)
+		return Globals::GroundItemList;
+#else
+
 		map<DWORD, TGroundItemInstance*> vidList;
 		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
 #if defined( METINPL)
@@ -671,7 +674,7 @@ public:
 #elif defined( RUBINUM)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
 #elif defined( VIDGAR)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 8) + 4));
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 8) + 8));
 #else
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
 #endif
@@ -686,6 +689,7 @@ public:
 			}
 		}
 		return vidList;
+#endif
 	}
 	//#################################################################################################################################
 	static map<DWORD, TCItemData*> GetItemProtoList() 
@@ -718,6 +722,8 @@ public:
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
 #elif defined(PANGEA)
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+#elif defined(VIDGAR)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
 #else
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
 #endif

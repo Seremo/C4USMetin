@@ -8,7 +8,7 @@ public:
 	//######################################################################################################################################
 	static map<DWORD, TCItemData*> itemProtoList;
 	static map<DWORD, const char*> itemProtoNames;
-
+	static map<DWORD, TGroundItemInstance*> GroundItemList;
 
 	static DWORD hEntryBaseAddress;
 	static HMODULE hModule;
@@ -425,7 +425,7 @@ public:
 
 
 map<DWORD, TCItemData*> Globals::itemProtoList;
-
+map<DWORD, TGroundItemInstance*> Globals::GroundItemList;
 map<DWORD, const char*>  Globals::itemProtoNames;
 
 HMODULE	Globals::hModule = NULL;
