@@ -1136,5 +1136,13 @@ public:
 		
 		return GameFunctions::NetworkStreamSendSequence();
 	}
+
+
+	static void GlobalPositionToLocalPosition(LONG& rGlobalX, LONG& rGlobalY)
+	{
+		TMapInfo* map_info = GameFunctions::BackgroundGlobalPositionToMapInfo(rGlobalX, rGlobalY);
+		rGlobalX -= map_info->m_dwBaseX;
+		rGlobalY -= map_info->m_dwBaseY;
+	}
 };
 
