@@ -130,11 +130,11 @@ using namespace std;
 
 
 
-//#define DEVELOPER_MODE
+#define DEVELOPER_MODE
 //#define CHECK_OFFSETS
 //#define NEED_LICENSE
 //#define ADDRESS_FROM_FILE
-#define DLL_VERSION "0.0.44 Alfa"
+#define DLL_VERSION "0.0.45 Alfa"
 
 
 #ifdef VIDGAR

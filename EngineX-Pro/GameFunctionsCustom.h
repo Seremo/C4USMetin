@@ -718,7 +718,10 @@ public:
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
 #elif defined(PANGEA)
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+#elif defined(VIDGAR)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
 #else
+
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
 #endif
 			
