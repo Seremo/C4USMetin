@@ -10,10 +10,10 @@
 	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x18F2E4C), (void*)version, strlen(version));
 #endif
 #ifdef VIDGAR
-<<<<<<< HEAD
-=======
+
+
 #ifdef DEVELOPER_MODE
->>>>>>> d8b13bfdf6c0611ab0c990d92fdbc9ec949ff6b7
+
 	 const char* version = "000040";
 	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x2920DD0), (void*)version, strlen(version));
 #endif
