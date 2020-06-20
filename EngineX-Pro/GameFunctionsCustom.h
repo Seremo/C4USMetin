@@ -1141,7 +1141,9 @@ public:
 
 	static void GlobalPositionToLocalPosition(LONG& rGlobalX, LONG& rGlobalY)
 	{
-		TMapInfo* map_info = GameFunctions::BackgroundGlobalPositionToMapInfo(rGlobalX, rGlobalY);
+		D3DVECTOR charpos;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &charpos);
+		TMapInfo* map_info = GameFunctions::BackgroundGlobalPositionToMapInfo(charpos.x, charpos.y);
 		rGlobalX -= map_info->m_dwBaseX;
 		rGlobalY -= map_info->m_dwBaseY;
 	}
