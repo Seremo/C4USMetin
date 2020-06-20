@@ -322,6 +322,7 @@ public:
 						if (lastSlot != -1)
 						{
 							GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+							Main::Instance().ResetSkillTimer();
 						}
 						Phase = 0;
 						DelayActions::AppendBlock(false, 5000, &RestartDT);
