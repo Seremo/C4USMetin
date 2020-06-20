@@ -324,7 +324,14 @@ public:
 						
 				}
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
+#ifdef VIDGAR
+				LONG GlobalX = playerPosition.x;
+				LONG GlobalY = playerPosition.y;
+				GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
+				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
+#else
 				float Distance = MiscExtension::CountDistanceTwoPoints(playerPosition.x, playerPosition.y, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
+#endif
 				switch (Settings::ITEM_PICKUP_TYPE)
 				{
 				case 0://normal
