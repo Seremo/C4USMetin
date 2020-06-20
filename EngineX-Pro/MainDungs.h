@@ -15,7 +15,7 @@ public:
 	int Floor5Step = 0;
 	vector<D3DVECTOR> Floor5Positions;
 
-	void DemonTowerStart()
+	void DemonTowerStart(int i)
 	{
 		if (Phase == 0) {
 			if (MapName == "metin2_map_deviltower") {
@@ -30,7 +30,7 @@ public:
 					return;
 				}
 				GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
-				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(i);
 				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
 				Phase = 1;
 				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
@@ -62,7 +62,7 @@ public:
 		Logger::Add(Logger::MAIN, true, Logger::WHITE, MapName.c_str());
 		switch (Settings::DUNGEON_TYPE) {
 		case DungeonType::DT:
-			DemonTowerStart();
+			DemonTowerStart(0);
 			break;
 		}
 	}
@@ -78,7 +78,7 @@ public:
 
 	static void RestartDT()
 	{
-		MainDungs::Instance().DemonTowerStart();
+		MainDungs::Instance().DemonTowerStart(1);
 	}
 
 	void UpdateDT()
