@@ -719,7 +719,7 @@ void MainForm::Menu() {
 #endif
 			ImGui::SetNextWindowBgAlpha(0.0f);
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
-			ImGui::Begin("Buttons", &SideBarIsOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
+			ImGui::Begin("Buttons", &SideBarIsOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNavInputs);
 			{
 				ImGui::TextColored(ImColor(MiscExtension::Random(0,255), MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), 255), "C4US.PL");
 				ImGui::TextColored(ImColor(249, 105, 14, 255), FrameRate);
@@ -803,7 +803,7 @@ void MainForm::Menu() {
 			if(CheatWindowOpen){
 				ImGui::SetNextWindowBgAlpha(0.95f);
 				ImGui::SetNextWindowSize(ImVec2(800, 500));
-				ImGui::Begin("EngineX", &CheatWindowOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+				ImGui::Begin("EngineX", &CheatWindowOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs);
 				{
 					//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 					//ImGui::Image(LogoHref, ImVec2(30, 30));
