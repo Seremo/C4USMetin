@@ -315,7 +315,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	{
 		TPacketGCItemGroundAdd packet_item_ground_add;
 		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
-		/*__GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);*/
+		GameFunctionsCustom::GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);
 		
 		TGroundItemInstance struc; 
 
@@ -336,7 +336,8 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	
 		Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, &struc));
 	}
-	if (header == HEADER_GC_ITEM_OWNERSHIP) {
+	if (header == HEADER_GC_ITEM_OWNERSHIP) 
+	{
 		TPacketGCItemOwnership packet_item_ownership;
 		memcpy(&packet_item_ownership, destBuf, sizeof(TPacketGCItemOwnership));
 		if (Globals::GroundItemList.count(packet_item_ownership.dwVID))

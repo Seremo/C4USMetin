@@ -672,7 +672,7 @@ public:
 #if defined( METINPL)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 0));
 #elif defined(VIDGAR)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 8) + 0));
+		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
 
 #elif defined( RUBINUM)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
