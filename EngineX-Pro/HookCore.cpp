@@ -308,7 +308,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	{
 		TPacketGCItemGroundDel	packet_item_ground_del;
 		memcpy(&packet_item_ground_del, destBuf, sizeof(TPacketGCItemGroundDel));
-		Globals::GroundItemList.erase(packet_item_ground_del.vid);
+		//Globals::GroundItemList.erase(packet_item_ground_del.vid);
 	}
 
 	if (header == HEADER_GC_ITEM_GROUND_ADD && len == 58)
@@ -317,32 +317,32 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
 		/*__GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);*/
 		
-		TGroundItemInstance struc; 
+		//TGroundItemInstance struc; 
 
-		struc.Instance = NULL;
-		struc.dwVirtualNumber = packet_item_ground_add.dwVID;
-		struc.v3EndPosition.x = (float)packet_item_ground_add.lX;
-			struc.v3EndPosition.y = (float)packet_item_ground_add.lY;
-				struc.v3EndPosition.z = (float)packet_item_ground_add.lZ;
-			struc.v3RotationAxis = D3DVECTOR{ 0, 0, 0 };
-			struc.qEnd = D3DXQUATERNION{ 0, 0, 0,0 };
-			struc.v3Center =D3DVECTOR{ 0, 0, 0 };
-			struc.ThingInstance = NULL;
-			struc.dwStartTime = 0;
-			struc.dwEndTime = 0;
-			struc.eDropSoundType = 0;
-			struc.stOwnership = "";
-		
+		//struc.Instance = NULL;
+		//struc.dwVirtualNumber = packet_item_ground_add.dwVID;
+		//struc.v3EndPosition.x = (float)packet_item_ground_add.lX;
+		//	struc.v3EndPosition.y = (float)packet_item_ground_add.lY;
+		//		struc.v3EndPosition.z = (float)packet_item_ground_add.lZ;
+		//	struc.v3RotationAxis = D3DVECTOR{ 0, 0, 0 };
+		//	struc.qEnd = D3DXQUATERNION{ 0, 0, 0,0 };
+		//	struc.v3Center =D3DVECTOR{ 0, 0, 0 };
+		//	struc.ThingInstance = NULL;
+		//	struc.dwStartTime = 0;
+		//	struc.dwEndTime = 0;
+		//	struc.eDropSoundType = 0;
+		//	struc.stOwnership = "";
+		//
 	
-		Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, &struc));
+		//Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, &struc));
 	}
 	if (header == HEADER_GC_ITEM_OWNERSHIP) {
 		TPacketGCItemOwnership packet_item_ownership;
 		memcpy(&packet_item_ownership, destBuf, sizeof(TPacketGCItemOwnership));
-		if (Globals::GroundItemList.count(packet_item_ownership.dwVID))
-		{
-			Globals::GroundItemList[packet_item_ownership.dwVID]->stOwnership = string(packet_item_ownership.szName);
-		}
+		//if (Globals::GroundItemList.count(packet_item_ownership.dwVID))
+		//{
+		//	Globals::GroundItemList[packet_item_ownership.dwVID]->stOwnership = string(packet_item_ownership.szName);
+		//}
 	}
 #endif
 #ifdef VAROS

@@ -238,7 +238,7 @@ public:
 			ImGui::NextColumn();
 
 		}
-#ifdef VERSION_PREMIUM
+#ifdef DEVELOPER_MODE
 		ImGui::Checkbox("Buy Bait", &Settings::FISHBOT_BUY_BAIT);
 		ImGui::InputInt("Count", &Settings::FISHBOT_BUY_BAIT_SHOP_COUNT);
 		ImGui::InputInt("Slot", &Settings::FISHBOT_BUY_BAIT_SHOP_SLOT);
@@ -292,7 +292,7 @@ public:
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 		//##########################################################################################
-#ifdef VERSION_PREMIUM
+#ifdef DEVELOPER_MODE
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("SellBorder", ImVec2(635, 190), true);
@@ -392,24 +392,34 @@ public:
 
 		if (Settings::FISHBOT_SHOP_CAST_TELEPORT)
 		{
-
-			if (DWORD(MiscExtension::CountDistanceTwoPoints(standingPosition.x, standingPosition.y, Settings::FISHBOT_CAST_TELEPORT_CORDS.x, Settings::FISHBOT_CAST_TELEPORT_CORDS.y) <= 2000))
+			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1800, standingPosition, Settings::FISHBOT_CAST_TELEPORT_CORDS);
+			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(Settings::FISHBOT_CAST_TELEPORT_CORDS, 0, 0, 0);
-				GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
-				GameFunctions::NetworkStreamSendCharacterStatePacket(standingPosition, 0, 0, 0);
+				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 			}
-			else
+			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
+			gf = MiscExtension::DivideTwoPointsByDistance(1800, Settings::FISHBOT_CAST_TELEPORT_CORDS, standingPosition);
+			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 			{
-				Logger::Add(Logger::FISH, true, Logger::RED, "TP DISTANCE MORE THAN 2000");
+				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 			}
+			//if (DWORD(MiscExtension::CountDistanceTwoPoints(standingPosition.x, standingPosition.y, Settings::FISHBOT_CAST_TELEPORT_CORDS.x, Settings::FISHBOT_CAST_TELEPORT_CORDS.y) <= 2000))
+			//{
+			//	GameFunctions::NetworkStreamSendCharacterStatePacket(Settings::FISHBOT_CAST_TELEPORT_CORDS, 0, 0, 0);
+			//	GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
+			//	GameFunctions::NetworkStreamSendCharacterStatePacket(standingPosition, 0, 0, 0);
+			//}
+			//else
+			//{
+			//	Logger::Add(Logger::FISH, true, Logger::RED, "TP DISTANCE MORE THAN 2000");
+			//}
 
 		}
 		else
 		{
 
-			/*GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);*/
-			GameFunctions::PlayerSetAttackKeyState(true);
+			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
+			//GameFunctions::PlayerSetAttackKeyState(true);
 			/*GameFunctions::PythonPlayerNEW_Fishing();*/
 		}
 #else
