@@ -234,6 +234,7 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DelayActions.h" />
+    <ClInclude Include="MainDungs.h" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DynamicTimer.h" />

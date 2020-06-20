@@ -51,9 +51,9 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonItemInstance).c_str());
 		ImGui::Text("CItemManagerInstance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
-		/*ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
-		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();*/
-		/*ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());*/
+		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
+		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
+		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
 		{
@@ -68,8 +68,23 @@ public:
 		{
 			GameFunctionsCustom::LookAtDestPixelPosition(GameFunctions::PlayerGetTargetVID());
 		}
-		if (ImGui::Button("TEST 1"))
+		if (ImGui::Button("TEST false"))
 		{
+			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+			if (lastSlot != -1)
+			{
+				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+			}
+			DelayActions::AppendBlock(false, 5000, &MainDungs::Instance().RestartDT);
+		}
+		if (ImGui::Button("TEST true"))
+		{
+			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+			if (lastSlot != -1)
+			{
+				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+			}
+			DelayActions::AppendBlock(true, 5000, &MainDungs::Instance().RestartDT);
 			/*vector< D3DVECTOR> gf = Misc::DivideTwoPointsByDistance(1800, oldPosition, NewPosition);
 			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 			{

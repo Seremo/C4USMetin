@@ -82,6 +82,8 @@ public:
 	static bool StatusInfoBossesViewportShow;
 	//################################################################################################
 	static bool GLOBAL_SWITCH;
+	static bool DUNGEON_BOT;
+	static int DUNGEON_TYPE;
 	static bool MiniMHAttackEnable;
 	static bool MiniMHRotation;
 	static int MiniMHRotationValue;
@@ -642,6 +644,8 @@ bool Settings::StatusInfoBossesViewportShow = false;
 
 
 bool Settings::GLOBAL_SWITCH = false;
+bool Settings::DUNGEON_BOT = false;
+int Settings::DUNGEON_TYPE = 0;
 bool Settings::MiniMHAttackEnable = false;
 bool Settings::MiniMHRotation = false;
 int Settings::MiniMHRotationValue = 30;

@@ -224,6 +224,9 @@
     <ClInclude Include="Locale.h">
       <Filter>Config</Filter>
     </ClInclude>
+    <ClInclude Include="MainDungs.h">
+      <Filter>Core\Modules\Dungeons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -252,6 +255,9 @@
     </Filter>
     <Filter Include="Other">
       <UniqueIdentifier>{32c70d04-5b8e-4841-9eb4-0d4fa951509d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Dungeons">
+      <UniqueIdentifier>{f9b160f3-cfcc-4907-a086-478461b2f8d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -220,7 +220,7 @@ public:
 		return true;
 	}
 	//#################################################################################################################################
-	static bool Clear()
+	static void Clear()
 	{
 		for (std::vector< std::shared_ptr<IAction>>::iterator it = actionsList.begin(); it != actionsList.end(); ++it)
 		{

@@ -388,6 +388,7 @@ using namespace std;
 #include "Misc.h"
 #include "PythonScript.h"
 #include "Refine.h"
+#include "MainDungs.h"
 
 #include "Debug.h"
 #include "Radar.h"

@@ -8,6 +8,7 @@ class Status :public IAbstractModuleBase, public Singleton<Status>
 	 string stringPlayerPositionX = "";
 	 string stringPlayerPositionY = "";
 	 string stringTargetIndex = "";
+	 string stringTargetVnum = "";
 	 string stringTargetDistance = "";
 	 string stringTargetType = "";
 	 string stringTargetName = "";
@@ -51,6 +52,9 @@ public:
 		ImGui::Text("ID Celu:"); 
 		ImGui::SameLine();
 		ImGui::Text(stringTargetIndex.c_str());
+		ImGui::Text("VNUM Celu:");
+		ImGui::SameLine();
+		ImGui::Text(stringTargetVnum.c_str());
 		ImGui::Text("Dystans Celu:");
 		ImGui::SameLine();
 		ImGui::Text(stringTargetDistance.c_str());
@@ -92,6 +96,10 @@ public:
 			const char* playerName = GameFunctionsCustom::PlayerGetName();
 			int playerIndex = GameFunctions::PlayerGetMainCharacterIndex();
 			int targetIndex = GameFunctions::PlayerGetTargetVID();
+			int targetVnum = 0;
+			if (targetIndex != NULL) {
+				targetVnum = GameFunctions::InstanceBaseGetVirtualNumber(GameFunctions::CharacterManagerGetInstancePtr(targetIndex));
+			}	
 			int targetType = GameFunctionsCustom::InstanceGetInstanceTypeByVID(targetIndex);
 			const char* targetName = GameFunctionsCustom::InstanceGetNameByVID(targetIndex);
 			float distance = GameFunctionsCustom::PlayerGetCharacterDistance(targetIndex);
@@ -136,6 +144,15 @@ public:
 			else
 			{
 				stringTargetIndex = "-/-";
+			}
+
+			if (targetVnum != 0)
+			{
+				stringTargetVnum = to_string(targetVnum);
+			}
+			else
+			{
+				stringTargetVnum = "-/-";
 			}
 
 			if (playerIndex != 0)
