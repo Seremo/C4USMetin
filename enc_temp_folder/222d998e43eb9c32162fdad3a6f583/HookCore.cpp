@@ -308,11 +308,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	{
 		TPacketGCItemGroundDel	packet_item_ground_del;
 		memcpy(&packet_item_ground_del, destBuf, sizeof(TPacketGCItemGroundDel));
-		
-		if (Globals::GroundItemList.count(packet_item_ground_del.vid))
-		{
-			Globals::GroundItemList.erase(packet_item_ground_del.vid);
-		}
+		Globals::GroundItemList.erase(packet_item_ground_del.vid);
 	}
 
 	if (header == HEADER_GC_ITEM_GROUND_ADD && len == 58)
