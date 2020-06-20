@@ -1138,6 +1138,15 @@ public:
 		return GameFunctions::NetworkStreamSendSequence();
 	}
 
+	static string GetMapName()
+	{
+		D3DVECTOR CharPos;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
+		LONG GlobalX = CharPos.x;
+		LONG GlobalY = CharPos.y;
+		GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
+		return GetStr((DWORD)GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY)->name);
+	}
 
 	static void GlobalPositionToLocalPosition(LONG& rGlobalX, LONG& rGlobalY)
 	{

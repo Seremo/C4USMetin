@@ -8,7 +8,6 @@ private:
 	};
 public:
 	int Phase = 0;
-	string MapName = "";
 
 	int Floor2Step = 0;
 	vector<D3DVECTOR> Floor2Positions;
@@ -18,7 +17,7 @@ public:
 	void DemonTowerStart(int i)
 	{
 		if (Phase == 0) {
-			if (MapName == "metin2_map_deviltower1") {
+			if (GameFunctionsCustom::GetMapName() == "metin2_map_deviltower1") {
 				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
 				Phase = 1;
 			}
@@ -53,13 +52,7 @@ public:
 			D3DVECTOR{40442, 39705, 0}
 		};
 		Settings::DUNGEON_BOT = true;
-		D3DVECTOR CharPos;
-		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-		LONG GlobalX = CharPos.x;
-		LONG GlobalY = CharPos.y;
-		GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
-		MapName = GetStr((DWORD)GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY)->name);
-		Logger::Add(Logger::MAIN, true, Logger::WHITE, MapName.c_str());
+		Logger::Add(Logger::MAIN, true, Logger::WHITE, GameFunctionsCustom::GetMapName().c_str());
 		switch (Settings::DUNGEON_TYPE) {
 		case DungeonType::DT:
 			DemonTowerStart(0);
@@ -70,7 +63,6 @@ public:
 	void OnStop()
 	{
 		Settings::DUNGEON_BOT = false;
-		MapName = "";
 		Floor2Step = 0;
 		Floor5Step = 0;
 
@@ -83,6 +75,20 @@ public:
 
 	void UpdateDT()
 	{
+		if (GameFunctionsCustom::GetMapName() != "metin2_map_deviltower1")
+		{
+			if (Phase != 0) {
+				DWORD DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20348);
+				if (!DemonTowerGuard)
+				{
+					return;
+				}
+				GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+			}
+			return;
+		}
 		switch (Phase) 
 		{
 			case 1: {
