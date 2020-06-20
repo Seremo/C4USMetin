@@ -321,24 +321,24 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
 		/*__GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);*/
 		
-		TGroundItemInstance struc; 
+		TGroundItemInstance* pGroundItemInstance = new TGroundItemInstance();
 
-		struc.Instance = NULL;
-		struc.dwVirtualNumber = packet_item_ground_add.dwVID;
-		struc.v3EndPosition.x = packet_item_ground_add.lX;
-		struc.v3EndPosition.y = packet_item_ground_add.lY;
-		struc.v3EndPosition.z = packet_item_ground_add.lZ;
-		struc.v3RotationAxis = D3DVECTOR{ 0, 0, 0 };
-		struc.qEnd = D3DXQUATERNION{ 0, 0, 0,0 };
-		struc.v3Center =D3DVECTOR{ 0, 0, 0 };
-		struc.ThingInstance = NULL;
-		struc.dwStartTime = 0;
-		struc.dwEndTime = 0;
-		struc.eDropSoundType = 0;
-		struc.stOwnership = "";
+		pGroundItemInstance->Instance = NULL;
+		pGroundItemInstance->dwVirtualNumber = packet_item_ground_add.dwVID;
+		pGroundItemInstance->v3EndPosition.x = packet_item_ground_add.lX;
+		pGroundItemInstance->v3EndPosition.y = packet_item_ground_add.lY;
+		pGroundItemInstance->v3EndPosition.z = packet_item_ground_add.lZ;
+		pGroundItemInstance->v3RotationAxis = D3DVECTOR{ 0, 0, 0 };
+		pGroundItemInstance->qEnd = D3DXQUATERNION{ 0, 0, 0,0 };
+		pGroundItemInstance->v3Center =D3DVECTOR{ 0, 0, 0 };
+		pGroundItemInstance->ThingInstance = NULL;
+		pGroundItemInstance->dwStartTime = 0;
+		pGroundItemInstance->dwEndTime = 0;
+		pGroundItemInstance->eDropSoundType = 0;
+		pGroundItemInstance->stOwnership = "";
 		
 	
-		Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, &struc));
+		Globals::GroundItemList.insert(std::make_pair(packet_item_ground_add.dwVID, pGroundItemInstance));
 	}
 	if (header == HEADER_GC_ITEM_OWNERSHIP) {
 		TPacketGCItemOwnership packet_item_ownership;
