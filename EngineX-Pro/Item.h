@@ -379,23 +379,20 @@ public:
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
 						return;
 					}
-					else if (Distance > 300 && Distance < 2200)
+					else if (Distance > 300 && Distance < 5000)
 					{
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ }, 0, 0, 0);
+						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ });
+						int i = 0;
+						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+						{
+							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+						}
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						GameFunctions::NetworkStreamSendCharacterStatePacket(playerPosition, 0, 0, 0);
-						return;
-					}
-					else if (Distance >= 2200 && Distance < 4400) 
-					{
-						float MidPointX = (playerPosition.x + ItemPositionX) / 2;
-						float MidPointY = (playerPosition.y + (ItemPositionY)) / 2;
-						float MidPointZ = (playerPosition.z + ItemPositionZ) / 2;
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ MidPointX, MidPointY, MidPointZ }, 0, 0, 0);
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ }, 0, 0, 0);
-						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ MidPointX, MidPointY, MidPointZ }, 0, 0, 0);
-						GameFunctions::NetworkStreamSendCharacterStatePacket(playerPosition, 0, 0, 0);
+						gf = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ }, playerPosition);
+						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+						{
+							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+						}
 						return;
 					}
 					break;
