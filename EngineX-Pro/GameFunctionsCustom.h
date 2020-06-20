@@ -1143,9 +1143,13 @@ public:
 	{
 		D3DVECTOR charpos;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &charpos);
-		TMapInfo* map_info = GameFunctions::BackgroundGlobalPositionToMapInfo(charpos.x, charpos.y);
-		rGlobalX -= map_info->m_dwBaseX;
-		rGlobalY -= map_info->m_dwBaseY;
+		LONG GlobalX = charpos.x;
+		LONG GlobalY = charpos.y;
+		GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
+		LONG BaseX = GlobalX - charpos.x;
+		LONG BaseY = GlobalX - charpos.x;
+		rGlobalX -= BaseX;
+		rGlobalY -= BaseY;
 	}
 };
 
