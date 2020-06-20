@@ -673,7 +673,7 @@ public:
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 0));
 #elif defined(VIDGAR)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
-
+		return m_GroundItemInstanceMap;
 #elif defined( RUBINUM)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
 #else

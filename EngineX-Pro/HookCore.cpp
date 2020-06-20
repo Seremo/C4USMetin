@@ -321,9 +321,9 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 
 		struc.Instance = NULL;
 		struc.dwVirtualNumber = packet_item_ground_add.dwVID;
-		struc.v3EndPosition.x = (float)packet_item_ground_add.lX;
-		struc.v3EndPosition.y = (float)packet_item_ground_add.lY;
-		struc.v3EndPosition.z = (float)packet_item_ground_add.lZ;
+		struc.v3EndPosition.x = packet_item_ground_add.lX;
+		struc.v3EndPosition.y = packet_item_ground_add.lY;
+		struc.v3EndPosition.z = packet_item_ground_add.lZ;
 		struc.v3RotationAxis = D3DVECTOR{ 0, 0, 0 };
 		struc.qEnd = D3DXQUATERNION{ 0, 0, 0,0 };
 		struc.v3Center =D3DVECTOR{ 0, 0, 0 };
