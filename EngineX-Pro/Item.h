@@ -324,13 +324,22 @@ public:
 						
 				}
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
+				float ItemPositionX;
+				float ItemPositionY;
+				float ItemPositionZ;
 #ifdef VIDGAR
 				LONG GlobalX = playerPosition.x;
 				LONG GlobalY = playerPosition.y;
 				GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
-				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
+				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, groundItemInstance->v3EndPosition.x, groundItemInstance->v3EndPosition.y);
+				ItemPositionX = groundItemInstance->v3EndPosition.x;
+				ItemPositionY = groundItemInstance->v3EndPosition.y;
+				ItemPositionZ = groundItemInstance->v3EndPosition.z;
 #else
 				float Distance = MiscExtension::CountDistanceTwoPoints(playerPosition.x, playerPosition.y, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
+				ItemPositionX = groundItemInstance->v3EndPosition.x;
+				ItemPositionY = -groundItemInstance->v3EndPosition.y;
+				ItemPositionZ = groundItemInstance->v3EndPosition.y;
 #endif
 				switch (Settings::ITEM_PICKUP_TYPE)
 				{
@@ -349,18 +358,18 @@ public:
 					}
 					else if (Distance > 300 && Distance < 2200)
 					{
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, 0, 0, 0);
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ }, 0, 0, 0);
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
 						GameFunctions::NetworkStreamSendCharacterStatePacket(playerPosition, 0, 0, 0);
 						return;
 					}
 					else if (Distance >= 2200 && Distance < 4400) 
 					{
-						float MidPointX = (playerPosition.x + groundItemInstance->v3EndPosition.x) / 2;
-						float MidPointY = (playerPosition.y + (-groundItemInstance->v3EndPosition.y)) / 2;
-						float MidPointZ = (playerPosition.z + groundItemInstance->v3EndPosition.z) / 2;
+						float MidPointX = (playerPosition.x + ItemPositionX) / 2;
+						float MidPointY = (playerPosition.y + (ItemPositionY)) / 2;
+						float MidPointZ = (playerPosition.z + ItemPositionZ) / 2;
 						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ MidPointX, MidPointY, MidPointZ }, 0, 0, 0);
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, 0, 0, 0);
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ }, 0, 0, 0);
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
 						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ MidPointX, MidPointY, MidPointZ }, 0, 0, 0);
 						GameFunctions::NetworkStreamSendCharacterStatePacket(playerPosition, 0, 0, 0);
