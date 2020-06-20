@@ -315,7 +315,10 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	{
 		TPacketGCItemGroundAdd packet_item_ground_add;
 		memcpy(&packet_item_ground_add, destBuf, sizeof(TPacketGCItemGroundAdd));
+		/*__GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);*/
+		
 		TGroundItemInstance struc; 
+
 		struc.Instance = NULL;
 		struc.dwVirtualNumber = packet_item_ground_add.dwVID;
 		struc.v3EndPosition.x = (float)packet_item_ground_add.lX;
