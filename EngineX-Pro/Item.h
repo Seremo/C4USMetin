@@ -372,7 +372,7 @@ public:
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						gf = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ groundItemInstance->v3EndPosition.x, groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
+						gf = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
 						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
