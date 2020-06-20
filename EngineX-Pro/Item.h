@@ -347,23 +347,7 @@ public:
 						
 				}
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-				float ItemPositionX;
-				float ItemPositionY;
-				float ItemPositionZ;
-#ifdef VIDGAR
-				LONG GlobalX = playerPosition.x;
-				LONG GlobalY = playerPosition.y;
-				GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
-				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, groundItemInstance->v3EndPosition.x, groundItemInstance->v3EndPosition.y);
-				ItemPositionX = groundItemInstance->v3EndPosition.x;
-				ItemPositionY = groundItemInstance->v3EndPosition.y;
-				ItemPositionZ = groundItemInstance->v3EndPosition.z;
-#else
 				float Distance = MiscExtension::CountDistanceTwoPoints(playerPosition.x, playerPosition.y, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
-				ItemPositionX = groundItemInstance->v3EndPosition.x;
-				ItemPositionY = -groundItemInstance->v3EndPosition.y;
-				ItemPositionZ = groundItemInstance->v3EndPosition.y;
-#endif
 				switch (Settings::ITEM_PICKUP_TYPE)
 				{
 				case 0://normal
@@ -381,14 +365,14 @@ public:
 					}
 					else if (Distance > 300 && Distance < 5000)
 					{
-						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ });
+						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z });
 						int i = 0;
 						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						gf = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ ItemPositionX, ItemPositionY, ItemPositionZ }, playerPosition);
+						gf = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ groundItemInstance->v3EndPosition.x, groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
 						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);

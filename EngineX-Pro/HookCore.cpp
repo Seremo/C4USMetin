@@ -322,7 +322,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 		/*__GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);*/
 		
 		TGroundItemInstance* pGroundItemInstance = new TGroundItemInstance();
-
+		GameFunctionsCustom::GlobalPositionToLocalPosition(packet_item_ground_add.lX, packet_item_ground_add.lY);
 		pGroundItemInstance->Instance = NULL;
 		pGroundItemInstance->dwVirtualNumber = packet_item_ground_add.dwVnum;
 		pGroundItemInstance->v3EndPosition.x = packet_item_ground_add.lX;
