@@ -18,7 +18,7 @@ public:
 	void DemonTowerStart(int i)
 	{
 		if (Phase == 0) {
-			if (MapName == "metin2_map_deviltower") {
+			if (MapName == "metin2_map_deviltower1") {
 				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
 				Phase = 1;
 			}
