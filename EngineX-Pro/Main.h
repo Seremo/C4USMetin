@@ -579,7 +579,8 @@ private:
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 			}
-			GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
+			GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+			/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
 
 			if (Settings::MiniMHWaitHackSwordRange)
 			{
@@ -662,8 +663,8 @@ private:
 				switch (Settings::MiniMHWaitHackType)
 				{
 				case 0:
-					
-					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
+					GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+					/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
 					break;
 				case 1:
 					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
