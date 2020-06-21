@@ -73,6 +73,23 @@ public:
 		MainDungs::Instance().DemonTowerStart(1);
 	}
 
+	void Teleport(D3DVECTOR vec)
+	{
+		D3DVECTOR CharPos;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
+		vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, vec);
+		int i = 0;
+		for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+		{
+			bool InDistance = MathExtension::PointInCircle(CharPos, vec, 400);
+			if (!InDistance)
+			{
+				DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
+			}
+			i++;
+		}
+	}
+
 	void CheckCoords()
 	{
 		D3DVECTOR CharPos;
@@ -83,6 +100,8 @@ public:
 			Phase = 2;
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 2!");
 			DelayActions::Clear();
+
+			Teleport(D3DVECTOR{ 16431, 41912, 0 });
 			return;
 		}
 		bool Floor3 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 17807, 18682, 0 }, 8000);
@@ -92,6 +111,8 @@ public:
 			Phase = 3;
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 3!");
 			DelayActions::Clear();
+
+			Teleport(D3DVECTOR{ 17807, 18682, 0 });
 			return;
 		}
 		bool Floor4 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39402, 65544, 0 }, 6500);
@@ -100,6 +121,8 @@ public:
 			Phase = 4;
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 4!");
 			DelayActions::Clear();
+
+			Teleport(D3DVECTOR{ 39402, 65544, 0 });
 			return;
 		}
 		bool Floor5 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39572, 42738, 0 }, 6500);
@@ -108,6 +131,8 @@ public:
 			Phase = 5;
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 5!");
 			DelayActions::Clear();
+
+			Teleport(D3DVECTOR{ 39572, 42738, 0 });
 			return;
 		}
 		bool Floor6 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39855, 19264, 0 }, 6500);
@@ -117,6 +142,8 @@ public:
 			Phase = 6;
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 6!");
 			DelayActions::Clear();
+
+			Teleport(D3DVECTOR{ 39855, 19264, 0 });
 			return;
 		}
 		bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 0, 0, 0 }, 6500);
@@ -125,6 +152,8 @@ public:
 			Phase = 7;
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
 			DelayActions::Clear();
+
+			Teleport(D3DVECTOR{ 0, 0, 0 });
 			return;
 		}
 	}
@@ -161,17 +190,7 @@ public:
 				}
 				D3DVECTOR MetinPos;
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(MetinTwardosci), &MetinPos);
-				vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, MetinPos);
-				int i = 0;
-				for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-				{
-					bool InDistance = MathExtension::PointInCircle(CharPos, MetinPos, 400);
-					if (!InDistance)
-					{
-						DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
-					}
-					i++;
-				}
+				Teleport(MetinPos);
 				break;
 			}
 			case 2: {
@@ -187,17 +206,7 @@ public:
 				}
 				if (!InDistance)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, Floor2Positions[Floor2Step]);
-					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-					{
-						bool InDistance = MathExtension::PointInCircle(CharPos, Floor2Positions[Floor2Step], 400);
-						if (!InDistance)
-						{
-							DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
-						}
-						i++;
-					}
+					Teleport(Floor2Positions[Floor2Step]);
 				}
 				break;
 			}
@@ -209,17 +218,7 @@ public:
 				}
 				D3DVECTOR MobPos;
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(KrolDemonow), &MobPos);
-				vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, MobPos);
-				int i = 0;
-				for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-				{
-					bool InDistance = MathExtension::PointInCircle(CharPos, MobPos, 400);
-					if (!InDistance)
-					{
-						DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
-					}
-					i++;
-				}
+				Teleport(MobPos);
 				break;
 			}
 			case 4: {
@@ -230,17 +229,7 @@ public:
 				}
 				D3DVECTOR MetinPos;
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(Metin), &MetinPos);
-				vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, MetinPos);
-				int i = 0;
-				for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-				{
-					bool InDistance = MathExtension::PointInCircle(CharPos, MetinPos, 400);
-					if (!InDistance)
-					{
-						DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
-					}
-					i++;
-				}
+				Teleport(MetinPos);
 				break;
 			}
 			case 5: {
@@ -281,17 +270,7 @@ public:
 				}
 				if (!InDistance)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, Floor5Positions[Floor5Step]);
-					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-					{
-						bool InDistance = MathExtension::PointInCircle(CharPos, Floor5Positions[Floor5Step], 400);
-						if (!InDistance)
-						{
-							DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
-						}
-						i++;
-					}
+					Teleport(Floor5Positions[Floor5Step]);
 				}
 				break;
 			}
@@ -301,17 +280,7 @@ public:
 				{
 					D3DVECTOR MobPos;
 					GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(ElitKrolDemonow), &MobPos);
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(400, CharPos, MobPos);
-					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-					{
-						bool InDistance = MathExtension::PointInCircle(CharPos, MobPos, 400);
-						if (!InDistance)
-						{
-							DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
-						}
-						i++;
-					}
+					Teleport(MobPos);
 					return;
 				}
 				else {
