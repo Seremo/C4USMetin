@@ -412,7 +412,7 @@ public:
 private:
 	bool Revive()
 	{
-		if (GameFunctionsCustom::PlayerIsDead() && Settings::MiniMHAutoRevive && !autoReviveNeedWait && DynamicTimer::CheckAutoSet("PlayerRevive", 1000))
+		if (GameFunctionsCustom::PlayerIsDead() && Settings::MiniMHAutoRevive && /*!autoReviveNeedWait &&*/ DynamicTimer::CheckAutoSet("PlayerRevive", 1000))
 		{
 
 			GameFunctionsCustom::PlayerRevive();
@@ -421,11 +421,11 @@ private:
 			return true;
 
 		}
-		if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
+		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
 		{
 			return true;
 		}
-		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
+		if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
 		{
 			if (playerUsingHorse)
 			{
@@ -436,7 +436,7 @@ private:
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
 	bool IsAttackMobDistance()
