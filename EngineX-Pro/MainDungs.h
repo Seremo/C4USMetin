@@ -92,6 +92,10 @@ public:
 
 	void CheckCoords()
 	{
+		if (Phase == 0)
+		{
+			return;
+		}
 		D3DVECTOR CharPos;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
 		bool Floor2 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 16431, 41912, 0 }, 8000);
@@ -135,7 +139,7 @@ public:
 			Teleport(D3DVECTOR{ 39572, 42738, 0 });
 			return;
 		}
-		bool Floor6 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39855, 19264, 0 }, 6500);
+		bool Floor6 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39855, 19264, 0 }, 8000);
 		if (Floor6 && Phase != 6)
 		{
 			Floor5Step = 0;
@@ -146,16 +150,16 @@ public:
 			Teleport(D3DVECTOR{ 39855, 19264, 0 });
 			return;
 		}
-		bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 0, 0, 0 }, 6500);
-		if (Floor7 && Phase != 7)
-		{
-			Phase = 7;
-			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
-			DelayActions::Clear();
+		//bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 0, 0, 0 }, 6500);
+		//if (Floor7 && Phase != 7)
+		//{
+		//	Phase = 7;
+		//	Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
+		//	DelayActions::Clear();
 
-			Teleport(D3DVECTOR{ 0, 0, 0 });
-			return;
-		}
+		//	Teleport(D3DVECTOR{ 0, 0, 0 });
+		//	return;
+		//}
 	}
 
 	void UpdateDT()
