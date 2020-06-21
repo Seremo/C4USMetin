@@ -600,7 +600,11 @@ private:
 			GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
 			/*GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 35, 133, 0);*/
 		}
-		GameFunctions::NetworkStreamSendShootPacket(0);
+		if (objectList.size())
+		{
+			GameFunctions::NetworkStreamSendShootPacket(0);
+		}
+		
 	}
 public:
 	void ResetSkillTimer()
