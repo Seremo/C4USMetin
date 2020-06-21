@@ -579,7 +579,8 @@ private:
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 			}
-			GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
+			GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+			/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
 
 			if (Settings::MiniMHWaitHackSwordRange)
 			{
@@ -599,7 +600,11 @@ private:
 			GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
 			/*GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 35, 133, 0);*/
 		}
-		GameFunctions::NetworkStreamSendShootPacket(0);
+		if (objectList.size())
+		{
+			GameFunctions::NetworkStreamSendShootPacket(0);
+		}
+		
 	}
 public:
 	void ResetSkillTimer()
@@ -691,8 +696,8 @@ private:
 				switch (Settings::MiniMHWaitHackType)
 				{
 				case 0:
-					
-					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
+					GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+					/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
 					break;
 				case 1:
 					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
