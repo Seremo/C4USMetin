@@ -105,7 +105,7 @@ public:
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
 			DelayActions::Clear();
 
-			Teleport(D3DVECTOR{ 16431, 41912, 0 });
+			Teleport(D3DVECTOR{ 16004, 65304, 0 });
 			return;
 		}
 		bool Floor2 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 16431, 41912, 0 }, 8000);
