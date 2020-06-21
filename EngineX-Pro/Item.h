@@ -243,26 +243,26 @@ public:
 			Slots();
 
 #ifdef VIDGAR
-	/*		vector<DWORD> eraseList;
+			vector<DWORD> eraseList;
 			for (map<DWORD, TGroundItemInstance*>::iterator itor = Globals::GroundItemList.begin(); itor != Globals::GroundItemList.end(); itor++)
 			{
 				
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
 				LONG GlobalX = playerPosition.x;
 				LONG GlobalY = playerPosition.y;
-				GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
+			
 				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, itor->second->v3EndPosition.x, itor->second->v3EndPosition.y);
 				if (Distance > 30000)
 				{
 					eraseList.push_back(itor->first);
 
 				}
-				for (auto itor = eraseList.begin(); itor != eraseList.end(); itor++)
-				{
-					Globals::GroundItemList.erase(*itor);
-				}
+				
 			}
-			*/
+			for (auto itor = eraseList.begin(); itor != eraseList.end(); itor++)
+			{
+				Globals::GroundItemList.erase(*itor);
+			}
 #endif
 		}
 
