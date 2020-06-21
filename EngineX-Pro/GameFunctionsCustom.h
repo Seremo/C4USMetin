@@ -253,9 +253,9 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static DWORD GetCloseObject(int objectType)
+	static DWORD GetCloseObject(int objectType, DWORD dis = 20000UL)
 	{
-		map<DWORD, DWORD*> closestNPC = GameFunctionsCustom::GetObjectList(objectType);
+		map<DWORD, DWORD*> closestNPC = GameFunctionsCustom::GetObjectList(objectType, dis);
 		if (closestNPC.size() == 0)
 		{
 			return 0;
