@@ -73,8 +73,65 @@ public:
 		MainDungs::Instance().DemonTowerStart(1);
 	}
 
+	void CheckCoords()
+	{
+		D3DVECTOR CharPos;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
+		bool Floor2 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 16431, 41912, 0 }, 8000);
+		if (Floor2 && Phase != 2)
+		{
+			Phase = 2;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 2!");
+			DelayActions::Clear();
+			return;
+		}
+		bool Floor3 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 17807, 18682, 0 }, 8000);
+		if (Floor3 && Phase != 3)
+		{
+			Floor2Step = 0;
+			Phase = 3;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 3!");
+			DelayActions::Clear();
+			return;
+		}
+		bool Floor4 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39402, 65544, 0 }, 6500);
+		if (Floor4 && Phase != 4)
+		{
+			Phase = 4;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 4!");
+			DelayActions::Clear();
+			return;
+		}
+		bool Floor5 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39572, 42738, 0 }, 6500);
+		if (Floor5 && Phase != 5)
+		{
+			Phase = 5;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 5!");
+			DelayActions::Clear();
+			return;
+		}
+		bool Floor6 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39855, 19264, 0 }, 6500);
+		if (Floor6 && Phase != 6)
+		{
+			Floor5Step = 0;
+			Phase = 6;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 6!");
+			DelayActions::Clear();
+			return;
+		}
+		bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 0, 0, 0 }, 6500);
+		if (Floor7 && Phase != 7)
+		{
+			Phase = 7;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
+			DelayActions::Clear();
+			return;
+		}
+	}
+
 	void UpdateDT()
 	{
+		//Check relog
 		if (GameFunctionsCustom::GetMapName() != "metin2_map_deviltower1")
 		{
 			if (Phase != 0) {
@@ -89,20 +146,14 @@ public:
 			}
 			return;
 		}
+		//Check Coords
+		CheckCoords();
+		//Floors
+		D3DVECTOR CharPos;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
 		switch (Phase) 
 		{
 			case 1: {
-				D3DVECTOR CharPos;
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-				bool Floor2 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 16431, 41912, 0 }, 8000);
-				if (Floor2)
-				{
-					Phase = 2;
-					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 2!");
-					DelayActions::Clear();
-					return;
-				}
-
 				DWORD MetinTwardosci = GameFunctionsCustom::GetCloseObjectByVnum(8015);
 				if (!MetinTwardosci)
 				{
@@ -124,17 +175,6 @@ public:
 				break;
 			}
 			case 2: {
-				D3DVECTOR CharPos;
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-				bool Floor3 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 17807, 18682, 0 }, 8000);
-				if (Floor3)
-				{
-					Phase = 3;
-					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 3!");
-					DelayActions::Clear();
-					return;
-				}
-
 				bool InDistance = MathExtension::PointInCircle(CharPos, Floor2Positions[Floor2Step], 400);
 				if (InDistance)
 				{
@@ -162,18 +202,6 @@ public:
 				break;
 			}
 			case 3: {
-				Floor2Step = 0;
-				D3DVECTOR CharPos;
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-				bool Floor4 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39402, 65544, 0 }, 6500);
-				if (Floor4)
-				{
-					Phase = 4;
-					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 4!");
-					DelayActions::Clear();
-					return;
-				}
-
 				DWORD KrolDemonow = GameFunctionsCustom::GetCloseObjectByVnum(1091);
 				if (!KrolDemonow)
 				{
@@ -195,18 +223,7 @@ public:
 				break;
 			}
 			case 4: {
-				D3DVECTOR CharPos;
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-				bool Floor5 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39572, 42738, 0 }, 6500);
-				if (Floor5)
-				{
-					Phase = 5;
-					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 5!");
-					DelayActions::Clear();
-					return;
-				}
-
-				DWORD Metin = GameFunctionsCustom::GetCloseObject(OBJECT_STONE);
+				DWORD Metin = GameFunctionsCustom::GetCloseObject(OBJECT_STONE, 10000);
 				if (!Metin)
 				{
 					return;
@@ -227,16 +244,6 @@ public:
 				break;
 			}
 			case 5: {
-				D3DVECTOR CharPos;
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-				bool Floor6 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 39855, 19264, 0 }, 6500);
-				if (Floor6)
-				{
-					Phase = 6;
-					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 6!");
-					DelayActions::Clear();
-					return;
-				}
 				//Przeciaganie pieczeci
 				int kamien_slot = GameFunctionsCustom::FindItemSlotInInventory(50084);
 				if (kamien_slot != -1) {
@@ -289,18 +296,6 @@ public:
 				break;
 			}
 			case 6: {
-				Floor5Step = 0;
-				D3DVECTOR CharPos;
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
-				bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 0, 0, 0 }, 6500);
-				if (Floor7)
-				{
-					Phase = 7;
-					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
-					DelayActions::Clear();
-					return;
-				}
-
 				DWORD ElitKrolDemonow = GameFunctionsCustom::GetCloseObjectByVnum(1092);
 				if (ElitKrolDemonow)
 				{
