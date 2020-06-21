@@ -1147,7 +1147,7 @@ public:
 		LONG GlobalY = charpos.y;
 		GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
 		LONG BaseX = GlobalX - charpos.x;
-		LONG BaseY = GlobalX - charpos.x;
+		LONG BaseY = GlobalY - charpos.y;
 		rGlobalX -= BaseX;
 		rGlobalY -= BaseY;
 	}

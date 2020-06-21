@@ -243,7 +243,7 @@ public:
 			Slots();
 
 #ifdef VIDGAR
-			vector<DWORD> eraseList;
+	/*		vector<DWORD> eraseList;
 			for (map<DWORD, TGroundItemInstance*>::iterator itor = Globals::GroundItemList.begin(); itor != Globals::GroundItemList.end(); itor++)
 			{
 				
@@ -262,7 +262,7 @@ public:
 					Globals::GroundItemList.erase(*itor);
 				}
 			}
-			
+			*/
 #endif
 		}
 

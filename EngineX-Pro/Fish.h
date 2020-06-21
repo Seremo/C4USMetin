@@ -423,8 +423,8 @@ public:
 			/*GameFunctions::PythonPlayerNEW_Fishing();*/
 		}
 #else
-		GameFunctions::PlayerSetAttackKeyState(true);
-		/*GameFunctions::PythonPlayerNEW_Fishing();*/
+		/*GameFunctions::PlayerSetAttackKeyState(true);*/
+		GameFunctions::PythonPlayerNEW_Fishing();
 #endif
 		lastTimeFishing = GetTickCount();
 	}
