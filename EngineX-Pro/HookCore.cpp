@@ -324,7 +324,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 		TGroundItemInstance* pGroundItemInstance = new TGroundItemInstance();
 
 		pGroundItemInstance->Instance = NULL;
-		pGroundItemInstance->dwVirtualNumber = packet_item_ground_add.dwVID;
+		pGroundItemInstance->dwVirtualNumber = packet_item_ground_add.dwVnum;
 		pGroundItemInstance->v3EndPosition.x = packet_item_ground_add.lX;
 		pGroundItemInstance->v3EndPosition.y = packet_item_ground_add.lY;
 		pGroundItemInstance->v3EndPosition.z = packet_item_ground_add.lZ;

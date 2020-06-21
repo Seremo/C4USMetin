@@ -754,11 +754,11 @@ float Settings::BUFF_SKILL_2_TIME = 11;
 float Settings::BUFF_SKILL_3_TIME = 11;
 
 int Settings::FishBotSuccesPercentValue = 0;
-int Settings::FishBotCastTimeMinValue = 250;
-int Settings::FishBotCastTimeMaxValue = 500;
-int Settings::FishBotRoundTimeMinValue = 9000;
-int Settings::FishBotRoundTimeMaxValue = 10000;
-int  Settings::FishBotEmergencyRunTimeValue = 50500;
+int Settings::FishBotCastTimeMinValue = 150;
+int Settings::FishBotCastTimeMaxValue = 250;
+int Settings::FishBotRoundTimeMinValue = 8000;
+int Settings::FishBotRoundTimeMaxValue = 9000;
+int  Settings::FishBotEmergencyRunTimeValue = 40500;
 bool Settings::FISHBOT_DETECT_PLAYER = false;
 
 
