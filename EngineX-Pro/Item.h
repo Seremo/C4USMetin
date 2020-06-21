@@ -251,7 +251,7 @@ public:
 				LONG GlobalX = playerPosition.x;
 				LONG GlobalY = playerPosition.y;
 			
-				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, itor->second->v3EndPosition.x, itor->second->v3EndPosition.y);
+				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, itor->second->v3EndPosition.x, -itor->second->v3EndPosition.y);
 				if (Distance > 30000)
 				{
 					eraseList.push_back(itor->first);
