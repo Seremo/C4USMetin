@@ -18,7 +18,7 @@ public:
 	void DemonTowerStart(int i)
 	{
 		if (Phase == 0) {
-			if (MapName == "metin2_map_deviltower") {
+			if (MapName == "metin2_map_deviltower1") {
 				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
 				Phase = 1;
 			}
@@ -322,6 +322,7 @@ public:
 						if (lastSlot != -1)
 						{
 							GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+							Main::Instance().ResetSkillTimer();
 						}
 						Phase = 0;
 						DelayActions::AppendBlock(false, 5000, &RestartDT);
