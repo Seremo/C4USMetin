@@ -14,8 +14,8 @@
 
 #ifdef DEVELOPER_MODE
 
-	 const char* version = "000050";
-	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x2920DD0), (void*)version, strlen(version));
+	// const char* version = "000050";
+	// MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x2920DD0), (void*)version, strlen(version));
 #endif
 #endif
 
