@@ -450,14 +450,12 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	memcpy(&header, pDestBuf, sizeof(header));
 
 #ifdef VIDGAR
-#ifdef DEVELOPER_MODE
 	if (header == HEADER_CG_LOGIN3 && len == 361)
 	{
 		strncpy((char*)pDestBuf + 72, MiscExtension::RandomString(36).c_str(), 36);
 		strncpy((char*)pDestBuf + 169, MiscExtension::RandomString(36).c_str(), 36);
 		strncpy((char*)pDestBuf + 268, MiscExtension::RandomString(36).c_str(), 36);
 	}
-#endif
 #endif
 #ifdef ELITEMT2
 	if (header == 0xEF && len == 1059)
