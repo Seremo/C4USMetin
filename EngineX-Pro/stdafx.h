@@ -60,8 +60,8 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-//#define METINPL
-#define PANGEA
+#define METINPL
+//#define PANGEA
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION
@@ -109,7 +109,9 @@ using namespace std;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
-#define PYTHON_CUSTOM
+
+//#define PYTHON_CUSTOM
+
 #define DEVELOPER_MODE
 
 #define DLL_VERSION "0.0.55 Beta"
