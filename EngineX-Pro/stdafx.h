@@ -308,28 +308,28 @@ using namespace std;
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 
-#ifndef PYTHON_CUSTOM
+//#ifndef PYTHON_CUSTOM
+//
+//#ifdef _DEBUG
+//#define DEBUG_WAS_DEFINED
+//#undef _DEBUG
+//#endif
+//#include "Python.h"
+//#pragma comment(lib, "python27.lib")
+//
+//#ifdef DEBUG_WAS_DEFINED
+//#define _DEBUG
+//#endif
+//
+//
+//
+//
+//#else
+//
+//#endif 
 
-#ifdef _DEBUG
-#define DEBUG_WAS_DEFINED
-#undef _DEBUG
-#endif
-#include "Python.h"
-#pragma comment(lib, "python27.lib")
-
-#ifdef DEBUG_WAS_DEFINED
-#define _DEBUG
-#endif
-
-
-
-
-#else
 typedef unsigned long       PyObject;
 typedef int                 Py_ssize_t;
-#endif 
-
-
 
 #include "DynamicTimer.h"
 

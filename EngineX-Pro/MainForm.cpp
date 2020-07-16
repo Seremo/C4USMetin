@@ -776,7 +776,7 @@ void MainForm::Menu() {
 				{
 					for (map< pair<DWORD, pair<string, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST.begin(); itor != Settings::SERVER_INFO_LIST.end(); itor++)
 					{
-#ifdef  METIN2GLOBAL
+#ifdef  METINPL
 						const char* serverName = (const char*)(GetStr(Globals::iCPythonNetworkStreamInstance + 0x7A70));
 #else
 						const char* serverName = SERVER_NAME;

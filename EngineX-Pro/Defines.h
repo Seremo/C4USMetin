@@ -651,132 +651,72 @@ typedef struct SMobSkillLevel
 	DWORD       dwVnum;
 	BYTE        bLevel;
 } TMobSkillLevel;
+
 typedef struct SMobTable_r255
 {
-	DWORD	dwVnum;
-	char	szName[CHARACTER_NAME_MAX_LEN + 1];
-	char	szLocaleName[CHARACTER_NAME_MAX_LEN + 1];
+	DWORD       dwVnum;
+	char        szName[CHARACTER_NAME_MAX_LEN + 1];
+	char        szLocaleName[CHARACTER_NAME_MAX_LEN + 1];
 
-	BYTE	bType;			// Monster, NPC
-	BYTE	bRank;			// PAWN, KNIGHT, KING
-	BYTE	bBattleType;		// MELEE, etc..
-	BYTE	bLevel;			// Level
-	BYTE	bSize;
+	BYTE        bType;                  // Monster, NPC
+#ifdef SAMIAS2
+	BYTE		unk[72];
+#endif
+#ifdef RUBINUM
+	BYTE		unk[249];
+#endif
+	BYTE        bRank;                  // PAWN, KNIGHT, KING
+	//BYTE        bBattleType;            // MELEE, etc..
+	//BYTE        bLevel;                 // Level
+	//BYTE        bSize;
 
-	DWORD	dwGoldMin;
-	DWORD	dwGoldMax;
-	DWORD	dwExp;
-	DWORD	dwMaxHP;
-	BYTE	bRegenCycle;
-	BYTE	bRegenPercent;
-	WORD	wDef;
+	//DWORD       dwGoldMin;
+	//DWORD       dwGoldMax;
+	//DWORD       dwExp;
+	//DWORD       dwMaxHP;
+	//BYTE        bRegenCycle;
+	//BYTE        bRegenPercent;
+	//WORD        wDef;
 
-	DWORD	dwAIFlag;
-	DWORD	dwRaceFlag;
-	DWORD	dwImmuneFlag;
+	//DWORD       dwAIFlag;
+	//DWORD       dwRaceFlag;
+	//DWORD       dwImmuneFlag;
 
-	BYTE	bStr, bDex, bCon, bInt;
-	DWORD	dwDamageRange[2];
+	//BYTE        bStr, bDex, bCon, bInt;
+	//DWORD       dwDamageRange[2];
 
-	short	sAttackSpeed;
-	short	sMovingSpeed;
-	BYTE	bAggresiveHPPct;
-	WORD	wAggressiveSight;
-	WORD	wAttackRange;
+	//short       sAttackSpeed;
+	//short       sMovingSpeed;
+	//BYTE        bAggresiveHPPct;
+	//WORD        wAggressiveSight;
+	//WORD        wAttackRange;
 
-	char	cEnchants[6];
-	char	cResists[6];
+	//char        cEnchants[6];
+	//char        cResists[6];
 
-	DWORD	dwResurrectionVnum;
-	DWORD	dwDropItemVnum;
+	//DWORD       dwResurrectionVnum;
+	//DWORD       dwDropItemVnum;
 
-	BYTE	bMountCapacity;
-	BYTE	bOnClickType;
+	//BYTE        bMountCapacity;
+	//BYTE        bOnClickType;
 
-	BYTE	bEmpire;
-	char	szFolder[64 + 1];
+	//BYTE        bEmpire;
+	//char        szFolder[64 + 1];
+	//float       fDamMultiply;
+	//DWORD       dwSummonVnum;
+	//DWORD       dwDrainSP;
+	//DWORD		dwMonsterColor;
+	//DWORD       dwPolymorphItemVnum;
 
-	float	fDamMultiply;
+	//TMobSkillLevel	Skills[5];
 
-	DWORD	dwSummonVnum;
-	DWORD	dwDrainSP;
-	DWORD	dwMobColor;
-	DWORD	dwPolymorphItemVnum;
-
-	TMobSkillLevel Skills[5];
-
-	BYTE	bBerserkPoint;
-	BYTE	bStoneSkinPoint;
-	BYTE	bGodSpeedPoint;
-	BYTE	bDeathBlowPoint;
-	BYTE	bRevivePoint;
+	//BYTE		bBerserkPoint;
+	//BYTE		bStoneSkinPoint;
+	//BYTE		bGodSpeedPoint;
+	//BYTE		bDeathBlowPoint;
+	//BYTE		bRevivePoint;
 } TMobTable_r255;
 typedef TMobTable_r255 SMobTable, TMobTable;
-//typedef struct SMobTable_r255
-//{
-//	DWORD       dwVnum;
-//	char        szName[CHARACTER_NAME_MAX_LEN + 1];
-//	char        szLocaleName[CHARACTER_NAME_MAX_LEN + 1];
-//
-//	BYTE        bType;                  // Monster, NPC
-//#ifdef SAMIAS2
-//	BYTE		unk[72];
-//#endif
-//#ifdef RUBINUM
-//	BYTE		unk[249];
-//#endif
-//	BYTE        bRank;                  // PAWN, KNIGHT, KING
-//	//BYTE        bBattleType;            // MELEE, etc..
-//	//BYTE        bLevel;                 // Level
-//	//BYTE        bSize;
-//
-//	//DWORD       dwGoldMin;
-//	//DWORD       dwGoldMax;
-//	//DWORD       dwExp;
-//	//DWORD       dwMaxHP;
-//	//BYTE        bRegenCycle;
-//	//BYTE        bRegenPercent;
-//	//WORD        wDef;
-//
-//	//DWORD       dwAIFlag;
-//	//DWORD       dwRaceFlag;
-//	//DWORD       dwImmuneFlag;
-//
-//	//BYTE        bStr, bDex, bCon, bInt;
-//	//DWORD       dwDamageRange[2];
-//
-//	//short       sAttackSpeed;
-//	//short       sMovingSpeed;
-//	//BYTE        bAggresiveHPPct;
-//	//WORD        wAggressiveSight;
-//	//WORD        wAttackRange;
-//
-//	//char        cEnchants[6];
-//	//char        cResists[6];
-//
-//	//DWORD       dwResurrectionVnum;
-//	//DWORD       dwDropItemVnum;
-//
-//	//BYTE        bMountCapacity;
-//	//BYTE        bOnClickType;
-//
-//	//BYTE        bEmpire;
-//	//char        szFolder[64 + 1];
-//	//float       fDamMultiply;
-//	//DWORD       dwSummonVnum;
-//	//DWORD       dwDrainSP;
-//	//DWORD		dwMonsterColor;
-//	//DWORD       dwPolymorphItemVnum;
-//
-//	//TMobSkillLevel	Skills[5];
-//
-//	//BYTE		bBerserkPoint;
-//	//BYTE		bStoneSkinPoint;
-//	//BYTE		bGodSpeedPoint;
-//	//BYTE		bDeathBlowPoint;
-//	//BYTE		bRevivePoint;
-//} TMobTable_r255;
-//typedef TMobTable_r255 SMobTable, TMobTable;
 
 
 typedef struct SGroundItemInstance

@@ -55,16 +55,22 @@ public:
 		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
 
 
-		if (GameFunctions::PlayerNEW_GetMainActorPtr())
+		
+		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
+
+		if (GameFunctions::PlayerGetTargetVID())
 		{
-			ImGui::Text(to_string(Globals::CInstanceBaseIsWaiting(GameFunctions::PlayerNEW_GetMainActorPtr())).c_str());
+		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetTargetVID()));
+		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
+		ImGui::Text(to_string(mob_info->bRank).c_str());
+		ImGui::Text(to_string(mob_info->bType).c_str());
+		ImGui::Text(mob_info->szLocaleName);
+		ImGui::Text(mob_info->szName);
 		}
 		
 
-		
 
 
-		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
 		{
