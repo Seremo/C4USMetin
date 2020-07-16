@@ -277,15 +277,19 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(9,  make_pair("Amicicia","CH9")), make_pair(12900, "79.110.92.181") },
 
 
-	{ make_pair(10,  make_pair("Carptura","CH1")), make_pair(12100, "79.110.92.187") },
-	{ make_pair(11,  make_pair("Carptura","CH2")), make_pair(12200, "79.110.92.189") },
-	{ make_pair(12,  make_pair("Carptura","CH3")), make_pair(12300, "79.110.92.190") },
-	{ make_pair(13,  make_pair("Carptura","CH4")), make_pair(12400, "79.110.92.187") },
-	{ make_pair(14,  make_pair("Carptura","CH5")), make_pair(12500, "79.110.92.189") },
-	{ make_pair(15,  make_pair("Carptura","CH6")), make_pair(12600, "79.110.92.190") },
-	{ make_pair(16,  make_pair("Carptura","CH7")), make_pair(12700, "79.110.92.187") },
-	{ make_pair(17,  make_pair("Carptura","CH8")), make_pair(12800, "79.110.92.189") },
-	{ make_pair(18,  make_pair("Carptura","CH9")), make_pair(12900, "79.110.92.190") },
+
+
+
+	{ make_pair(10,  make_pair("Carptura","CH1")), make_pair(12102, "79.110.92.187") },
+	{ make_pair(11,  make_pair("Carptura","CH2")), make_pair(12202, "79.110.92.189") },
+	{ make_pair(12,  make_pair("Carptura","CH3")), make_pair(12302, "79.110.92.190") },
+	{ make_pair(13,  make_pair("Carptura","CH4")), make_pair(12402, "79.110.92.187") },
+	{ make_pair(14,  make_pair("Carptura","CH5")), make_pair(12502, "79.110.92.189") },
+	{ make_pair(15,  make_pair("Carptura","CH6")), make_pair(12602, "79.110.92.190") },
+	{ make_pair(16,  make_pair("Carptura","CH7")), make_pair(12702, "79.110.92.187") },
+	{ make_pair(17,  make_pair("Carptura","CH8")), make_pair(12802, "79.110.92.189") },
+	{ make_pair(18,  make_pair("Carptura","CH9")), make_pair(12902, "79.110.92.190") },
+
 
 	{ make_pair(19,  make_pair("Vidgar","CH1")), make_pair(60106, "137.74.5.73") },
 	{ make_pair(20,  make_pair("Vidgar","CH2")), make_pair(60206, "137.74.5.73") },

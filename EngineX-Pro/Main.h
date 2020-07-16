@@ -156,6 +156,7 @@ public:
 		Settings::GLOBAL_SWITCH = true;
 		playerUsingHorse = GameFunctionsCustom::PlayerIsMountingHorse();
 		lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
+		canAttack = true;
 	}
 
 	void OnStop()
@@ -318,11 +319,13 @@ public:
 			}
 		}
 		ImGui::SameLine();
-		ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance); ImGui::SameLine();
-		if (ImGui::Checkbox("Rotation", &Settings::MiniMHRotation))
+		
+		
+		if (ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance) )
 		{
 			canAttack = true;
-		}
+		}ImGui::SameLine();
+		ImGui::Checkbox("Rotation", &Settings::MiniMHRotation);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MiniMHRotationValue, 1, 100);
 

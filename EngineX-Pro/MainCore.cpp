@@ -134,11 +134,19 @@
 bool MainCore::CheckMembers()
 {
 	string hwid = GetHardwareId();
-	if ( hwid == "21D7B04A-523B0BDA-3B9C1E8A-40E0655B")
+	if ( hwid == "21D7B04A-523B0BDA-3B9C1E8A-40E0655B")//ja
 	{
 		return true;
 	}
-	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")
+	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")//ser
+	{
+		return true;
+	}
+	else if (hwid == "51A0C122-B9B991A5-C50CE71B-C176E9A6")//adi
+	{
+		return true;
+	}
+	else if (hwid == "2CBFC55D-47476FA5-3CE60CE5-36F71640")//kom
 	{
 		return true;
 	}

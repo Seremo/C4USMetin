@@ -1234,7 +1234,7 @@ void Globals::ReAddressingLocas()
 	pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x76a10; // [100 ] [1 / 1]
 	pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0x419bd0; // [100 ] [1 / 1]
 	pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0x1dd6f0; // [100 ] [1 / 1]
-	pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x1db840; // [100 ] [1 / 1]
+	pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x419BD0; // [100 ] [1 / 1]
 	pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0x419a40; // [100 ] [1 / 1]
 	pCNetworkStreamPeek = Globals::hEntryBaseAddress + 0x4199f0; // [100 ] [1 / 1]
 	pCNetworkStreamRecv = Globals::hEntryBaseAddress + 0x41a080; // [100 ] [1 / 1]

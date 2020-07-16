@@ -263,7 +263,38 @@ public:
 	static float AngleBetweenTwoPoints(float x1, float y1, float x2, float y2)
 	{
 
-		return (float)atan2(y2 - y1, x2 - x1) * (float)(180 / 3.14159265358979323846);
+
+
+		//static const double TWOPI = 6.2831853071795865;
+		//static const double RAD2DEG = 57.2957795130823209;
+		//// if (a1 = b1 and a2 = b2) throw an error 
+		//double theta = atan2(x2 - x1, y2 - y2);
+		//if (theta < 0.0)
+		//	theta += TWOPI;
+		//return RAD2DEG * theta;
+
+
+
+		/*float dot = x1 * x2 + y1 * y2; 
+		float det = x1 * y2 - y1 * x2;      
+		float angle = atan2(det, dot);*/
+
+	
+
+		/*float a = x1 * x2 + y1 * y2;
+		float b = std::sqrt(x1 * x1 + y1 * y1);
+		float c = std::sqrt(x2 * x2 + y2 * y2);
+		float angle = std::acos(a / (b * c));*/
+
+		
+		float angle = (float)atan2(y2 - y1, x2 - x1) * (float)(180 / 3.14159265358979323846);
+		/*if (angle < 0)
+		{
+			angle += 360;
+		}*/
+
+
+		return angle;
 	}
 	static D3DVECTOR GetPercentPointBetweenTwoPoints(double x1, double y1, double x2,double y2, double percent)
 	{

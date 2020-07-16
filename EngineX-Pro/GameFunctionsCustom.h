@@ -153,8 +153,7 @@ public:
 	static void PlayerRevive()
 	{
 #ifdef METINPL
-		char v4 = 0;
-		Globals::CPythonPlayerReviveGlobal((void*)Globals::iCPythonNetworkStreamInstance, 5, 1, &v4);
+		GameFunctions::NetworkStreamSendCommandPacket(5, 0, "");
 #else
 		GameFunctions::NetworkStreamSendChatPacket("/restart_here", CHAT_TYPE_TALKING);
 #endif
@@ -225,12 +224,23 @@ public:
 	//#################################################################################################################################
 	static void MountHorse()
 	{
+#ifdef METINPL
+		GameFunctions::NetworkStreamSendCommandPacket(25, 0, "");
+#else
 		GameFunctions::NetworkStreamSendChatPacket("/ride", CHAT_TYPE_TALKING);
+
+#endif
 	}
 	//#################################################################################################################################
 	static void UnMountHorse()
 	{
+#ifdef METINPL
+		GameFunctions::NetworkStreamSendCommandPacket(43, 0, "");
+#else
 		GameFunctions::NetworkStreamSendChatPacket("/unmount", CHAT_TYPE_TALKING);
+
+#endif
+		
 	}
 	//#################################################################################################################################
 	static void SetDirection(int dir)
@@ -1054,7 +1064,7 @@ public:
 		}
 		if (playerUsingHorse)
 		{
-			DelayActions::Append(1000, &GameFunctionsCustom::MountHorse);
+			DelayActions::Append(1500, &GameFunctionsCustom::MountHorse);
 		}
 	}
 	//###############################################################################################################################
@@ -1145,10 +1155,38 @@ public:
 		D3DVECTOR tar;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(mainPtr, &main);
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(tarPtr, &tar);
-		DWORD angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
-		angle += 180;
+		int angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
+		
+		if (angle < 0)
+		{
+			angle = -angle;
+			angle += 90;
+		}
+		else
+		{
+			
+			if (angle >=  0 && angle <45)
+			{
+				angle = 80;
+			}
+
+			if (angle >= 45 && angle < 90)
+			{
+				angle = 60;
+			}
+			if (angle >= 90 && angle < 135)
+			{
+				angle = 20;
+			}
+			if (angle >= 135 && angle < 181)
+			{
+				angle = 330;
+			}
+		}
+		/*angle += 180;*/
 		/*int index = ((r %= 360) < 0 ? r + 360 : r) / 45;*/
-		GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));
+		/*GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));*/
+		GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), angle);
 	}
 	//#################################################################################################################################
 	static void LookAtDestPixelPosition(D3DVECTOR tar)
@@ -1159,8 +1197,35 @@ public:
 	
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(mainPtr, &main);
 	
-		DWORD angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
-		angle += 180;
+		int angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
+		if (angle < 0)
+		{
+			angle = -angle;
+			angle += 90;
+		}
+		else
+		{
+
+			if (angle >= 0 && angle < 45)
+			{
+				angle = 80;
+			}
+
+			if (angle >= 45 && angle < 90)
+			{
+				angle = 60;
+			}
+			if (angle >= 90 && angle < 135)
+			{
+				angle = 20;
+			}
+			if (angle >= 135 && angle < 181)
+			{
+				angle = 330;
+			}
+		}
+		
+		/*angle += 180;*/
 		GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), angle);
 		/*GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));*/
 	}

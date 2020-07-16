@@ -666,7 +666,7 @@ void MainForm::Menu() {
 		sprintf(FrameRate, "[FPS: %d] ", Fps);
 		if (Fps < 16)
 		{
-			FrameColor = ImColor(255, 36, 0, 255);
+			FrameColor = ImColor(255, 30, 0, 255);
 		}
 		else if (Fps < 44)
 		{
@@ -809,8 +809,12 @@ void MainForm::Menu() {
 					}
 					if (ImGui::Button("Logout", ImVec2(60, 0)))
 					{
+						
+#ifdef METINPL
+						GameFunctions::NetworkStreamSendCommandPacket(0, 2, "");
+#else
 						GameFunctions::NetworkStreamSendChatPacket("/logout");
-					
+#endif
 					}
 					
 					ImGui::EndPopup();

@@ -682,6 +682,21 @@ bool _fastcall NewCPythonNetworkStreamSendCharacterStatePacket(void* This, void*
 	return nCPythonNetworkStreamSendCharacterStatePacket( This, c_rkPPosDst,  fDstRot, eFunc, uArg/*, unk*/);
 }
 
+
+Globals::tCPythonNetworkStreamSendCommandPacket nCPythonNetworkStreamSendCommandPacket;
+bool _fastcall NewCPythonNetworkStreamSendCommandPacket(void* This, void* EDX,  DWORD a1, DWORD a2, const char* a3)
+{
+
+	string u = StringExtension::StringFormat("z[%d] y[% d] z[%s]  ", a1, a2, a3);
+	Logger::Add(Logger::MAIN, true, Logger::WHITE, u.c_str());
+	return nCPythonNetworkStreamSendCommandPacket(This, a1,a2,a3);
+}
+
+
+
+
+
+
 void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX) 
 {
 	if (MainForm::IsInitialized && MainForm::SideBarIsOpen) 
@@ -792,6 +807,9 @@ void Hooks::Initialize()
 
 #endif
 #ifdef METINPL
+	nCPythonNetworkStreamSendCommandPacket = (Globals::tCPythonNetworkStreamSendCommandPacket)DetourFunction((PBYTE)Globals::CPythonNetworkStreamSendCommandPacket, (PBYTE)NewCPythonNetworkStreamSendCommandPacket);
+
+
 	nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 	nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);
 	nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
@@ -802,7 +820,7 @@ void Hooks::Initialize()
 
 	nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
 	nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
-//	nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+	nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
 	nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 	//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 	nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);

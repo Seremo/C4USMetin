@@ -58,7 +58,7 @@ public:
 		
 		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 
-		if (GameFunctions::PlayerGetTargetVID())
+	/*	if (GameFunctions::PlayerGetTargetVID())
 		{
 		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetTargetVID()));
 		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
@@ -66,10 +66,23 @@ public:
 		ImGui::Text(to_string(mob_info->bType).c_str());
 		ImGui::Text(mob_info->szLocaleName);
 		ImGui::Text(mob_info->szName);
+		}*/
+		static float v = 0;
+		if (ImGui::InputFloat("vcxcvcxve", &v, 10, 361))
+		{
+			GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), v);
 		}
-		
-
-
+		if (GameFunctions::PlayerGetTargetVID())
+		{
+			DWORD* mainPtr = GameFunctions::PlayerNEW_GetMainActorPtr();
+			DWORD* tarPtr = GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetTargetVID());
+			D3DVECTOR main;
+			D3DVECTOR tar;
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(mainPtr, &main);
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(tarPtr, &tar);
+			int angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
+			ImGui::Text(to_string(angle).c_str());
+		}
 
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
@@ -89,21 +102,24 @@ public:
 
 		if (ImGui::Button("TEST 2"))
 		{
-			GameFunctions::Player__OnClickActor(GameFunctions::PlayerNEW_GetMainActorPtr(), GameFunctions::PlayerGetTargetVID(), true);
+			/*GameFunctions::Player__OnClickActor(GameFunctions::PlayerNEW_GetMainActorPtr(), GameFunctions::PlayerGetTargetVID(), true);*/
+			Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, 0, 2, "");//logoutt
 		}
 
 		if (ImGui::Button("TEST 4"))
 		{
-			
+			Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance,25,0,"");//mount
+
+			Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, 43, 0, "");
 		}
 		if (ImGui::Button("TEST 6"))
 		{
-		
+			Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, 5, 1, "");//revive
 		}
 		if (ImGui::Button("TEST 7"))
 		{
 			
-			
+			Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, 0, 1, "");//quit
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

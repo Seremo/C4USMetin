@@ -475,5 +475,13 @@ public:
 	{
 		Globals::CInstanceBaseSetRotation((void*)instance, fRotation);
 	}
+	//#################################################################################################################################
+	static bool  NetworkStreamSendCommandPacket(DWORD a1, DWORD a2, const char* a3)
+	{
+		return Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, a1, a2, a3);
+	}
+	//#################################################################################################################################
+
+	
 };
 
