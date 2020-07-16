@@ -36,7 +36,7 @@ public:
 		class LogLine
 		{
 		public:
-			vector<ImVec4> colors;
+			vector< ImColor> colors;
 			vector<string> text;
 		};
 	public:	
@@ -52,23 +52,23 @@ public:
 			switch (color)
 			{
 			case RED:
-				return ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+				return ImColor(255, 1, 1, 255);
 				break;
 			case BLACK:
-				return ImVec4(0.3f, 1.0f, 0.0f, 1.0f);
+				return ImColor(1, 1, 1, 255);
 				break;
 			case GREEN:
-				return ImVec4(0.3f, 1.0f, 1.0f, 1.0f);
+				return ImColor(1, 255, 1, 255);
 				break;
 			case WHITE:
-				return ImVec4(1.0f, 0.0f, 1.0f, 1.0f);
+				return ImColor(255, 255, 255, 255);
 				break;
 
 			case YELLOW:
-				return ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+				return ImColor(255, 255, 0, 255);
 				break;
 			case PINK:
-				return ImVec4(1.0f, 0.0f, 1.0f, 1.0f);
+				return ImColor(255, 0, 255, 255);
 				break;
 			
 				break;
@@ -182,16 +182,16 @@ private:
 	{
 		va_list args;
 		va_start(args, format);
-		string frm = StringExtension::StringFormat(format, args);
-		format = frm.c_str();
+		/*string frm = StringExtension::StringFormat(format, args);
+		format = frm.c_str();*/
 		switch (window)
 		{
 		case MAIN:
-			mainLogWindow.Log(isNewLine, color, format/*, args*/);
+			mainLogWindow.Log(isNewLine, color, format, args);
 			
 			break;
 		case FISH:
-			fishLogWindow.Log(isNewLine, color, format/*, args*/);
+			fishLogWindow.Log(isNewLine, color, format, args);
 			
 			break;
 		case SNIFFER:

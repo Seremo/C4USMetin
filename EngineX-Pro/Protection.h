@@ -21,6 +21,7 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("ProtectionBorder", ImVec2(655, 310), true);;
 		ImGui::Checkbox("ON/OFF Render Scene", &Settings::ProtectionDisableRender);
+		ImGui::Checkbox("ON/OFF Update Scene", &Settings::ProtectionDisableUpdate);
 		ImGui::Checkbox("Whisper Logs", &Settings::ProtectionShowWisperLogs);
 		ImGui::Checkbox("Whisper Balloon", &Settings::ProtectionShowWisperBalloon);
 		ImGui::Checkbox("Whisper Beep", &Settings::ProtectionPlayWisperBeep);

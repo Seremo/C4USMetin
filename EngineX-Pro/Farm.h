@@ -5,6 +5,7 @@ public:
 	int LastTeleport = 0;
 	int LastTeleportTemp = 0;
 	DWORD targetVID = 0;
+	DWORD * targetInstance = NULL;
 	int MoveStep;
 	vector<D3DVECTOR> cordsMaps;
 	int BoostCount = 0;
@@ -32,10 +33,12 @@ public:
 		D3DVECTOR mainPosition;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &mainPosition);
 		DWORD LowestDistance = MiscExtension::CountDistanceTwoPoints(mainPosition.x, mainPosition.y, cordsMaps.begin()->x, cordsMaps.begin()->y);
-		for (auto itor = cordsMaps.begin(); itor != cordsMaps.end(); itor++) {
+		for (vector<D3DVECTOR>::iterator itor = cordsMaps.begin(); itor != cordsMaps.end(); itor++)
+		{
 
 			float Distance = MiscExtension::CountDistanceTwoPoints(mainPosition.x, mainPosition.y, itor->x, itor->y);
-			if (Distance < LowestDistance) {
+			if (Distance < LowestDistance) 
+			{
 				ClosestIndex = index;
 			}
 			index++;
@@ -74,6 +77,7 @@ public:
 				map<DWORD, DWORD*> mobList;
 				map<DWORD, DWORD*> stoneList;
 				map<DWORD, DWORD*> bossList;
+				map<DWORD, DWORD*> mineList;
 				if (Settings::FARM_MOB_ENABLE)
 				{
 					mobList = GameFunctionsCustom::GetObjectList(OBJECT_MOB , Settings::FARM_DISTANCE);
@@ -86,8 +90,10 @@ public:
 				{
 					stoneList	 = GameFunctionsCustom::GetObjectList(OBJECT_STONE , Settings::FARM_DISTANCE);
 				}
-					
-					
+				if (Settings::FARM_MINE_ENABLE)
+				{
+					mineList = GameFunctionsCustom::GetObjectList(OBJECT_MINE, Settings::FARM_DISTANCE);
+				}
 					
 
 
@@ -95,17 +101,34 @@ public:
 
 				
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-				if (mobList.size()|| stoneList.size()|| bossList.size())
+				if (targetInstance== NULL)
+				{
+					targetVID = 0;
+					/*targetInstance = NULL;*/
+				}
+				if (targetVID &&( GameFunctions::InstanceBaseIsDead(targetInstance) || !GameFunctionsCustom::MapHaveInstance(targetInstance)))
+				{
+					targetVID = 0;
+					targetInstance = NULL;
+					DynamicTimer::CheckAutoSet("DropDelay", 8000);
+				}
+				if (DynamicTimer::IsActive("DropDelay", 8000))
+				{
+					return;
+				}
+				
+				if (mobList.size()|| stoneList.size()|| bossList.size() || mineList.size())
 				{
 				
 					if (!mobList.count(targetVID) && !stoneList.count(targetVID) && !bossList.count(targetVID))
 					{
-						targetVID = 0;
+						/*targetVID = 0;*/
 						if (!targetVID)
 						{
 							for (map<DWORD, DWORD*>::iterator itor = mobList.begin(); itor != mobList.end(); itor++)
 							{
 								targetVID = itor->first;
+								targetInstance = itor->second;
 							}
 						}
 						if (!targetVID)
@@ -113,6 +136,7 @@ public:
 							for (map<DWORD, DWORD*>::iterator itor = stoneList.begin(); itor != stoneList.end(); itor++)
 							{
 								targetVID = itor->first;
+								targetInstance = itor->second;
 							}
 						}
 						if (!targetVID)
@@ -120,20 +144,37 @@ public:
 							for (map<DWORD, DWORD*>::iterator itor = bossList.begin(); itor != bossList.end(); itor++)
 							{
 								targetVID = itor->first;
+								targetInstance = itor->second;
+							}
+						}
+						if (!targetVID)
+						{
+							for (map<DWORD, DWORD*>::iterator itor = mineList.begin(); itor != mineList.end(); itor++)
+							{
+								targetVID = itor->first;
+								targetInstance = itor->second;
 							}
 						}
 						
-						
 					}
-					if (targetVID && DynamicTimer::CheckAutoSet("FarmOnPressActor", 1000))
+					if (targetVID && DynamicTimer::CheckAutoSet("FarmOnPressActor", 1500))
 					{
-						GameFunctions::Player__OnPressActor(GameFunctions::PlayerNEW_GetMainActorPtr(), targetVID, true);
+						if (GameFunctionsCustom::InstanceIsResource(targetVID) && GameFunctions::InstanceIsWaiting(GameFunctions::PlayerNEW_GetMainActorPtr()))
+						{
+							GameFunctions::Player__OnClickActor(GameFunctions::PlayerNEW_GetMainActorPtr(), targetVID, true);
+						}
+						else
+						{
+							GameFunctions::Player__OnPressActor(GameFunctions::PlayerNEW_GetMainActorPtr(), targetVID, true);
+						}
+
+						
 					}
 				}
 				else
 				{
-					bool isINDistance = MathExtension::PointInCircle(playerPosition, cordsMaps[MoveStep], 300);
-					if (isINDistance)
+					bool isInCircle = MathExtension::PointInCircle(playerPosition, cordsMaps[MoveStep], 300);
+					if (isInCircle)
 					{
 						MoveStep ++;
 					}
@@ -143,7 +184,7 @@ public:
 						reverse(cordsMaps.begin(), cordsMaps.end());
 						MoveStep = 0;
 					}
-					if (CordsLength >= 2 && !isINDistance)
+					if (CordsLength >= 2 && !isInCircle)
 					{
 						if (Settings::FARM_MOVE_TYPE == 1)
 						{
@@ -173,7 +214,8 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("FarmBotBorder", ImVec2(655, 160), true);
-		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE)) {
+		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE)) 
+		{
 			if (Settings::FARM_ENABLE == true)
 			{
 				OnStart();
@@ -191,7 +233,10 @@ public:
 		ImGui::PushItemWidth(200); ImGui::InputInt("Distance", &Settings::FARM_DISTANCE, 100, 1000);
 		ImGui::Checkbox("Mob", &Settings::FARM_MOB_ENABLE); ImGui::SameLine();
 		ImGui::Checkbox("Boss", &Settings::FARM_BOSS_ENABLE); ImGui::SameLine();
-		ImGui::Checkbox("Metin", &Settings::FARM_METIN_ENABLE);
+		ImGui::Checkbox("Metin", &Settings::FARM_METIN_ENABLE); ImGui::SameLine();
+
+		ImGui::Checkbox("Mine", &Settings::FARM_MINE_ENABLE); ImGui::SameLine();
+		/*ImGui::Checkbox("Plant", &Settings::FARM_PLANT_ENABLE);*/
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 		
@@ -213,9 +258,10 @@ public:
 			for (auto item : cordsMaps)
 			{
 				bool is_selected = true;
-				std::string& item_name = "[X:" + to_string(item.x) + "],[Y:" + to_string(item.y) + "]";
+				std::string& item_name = "[ X:" + to_string((DWORD)(item.x /100)) + "],[ Y:" + to_string((DWORD)(item.y / 100)) + "]";
 				if (ImGui::Selectable(item_name.c_str(), is_selected))
 				{
+
 				}
 			}
 		}

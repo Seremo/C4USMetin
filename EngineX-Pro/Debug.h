@@ -6,7 +6,7 @@ class Debug :public IAbstractModuleBase, public Singleton<Debug>
 {
 private:
 	int recv_limit = 3;
-	string packetHex = string(300, '\0');;
+	string packetHex = string(900, '\0');;
 	
 	D3DVECTOR NewPosition;
 public:
@@ -53,12 +53,23 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
 		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
 		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
+
+
+		if (GameFunctions::PlayerNEW_GetMainActorPtr())
+		{
+			ImGui::Text(to_string(Globals::CInstanceBaseIsWaiting(GameFunctions::PlayerNEW_GetMainActorPtr())).c_str());
+		}
+		
+
+		
+
+
 		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
 		{
 			
-			GameFunctionsCustom::SendPacket(string(packetHex));
+			GameFunctionsCustom::SendPacket(string(packetHex.c_str()));
 			
 		}
 		D3DVECTOR oldPosition;
@@ -68,37 +79,11 @@ public:
 		{
 			GameFunctionsCustom::LookAtDestPixelPosition(GameFunctions::PlayerGetTargetVID());
 		}
-		if (ImGui::Button("TEST false"))
-		{
-			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
-			if (lastSlot != -1)
-			{
-				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
-			}
-			DelayActions::AppendBlock(false, 5000, &MainDungs::Instance().RestartDT);
-		}
-		if (ImGui::Button("TEST true"))
-		{
-			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
-			if (lastSlot != -1)
-			{
-				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
-			}
-			DelayActions::AppendBlock(true, 5000, &MainDungs::Instance().RestartDT);
-			/*vector< D3DVECTOR> gf = Misc::DivideTwoPointsByDistance(1800, oldPosition, NewPosition);
-			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-			{
-				MainForm::orbital_log_uart(0, string("(" + to_string(it->x) + " " + to_string(it->y) + ")").c_str());
-
-			}*/
 		
-		}
+
 		if (ImGui::Button("TEST 2"))
 		{
-			typedef void(__thiscall* tCPythonItemCreateItem)(void* This, DWORD dwVirtualID, DWORD dwVirtualNumber, float x, float y, float z, bool bDrop,int unk,int unk2,int unk3);
-			tCPythonItemCreateItem CPythonItemCreateItem = (tCPythonItemCreateItem)(Globals::hEntryBaseAddress + 0x1AF210);
-
-			CPythonItemCreateItem((void*)Globals::iCPythonItemInstance, 19, 454, 1, 1, 1, 1,1,1,1);
+			GameFunctions::Player__OnClickActor(GameFunctions::PlayerNEW_GetMainActorPtr(), GameFunctions::PlayerGetTargetVID(), true);
 		}
 
 		if (ImGui::Button("TEST 4"))
@@ -111,7 +96,8 @@ public:
 		}
 		if (ImGui::Button("TEST 7"))
 		{
-			GameFunctionsCustom::GetGroundItemList();
+			
+			
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

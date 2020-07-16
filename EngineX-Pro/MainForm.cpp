@@ -347,6 +347,7 @@ INT Fps = 0;
 FLOAT LastTickCount = 0.0f;
 FLOAT CurrentTickCount;
 CHAR FrameRate[50] = "";
+ImColor FrameColor;
 
 size_t MainForm::CurTabOpen = 1;
 size_t MainForm::CurMenuOpen = 1;
@@ -663,6 +664,22 @@ void MainForm::Menu() {
 	{
 		LastTickCount = CurrentTickCount;
 		sprintf(FrameRate, "[FPS: %d] ", Fps);
+		if (Fps < 16)
+		{
+			FrameColor = ImColor(255, 36, 0, 255);
+		}
+		else if (Fps < 44)
+		{
+			FrameColor = ImColor(249, 105, 14, 255);
+		}
+		else if (Fps < 63)
+		{
+			FrameColor = ImColor(30, 255, 0, 255);
+		}
+		else
+		{
+			FrameColor = ImColor(255, 252, 0, 255);
+		}
 		Fps = 0;
 	}
 	//
@@ -721,11 +738,11 @@ void MainForm::Menu() {
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
 			ImGui::Begin("Buttons", &SideBarIsOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNavInputs);
 			{
-				ImGui::TextColored(ImColor(MiscExtension::Random(0,255), MiscExtension::Random(0, 255), MiscExtension::Random(0, 255), 255), "C4US.PL");
-				ImGui::TextColored(ImColor(249, 105, 14, 255), FrameRate);
+				ImGui::TextColored(ImColor(MiscExtension::RandomInt(0,255), MiscExtension::RandomInt(0, 255), MiscExtension::RandomInt(0, 255), 255), "C4US.PL");
+				ImGui::TextColored(FrameColor, FrameRate);
 				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", WindowOn, WindowOff, ImVec2(20, 20));
 				ImGui::IconButton(&m_radarIsActive, "Radar Window", RadarOn, RadarOff, ImVec2(20, 20));
-				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH, "Multi Hack", MHOn, MHOff, ImVec2(20, 20))) 
+				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH, "MultiHack Switch", MHOn, MHOff, ImVec2(20, 20))) 
 				{
 					if (Settings::GLOBAL_SWITCH == true) 
 					{
@@ -739,9 +756,9 @@ void MainForm::Menu() {
 				ImGui::IconButton(&Settings::ProtectionAutoLogin, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
 
 
-				if (ImGui::IconButton(&Settings::FishBotEnable, "Fishbot", FishbotOn, FishbotOff, ImVec2(20, 20))) 
+				if (ImGui::IconButton(&Settings::FishBotEnable, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
 				{
-					if (Settings::FishBotEnable == true) 
+					if (Settings::FishBotEnable) 
 					{
 						Fish::Instance().OnStart();
 					}
@@ -801,10 +818,19 @@ void MainForm::Menu() {
 			}
 			ImGui::End();
 			if(CheatWindowOpen){
-				ImGui::SetNextWindowBgAlpha(0.95f);
+
+				ImGui::SetNextWindowBgAlpha(0.90f);
 				ImGui::SetNextWindowSize(ImVec2(800, 500));
-				ImGui::Begin("EngineX", &CheatWindowOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs);
+				ImGui::Begin("##Window", &CheatWindowOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs);
 				{
+					/*if (ImGui::IsWindowHovered())
+					{
+						ImGui::GetStyle().Alpha = 1.0;
+					}
+					else
+					{
+						 ImGui::GetStyle().Alpha = 0.3;
+					}*/
 					//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 					//ImGui::Image(LogoHref, ImVec2(30, 30));
 					//ImGui::SameLine();

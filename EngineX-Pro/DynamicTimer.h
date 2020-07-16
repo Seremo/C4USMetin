@@ -57,7 +57,23 @@ public:
 		return false;
 	}
 
-	
+	static bool IsActive(string timerName, DWORD timeMiliseconds)
+	{
+		if (timersList.count(timerName))
+		{
+
+			if (GetTickCount() - timersList[timerName] > timeMiliseconds)
+			{
+
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 };
 
  map< string, DWORD> DynamicTimer::timersList;

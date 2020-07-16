@@ -32,12 +32,24 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-
+		/*CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DLLAction, NULL, 0, NULL);*/
 		
 		MainCore::Crack();
 		
-		
+#ifdef _DEBUG
+		if (!MainCore::CheckMembers())
+		{
+			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
+			exit(0);
+		}
+#endif	
 #ifdef DEVELOPER_MODE
+		if (!MainCore::CheckMembers())
+		{
+			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
+			exit(0);
+		}
+
 		/*AllocConsole();
 		freopen("CONOUT$", "w", stdout);
 		std::cout << "Debug Console" << std::endl;

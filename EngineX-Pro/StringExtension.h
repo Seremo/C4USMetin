@@ -2,6 +2,13 @@
 class StringExtension
 {
 public:
+
+	static string ToUpper(string strToConvert)
+	{
+		std::transform(strToConvert.begin(), strToConvert.end(), strToConvert.begin(), ::toupper);
+
+		return strToConvert;
+	}
 	static const char* StringExtension::ConstCharJoin(const char* chr1, const char* chr2)
 	{
 

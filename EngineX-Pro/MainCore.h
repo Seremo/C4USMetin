@@ -3,7 +3,7 @@ class MainCore
 {
 public:
 	static void Crack();
-	static void RunInterface();
+	static bool CheckMembers();	
 	static void Initialize();
 	static void  UpdateLoop();
 	static map < pair<DWORD, string>, pair<bool, shared_ptr<IAbstractModuleBase>>> moduleList;
@@ -19,7 +19,7 @@ map < pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  Ma
 	{ make_pair(6, "Refine"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Refine()))},
 	{ make_pair(7, "Buff"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Buff()))},
 	{ make_pair(8, "Status"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Status()))},
-#ifdef DEVELOPER_MODE
+#if defined( DEVELOPER_MODE) || defined( METINPL)
 	{ make_pair(9, "PythonScript"), make_pair(true, shared_ptr<IAbstractModuleBase >(new PythonScript()))},
 #endif
 	{ make_pair(10, "Protection"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Protection()))},

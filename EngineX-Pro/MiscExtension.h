@@ -131,7 +131,7 @@ public:
 		std::generate_n(str.begin(), length, randchar);
 		return str;
 	}
-	static int Random(int min, int max)
+	static int RandomInt(int min, int max)
 	{
 		static bool first = true;
 		if (first)
@@ -142,7 +142,18 @@ public:
 		return min + rand() % ((max + 1) - min);
 	}
 
-	struct EnumWindowsCallbackArgs {
+
+	static float RandomFloat(float min, float max)
+	{
+		float random = ((float)rand()) / (float)RAND_MAX;
+
+		float range = max - min;
+		return (random * range) + min;
+	}
+
+
+	struct EnumWindowsCallbackArgs 
+	{
 		EnumWindowsCallbackArgs(DWORD p) : pid(p) { }
 		const DWORD pid;
 		std::vector<HWND> handles;

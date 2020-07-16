@@ -165,7 +165,7 @@ bool GetPhysicalDriveSerialNumber(int PhysicalDriveNumber, char* PhysicalDriveSe
 		return 0;
 	}
 }
-char* GetHardwareId() //OK
+string GetHardwareId() //OK
 {
 	char PhysicalDriveSerial[256];
 
@@ -191,5 +191,5 @@ char* GetHardwareId() //OK
 
 	wsprintf(HardwareId, "%08X-%08X-%08X-%08X", ComputerHardwareId1, ComputerHardwareId2, ComputerHardwareId3, ComputerHardwareId4);
 
-	return HardwareId;
+	return string(HardwareId);
 }

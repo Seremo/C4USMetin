@@ -36,6 +36,10 @@ public:
 	static bool FARM_MOB_ENABLE;
 	static bool FARM_BOSS_ENABLE;
 	static bool FARM_METIN_ENABLE;
+	static bool FARM_MINE_ENABLE;
+	static bool FARM_PLANT_ENABLE;
+
+
 	static int	FARM_DISTANCE;
 	static int	FARM_MOVE_TYPE;
 	static int	LevelBotAttackType;
@@ -88,24 +92,29 @@ public:
 	static bool MiniMHRotation;
 	static int MiniMHRotationValue;
 	static bool MAIN_SKILL_ENABLE;
-	static bool MAIN_SLOT_ENABLE_3;
-	static bool MAIN_SLOT_ENABLE_4;
-	static bool MAIN_SLOT_ENABLE_5;
-	static bool MAIN_SLOT_ENABLE_6;
-	static bool MAIN_SLOT_ENABLE_7;
-	static bool MAIN_SLOT_ENABLE_8;
-	static bool MAIN_SLOT_ENABLE_9;
-	static bool MAIN_SLOT_ENABLE_10;
-	static bool MAIN_SLOT_ENABLE_11;
-	static bool MAIN_SLOT_ENABLE_12;
-	static bool MAIN_SLOT_ENABLE_13;
-	static bool MAIN_SLOT_ENABLE_14;
-	static bool MAIN_SLOT_ENABLE_15;
-	static bool MAIN_SLOT_ENABLE_16;
+
+
+
+	static bool ITEM_SLOT_RANDOM_ENABLE;
+	static bool ITEM_SLOT_ENABLE_3;
+	static bool ITEM_SLOT_ENABLE_4;
+	static bool ITEM_SLOT_ENABLE_5;
+	static bool ITEM_SLOT_ENABLE_6;
+	static bool ITEM_SLOT_ENABLE_7;
+	static bool ITEM_SLOT_ENABLE_8;
+	static bool ITEM_SLOT_ENABLE_9;
+	static bool ITEM_SLOT_ENABLE_10;
+	static bool ITEM_SLOT_ENABLE_11;
+	static bool ITEM_SLOT_ENABLE_12;
+	static bool ITEM_SLOT_ENABLE_13;
+	static bool ITEM_SLOT_ENABLE_14;
+	static bool ITEM_SLOT_ENABLE_15;
+	static bool ITEM_SLOT_ENABLE_16;
 	
 
 
-
+	static float ITEM_SLOT_RANDOM_MIN_TIME;
+	static float ITEM_SLOT_RANDOM_MAX_TIME;
 	static float ITEM_SLOT_TIME_3;
 	static float ITEM_SLOT_TIME_4;
 	static float ITEM_SLOT_TIME_5;
@@ -199,18 +208,15 @@ public:
 	static bool SPAM_WHISPER_COLOR_ENABLE;
 	static bool SPAM_SHOUT_COLOR_ENABLE;
 
+	static bool SPAM_NORMAL_RAINBOW_COLOR_ENABLE;
+	static bool SPAM_WHISPER_RAINBOW_COLOR_ENABLE;
+	static bool SPAM_SHOUT_RAINBOW_COLOR_ENABLE;
+
+
 	static bool ProtectionDisableRender;
+	static bool ProtectionDisableUpdate;
 	static bool PerformanceDisableRenerFrames;
-	static bool MinerBotEnable;
-	static bool MetinerBotEnable;
-	static DWORD MinerValueDistance;
-	static int  MetinerValueDistance;
-	static bool MetinerWallHackTerrain;
-	static bool MetinerWallHackObject;
-	static bool MetinerWallHackMob;
-	static bool MinerWallHackTerrain;
-	static bool MinerWallHackObject;
-	static bool MinerWallHackMob;
+	
 	static bool ProtectionAutoLogin;
 	static int	BoostKey;
 	static int	RelogKey;
@@ -304,12 +310,12 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(37,  make_pair("Rubinum","CH11")), make_pair(13310, "185.100.87.115") },
 	{ make_pair(38,  make_pair("Rubinum","CH12")), make_pair(13340, "185.100.87.115") },
 
-	{ make_pair(39,  make_pair("Pangea","CH1")), make_pair(41007, "51.77.43.124") },
-	{ make_pair(40,  make_pair("Pangea","CH2")), make_pair(42007, "51.77.43.124") },
-	{ make_pair(41,  make_pair("Pangea","CH3")), make_pair(43007, "51.77.43.124") },
-	{ make_pair(42,  make_pair("Pangea","CH4")), make_pair(44007, "51.77.43.124") },
-	{ make_pair(43,  make_pair("Pangea","CH5")), make_pair(45007, "51.77.43.124") },
-	{ make_pair(44,  make_pair("Pangea","CH6")), make_pair(46007, "51.77.43.124") },
+	{ make_pair(39,  make_pair("Pangea","CH1")), make_pair(41000, "51.77.43.124") },
+	{ make_pair(40,  make_pair("Pangea","CH2")), make_pair(42000, "51.77.43.124") },
+	{ make_pair(41,  make_pair("Pangea","CH3")), make_pair(43000, "51.77.43.124") },
+	{ make_pair(42,  make_pair("Pangea","CH4")), make_pair(44000, "51.77.43.124") },
+	{ make_pair(43,  make_pair("Pangea","CH5")), make_pair(45000, "51.77.43.124") },
+	{ make_pair(44,  make_pair("Pangea","CH6")), make_pair(46000, "51.77.43.124") },
 
 	{ make_pair(45,  make_pair("Samia","CH1")), make_pair(16211, "54.38.85.102") },
 	{ make_pair(46,  make_pair("Samia","CH2")), make_pair(16221, "54.38.85.102") },
@@ -630,6 +636,10 @@ bool Settings::FARM_ENABLE = false;
 bool Settings::FARM_MOB_ENABLE = false;
 bool Settings::FARM_BOSS_ENABLE = false;
 bool Settings::FARM_METIN_ENABLE = true;
+
+bool Settings::FARM_MINE_ENABLE = false;
+bool Settings::FARM_PLANT_ENABLE = false;
+
 int Settings::FARM_DISTANCE = 3000;
 int Settings::FARM_MOVE_TYPE = 0;
 int Settings::LevelBotAttackType = 0;
@@ -651,36 +661,37 @@ bool Settings::MiniMHRotation = false;
 int Settings::MiniMHRotationValue = 30;
 
 bool Settings::MAIN_SKILL_ENABLE = false;
-bool Settings::MAIN_SLOT_ENABLE_3 = false;
-bool Settings::MAIN_SLOT_ENABLE_4 = false;
-bool Settings::MAIN_SLOT_ENABLE_5 = false;
-bool Settings::MAIN_SLOT_ENABLE_6 = false;
-bool Settings::MAIN_SLOT_ENABLE_7 = false;
-bool Settings::MAIN_SLOT_ENABLE_8 = false;
-bool Settings::MAIN_SLOT_ENABLE_9 = false;
-bool Settings::MAIN_SLOT_ENABLE_10 = false;
-bool Settings::MAIN_SLOT_ENABLE_11 = false;
-bool Settings::MAIN_SLOT_ENABLE_12 = false;
-bool Settings::MAIN_SLOT_ENABLE_13 = false;
-bool Settings::MAIN_SLOT_ENABLE_14 = false;
-bool Settings::MAIN_SLOT_ENABLE_15 = false;
-bool Settings::MAIN_SLOT_ENABLE_16 = false;
-
-
-float Settings::ITEM_SLOT_TIME_3 = 0.700;
-float Settings::ITEM_SLOT_TIME_4 = 0.700;
-float Settings::ITEM_SLOT_TIME_5 = 0.700;
-float Settings::ITEM_SLOT_TIME_6 = 0.700;
-float Settings::ITEM_SLOT_TIME_7 = 0.700;
-float Settings::ITEM_SLOT_TIME_8 = 0.700;
-float Settings::ITEM_SLOT_TIME_9 = 0.700;
-float Settings::ITEM_SLOT_TIME_10 = 0.700;
-float Settings::ITEM_SLOT_TIME_11 = 0.700;
-float Settings::ITEM_SLOT_TIME_12 = 0.700;
-float Settings::ITEM_SLOT_TIME_13 = 0.700;
-float Settings::ITEM_SLOT_TIME_14 = 0.700;
-float Settings::ITEM_SLOT_TIME_15 = 0.700;
-float Settings::ITEM_SLOT_TIME_16 = 0.700;
+bool Settings::ITEM_SLOT_RANDOM_ENABLE = true;
+bool Settings::ITEM_SLOT_ENABLE_3 = false;
+bool Settings::ITEM_SLOT_ENABLE_4 = false;
+bool Settings::ITEM_SLOT_ENABLE_5 = false;
+bool Settings::ITEM_SLOT_ENABLE_6 = false;
+bool Settings::ITEM_SLOT_ENABLE_7 = false;
+bool Settings::ITEM_SLOT_ENABLE_8 = false;
+bool Settings::ITEM_SLOT_ENABLE_9 = false;
+bool Settings::ITEM_SLOT_ENABLE_10 = false;
+bool Settings::ITEM_SLOT_ENABLE_11 = false;
+bool Settings::ITEM_SLOT_ENABLE_12 = false;
+bool Settings::ITEM_SLOT_ENABLE_13 = false;
+bool Settings::ITEM_SLOT_ENABLE_14 = false;
+bool Settings::ITEM_SLOT_ENABLE_15 = false;
+bool Settings::ITEM_SLOT_ENABLE_16 = false;
+float Settings::ITEM_SLOT_RANDOM_MIN_TIME = 0.050;
+float Settings::ITEM_SLOT_RANDOM_MAX_TIME = 0.100;
+float Settings::ITEM_SLOT_TIME_3 = 1.500;
+float Settings::ITEM_SLOT_TIME_4 = 1.500;
+float Settings::ITEM_SLOT_TIME_5 = 1.500;
+float Settings::ITEM_SLOT_TIME_6 = 1.500;
+float Settings::ITEM_SLOT_TIME_7 = 1.500;
+float Settings::ITEM_SLOT_TIME_8 = 1.500;
+float Settings::ITEM_SLOT_TIME_9 = 1.500;
+float Settings::ITEM_SLOT_TIME_10 = 1.500;
+float Settings::ITEM_SLOT_TIME_11 = 1.500;
+float Settings::ITEM_SLOT_TIME_12 = 1.500;
+float Settings::ITEM_SLOT_TIME_13 = 1.500;
+float Settings::ITEM_SLOT_TIME_14 = 1.500;
+float Settings::ITEM_SLOT_TIME_15 = 1.500;
+float Settings::ITEM_SLOT_TIME_16 = 1.500;
 
 
 
@@ -730,7 +741,7 @@ bool Settings::MiniMHWaitHackDetect = false;
 
 bool Settings::ITEM_PICKUP_ENABLE = false;
 bool Settings::ITEM_PICKUP_FILTER = false;
-int Settings::ITEM_PICKUP_TIME = 50;
+int Settings::ITEM_PICKUP_TIME = 900;
 
 int Settings::ITEM_PICKUP_TYPE = 0;
 map< DWORD, pair<string, bool>> Settings::ITEM_PICKUP_SELECTED_LIST;
@@ -792,7 +803,7 @@ double Settings::FishBotKillTillSizeValue = 10;
 
 
 
-
+bool Settings::ProtectionDisableUpdate = false;
 bool Settings::ProtectionDisableRender = false;
 bool Settings::PerformanceDisableRenerFrames = false;
 
@@ -804,7 +815,7 @@ bool Settings::SPAM_NORMAL_ENABLE = false;
 bool Settings::SPAM_SHOUT_ENABLE = false;
 bool Settings::SPAM_WISPER_ENABLE = false;
 float	Settings::SPAM_NORMAL_TIME = 5;
-float	Settings::SPAM_WHISPER_TIME = 5;
+float	Settings::SPAM_WHISPER_TIME = 0.150;
 float  Settings::SPAM_SHOUT_TIME = 7;
 ImVec4 Settings::SPAM_NORMAL_COLOR = ImColor(255, 0, 102);
 ImVec4 Settings::SPAM_WHISPER_COLOR = ImColor(255, 0, 102);
@@ -815,7 +826,9 @@ bool Settings::SPAM_NORMAL_COLOR_ENABLE = false;
 bool Settings::SPAM_WHISPER_COLOR_ENABLE = false;
 bool Settings::SPAM_SHOUT_COLOR_ENABLE = false;
 
-
+bool Settings::SPAM_NORMAL_RAINBOW_COLOR_ENABLE = false;
+bool Settings::SPAM_WHISPER_RAINBOW_COLOR_ENABLE = false;
+bool Settings::SPAM_SHOUT_RAINBOW_COLOR_ENABLE = false;
 
 
 

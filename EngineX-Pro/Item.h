@@ -44,7 +44,7 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("PickupBorder", ImVec2(420, 420), true);
 		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); 
-		ImGui::SliderInt("Pickup Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 1000);
+		ImGui::SliderInt("Pickup Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000);
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1); 
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER); ImGui::SameLine();
@@ -97,15 +97,7 @@ public:
 			}
 			
 			
-			/*for (int i = 0; i < ItemsListDisplay.size(); i++)
-			{
-				const char* item_name = ItemsListDisplay[i]->m_ItemTable.szLocaleName;
-				if (ImGui::Selectable(item_name, PickUpSelectedCfg == i))
-				{
-					PickUpSelectedCfg = i;
-					PickUpItem = ItemsListDisplay[i];
-				}
-			}*/
+		
 
 			
 			
@@ -198,36 +190,43 @@ public:
 		ImGui::SameLine();
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
+
+		static float ITEM_SLOT_RANDOM_MIN_TIME;
+		static float ITEM_SLOT_RANDOM_MAX_TIME;
+
 		ImGui::BeginChild("SlotsBorder", ImVec2(225, 445), true);
-		ImGui::Text("Slots(s.ms)");
+		ImGui::Checkbox("Random +/- (ms)  ", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
+		ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0, 100, 0.100, 1);
+		ImGui::InputFloatMinMax("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME, 0, 100, 0.100, 1);
 		ImGui::Separator();
-		ImGui::Checkbox("3  ", &Settings::MAIN_SLOT_ENABLE_3); ImGui::SameLine();
+		ImGui::Text("Slots(s.ms)");
+		ImGui::Checkbox("3  ", &Settings::ITEM_SLOT_ENABLE_3); ImGui::SameLine();
 		ImGui::InputFloat("##slot3time", &Settings::ITEM_SLOT_TIME_3, 0.100, 1);
-		ImGui::Checkbox("4  ", &Settings::MAIN_SLOT_ENABLE_4); ImGui::SameLine();
+		ImGui::Checkbox("4  ", &Settings::ITEM_SLOT_ENABLE_4); ImGui::SameLine();
 		ImGui::InputFloat("##slot4time", &Settings::ITEM_SLOT_TIME_4, 0.100, 1);
-		ImGui::Checkbox("5  ", &Settings::MAIN_SLOT_ENABLE_5); ImGui::SameLine();
+		ImGui::Checkbox("5  ", &Settings::ITEM_SLOT_ENABLE_5); ImGui::SameLine();
 		ImGui::InputFloat("##slot5time", &Settings::ITEM_SLOT_TIME_5, 0.100, 1);
-		ImGui::Checkbox("6  ", &Settings::MAIN_SLOT_ENABLE_6); ImGui::SameLine();
+		ImGui::Checkbox("6  ", &Settings::ITEM_SLOT_ENABLE_6); ImGui::SameLine();
 		ImGui::InputFloat("##slot6time", &Settings::ITEM_SLOT_TIME_6, 0.100, 1);
-		ImGui::Checkbox("7  ", &Settings::MAIN_SLOT_ENABLE_7); ImGui::SameLine();
+		ImGui::Checkbox("7  ", &Settings::ITEM_SLOT_ENABLE_7); ImGui::SameLine();
 		ImGui::InputFloat("##slot7time", &Settings::ITEM_SLOT_TIME_7, 0.100, 1);
-		ImGui::Checkbox("8  ", &Settings::MAIN_SLOT_ENABLE_8); ImGui::SameLine();
+		ImGui::Checkbox("8  ", &Settings::ITEM_SLOT_ENABLE_8); ImGui::SameLine();
 		ImGui::InputFloat("##slot8time", &Settings::ITEM_SLOT_TIME_8, 0.100, 1);
-		ImGui::Checkbox("9  ", &Settings::MAIN_SLOT_ENABLE_10); ImGui::SameLine();
+		ImGui::Checkbox("9  ", &Settings::ITEM_SLOT_ENABLE_10); ImGui::SameLine();
 		ImGui::InputFloat("##slot9time", &Settings::ITEM_SLOT_TIME_9, 0.100, 1);
-		ImGui::Checkbox("10", &Settings::MAIN_SLOT_ENABLE_10); ImGui::SameLine();
+		ImGui::Checkbox("10", &Settings::ITEM_SLOT_ENABLE_10); ImGui::SameLine();
 		ImGui::InputFloat("##slot10time", &Settings::ITEM_SLOT_TIME_10, 0.100, 1);
-		ImGui::Checkbox("11", &Settings::MAIN_SLOT_ENABLE_11); ImGui::SameLine();
+		ImGui::Checkbox("11", &Settings::ITEM_SLOT_ENABLE_11); ImGui::SameLine();
 		ImGui::InputFloat("##slot11time", &Settings::ITEM_SLOT_TIME_11, 0.100, 1);
-		ImGui::Checkbox("12", &Settings::MAIN_SLOT_ENABLE_12); ImGui::SameLine();
+		ImGui::Checkbox("12", &Settings::ITEM_SLOT_ENABLE_12); ImGui::SameLine();
 		ImGui::InputFloat("##slot12time", &Settings::ITEM_SLOT_TIME_12, 0.100, 1);
-		ImGui::Checkbox("13", &Settings::MAIN_SLOT_ENABLE_14); ImGui::SameLine();
+		ImGui::Checkbox("13", &Settings::ITEM_SLOT_ENABLE_14); ImGui::SameLine();
 		ImGui::InputFloat("##slot13time", &Settings::ITEM_SLOT_TIME_13, 0.100, 1);
-		ImGui::Checkbox("14", &Settings::MAIN_SLOT_ENABLE_14); ImGui::SameLine();
+		ImGui::Checkbox("14", &Settings::ITEM_SLOT_ENABLE_14); ImGui::SameLine();
 		ImGui::InputFloat("##slot14time", &Settings::ITEM_SLOT_TIME_14, 0.100, 1);
-		ImGui::Checkbox("15", &Settings::MAIN_SLOT_ENABLE_15); ImGui::SameLine();
+		ImGui::Checkbox("15", &Settings::ITEM_SLOT_ENABLE_15); ImGui::SameLine();
 		ImGui::InputFloat("##slot15time", &Settings::ITEM_SLOT_TIME_15, 0.100, 1);
-		ImGui::Checkbox("16", &Settings::MAIN_SLOT_ENABLE_16); ImGui::SameLine();
+		ImGui::Checkbox("16", &Settings::ITEM_SLOT_ENABLE_16); ImGui::SameLine();
 		ImGui::InputFloat("##slot15time", &Settings::ITEM_SLOT_TIME_16, 0.100, 1);
 		ImGui::EndChild();
 		ImGui::PopStyleVar(); ImGui::SameLine();
@@ -269,60 +268,65 @@ public:
 	} 
 	void Slots()
 	{
-		if (  Settings::MAIN_SLOT_ENABLE_3 && DynamicTimer::CheckAutoSet ("UseSlot3",Settings::ITEM_SLOT_TIME_3 *1000))
+		float randomMinMax = 0;
+		if (Settings::ITEM_SLOT_RANDOM_ENABLE)
+		{
+			randomMinMax = MiscExtension::RandomFloat(Settings::ITEM_SLOT_RANDOM_MIN_TIME, Settings::ITEM_SLOT_RANDOM_MAX_TIME);
+		}
+		if (  Settings::ITEM_SLOT_ENABLE_3 && DynamicTimer::CheckAutoSet ("UseSlot3", (randomMinMax + Settings::ITEM_SLOT_TIME_3) *1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 2));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_4 && DynamicTimer::CheckAutoSet("UseSlot4", Settings::ITEM_SLOT_TIME_4 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_4 && DynamicTimer::CheckAutoSet("UseSlot4", (randomMinMax + Settings::ITEM_SLOT_TIME_4)* 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 3));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_5 && DynamicTimer::CheckAutoSet("UseSlot5", Settings::ITEM_SLOT_TIME_5 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_5 && DynamicTimer::CheckAutoSet("UseSlot5", (randomMinMax + Settings::ITEM_SLOT_TIME_5) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 4));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_6 && DynamicTimer::CheckAutoSet("UseSlot6", Settings::ITEM_SLOT_TIME_6 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_6 && DynamicTimer::CheckAutoSet("UseSlot6", (randomMinMax + Settings::ITEM_SLOT_TIME_6) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 5));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_7 && DynamicTimer::CheckAutoSet("UseSlot7", Settings::ITEM_SLOT_TIME_7 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_7 && DynamicTimer::CheckAutoSet("UseSlot7", (randomMinMax + Settings::ITEM_SLOT_TIME_7) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 6));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_8 && DynamicTimer::CheckAutoSet("UseSlot8", Settings::ITEM_SLOT_TIME_8 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_8 && DynamicTimer::CheckAutoSet("UseSlot8", (randomMinMax + Settings::ITEM_SLOT_TIME_8) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 7));
 
 		}
-		if (Settings::MAIN_SLOT_ENABLE_9 && DynamicTimer::CheckAutoSet("UseSlot9", Settings::ITEM_SLOT_TIME_9 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_9 && DynamicTimer::CheckAutoSet("UseSlot9", (randomMinMax + Settings::ITEM_SLOT_TIME_9 )* 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 8));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_10 && DynamicTimer::CheckAutoSet("UseSlot10", Settings::ITEM_SLOT_TIME_10 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_10 && DynamicTimer::CheckAutoSet("UseSlot10", (randomMinMax + Settings::ITEM_SLOT_TIME_10) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 9));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_11 && DynamicTimer::CheckAutoSet("UseSlot11", Settings::ITEM_SLOT_TIME_11 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_11 && DynamicTimer::CheckAutoSet("UseSlot11", (randomMinMax + Settings::ITEM_SLOT_TIME_11 )* 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 10));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_12 && DynamicTimer::CheckAutoSet("UseSlot12", Settings::ITEM_SLOT_TIME_12 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_12 && DynamicTimer::CheckAutoSet("UseSlot12", (randomMinMax + Settings::ITEM_SLOT_TIME_12) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 11));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_13 && DynamicTimer::CheckAutoSet("UseSlot13", Settings::ITEM_SLOT_TIME_13 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_13 && DynamicTimer::CheckAutoSet("UseSlot13", (randomMinMax + Settings::ITEM_SLOT_TIME_13) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 12));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_14 && DynamicTimer::CheckAutoSet("UseSlot14", Settings::ITEM_SLOT_TIME_14 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_14 && DynamicTimer::CheckAutoSet("UseSlot14", (randomMinMax + Settings::ITEM_SLOT_TIME_14) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 13));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_15 && DynamicTimer::CheckAutoSet("UseSlot15", Settings::ITEM_SLOT_TIME_15 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_15 && DynamicTimer::CheckAutoSet("UseSlot15", (randomMinMax + Settings::ITEM_SLOT_TIME_15 )* 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 14));
 		}
-		if (Settings::MAIN_SLOT_ENABLE_16 && DynamicTimer::CheckAutoSet("UseSlot16", Settings::ITEM_SLOT_TIME_16 * 1000))
+		if (Settings::ITEM_SLOT_ENABLE_16 && DynamicTimer::CheckAutoSet("UseSlot16", (randomMinMax + Settings::ITEM_SLOT_TIME_16) * 1000))
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 15));
 		}

@@ -44,28 +44,13 @@ using namespace std;
 
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Wininet")
-#ifdef _DEBUG
-#define DEBUG_WAS_DEFINED
-#undef _DEBUG
-#endif
-
-#include "Python.h"
-#pragma comment(lib, "python27.lib")
-
-
-//
-//#ifdef _DEBUG
-//#pragma comment(lib, "python27_d.lib")
-//#else
-//#pragma comment(lib, "python27.lib")
-//#endif
 
 
 
-#ifdef DEBUG_WAS_DEFINED
-#define _DEBUG
-#endif
-#define VIDGAR
+
+
+
+//#define VIDGAR
 //#define AELDRA
 //#define FORNAX
 //#define RAFON
@@ -75,8 +60,8 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-//define METINPL
-//#define PANGEA
+//#define METINPL
+#define PANGEA
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION
@@ -124,17 +109,10 @@ using namespace std;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
+#define PYTHON_CUSTOM
+//#define DEVELOPER_MODE
 
-
-
-
-
-
-#define DEVELOPER_MODE
-//#define CHECK_OFFSETS
-//#define NEED_LICENSE
-//#define ADDRESS_FROM_FILE
-#define DLL_VERSION "0.0.57 Alfa"
+#define DLL_VERSION "0.0.54 Beta"
 
 
 #ifdef VIDGAR
@@ -148,6 +126,7 @@ using namespace std;
 #ifdef FORNAX
 #define SERVER_NAME "Fornax"
 #endif
+
 #ifdef DREIKON
 #define SERVER_NAME "Dreikon"
 #endif
@@ -159,9 +138,11 @@ using namespace std;
 #ifdef RUBINUM
 #define SERVER_NAME "Rubinum"
 #endif
+
 #ifdef MORAH
 #define SERVER_NAME "MORAH"
 #endif
+
 #ifdef   VERESTHIA
 #define SERVER_NAME "VERESTHIA"
 #endif
@@ -180,29 +161,34 @@ using namespace std;
 #ifdef  ALTRIC
 #define SERVER_NAME "ALTRIC"
 #endif
+
 #ifdef  VAROS
 #define SERVER_NAME "VAROS"
 #endif
+
 #ifdef  BALMORA
 #define SERVER_NAME "BALMORA"
 #endif
+
 #ifdef  AZENTIS
 #define SERVER_NAME "AZENTIS"
 #endif
+
 #ifdef  ELITEMT2
 #define SERVER_NAME "ELITEMT2"
 #endif
+
 #ifdef  SG2
 #define SERVER_NAME "SG2"
 #endif
+
 #ifdef  AVENTUS2
 #define SERVER_NAME "AVENTUS2"
 #endif
+
 #ifdef  TENELIS
 #define SERVER_NAME "TENELIS"
 #endif
-
-
 
 #ifdef  ELENIUM
 #define SERVER_NAME "ELENIUM"
@@ -211,6 +197,7 @@ using namespace std;
 #ifdef  DIUMAR
 #define SERVER_NAME "DIUMAR"
 #endif
+
 #ifdef  SAMIAS2
 #define SERVER_NAME "Samia"
 #endif
@@ -218,6 +205,7 @@ using namespace std;
 #ifdef  METINPL
 #define SERVER_NAME "METINPL"
 #endif
+
 #ifdef  NERWIA
 #define SERVER_NAME "NERWIA"
 #endif
@@ -225,69 +213,53 @@ using namespace std;
 #ifdef  MASTIAMT2
 #define SERVER_NAME "MASTIAMT2"
 #endif
+
 #ifdef IVEYA
 #define SERVER_NAME "IVEYA"
 #endif
+
 #ifdef VIRTUALMT2
 #define SERVER_NAME "VIRTUALMT2"
-
 
 #endif
 #ifdef XANTHIA
 #define SERVER_NAME "XANTHIA"
 
-
 #endif
 #ifdef XENOX
 #define SERVER_NAME "XENOX"
 
-
 #endif
 #ifdef EGORIA
 #define SERVER_NAME "EGORIA"
-
-
 #endif
 
 #ifdef PANGEA
 #define SERVER_NAME "Pangea"
-
-
 #endif
 
 #ifdef HERMAS
 #define SERVER_NAME "HERMAS"
-
-
 #endif
-
 
 #ifdef VESTERIS
 #define SERVER_NAME "VESTERIS"
-
-
 #endif
 
 #ifdef VALIUM
 #define SERVER_NAME "VALIUM"
-
-
 #endif
 
 #ifdef ESGAROTH
 #define SERVER_NAME "ESGAROTH"
-
 #endif
             
 #ifdef TAMIDIA_SE
 #define SERVER_NAME "TAMIDIA_SE"
-
 #endif
-
 
 #ifdef AKADEMIA_NERWIA
 #define SERVER_NAME "AKADEMIA_NERWIA"
-
 #endif
 
 #ifdef MEDIUM
@@ -297,12 +269,15 @@ using namespace std;
 #ifdef GLADOR
 #define SERVER_NAME "GLADOR"
 #endif
+
 #ifdef BARIA
 #define SERVER_NAME "BARIA"
 #endif
+
 #ifdef  NERWIAS2
 #define SERVER_NAME "NERWIAS2"
 #endif
+
 #ifdef  NODIA
 #define SERVER_NAME "NODIA"
 #endif
@@ -330,6 +305,29 @@ using namespace std;
 #define DirectTexture LPDIRECT3DTEXTURE8
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
+
+#ifndef PYTHON_CUSTOM
+
+#ifdef _DEBUG
+#define DEBUG_WAS_DEFINED
+#undef _DEBUG
+#endif
+#include "Python.h"
+#pragma comment(lib, "python27.lib")
+
+#ifdef DEBUG_WAS_DEFINED
+#define _DEBUG
+#endif
+
+
+
+
+#else
+typedef unsigned long       PyObject;
+typedef int                 Py_ssize_t;
+#endif 
+
+
 
 #include "DynamicTimer.h"
 

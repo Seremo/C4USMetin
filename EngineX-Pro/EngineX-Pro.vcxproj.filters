@@ -227,6 +227,10 @@
     <ClInclude Include="MainDungs.h">
       <Filter>Core\Modules\Dungeons</Filter>
     </ClInclude>
+    <ClInclude Include="Socks5.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="CHANGE_LOG.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

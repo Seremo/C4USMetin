@@ -991,4 +991,60 @@ if (pCInstanceBaseRenderCollision != NULL) {
 //DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + 0x184);
 						//
 						//Globals::PyCallClassMemberFunc((PyObject*)h, "LoadData", Py_BuildValue("(ii)", 0, 0));
-						//
+						//]
+
+
+//for (int i = 0; i < 99999; i++)
+//{
+//	const TMobTable* t = GameFunctions::NonPlayerGetTable(i);
+//
+//	if (t != NULL)
+//	{
+//		/*string g = StringExtension::StringFormat("%u\"\t\"%s\"\t\"%s\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\""
+//			"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%s\"\t\""
+//			"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\""
+//			"%u\"\t\"%u\"\t\"%d\"\t\"%d\"\t\"%d\"\t\"%u\"\t\"%d\"\t\"%d\"\t\"%u\"\t\""
+//
+//			"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\""
+//			"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\""
+//			"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\"%d\"\t\""
+//			"%f\"\t\"%u\"\t\"%u\"\t\""
+//
+//			"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\""
+//			"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\""
+//			"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\"%u\"\t\""
+//			"%u\"\t\"%u\"\t\"",
+//
+//
+//			t->dwVnum, t->szName, t->szLocaleName, t->bType, t->bRank, t->bBattleType, t->bLevel, t->bSize, t->dwAIFlag, t->dwRaceFlag, t->dwImmuneFlag,
+//			t->bOnClickType, t->bEmpire, t->dwDropItemVnum, t->dwResurrectionVnum, t->szFolder,
+//			t->bStr, t->bDex, t->bCon, t->bInt, t->dwDamageRange[0], t->dwDamageRange[1], t->dwMaxHP, t->bRegenCycle, t->bRegenPercent, t->dwExp,
+//
+//			t->dwGoldMin, t->dwGoldMax, t->wDef, t->sAttackSpeed, t->sMovingSpeed, t->bAggresiveHPPct, t->wAggressiveSight, t->wAttackRange, t->dwPolymorphItemVnum,
+//			t->cEnchants[0], t->cEnchants[1], t->cEnchants[2], t->cEnchants[3], t->cEnchants[4], t->cEnchants[5],
+//			t->cResists[0], t->cResists[1], t->cResists[2], t->cResists[3], t->cResists[4], t->cResists[5],
+//			t->cResists[6], t->cResists[7], t->cResists[8], t->cResists[9], t->cResists[10],
+//			t->fDamMultiply, t->dwSummonVnum, t->dwDrainSP,
+//
+//			t->Skills[0].dwVnum, t->Skills[0].bLevel, t->Skills[1].dwVnum, t->Skills[1].bLevel, t->Skills[2].dwVnum, t->Skills[2].bLevel,
+//			t->Skills[3].dwVnum, t->Skills[3].bLevel, t->Skills[4].dwVnum, t->Skills[4].bLevel,
+//			t->bBerserkPoint, t->bStoneSkinPoint, t->bGodSpeedPoint, t->bDeathBlowPoint, t->bRevivePoint,
+//			t->bMountCapacity, t->dwMobColor
+//		);*/
+//
+//
+//
+//		string g = StringExtension::StringFormat("%u\"\t\"%s\"\t\"%u\"\t\"%u\"\t\"%u\""
+//			,
+//
+//			t->dwVnum, t->szLocaleName, t->dwGoldMin, t->dwGoldMax, t->dwDropItemVnum
+//
+//		);
+//
+//
+//		std::ofstream outfile;
+//		outfile.open("protoX.txt", std::ios_base::app);
+//		outfile << g;
+//		outfile << "\n";
+//	}
+//}

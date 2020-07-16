@@ -5,11 +5,13 @@ private:
 	bool PacketSendIgnoreHeaders = false;
 	bool PacketSendOnlyHeaders = false;
 	bool PacketSendEnable = false;
+	bool PacketSendReturnAddressEnable = false;
+
 
 	bool PacketRecvIgnoreHeaders = false;
 	bool PacketRecvOnlyHeaders = false;
 	bool PacketRecvEnable = false;
-
+	bool PacketRecvReturnAddressEnable = false;
 	bool PacketSendRecvIgnoreHeaders = false;
 	bool PacketSendRecvOnlyHeaders = false;
 	bool PacketSendRecvEnable = false;
@@ -24,7 +26,14 @@ public:
 		return PacketRecvEnable;
 	}
 
-
+	bool  IsEnableReturnAddressPacketSend()
+	{
+		return PacketSendReturnAddressEnable;
+	}
+	bool  IsEnableReturnAddressPacketRecv()
+	{
+		return PacketRecvReturnAddressEnable;
+	}
 	virtual void OnStart()
 	{
 	}
@@ -46,14 +55,14 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("SniffernBorder", ImVec2(645, 445), true);
-		ImGui::Checkbox("Send Enable", &PacketSendEnable);
-		ImGui::Checkbox("Receive Enable", &PacketRecvEnable);
+		ImGui::Checkbox("Send Enable", &PacketSendEnable); ImGui::SameLine(); ImGui::Checkbox("Show Return Address", &PacketSendReturnAddressEnable);
+		ImGui::Checkbox("Receive Enable", &PacketRecvEnable); ImGui::SameLine(); ImGui::Checkbox("Show Return Address", &PacketRecvReturnAddressEnable);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
+	
 
-
-	void ProcessSendPacket(int len, void* pDestBuf)
+	void ProcessSendPacket(int len, void* pDestBuf, DWORD address)
 	{
 		BYTE header;
 		memcpy(&header, pDestBuf, sizeof(header));
@@ -70,9 +79,13 @@ public:
 			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, line);
 		
 			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, ascii);
+			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, StringExtension::DWORDToHexString(address));
+		
+
 		}
 	}
-	void ProcessRecvPacket(int len, void* pDestBuf)
+
+	void ProcessRecvPacket(int len, void* pDestBuf, DWORD address)
 	{
 		BYTE header;
 		memcpy(&header, pDestBuf, sizeof(header));
@@ -93,6 +106,8 @@ public:
 			
 			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, line);
 			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, ascii);
+
+			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, StringExtension::DWORDToHexString(address));
 		}
 	}
 

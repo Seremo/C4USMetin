@@ -12,10 +12,10 @@ public:
 		byXorFilter[4] = 0x18;
 		byXorFilter[5] = 0x23;
 		byXorFilter[6] = 0xC5;
-		byXorFilter[7] = 0xA3;
+		byXorFilter[7] = 0x11;
 		byXorFilter[8] = 0xCA;
 		byXorFilter[9] = 0x33;
-		byXorFilter[10] = 0xC1;
+		byXorFilter[10] = 0xCC;
 		byXorFilter[11] = 0xCC;
 		byXorFilter[12] = 0x66;
 		byXorFilter[13] = 0x67;
@@ -33,7 +33,7 @@ public:
 		byXorFilter[25] = 0xEF;
 		byXorFilter[26] = 0xCD;
 		byXorFilter[27] = 0x41;
-		byXorFilter[28] = 0x26;
+		byXorFilter[28] = 0x11;
 		byXorFilter[29] = 0x3C;
 		byXorFilter[30] = 0x4E;
 		byXorFilter[31] = 0x4D;
@@ -55,10 +55,10 @@ public:
 		byXorFilter[4] = 0x18;
 		byXorFilter[5] = 0x23;
 		byXorFilter[6] = 0xC5;
-		byXorFilter[7] = 0xA3;
+		byXorFilter[7] = 0x11;
 		byXorFilter[8] = 0xCA;
 		byXorFilter[9] = 0x33;
-		byXorFilter[10] = 0xC1;
+		byXorFilter[10] = 0xCC;
 		byXorFilter[11] = 0xCC;
 		byXorFilter[12] = 0x66;
 		byXorFilter[13] = 0x67;
@@ -76,7 +76,7 @@ public:
 		byXorFilter[25] = 0xEF;
 		byXorFilter[26] = 0xCD;
 		byXorFilter[27] = 0x41;
-		byXorFilter[28] = 0x26;
+		byXorFilter[28] = 0x11;
 		byXorFilter[29] = 0x3C;
 		byXorFilter[30] = 0x4E;
 		byXorFilter[31] = 0x4D;

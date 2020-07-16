@@ -319,7 +319,11 @@ public:
 		}
 		ImGui::SameLine();
 		ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance); ImGui::SameLine();
-		ImGui::Checkbox("Rotation", &Settings::MiniMHRotation); ImGui::SameLine();
+		if (ImGui::Checkbox("Rotation", &Settings::MiniMHRotation))
+		{
+			canAttack = true;
+		}
+		ImGui::SameLine();
 		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MiniMHRotationValue, 1, 100);
 
 
@@ -414,23 +418,30 @@ private:
 	{
 		if (GameFunctionsCustom::PlayerIsDead() && Settings::MiniMHAutoRevive && /*!autoReviveNeedWait &&*/ DynamicTimer::CheckAutoSet("PlayerRevive", 1000))
 		{
-
 			GameFunctionsCustom::PlayerRevive();
 			autoReviveNeedWait = true;
-
 			return true;
 
+		}
+		else if (!GameFunctionsCustom::PlayerIsDead() && !Settings::MiniMHAutoRevive )
+		{
+			return false;
 		}
 		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
 		{
 			return true;
 		}
-		if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
+		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
 		{
 			if (playerUsingHorse)
 			{
 				GameFunctionsCustom::MountHorse();
 			}
+			autoReviveNeedWait = false;
+			return false;
+		}
+		else if ( !Settings::MiniMHAutoRevive && autoReviveNeedWait)
+		{
 			autoReviveNeedWait = false;
 			return false;
 		}
@@ -769,12 +780,14 @@ private:
 			GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 16, true);
 		}
 
-		if (((GetTickCount() - lastMiniMHRotation) > (MiscExtension::Random(500, 8000))) && Settings::MiniMHRotation)
+		if (((GetTickCount() - lastMiniMHRotation) > (MiscExtension::RandomInt(500, 8000))) && Settings::MiniMHRotation)
 		{
-			if (MiscExtension::Random(0, 100) < Settings::MiniMHRotationValue)
+			if (MiscExtension::RandomInt(0, 100) < Settings::MiniMHRotationValue)
 			{
 
-				GameFunctionsCustom::SetDirection((MiscExtension::Random(0, 7)));
+				/*GameFunctionsCustom::SetDirection((MiscExtension::Random(0, 7)));*/
+				GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(),MiscExtension::RandomInt(0, 360));
+				
 
 
 			}

@@ -22,6 +22,7 @@ public:
 	D3DVECTOR standingPosition;
 	void OnStart()
 	{
+		
 		isEnable = true;
 		lastTimeFishing = GetTickCount();
 
@@ -30,7 +31,7 @@ public:
 		Logger::Add(Logger::FISH, true, Logger::GREEN, "START");
 		
 		standingPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		Logger::Add(Logger::FISH, true, Logger::WHITE,"POSITION %f %f", (standingPosition.x / 100) ,(standingPosition.y / 100) );
+		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %d %d", (standingPosition.x / 100) ,(standingPosition.y / 100)).c_str() );
 		NewCast();
 
 
@@ -43,7 +44,7 @@ public:
 
 #ifdef METINPL
 		GameFunctions::NetworkStreamSendEmoticon(116);
-		GameFunctions::NetworkStreamSendFishingGlobalPacket(3, 0);
+		GameFunctions::NetworkStreamSendFishingQuitPacket(3, 0);
 #endif
 
 	}
@@ -69,7 +70,7 @@ public:
 			{
 				if (Settings::FishBotSuccesPercent)
 				{
-					int loseRandom = MiscExtension::Random(1, 100);
+					int loseRandom = MiscExtension::RandomInt(1, 100);
 					if (loseRandom <= Settings::FishBotSuccesPercentValue)
 					{
 						Logger::Add(Logger::FISH, true, Logger::WHITE, "RANDOM FALSE");
@@ -83,7 +84,7 @@ public:
 				}
 				if (Settings::FishBotCastTime)
 				{
-					int clickTime = MiscExtension::Random(Settings::FishBotCastTimeMinValue, Settings::FishBotCastTimeMaxValue);
+					int clickTime = MiscExtension::RandomInt(Settings::FishBotCastTimeMinValue, Settings::FishBotCastTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotCast) > clickTime)
 					{
 						
@@ -94,7 +95,7 @@ public:
 						Cast();
 #endif
 						action--;
-						Logger::Add(Logger::FISH, true, Logger::WHITE, "CLICK %d AFTER %d (ms)", action, clickTime);
+						Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d AFTER %d (ms)", action, clickTime).c_str());
 						lastTimeBotCast = GetTickCount();
 						if (action == 0)
 						{
@@ -113,7 +114,7 @@ public:
 					Cast();
 #endif
 					action--;
-					Logger::Add(Logger::FISH, true, Logger::WHITE, "CLICK %d" , action);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d" , action).c_str());
 					if (action == 0)
 					{
 						lastTimeBotRoundTime = GetTickCount();
@@ -125,11 +126,11 @@ public:
 			{
 				if (Settings::FishBotRoundTime)
 				{
-					int waitTime = MiscExtension::Random(Settings::FishBotRoundTimeMinValue, Settings::FishBotRoundTimeMaxValue);
+					int waitTime = MiscExtension::RandomInt(Settings::FishBotRoundTimeMinValue, Settings::FishBotRoundTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotRoundTime) > waitTime && isNeedRoundTimeCast)
 					{
 						
-						Logger::Add(Logger::FISH, true, Logger::WHITE, "WAIT FOR ENDING %d (ms)", waitTime);//GREEN
+						Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("WAIT FOR ENDING %d (ms)", waitTime).c_str());//GREEN
 						NewCast();
 						action = -1;
 						lastTimeBotRoundTime = GetTickCount();
@@ -319,7 +320,7 @@ public:
 			return;
 		}
 		action = num;
-		Logger::Add(Logger::FISH, true, Logger::WHITE, string("REQUEST CLICK COUNT " + to_string(action) + "\n").c_str());
+		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d" ,action).c_str());
 		
 	}
 	void AppendCastDirectString(int num, const char* message)
@@ -374,13 +375,13 @@ public:
 			//}
 		}
 #if defined( GLADOR )||defined( VALIUM ) 
-		TPacketCGFishing kPacketAtk;
+		/*TPacketCGFishing kPacketAtk;
 		kPacketAtk.header = 82;
 		GameFunctions::NetworkStreamSend(1, &kPacketAtk);
 		TPacketCGFishing kPacketAtk2;
 		kPacketAtk2.header = 0;
 		GameFunctions::NetworkStreamSend(1, &kPacketAtk2);
-		GameFunctions::NetworkStreamSendSequence();
+		GameFunctions::NetworkStreamSendSequence();*/
 		//GameFunctions::PlayerSetAttackKeyState(true);
 
 	
@@ -455,7 +456,7 @@ public:
 				isEnable = false;
 			}
 		}
-		GameFunctions::NetworkStreamSendFishingGlobalPacket(3, 0);
+		GameFunctions::NetworkStreamSendFishingQuitPacket(3, 0);
 		lastTimeFishing = GetTickCount();
 	}
 
@@ -541,7 +542,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendShopSellPacketNew(*it, 255);
-					Logger::Add(Logger::FISH, true, Logger::WHITE,"SELLED %s FROM SLOT %d",  itor->second.second.c_str(), *it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("SELLED %s FROM SLOT %d",  itor->second.second.c_str()).c_str(), *it);
 				}
 			}
 		}
@@ -562,7 +563,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendItemDropPacketNew(TItemPos(INVENTORY, *it), 0, 255);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, "DROPED %s FROM SLOT %d", itor->second.second.c_str(),*it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("DROPED %s FROM SLOT %d", itor->second.second.c_str()).c_str(),*it);
 				}
 			}
 		}
@@ -581,7 +582,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, *it));
-					Logger::Add(Logger::FISH, true, Logger::WHITE, "KILLED %s FROM SLOT %d" , itor->second.second.c_str(),*it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("KILLED %s FROM SLOT %d" , itor->second.second.c_str()).c_str(),*it);
 				}
 			}
 		}
@@ -597,12 +598,12 @@ public:
 				if (slot != -1)
 				{
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-					Logger::Add(Logger::FISH, true, Logger::WHITE, "USED %s FROM SLOT %d",  itor->second.second.c_str() ,slot);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("USED %s FROM SLOT %d",  itor->second.second.c_str()).c_str() ,slot);
 					return true;
 				}
 				else
 				{
-					Logger::Add(Logger::FISH, true, Logger::WHITE, "MISSING %s", itor->second.second.c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("MISSING %s", itor->second.second.c_str()).c_str());
 				}
 			}
 		}
@@ -629,7 +630,7 @@ public:
 			{
 				
 				action = itor->second.second;
-				Logger::Add(Logger::FISH, true, Logger::WHITE, string("REQUEST CLICK COUNT " + to_string(action)+"\n").c_str());
+				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d",action).c_str());
 			}
 		}
 	}

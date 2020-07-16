@@ -142,7 +142,7 @@ public:
 		DWORD* ptr = GameFunctions::PlayerNEW_GetMainActorPtr();
 		if (ptr)
 		{
-			return Globals::CInstanceBaseIsDead(ptr);
+			return GameFunctions::InstanceBaseIsDead(ptr);
 		}
 		else
 		{
@@ -616,7 +616,7 @@ public:
 			}
 			if (objectType & OBJECT_MINE)
 			{
-				if (instanceType == TYPE_NPC && GameFunctionsCustom::InstanceIsResource(iIndex))
+				if (instanceType == TYPE_NPC && GameFunctionsCustom::InstanceIsResource(instance))
 				{
 					objectList.insert(std::make_pair(iIndex, instance));
 				}
@@ -657,15 +657,14 @@ public:
 		
 	
 #endif
+			return false;
 	}
 
 	//#################################################################################################################################
 	static map<DWORD, TGroundItemInstance*> GetGroundItemList()
 	{
 		
-//#if defined(VIDGAR)
-//		return Globals::GroundItemList;
-//#else
+
 
 		map<DWORD, TGroundItemInstance*> vidList;
 		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
@@ -692,6 +691,36 @@ public:
 		return vidList;
 //#endif
 	}
+
+	static bool IsGroundItemsCanPickup()
+	{
+
+		
+
+		map<DWORD, TGroundItemInstance*> vidList;
+		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
+#if defined( METINPL)
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 0));
+#elif defined(VIDGAR)
+		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
+		return m_GroundItemInstanceMap;
+#elif defined( RUBINUM)
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
+#else
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
+#endif
+		for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
+		{
+			/*string ownerShip = GetStr((DWORD)itor->second->stOwnership);*/
+
+			string ownerShip = itor->second->stOwnership;
+			if (ownerShip == "" || ownerShip == player_name)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	//#################################################################################################################################
 	static map<DWORD, TCItemData*> GetItemProtoList() 
 	{
@@ -708,7 +737,7 @@ public:
 		}
 		return itemsList;
 	}
-
+	//#################################################################################################################################
 	static map<DWORD, const char*> GetItemProtoNames()
 	{
 		map<DWORD, const char*> itemsList;
@@ -725,6 +754,10 @@ public:
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
 #elif defined(VIDGAR)
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
+#elif defined(VALIUM)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+#elif defined(METINPL)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
 #else
 
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
@@ -745,25 +778,7 @@ public:
 		}
 	}
 
-	//#################################################################################################################################
-	static int RaceToSex(int race)
-	{
-		switch (race)
-		{
-		case 0:
-		case 2:
-		case 5:
-		case 7:
-			return 1;
-		case 1:
-		case 3:
-		case 4:
-		case 6:
-			return 0;
 
-		}
-		return 0;
-	}
 	//#################################################################################################################################
 	static float InstanceBaseGetDistance(DWORD* instance, DWORD* pkTargetInst)
 	{
@@ -795,12 +810,12 @@ public:
 		D3DVECTOR tar;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(ptr, &main);
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(ptrTar, &tar);
-		DWORD r = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
-		r += 90;
+		DWORD angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
+		angle += 90;
 #ifdef METINPL
-		string u = "DetectObject " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(r);
+		string u = "DetectObject " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(angle);
 #else
-		string u = "StoneDetect " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(r);
+		string u = "StoneDetect " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(angle);
 #endif
 		GameFunctions::NetworkStreamServerCommand(u.c_str());
 	}
@@ -838,9 +853,10 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static bool InstanceIsResource(int vnum)
+	static bool InstanceIsResource(DWORD* instance)
 	{
-		switch (vnum)
+		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
+		switch (mob_vnum)
 		{
 		case 20047:
 		case 20048:
@@ -861,10 +877,40 @@ public:
 		case 30304:
 		case 30305:
 		case 30306:
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
+	}
+	//#################################################################################################################################
+	static bool InstanceIsResource(DWORD tartgetVID)
+	{
+		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(GameFunctions::CharacterManagerGetInstancePtr(tartgetVID));
+		switch (mob_vnum)
+		{
+		case 20047:
+		case 20048:
+		case 20049:
+		case 20050:
+		case 20051:
+		case 20052:
+		case 20053:
+		case 20054:
+		case 20055:
+		case 20056:
+		case 20057:
+		case 20058:
+		case 20059:
+		case 30301:
+		case 30302:
+		case 30303:
+		case 30304:
+		case 30305:
+		case 30306:
+			return true;
+		}
+
+		return false;
 	}
 	//#################################################################################################################################
 	static bool InstanceIsBoss(DWORD* instance) 
@@ -1095,10 +1141,10 @@ public:
 		D3DVECTOR tar;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(mainPtr, &main);
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(tarPtr, &tar);
-		DWORD r = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
-		r += 180;
+		DWORD angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
+		angle += 180;
 		/*int index = ((r %= 360) < 0 ? r + 360 : r) / 45;*/
-		GameFunctionsCustom::SetDirection(GetDirectionFromDegree(r));
+		GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));
 	}
 	//#################################################################################################################################
 	static void LookAtDestPixelPosition(D3DVECTOR tar)
@@ -1109,10 +1155,10 @@ public:
 	
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(mainPtr, &main);
 	
-		DWORD r = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
-		r += 180;
-		
-		GameFunctionsCustom::SetDirection(GetDirectionFromDegree(r));
+		DWORD angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
+		angle += 180;
+		GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), angle);
+		/*GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));*/
 	}
 
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
@@ -1121,8 +1167,11 @@ public:
 
 
 		TPacketCGAttack kPacketAtk;
-#ifdef SAMIAS2
+#if defined( SAMIAS2)
 		kPacketAtk.header = 0x3A;
+
+#elif defined(METINPL)
+		kPacketAtk.header = 0x52;
 #else
 		kPacketAtk.header = HEADER_CG_ATTACK;
 #endif
@@ -1159,6 +1208,23 @@ public:
 		LONG BaseY = GlobalY - charpos.y;
 		rGlobalX -= BaseX;
 		rGlobalY -= BaseY;
+	}
+	//#################################################################################################################################
+	static DWORD MapHaveInstance(DWORD* instanceContain)
+	{
+		map<DWORD, DWORD*> playersList = GetObjectList(OBJECT_ALL);
+		for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)
+		{
+
+			DWORD* instance = itor->second;
+
+			if (instanceContain == instance)
+			{
+				return true;
+			}
+
+		}
+		return false;
 	}
 };
 

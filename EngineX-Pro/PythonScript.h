@@ -31,7 +31,7 @@ public:
 		ImGui::InputTextMultiline("##Code", &pythonBuffer[0], pythonBuffer.size(), ImVec2(615, 290));
 		if (ImGui::Button("Execute"))
 		{
-			PyRun_SimpleString(pythonBuffer.c_str());
+			Globals::PyRun_SimpleStringFlags(pythonBuffer.c_str(),0);
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

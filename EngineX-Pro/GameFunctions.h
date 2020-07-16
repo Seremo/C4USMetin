@@ -19,9 +19,9 @@ public:
 		return Globals::CPythonNetworkStreamSendFishingPacket((void*)Globals::iCPythonNetworkStreamInstance, rot);
 	}
 	//#################################################################################################################################
-	static bool NetworkStreamSendFishingGlobalPacket(int count, float rot)
+	static bool NetworkStreamSendFishingQuitPacket(int count, float rot)
 	{
-		return Globals::CPythonNetworkStreamSendFishingGlobalPacket((void*)Globals::iCPythonNetworkStreamInstance, count, rot);
+		return Globals::CPythonNetworkStreamSendFishingQuitPacket((void*)Globals::iCPythonNetworkStreamInstance, count, rot);
 	}
 
 	static bool NetworkStreamSendEmoticon(BYTE emoticon)
@@ -142,11 +142,19 @@ public:
 	//#################################################################################################################################
 	static int	InstanceBaseGetInstanceType(DWORD* instance)
 	{
+		if (!instance)
+		{
+			return -1;
+		}
 		return Globals::CInstanceBaseGetInstanceType(instance);
 	}
 	//#################################################################################################################################
 	static int	InstanceBaseGetVirtualNumber(DWORD* instance)
 	{
+		if (!instance)
+		{
+			return -1;
+		}
 		return Globals::CInstanceBaseGetInstanceVirtualNumber(instance);
 	}
 	//#################################################################################################################################
@@ -168,6 +176,11 @@ public:
 	static bool NetworkStreamSendWhisperPacket(const char* name, const char* c_szChat)
 	{
 		return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, c_szChat);
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendWhisperStringPacket(const char* name, string s_szChat)
+	{
+		return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str());
 	}
 	//#################################################################################################################################
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
@@ -374,6 +387,10 @@ public:
 	//#################################################################################################################################
 	static bool InstanceBaseIsDead(DWORD* instance)
 	{
+		if (!instance)
+		{
+			return false;
+		}
 		return Globals::CInstanceBaseIsDead(instance);
 	}	
 	//#################################################################################################################################
@@ -447,7 +464,16 @@ public:
 	{
 		return Globals::CNetworkStreamGetAccountCharacterSlotDataz((void*)Globals::iCPythonNetworkStreamInstance, iSlot, eType);
 	}
+
 	//#################################################################################################################################
-	
+	static const bool InstanceIsWaiting(DWORD* instance)
+	{
+		return Globals::CInstanceBaseIsWaiting((void*)instance);
+	}
+	//#################################################################################################################################
+	static const void InstanceSetRotation(DWORD* instance, float fRotation)
+	{
+		Globals::CInstanceBaseSetRotation((void*)instance, fRotation);
+	}
 };
 
