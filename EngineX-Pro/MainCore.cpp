@@ -138,6 +138,10 @@ bool MainCore::CheckMembers()
 	{
 		return true;
 	}
+	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")
+	{
+		return true;
+	}
 	return false;
 }
  
