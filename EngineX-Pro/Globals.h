@@ -1243,7 +1243,7 @@ void Globals::ReAddressingLocas()
 	pCPhysicsObjectIncreaseExternalForce = Globals::hEntryBaseAddress + 0x3b8e90; // [100 ] [1 / 1]
 	pCPythonApplicationProcess = Globals::hEntryBaseAddress + 0x1b85f0; // [100 ] [1 / 1]
 	pCPythonApplicationRenderGame = Globals::hEntryBaseAddress + 0x1b7ab0; // [100 ] [1 / 1]
-	pCPythonCharacterManagerGetInstancePtr = Globals::hEntryBaseAddress + 0x81960; // [100 ] [1 / 1]
+	pCPythonCharacterManagerGetInstancePtr = Globals::hEntryBaseAddress + 0x834a0; // [100 ] [1 / 1]
 	pCPythonChatAppendChat = Globals::hEntryBaseAddress + 0x149b50; // [100 ] [1 / 1]
 	pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0x99d10; // [100 ] [1 / 1]
 	pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x1db920; // [100 ] [1 / 1]
@@ -1298,6 +1298,9 @@ void Globals::ReAddressingLocas()
 	pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x3ff070; // [100 ] [1 / 1]
 	pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x1EA7988;
 	pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x41a900; // [100 ] [1 / 1]
+	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x72A40;
+	pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x73060;
+	pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + 0x201690;
 #endif
 #ifdef BARIA
 
