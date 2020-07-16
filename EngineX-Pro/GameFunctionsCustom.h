@@ -669,7 +669,7 @@ public:
 		map<DWORD, TGroundItemInstance*> vidList;
 		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
 #if defined( METINPL)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 0));
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 4));
 #elif defined(VIDGAR)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
 		return m_GroundItemInstanceMap;
@@ -680,9 +680,11 @@ public:
 #endif
 		for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
 		{
-			/*string ownerShip = GetStr((DWORD)itor->second->stOwnership);*/
-
+#if defined( METINPL)
+			string ownerShip = GetStr((DWORD)itor->second->stOwnership);
+#else
 			string ownerShip = itor->second->stOwnership;
+#endif
 			if (ownerShip == "" || ownerShip == player_name)
 			{
 				vidList.insert(std::make_pair(itor->first, itor->second));
@@ -700,7 +702,7 @@ public:
 		map<DWORD, TGroundItemInstance*> vidList;
 		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
 #if defined( METINPL)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 0));
+		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 4));
 #elif defined(VIDGAR)
 		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
 		return m_GroundItemInstanceMap;
@@ -711,9 +713,11 @@ public:
 #endif
 		for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
 		{
-			/*string ownerShip = GetStr((DWORD)itor->second->stOwnership);*/
-
+#if defined( METINPL)
+			string ownerShip = GetStr((DWORD)itor->second->stOwnership);
+#else
 			string ownerShip = itor->second->stOwnership;
+#endif
 			if (ownerShip == "" || ownerShip == player_name)
 			{
 				return true;

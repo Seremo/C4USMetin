@@ -1299,8 +1299,6 @@ void Globals::ReAddressingLocas()
 	pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x1EA7988;
 	pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x41a900; // [100 ] [1 / 1]
 
-
-
 	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x72A40;
 	pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x73060;
 	pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + 0x201690;

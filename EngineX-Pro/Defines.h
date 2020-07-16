@@ -735,10 +735,11 @@ typedef struct SGroundItemInstance
 	BYTE					unk[480];
 #endif
 #ifdef METINPL
-	BYTE					unk2[276];
-#endif
-	//char  stOwnership[24];
+	BYTE					unk2[756];
+	char  stOwnership[24];
+#else
 	std::string				stOwnership;
+#endif
 } TGroundItemInstance;
 
 #ifdef METINPL
