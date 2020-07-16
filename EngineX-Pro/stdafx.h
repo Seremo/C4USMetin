@@ -110,9 +110,9 @@ using namespace std;
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
 #define PYTHON_CUSTOM
-//#define DEVELOPER_MODE
+#define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.54 Beta"
+#define DLL_VERSION "0.0.55 Beta"
 
 
 #ifdef VIDGAR
