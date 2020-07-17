@@ -70,24 +70,13 @@ public:
 		static float v = 0;
 		if (ImGui::InputFloat("vcxcvcxve", &v, 10, 361))
 		{
-			GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), v);
+			
 		}
-		if (GameFunctions::PlayerGetTargetVID())
-		{
-			DWORD* mainPtr = GameFunctions::PlayerNEW_GetMainActorPtr();
-			DWORD* tarPtr = GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetTargetVID());
-			D3DVECTOR main;
-			D3DVECTOR tar;
-			GameFunctions::InstanceBaseNEW_GetPixelPosition(mainPtr, &main);
-			GameFunctions::InstanceBaseNEW_GetPixelPosition(tarPtr, &tar);
-			int angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
-			ImGui::Text(to_string(angle).c_str());
-		}
-		ImGui::Text(to_string(GameFunctionsCustom::PlayerIsDead()).c_str());
-
-		ImGui::Text(to_string(GameFunctionsCustom::GetHpProcentageStatus()).c_str());
-		ImGui::Text(to_string(GameFunctions::NetworkStreamIsOnline()).c_str());
+		ImGui::Text(GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(0, (int)v));
+	
+		ImGui::Text(GameFunctions::PlayerGetName());
 		
+		ImGui::Text(to_string(GameFunctions::NetworkStreamIsOnline()).c_str());
 		
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
 		if (ImGui::Button("Send Packet"))
@@ -96,12 +85,11 @@ public:
 			GameFunctionsCustom::SendPacket(string(packetHex.c_str()));
 			
 		}
-		D3DVECTOR oldPosition;
-		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
+		
 
 		if (ImGui::Button("TEST 3"))
 		{
-			GameFunctionsCustom::LookAtDestPixelPosition(GameFunctions::PlayerGetTargetVID());
+			
 		}
 		
 
@@ -116,12 +104,12 @@ public:
 		}
 		if (ImGui::Button("TEST 6"))
 		{
-			
+			GameFunctions::NetworkStreamConnectGameServer(GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName()));
 		}
 		if (ImGui::Button("TEST 7"))
 		{
 			
-			
+			GameFunctionsCustom::PlayerDirectEnter();
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

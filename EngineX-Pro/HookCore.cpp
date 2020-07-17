@@ -807,7 +807,7 @@ void Hooks::Initialize()
 
 #endif
 #ifdef METINPL
-	nCPythonNetworkStreamSendCommandPacket = (Globals::tCPythonNetworkStreamSendCommandPacket)DetourFunction((PBYTE)Globals::CPythonNetworkStreamSendCommandPacket, (PBYTE)NewCPythonNetworkStreamSendCommandPacket);
+	/*nCPythonNetworkStreamSendCommandPacket = (Globals::tCPythonNetworkStreamSendCommandPacket)DetourFunction((PBYTE)Globals::CPythonNetworkStreamSendCommandPacket, (PBYTE)NewCPythonNetworkStreamSendCommandPacket);*/
 
 
 	nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);

@@ -45,7 +45,7 @@ public:
 	void OnUpdate()
 	{
 #ifdef METINPL
-		if ( Settings::ProtectionAutoLogin&&DynamicTimer::Check("AutoLogin", 5000) )
+		if ( Settings::ProtectionAutoLogin && DynamicTimer::CheckAutoSet("AutoLogin", 5000) )
 		{
 			if (GameFunctionsCustom::PlayerDirectEnter())
 			{

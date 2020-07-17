@@ -88,8 +88,13 @@ public:
 	{
 
 		
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 8; i++) 
+		{
+#ifdef METINPL
+			string slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 0);
+#else
 			string slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 1);
+#endif
 			if (slotName != "" && slotName == playerName)
 			{
 				return i;
@@ -1072,15 +1077,13 @@ public:
 	{
 		if (!GameFunctions::NetworkStreamIsOnline())
 		{
-#ifdef METINPL
-			GameFunctions::NetworkStreamConnectGameServer(0);
-#else
-int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+
+			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
 			if (lastSlot != -1)
 			{
 				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
 			}
-#endif // METINPL
+
 
 			
 			return true;
