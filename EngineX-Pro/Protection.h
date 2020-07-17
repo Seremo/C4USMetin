@@ -45,11 +45,10 @@ public:
 	void OnUpdate()
 	{
 #ifdef METINPL
-		if (DynamicTimer::Check("AutoLogin", 16000) && Settings::ProtectionAutoLogin)
+		if ( Settings::ProtectionAutoLogin&&DynamicTimer::Check("AutoLogin", 5000) )
 		{
-			if (!GameFunctions::PlayerNEW_GetMainActorPtr())
+			if (GameFunctionsCustom::PlayerDirectEnter())
 			{
-				GameFunctions::NetworkStreamConnectGameServer(0);
 #else
 		if (DynamicTimer::CheckAutoSet("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
 		{

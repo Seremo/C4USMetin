@@ -699,15 +699,20 @@ void MainForm::Menu() {
 		}
 		if (Hotkey(Settings::RelogKey))
 		{
-			/*GameFunctions::NetworkStreamConnectGameServer(0);
-			Main::Instance().ResetSkillTimer();*/
-
+			
+#ifndef METINPL
 			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
 			if (lastSlot != -1)
 			{
 				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
 				Main::Instance().ResetSkillTimer();
 			}
+#else
+			GameFunctions::NetworkStreamConnectGameServer(0);
+			Main::Instance().ResetSkillTimer();
+#endif 
+
+		
 				
 			
 		}
@@ -755,7 +760,7 @@ void MainForm::Menu() {
 				}
 				ImGui::IconButton(&Settings::ProtectionAutoLogin, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
 
-
+#ifndef METINPL
 				if (ImGui::IconButton(&Settings::FishBotEnable, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
 				{
 					if (Settings::FishBotEnable) 
@@ -767,7 +772,7 @@ void MainForm::Menu() {
 						Fish::Instance().OnStop();
 					}
 				}
-
+#endif
 				if (ImGui::PopupButton("Channel Change", ChannelChangerIcon, ImVec2(20, 20)))
 				{
 					ImGui::OpenPopup("##channelchange");

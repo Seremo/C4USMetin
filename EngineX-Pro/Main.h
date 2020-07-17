@@ -18,7 +18,7 @@ private:
 	bool autoReviveNeedWait = false;
 	DWORD lastMiniMHMoveSpeed = 0;
 	DWORD lastMiniMHAttackSpeed = 0;
-	bool canAttack = false;
+	
 
 
 	DWORD lastTimeStonesArrowShow = 0;
@@ -156,7 +156,7 @@ public:
 		Settings::GLOBAL_SWITCH = true;
 		playerUsingHorse = GameFunctionsCustom::PlayerIsMountingHorse();
 		lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		canAttack = true;
+		
 	}
 
 	void OnStop()
@@ -182,7 +182,7 @@ public:
 		{
 			if (GameFunctionsCustom::PlayerIsInstance())
 			{
-
+				bool canAttack = true;
 				Potions();
 
 				Other();
@@ -311,20 +311,15 @@ public:
 		ImGui::BeginChild("AtakBorder", ImVec2(645, 80), true);
 		if (ImGui::Checkbox("Auto Attack   ", &Settings::MiniMHAttackEnable))
 		{
-			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-			canAttack = Settings::MiniMHAttackEnable;
-			if (!Settings::MiniMHAttackEnable)
-			{
-				GameFunctions::PlayerSetAttackKeyState(canAttack);
-			}
+			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();		
+		
 		}
 		ImGui::SameLine();
 		
 		
-		if (ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance) )
-		{
-			canAttack = true;
-		}ImGui::SameLine();
+		ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance);
+		
+		ImGui::SameLine();
 		ImGui::Checkbox("Rotation", &Settings::MiniMHRotation);
 		ImGui::SameLine();
 		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MiniMHRotationValue, 1, 100);
@@ -419,22 +414,27 @@ public:
 private:
 	bool Revive()
 	{
-		if (GameFunctionsCustom::PlayerIsDead() && Settings::MiniMHAutoRevive && /*!autoReviveNeedWait &&*/ DynamicTimer::CheckAutoSet("PlayerRevive", 1000))
+		if (!Settings::MiniMHAutoRevive)
 		{
-			GameFunctionsCustom::PlayerRevive();
-			autoReviveNeedWait = true;
-			return true;
-
-		}
-		else if (!GameFunctionsCustom::PlayerIsDead() && !Settings::MiniMHAutoRevive )
-		{
+			autoReviveNeedWait = false;
 			return false;
 		}
-		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
+		if (GameFunctionsCustom::PlayerIsDead() )
+		{
+			if (DynamicTimer::CheckAutoSet("Revive", 1000))
+			{
+				GameFunctionsCustom::PlayerRevive();
+				autoReviveNeedWait = true;
+				GameFunctions::PlayerSetAttackKeyState(false);
+			}
+			return true;
+		}
+	
+		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && autoReviveNeedWait)
 		{
 			return true;
 		}
-		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && Settings::MiniMHAutoRevive && autoReviveNeedWait)
+		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && autoReviveNeedWait)
 		{
 			if (playerUsingHorse)
 			{
@@ -443,14 +443,9 @@ private:
 			autoReviveNeedWait = false;
 			return false;
 		}
-		else if ( !Settings::MiniMHAutoRevive && autoReviveNeedWait)
-		{
-			autoReviveNeedWait = false;
-			return false;
-		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	bool IsAttackMobDistance()
@@ -837,6 +832,12 @@ private:
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
 			return;
 		}
+		slot = GameFunctionsCustom::FindItemSlotInInventory(27052);
+		if (slot != -1)
+		{
+			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+			return;
+		}
 #endif
 	}
 	void Potions()
@@ -885,6 +886,12 @@ private:
 		}
 #ifdef METINPL
 		slot = GameFunctionsCustom::FindItemSlotInInventory(27007);
+		if (slot != -1)
+		{
+			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+			return;
+		}
+		slot = GameFunctionsCustom::FindItemSlotInInventory(27051);
 		if (slot != -1)
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));

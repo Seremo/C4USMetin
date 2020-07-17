@@ -146,14 +146,14 @@ public:
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
 	//#################################################################################################################################
 	static void PlayerRevive()
 	{
 #ifdef METINPL
-		GameFunctions::NetworkStreamSendCommandPacket(5, 0, "");
+		GameFunctions::NetworkStreamSendCommandPacket(5, 1, "");
 #else
 		GameFunctions::NetworkStreamSendChatPacket("/restart_here", CHAT_TYPE_TALKING);
 #endif
@@ -1072,11 +1072,17 @@ public:
 	{
 		if (!GameFunctions::NetworkStreamIsOnline())
 		{
-			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+#ifdef METINPL
+			GameFunctions::NetworkStreamConnectGameServer(0);
+#else
+int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
 			if (lastSlot != -1)
 			{
 				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
 			}
+#endif // METINPL
+
+			
 			return true;
 		}
 		return false;

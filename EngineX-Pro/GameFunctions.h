@@ -358,11 +358,9 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamIsOnline()
 	{
-#ifdef METINPL
-		return *reinterpret_cast<bool*>((*reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance) + 104));
-#else
+
 		return Globals::CNetworkStreamIsOnline((void*)Globals::iCPythonNetworkStreamInstance);
-#endif
+
 	}
 	//########################################################################## b nm,                                                                                                                                                                             #######################################################
 	static DWORD NetworkStreamGetMainActorSkillGroup()

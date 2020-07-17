@@ -114,7 +114,7 @@ using namespace std;
 
 #define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.55 Beta"
+#define DLL_VERSION "0.0.56 Beta"
 
 
 #ifdef VIDGAR
