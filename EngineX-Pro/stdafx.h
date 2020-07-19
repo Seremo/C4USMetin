@@ -48,8 +48,10 @@ using namespace std;
 
 
 
+//#define VISERION
 
-
+#define DIAMOND
+//#define ATYVA
 //#define VIDGAR
 //#define AELDRA
 //#define FORNAX
@@ -60,7 +62,7 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-#define METINPL
+//#define METINPL
 //#define PANGEA
 //#define MATADIA
 //#define BARIA
@@ -112,10 +114,21 @@ using namespace std;
 
 //#define PYTHON_CUSTOM
 
-//#define DEVELOPER_MODE
+#define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.57 Beta"
+#define DLL_VERSION "0.0.58 Beta"
 
+#ifdef DIAMOND
+#define SERVER_NAME "DIAMOND"
+#endif
+
+#ifdef VISERION
+#define SERVER_NAME "VISERION"
+#endif
+
+#ifdef ATYVA
+#define SERVER_NAME "Atyva"
+#endif
 
 #ifdef VIDGAR
 #define SERVER_NAME "Vidgar"

@@ -795,7 +795,7 @@ void MainForm::Menu() {
 							{
 								/*int last_slot = GameFunctions::GetLastCharSlot();*/
 								GameFunctions::NetworkStream__DirectEnterMode_Set(0);
-								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first);
+								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first+Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
 							}
 						}
 

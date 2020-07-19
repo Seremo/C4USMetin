@@ -405,6 +405,7 @@ public:
 		ImGui::Hotkey(Settings::HotkeyTime, "Hide UI      ", &Settings::HideUI);
 		
 		ImGui::PushItemWidth(100); ImGui::InputInt("Boost Distance", &Settings::BoostSpeed3, 5, 100);
+		ImGui::InputInt("Channel Changer Port +/-", &Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET, 1, 1);
 
 
 
@@ -577,7 +578,13 @@ private:
 		D3DVECTOR oldPosition;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
+#ifdef DEVELOPER_MODE
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MiniMHWaitHackDistanceValue);
+#else
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue)
+#endif
+
+		
 		for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
@@ -626,7 +633,11 @@ private:
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
+#ifdef DEVELOPER_MODE
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MiniMHWaitHackDistanceValue);
+#else
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue)
+#endif
 		if (objectList.size() > 0)
 		{
 			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
@@ -695,6 +706,7 @@ private:
 			D3DVECTOR newPosition;
 			DWORD* pTargetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
 			DWORD* pCharInstance = GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetMainCharacterIndex());
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(pTargetInstance, &newPosition);
 			if (pTargetInstance != 0 && pCharInstance != 0)
 			{
 				if (Settings::MiniMHWaitHackSwordRange)

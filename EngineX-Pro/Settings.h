@@ -171,6 +171,8 @@ public:
 	static int MiniMHUseBluePotionSpeed;
 	static bool MiniMHAutoRevive;
 	static int MiniMHAutoReviveHpPercentValue;
+	static int MAIN_CHANNEL_CHANGER_PORT_OFFSET;
+	
 	static bool ProtectionShowWisperLogs;
 	static bool ProtectionShowWisperBalloon;
 	static bool ProtectionShowTalkBalloon;
@@ -341,7 +343,15 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(49,  make_pair("Samia","CH5")), make_pair(16251, "54.38.85.102") },
 	{ make_pair(50,  make_pair("Samia","CH6")), make_pair(16261, "54.38.85.102") },
 	
-	
+	{ make_pair(10,  make_pair("Polyphemos","CH1")), make_pair(12100, "79.110.92.201") },
+	{ make_pair(11,  make_pair("Polyphemos","CH2")), make_pair(12200, "79.110.92.229") },
+	{ make_pair(12,  make_pair("Polyphemos","CH3")), make_pair(12300, "79.110.92.201") },
+	{ make_pair(13,  make_pair("Polyphemos","CH4")), make_pair(12400, "79.110.92.229") },
+	{ make_pair(14,  make_pair("Polyphemos","CH5")), make_pair(12500, "79.110.92.201") },
+	{ make_pair(15,  make_pair("Polyphemos","CH6")), make_pair(12600, "79.110.92.229") },
+	{ make_pair(16,  make_pair("Polyphemos","CH7")), make_pair(12700, "79.110.92.126") },
+	{ make_pair(17,  make_pair("Polyphemos","CH8")), make_pair(12800, "79.110.92.126") },
+	{ make_pair(18,  make_pair("Polyphemos","CH9")), make_pair(12900, "79.110.92.126") },
 };
 
 
@@ -510,6 +520,12 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 { make_pair(45, false), make_pair(27857, "Martwy Rak Niebieski") },
 
 #endif
+
+
+
+
+
+
 };
 
  map<DWORD, pair<string, DWORD>> Settings::FISHBOT_COMMAND_LIST
@@ -645,6 +661,12 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 	 { 94, make_pair("nij 4 raz/y przycisk spacji by wy", 4) },
 	 { 95, make_pair("nij 5 raz/y przycisk spacji by wy", 5) },
 
+
+	 { 96, make_pair("nij 1x spacj", 1) },
+	 { 97, make_pair("nij 2x spacj", 2) },
+	 { 98, make_pair("nij 3x spacj", 3) },
+	 { 99, make_pair("nij 4x spacj", 4) },
+	 { 10, make_pair("nij 5x spacj", 5) },
  };
 
 bool Settings::DropBotEnable = false;
@@ -737,7 +759,7 @@ int Settings::MiniMHUseBluePotionSpeed = 100;
 bool Settings::MiniMHAutoRevive = false;
 int Settings::MiniMHAutoReviveHpPercentValue = 60;
 
-
+int Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET= 0;
 
 
 bool Settings::MAIN_SKILL_1 = false;

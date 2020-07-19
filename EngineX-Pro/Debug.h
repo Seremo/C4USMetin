@@ -68,12 +68,12 @@ public:
 		ImGui::Text(mob_info->szName);
 		}*/
 		static float v = 0;
-		if (ImGui::InputFloat("vcxcvcxve", &v, 10, 361))
+		if (ImGui::InputFloat("vcxcvcxve", &v, 1, 1))
 		{
-			
+			GameFunctions::NetworkStreamServerCommand(string("FishingCheckCode "+ to_string((int)v)).c_str());
 		}
-		ImGui::Text(GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(0, (int)v));
-	
+		/*ImGui::Text(GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(0, (int)v));*/
+		
 		ImGui::Text(GameFunctions::PlayerGetName());
 		
 		ImGui::Text(to_string(GameFunctions::NetworkStreamIsOnline()).c_str());

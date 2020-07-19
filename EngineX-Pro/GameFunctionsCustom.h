@@ -777,6 +777,9 @@ public:
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
 #elif defined(METINPL)
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+#elif defined(DIAMOND)
+			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 263));
+
 #else
 
 			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
