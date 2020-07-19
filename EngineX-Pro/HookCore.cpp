@@ -421,7 +421,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 #endif
 #ifdef METINPL
 
-	if (header == 49 && len >= sizeof(TPacketGCFishing) && Settings::FishBotEnable)
+	if (header == 42 && len >= sizeof(TPacketGCFishing) && Settings::FishBotEnable)
 	{
 		TPacketGCFishing packetGCFishing;
 		memcpy(&packetGCFishing, destBuf, sizeof(TPacketGCFishing));
