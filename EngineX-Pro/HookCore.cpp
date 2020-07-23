@@ -158,7 +158,7 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 	}
 
 	
-	Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szFunc);
+	//Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szFunc);
 	return nPyCallClassMemberFunc(poClass, c_szFunc, poArgs);
 
 
@@ -695,7 +695,7 @@ bool _fastcall NewCPythonNetworkStreamSendCommandPacket(void* This, void* EDX,  
 {
 
 	string u = StringExtension::StringFormat("z[%d] y[% d] z[%s]  ", a1, a2, a3);
-	Logger::Add(Logger::MAIN, true, Logger::WHITE, u.c_str());
+	//Logger::Add(Logger::MAIN, true, Logger::WHITE, u.c_str());
 	return nCPythonNetworkStreamSendCommandPacket(This, a1,a2,a3);
 }
 

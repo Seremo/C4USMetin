@@ -581,7 +581,7 @@ private:
 #ifdef DEVELOPER_MODE
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MiniMHWaitHackDistanceValue);
 #else
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue)
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
 #endif
 
 		
@@ -723,6 +723,9 @@ private:
 				case 1:
 					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
 					GameFunctions::NetworkStreamSendShootPacket(0);
+					break;
+
+#ifdef DEVELOPER_MODE
 				case 2:
 					if ((GetTickCount() - Main::lastWaitHackSkillDelay) > (Settings::MiniMHWaitHackSkillDelay * 1000))
 					{
@@ -734,6 +737,7 @@ private:
 						GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
 					}
 					break;
+#endif
 				}
 				if (Settings::MiniMHWaitHackSwordRange)
 				{

@@ -4,7 +4,11 @@
  void MainCore::Crack()
 {
 	 
-
+#ifdef DEVELOPER_MODE
+#ifdef ATYVA
+	// MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x23C404), 255, 1); //E8 ? ? ? ? 8B 4D F8 E8 ? ? ? ? EB 12
+#endif
+#endif
 #ifdef RUBINUM
 	 const char* version = "1591958395";
 	 MemoryExtension::SetMemory((Globals::hEntryBaseAddress + 0x18F2E4C), (void*)version, strlen(version));

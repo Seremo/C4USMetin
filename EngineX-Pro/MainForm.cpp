@@ -761,7 +761,7 @@ void MainForm::Menu() {
 				ImGui::IconButton(&Settings::ProtectionAutoLogin, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
 
 #ifndef METINPL
-				if (ImGui::IconButton(&Settings::FishBotEnable, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
+				/*if (ImGui::IconButton(&Settings::FishBotEnable, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
 				{
 					if (Settings::FishBotEnable) 
 					{
@@ -771,7 +771,7 @@ void MainForm::Menu() {
 					{
 						Fish::Instance().OnStop();
 					}
-				}
+				}*/
 #endif
 				if (ImGui::PopupButton("Channel Change", ChannelChangerIcon, ImVec2(20, 20)))
 				{

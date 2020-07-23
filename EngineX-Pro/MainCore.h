@@ -13,9 +13,9 @@ map < pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  Ma
 {
 	{ make_pair(1, "Main"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Main()))},
 	{ make_pair(2, "Item"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Item()))},
-#ifndef METINPL
-	{ make_pair(3, "Fish"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Fish()))},
-#endif
+//#ifndef METINPL
+	{ make_pair(3, "Fish"), make_pair(false, shared_ptr<IAbstractModuleBase >(new Fish()))},
+//#endif
 
 	
     { make_pair(4, "Farm"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Farm()))},

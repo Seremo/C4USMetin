@@ -5,6 +5,7 @@ private:
 	enum DungeonType
 	{
 		DT = 0,
+		ATYVA_DT = 1,
 	};
 public:
 	int Phase = 0;
@@ -13,6 +14,42 @@ public:
 	vector<D3DVECTOR> Floor2Positions;
 	int Floor5Step = 0;
 	vector<D3DVECTOR> Floor5Positions;
+
+	void CheckRelog()
+	{
+		if (GameFunctionsCustom::GetMapName() != "metin2_map_deviltower1")
+		{
+			if (Phase != 0) {
+				if (GameFunctionsCustom::PlayerIsInstance()) {
+					DWORD DemonTowerGuard = 0;
+					switch (Settings::DUNGEON_TYPE) {
+					case DungeonType::DT:
+						DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20348);
+						if (!DemonTowerGuard)
+						{
+							return;
+						}
+						GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						break;
+					case DungeonType::ATYVA_DT:
+						DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20504);
+						if (!DemonTowerGuard)
+						{
+							return;
+						}
+						GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						break;
+					}
+				}
+
+			}
+			return;
+		}
+	}
 
 	void DemonTowerStart(int i)
 	{
@@ -31,6 +68,30 @@ public:
 				GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
 				GameFunctions::NetworkStreamSendScriptAnswerPacket(i);
 				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				Phase = 1;
+				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
+			}
+		}
+	}
+
+	void AtyvaDemonTowerStart(int i)
+	{
+		if (Phase == 0) {
+			if (GameFunctionsCustom::GetMapName() == "metin2_map_deviltower1") {
+				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
+				Phase = 1;
+			}
+			else {
+				DWORD DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20504);
+				if (!DemonTowerGuard)
+				{
+					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Brak NPC!");
+					return;
+				}
+				GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(i);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
 				Phase = 1;
 				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
 			}
@@ -57,6 +118,9 @@ public:
 		case DungeonType::DT:
 			DemonTowerStart(0);
 			break;
+		case DungeonType::ATYVA_DT:
+			AtyvaDemonTowerStart(1);
+			break;
 		}
 	}
 
@@ -70,7 +134,14 @@ public:
 
 	static void RestartDT()
 	{
-		MainDungs::Instance().DemonTowerStart(1);
+		switch (Settings::DUNGEON_TYPE) {
+		case DungeonType::DT:
+			MainDungs::Instance().DemonTowerStart(1);
+			break;
+		case DungeonType::ATYVA_DT:
+			MainDungs::Instance().DemonTowerStart(1);
+			break;
+		}
 	}
 
 	void Teleport(D3DVECTOR vec)
@@ -160,35 +231,22 @@ public:
 			Teleport(D3DVECTOR{ 39855, 19264, 0 });
 			return;
 		}
-		//bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 0, 0, 0 }, 6500);
-		//if (Floor7 && Phase != 7)
-		//{
-		//	Phase = 7;
-		//	Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
-		//	DelayActions::Clear();
+		bool Floor7 = MathExtension::PointInCircle(CharPos, D3DVECTOR{ 61675, 66273, 0 }, 6500);
+		if (Floor7 && Phase != 7)
+		{
+			Phase = 7;
+			Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 7!");
+			DelayActions::Clear();
 
-		//	Teleport(D3DVECTOR{ 0, 0, 0 });
-		//	return;
-		//}
+			Teleport(D3DVECTOR{ 61675, 66273, 0 });
+			return;
+		}
 	}
 
 	void UpdateDT()
 	{
 		//Check relog
-		if (GameFunctionsCustom::GetMapName() != "metin2_map_deviltower1")
-		{
-			if (Phase != 0) {
-				DWORD DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20348);
-				if (!DemonTowerGuard)
-				{
-					return;
-				}
-				GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
-				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
-				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
-			}
-			return;
-		}
+		CheckRelog();
 		//Check Coords
 		CheckCoords();
 		//Floors
@@ -298,24 +356,38 @@ public:
 					return;
 				}
 				else {
-					DWORD Kowal1 = GameFunctionsCustom::GetCloseObjectByVnum(20074);
-					DWORD Kowal2 = GameFunctionsCustom::GetCloseObjectByVnum(20075);
-					DWORD Kowal3 = GameFunctionsCustom::GetCloseObjectByVnum(20076);
-					if (Kowal1 != 0 || Kowal2 != 0 || Kowal3 != 0) {
-						int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
-						if (lastSlot != -1)
-						{
-							GameFunctions::NetworkStreamConnectGameServer(lastSlot);
-							Main::Instance().ResetSkillTimer();
-						}
-						Phase = 0;
-						DelayActions::AppendBlock(false, 5000, &RestartDT);
+					vector<int> Kowale;
+					Kowale.push_back(GameFunctionsCustom::GetCloseObjectByVnum(20074));
+					Kowale.push_back(GameFunctionsCustom::GetCloseObjectByVnum(20075));
+					Kowale.push_back(GameFunctionsCustom::GetCloseObjectByVnum(20076));
+					auto Kowal = std::find_if(begin(Kowale), end(Kowale), [](int n) { return n != 0; });
+					Kowale.erase(begin(Kowale), Kowal);
+					if (*Kowal != 0) {
+						GameFunctions::NetworkStreamSendOnClickPacket(*Kowal);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+						Phase = 7;
+						//int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+						//if (lastSlot != -1)
+						//{
+						//	GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+						//	Main::Instance().ResetSkillTimer();
+						//}
+						//DelayActions::AppendBlock(false, 5000, &RestartDT);
 					}
 				}
 				break;
 			}
 			case 7: {
-
+				DWORD Metin = GameFunctionsCustom::GetCloseObject(OBJECT_STONE, 10000);
+				if (!Metin)
+				{
+					return;
+				}
+				D3DVECTOR MetinPos;
+				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(Metin), &MetinPos);
+				Teleport(MetinPos);
 				break;
 			}
 		}
@@ -328,6 +400,9 @@ public:
 			if (GameFunctionsCustom::PlayerIsInstance()) {
 				switch (Settings::DUNGEON_TYPE) {
 				case DungeonType::DT:
+					UpdateDT();
+					break;
+				case DungeonType::ATYVA_DT:
 					UpdateDT();
 					break;
 				}
@@ -344,6 +419,8 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DungBot", ImVec2(645, 110), true);
+		std::string PhaseText = "Phase:" + to_string(Phase);
+		ImGui::Text(PhaseText.c_str());
 		if (ImGui::Checkbox("On/Off", &Settings::DUNGEON_BOT)) {
 			if (Settings::DUNGEON_BOT == true)
 			{
@@ -354,7 +431,8 @@ public:
 				OnStop();
 			}
 		}
-		ImGui::RadioButton("VIDGAR DT", &Settings::DUNGEON_TYPE, 0);
+		ImGui::RadioButton("DT", &Settings::DUNGEON_TYPE, 0);
+		ImGui::RadioButton("ATYVA DT", &Settings::DUNGEON_TYPE, 1);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}

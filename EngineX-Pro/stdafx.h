@@ -50,7 +50,7 @@ using namespace std;
 
 //#define VISERION
 
-#define DIAMOND
+//#define DIAMOND
 //#define ATYVA
 //#define VIDGAR
 //#define AELDRA
@@ -62,7 +62,7 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-//#define METINPL
+#define METINPL
 //#define PANGEA
 //#define MATADIA
 //#define BARIA
@@ -114,9 +114,9 @@ using namespace std;
 
 //#define PYTHON_CUSTOM
 
-#define DEVELOPER_MODE
+//#define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.58 Beta"
+#define DLL_VERSION "0.0.59 Beta"
 
 #ifdef DIAMOND
 #define SERVER_NAME "DIAMOND"
@@ -368,6 +368,7 @@ typedef int                 Py_ssize_t;
 #include "ProtectExtension.h"
 #include "PatternScan.h"
 #include "PatternScan2.h"
+
 
 #include "Settings.h"
 #include "Hotkey.h"
