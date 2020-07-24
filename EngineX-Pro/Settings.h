@@ -352,6 +352,15 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(16,  make_pair("Polyphemos","CH7")), make_pair(12700, "79.110.92.126") },
 	{ make_pair(17,  make_pair("Polyphemos","CH8")), make_pair(12800, "79.110.92.126") },
 	{ make_pair(18,  make_pair("Polyphemos","CH9")), make_pair(12900, "79.110.92.126") },
+
+
+	{ make_pair(10,  make_pair("Tigerghost","CH1")), make_pair(12100, "79.110.92.207") },
+	{ make_pair(11,  make_pair("Tigerghost","CH2")), make_pair(12200, "79.110.92.127") },
+	{ make_pair(12,  make_pair("Tigerghost","CH3")), make_pair(12300, "79.110.92.207") },
+	{ make_pair(13,  make_pair("Tigerghost","CH4")), make_pair(12400, "79.110.92.127") },
+	{ make_pair(14,  make_pair("Tigerghost","CH5")), make_pair(12500, "79.110.92.207") },
+	{ make_pair(15,  make_pair("Tigerghost","CH6")), make_pair(12600, "79.110.92.127") },
+
 };
 
 

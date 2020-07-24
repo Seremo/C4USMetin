@@ -113,10 +113,10 @@ using namespace std;
 //#define VERSION_PREMIUM
 
 //#define PYTHON_CUSTOM
-
+#define FISHBOT
 #define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.59 Beta"
+#define DLL_VERSION "0.0.60 Beta"
 
 #ifdef DIAMOND
 #define SERVER_NAME "DIAMOND"
