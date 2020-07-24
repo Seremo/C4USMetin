@@ -114,7 +114,7 @@ using namespace std;
 
 //#define PYTHON_CUSTOM
 
-//#define DEVELOPER_MODE
+#define DEVELOPER_MODE
 
 #define DLL_VERSION "0.0.59 Beta"
 
