@@ -19,20 +19,46 @@ public:
 	{
 	}
 
+	bool DoAnimation = false;
+	int eFunc = 3;
+	int uArg = 133;
+
 	void OnUpdate()
 	{
-		
+		if (DoAnimation)
+		{
+			D3DVECTOR myPosition;
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &myPosition);
+			GameFunctions::NetworkStreamSendCharacterStatePacket(myPosition, GameFunctions::InstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr()), eFunc, uArg);
+			GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), eFunc, true);
+		}
 	}
 
 	void OnRender()
 	{
 	}
+
 	
 	void OnMenu()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
+
+		if (ImGui::Button("Open Shop Search")) {
+			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244*4));
+			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialogCash", Globals::Py_BuildValue("()"));
+		}
+
+		if (ImGui::Button("Open Shop Search 2")) {
+			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244 * 4));
+			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialog", Globals::Py_BuildValue("()"));
+		}
+
+		ImGui::Checkbox("Do Animation", &DoAnimation);
+		ImGui::InputInt("eFunc:", &eFunc);
+		ImGui::InputInt("uArg:", &uArg);
+
 
 		if (ImGui::InputInt("Recv Limit Game Phase", &recv_limit))
 		{

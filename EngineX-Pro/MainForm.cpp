@@ -929,6 +929,7 @@ void MainForm::Initialize()
 
 	//io.Fonts->AddFontFromMemoryCompressedTTF(RudaBold_compressed_data, RudaBold_compressed_size, 13.0f, 0, ranges);
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+	io.IniFilename = NULL;
 	ImGuiStyle* style = &ImGui::GetStyle();
 	style->WindowPadding = ImVec2(15, 15);
 	style->WindowRounding = 5.0f;
