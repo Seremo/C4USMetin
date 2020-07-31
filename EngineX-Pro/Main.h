@@ -326,7 +326,20 @@ public:
 
 
 
-		ImGui::Checkbox("Wallhack Mob", &Settings::MainWallHackMob); ImGui::SameLine();
+		if (ImGui::Checkbox("Wallhack Mob", &Settings::MainWallHackMob)) {
+			//if (Settings::MainWallHackMob)
+			//{
+			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision, 0xC2, 1);
+			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x1, 0x04, 1);
+			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x2, 0x00, 1);
+			//}
+			//else
+			//{
+			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision, 0x55, 1);
+			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x1, 0x8B, 1);
+			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x2, 0xEC, 1);
+			//}
+		}ImGui::SameLine();
 		ImGui::Checkbox("Wallhack Object", &Settings::MainWallHackObject); ImGui::SameLine();
 		ImGui::Checkbox("Wallhack Terrain", &Settings::MainWallHackTerrain); ImGui::SameLine();
 

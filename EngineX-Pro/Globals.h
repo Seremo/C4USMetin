@@ -1299,7 +1299,7 @@ void Globals::ReAddressingLocas()
 	pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x3ecf00; // [100 ] [12 / 12]
 	pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x3ecf08; // [99 ] [108 / 109]
 	pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x3ef2d0; // [100 ] [3 / 3]
-	pCActorInstanceTestActorCollision = Globals::hEntryBaseAddress + 0xb950; // [100 ] [1 / 1]
+	pCActorInstanceTestActorCollision = Globals::hEntryBaseAddress + 0x130AE0; // [100 ] [1 / 1]
 	pCPythonBackgroundGetWarpMapName = Globals::hEntryBaseAddress + 0x198d0; // [100 ] [2 / 2]
 	pCPythonBackgroundGlobalPositionToMapInfo = Globals::hEntryBaseAddress + 0x19910; // [100 ] [1 / 1]
 	pCInstanceBaseAvoidObject = Globals::hEntryBaseAddress + 0x1306c0; // [100 ] [2 / 2]
