@@ -1295,7 +1295,7 @@ void Globals::ReAddressingLocas()
 	pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x3ecefc; // [95 ] [41 / 43]
 	pCItemManagerInstance = Globals::hEntryBaseAddress + 0x3ecf14; // [97 ] [47 / 48]
 	pCPythonItemInstance = Globals::hEntryBaseAddress + 0x3ef2f4; // [100 ] [3 / 3]
-	//pCPythonApplicationInstance = Globals::hEntryBaseAddress + (null); 
+	pCPythonApplicationInstance = Globals::hEntryBaseAddress + 0x3f1320; // [100 ] [1 / 1]
 	pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x3ecf00; // [100 ] [12 / 12]
 	pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x3ecf08; // [99 ] [108 / 109]
 	pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x3ef2d0; // [100 ] [3 / 3]
@@ -1321,7 +1321,7 @@ void Globals::ReAddressingLocas()
 	pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x19b70; // [50 ] [1 / 2]
 	pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0xdfe90; // [100 ] [3 / 3]
 	//pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + (null); 
-	//pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + (null); 
+	pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x867e0; // [100 ] [1 / 1]
 	pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0xe0060; // [100 ] [2 / 2]
 	pCNetworkStreamPeek = Globals::hEntryBaseAddress + 0xe00d0; // [100 ] [2 / 2]
 	pCNetworkStreamRecv = Globals::hEntryBaseAddress + 0xe02a0; // [100 ] [1 / 1]
