@@ -314,6 +314,10 @@ public:
 			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();		
 		
 		}
+		else
+		{
+			GameFunctions::PlayerSetAttackKeyState(false);
+		}
 		ImGui::SameLine();
 		
 		
