@@ -848,6 +848,8 @@ public:
 		DWORD* pCharInstance = GameFunctions::PlayerNEW_GetMainActorPtr();
 		if (pCharInstance != 0) 
 		{
+			if (GameFunctions::InstanceIsWaiting(pCharInstance))
+				return;
 			D3DVECTOR Position;
 			D3DVECTOR newPosition;
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(pCharInstance, &Position);

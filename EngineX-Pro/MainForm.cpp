@@ -718,7 +718,7 @@ void MainForm::Menu() {
 		}
 
 											
-		if (!CheatWindowOpen && HotkeyBoost(Settings::BoostKey, VK_A, VK_W, VK_S, VK_D, Settings::BoostSpeed1))
+		if (Hotkey(Settings::BoostKey, Settings::BoostSpeed1))
 		{
 			GameFunctionsCustom::Boost();
 		}
