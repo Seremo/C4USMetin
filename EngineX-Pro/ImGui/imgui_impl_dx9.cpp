@@ -13,13 +13,13 @@
 // (minor and older changes stripped away, please see git history for details)
 //  2019-05-29: DirectX9: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags_RendererHasVtxOffset flag.
 //  2019-04-30: DirectX9: Added support for special ImDrawCallback_ResetRenderState callback to reset render state.
-//  2019-03-29: Misc: Fixed erroneous assert in ImGui_ImplDX_InvalidateDeviceObjects().
+//  2019-03-29: Misc: Fixed erroneous assert in ImGui_ImplDX9_InvalidateDeviceObjects().
 //  2019-01-16: Misc: Disabled fog before drawing UI's. Fixes issue #2288.
 //  2018-11-30: Misc: Setting up io.BackendRendererName so it can be displayed in the About Window.
 //  2018-06-08: Misc: Extracted imgui_impl_dx9.cpp/.h away from the old combined DX9+Win32 example.
 //  2018-06-08: DirectX9: Use draw_data->DisplayPos and draw_data->DisplaySize to setup projection matrix and clipping rectangle.
 //  2018-05-07: Render: Saving/restoring Transform because they don't seem to be included in the StateBlock. Setting shading mode to Gouraud.
-//  2018-02-16: Misc: Obsoleted the io.RenderDrawListsFn callback and exposed ImGui_ImplDX_RenderDrawData() in the .h file so you can call it yourself.
+//  2018-02-16: Misc: Obsoleted the io.RenderDrawListsFn callback and exposed ImGui_ImplDX9_RenderDrawData() in the .h file so you can call it yourself.
 //  2018-02-06: Misc: Removed call to ImGui::Shutdown() which is not available from 1.60 WIP, user needs to call CreateContext/DestroyContext themselves.
 
 #include "imgui.h"
@@ -45,7 +45,7 @@ struct CUSTOMVERTEX
 };
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 
-static void ImGui_ImplDX_SetupRenderState(ImDrawData* draw_data)
+static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data)
 {
     // Setup viewport
     D3DVIEWPORT9 vp;
@@ -103,7 +103,7 @@ static void ImGui_ImplDX_SetupRenderState(ImDrawData* draw_data)
 
 // Render function.
 // (this used to be set in io.RenderDrawListsFn and called by ImGui::Render(), but you can now call this directly from your main loop)
-void ImGui_ImplDX_RenderDrawData(ImDrawData* draw_data)
+void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 {
     // Avoid rendering when minimized
     if (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f)
@@ -171,7 +171,7 @@ void ImGui_ImplDX_RenderDrawData(ImDrawData* draw_data)
     g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 
     // Setup desired DX state
-    ImGui_ImplDX_SetupRenderState(draw_data);
+    ImGui_ImplDX9_SetupRenderState(draw_data);
 
     // Render command lists
     // (Because we merged all buffers into a single one, we maintain our own offset into them)
@@ -189,7 +189,7 @@ void ImGui_ImplDX_RenderDrawData(ImDrawData* draw_data)
                 // User callback, registered via ImDrawList::AddCallback()
                 // (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
                 if (pcmd->UserCallback == ImDrawCallback_ResetRenderState)
-                    ImGui_ImplDX_SetupRenderState(draw_data);
+                    ImGui_ImplDX9_SetupRenderState(draw_data);
                 else
                     pcmd->UserCallback(cmd_list, pcmd);
             }
@@ -216,7 +216,7 @@ void ImGui_ImplDX_RenderDrawData(ImDrawData* draw_data)
     d3d9_state_block->Release();
 }
 
-bool ImGui_ImplDX_Init(IDirect3DDevice9* device)
+bool ImGui_ImplDX9_Init(IDirect3DDevice9* device)
 {
     // Setup back-end capabilities flags
     ImGuiIO& io = ImGui::GetIO();
@@ -228,13 +228,13 @@ bool ImGui_ImplDX_Init(IDirect3DDevice9* device)
     return true;
 }
 
-void ImGui_ImplDX_Shutdown()
+void ImGui_ImplDX9_Shutdown()
 {
-    ImGui_ImplDX_InvalidateDeviceObjects();
+    ImGui_ImplDX9_InvalidateDeviceObjects();
     if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = NULL; }
 }
 
-static bool ImGui_ImplDX_CreateFontsTexture()
+static bool ImGui_ImplDX9_CreateFontsTexture()
 {
     // Build texture atlas
     ImGuiIO& io = ImGui::GetIO();
@@ -259,16 +259,16 @@ static bool ImGui_ImplDX_CreateFontsTexture()
     return true;
 }
 
-bool ImGui_ImplDX_CreateDeviceObjects()
+bool ImGui_ImplDX9_CreateDeviceObjects()
 {
     if (!g_pd3dDevice)
         return false;
-    if (!ImGui_ImplDX_CreateFontsTexture())
+    if (!ImGui_ImplDX9_CreateFontsTexture())
         return false;
     return true;
 }
 
-void ImGui_ImplDX_InvalidateDeviceObjects()
+void ImGui_ImplDX9_InvalidateDeviceObjects()
 {
     if (!g_pd3dDevice)
         return;
@@ -277,8 +277,8 @@ void ImGui_ImplDX_InvalidateDeviceObjects()
     if (g_FontTexture) { g_FontTexture->Release(); g_FontTexture = NULL; ImGui::GetIO().Fonts->TexID = NULL; } // We copied g_pFontTextureView to io.Fonts->TexID so let's clear that as well.
 }
 
-void ImGui_ImplDX_NewFrame()
+void ImGui_ImplDX9_NewFrame()
 {
     if (!g_FontTexture)
-        ImGui_ImplDX_CreateDeviceObjects();
+        ImGui_ImplDX9_CreateDeviceObjects();
 }

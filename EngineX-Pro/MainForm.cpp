@@ -730,7 +730,11 @@ void MainForm::Menu() {
 	}
 	if (SideBarIsOpen)
 	{
-		ImGui_ImplDX_NewFrame();
+#ifdef MEDIUM
+		ImGui_ImplDX9_NewFrame();
+#else
+		ImGui_ImplDX8_NewFrame();
+#endif	
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 		{
@@ -887,7 +891,11 @@ void MainForm::Menu() {
 		}
 		ImGui::EndFrame();
 		ImGui::Render();
-		ImGui_ImplDX_RenderDrawData(ImGui::GetDrawData());
+#ifdef MEDIUM
+		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+#else
+		ImGui_ImplDX8_RenderDrawData(ImGui::GetDrawData());
+#endif	
 	}
 }
 
@@ -985,7 +993,11 @@ void MainForm::Initialize()
 	style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	ImGui_ImplWin32_Init(Globals::mainHwnd);
-	ImGui_ImplDX_Init(Device::pDevice);
+#ifdef MEDIUM
+	ImGui_ImplDX9_Init(Device::pDevice);
+#else
+	ImGui_ImplDX8_Init(Device::pDevice);
+#endif	
 	SetImages();
 
 	CurTabOpen = 1;
