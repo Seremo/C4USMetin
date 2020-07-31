@@ -200,7 +200,11 @@ HRESULT GenerateTexture(DirectDevice pDevice, DirectTexture* ppD3Dtex, DWORD col
 class CD3DXMeshRenderingOption
 {
 public:
+#ifdef MEDIUM
+	IDirect3DVertexShader9* m_dwVS;
+#else
 	DWORD	m_dwVS;
+#endif
 
 	CD3DXMeshRenderingOption(D3DFILLMODE d3dFillMode, const D3DXMATRIX& c_rmatWorld, D3DCOLOR colour)
 	{
@@ -279,10 +283,14 @@ void CRender::RenderSphere(LPD3DXMESH lpMesh, float fx, float fy, float fz, floa
 	VertexBuffer lpVertexBuffer;
 	lpMesh->GetIndexBuffer(&lpIndexBuffer);
 	lpMesh->GetVertexBuffer(&lpVertexBuffer);
+#ifdef MEDIUM
+	
+#else
 	Device::pDevice->SetVertexShader(lpMesh->GetFVF());
 	Device::pDevice->SetIndices(lpIndexBuffer, 0);
 	Device::pDevice->SetStreamSource(0, lpVertexBuffer, 24);
 	Device::pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, lpMesh->GetNumVertices(), 0, lpMesh->GetNumFaces());
+#endif
 }
 
 
@@ -299,10 +307,14 @@ void CRender::RenderBox(LPD3DXMESH ms_lpSphereMesh, float fx, float fy, float fz
 	ms_lpSphereMesh->GetIndexBuffer(&lpIndexBuffer);
 	ms_lpSphereMesh->GetVertexBuffer(&lpVertexBuffer);
 	ms_lpSphereMesh->DrawSubset(0);
+#ifdef MEDIUM
+
+#else
 	Device::pDevice->SetVertexShader(ms_lpSphereMesh->GetFVF());
 	Device::pDevice->SetIndices(lpIndexBuffer, 0);
 	Device::pDevice->SetStreamSource(0, lpVertexBuffer, 24);
 	Device::pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, ms_lpSphereMesh->GetNumVertices(), 0, ms_lpSphereMesh->GetNumFaces());
+#endif
 }
 
 void CRender::FilledCircle3D(int x, int y, int z, int radius, int points, D3DCOLOR colour) {
