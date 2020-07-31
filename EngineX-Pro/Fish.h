@@ -3,11 +3,11 @@ class Fish : public IAbstractModuleBase, public Singleton<Fish>
 {
 private:
 
-	
+
 public:
 
 #ifdef IVEYA
-	 const char* actionString ="";
+	const char* actionString = "";
 #endif
 	int action = 0;
 	int couting = 0;
@@ -22,16 +22,16 @@ public:
 	D3DVECTOR standingPosition;
 	void OnStart()
 	{
-		
+
 		isEnable = true;
 		lastTimeFishing = GetTickCount();
 
 		lastTimeBotCast = GetTickCount();
 		lastTimeBotRoundTime = GetTickCount();
 		Logger::Add(Logger::FISH, true, Logger::GREEN, "START");
-		
+
 		standingPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %d %d", (standingPosition.x / 100) ,(standingPosition.y / 100)).c_str() );
+		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %d %d", (standingPosition.x / 100), (standingPosition.y / 100)).c_str());
 		NewCast();
 
 
@@ -78,7 +78,7 @@ public:
 					}
 					else
 					{
-						
+
 
 					}
 				}
@@ -87,7 +87,7 @@ public:
 					int clickTime = MiscExtension::RandomInt(Settings::FishBotCastTimeMinValue, Settings::FishBotCastTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotCast) > clickTime)
 					{
-						
+
 #ifdef METINPL
 
 						Cast2();
@@ -106,7 +106,7 @@ public:
 				}
 				else
 				{
-				
+
 #ifdef METINPL
 
 					Cast2();
@@ -114,7 +114,7 @@ public:
 					Cast();
 #endif
 					action--;
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d" , action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d", action).c_str());
 					if (action == 0)
 					{
 						lastTimeBotRoundTime = GetTickCount();
@@ -129,7 +129,7 @@ public:
 					int waitTime = MiscExtension::RandomInt(Settings::FishBotRoundTimeMinValue, Settings::FishBotRoundTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotRoundTime) > waitTime && isNeedRoundTimeCast)
 					{
-						
+
 						Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("WAIT FOR ENDING %d (ms)", waitTime).c_str());//GREEN
 						NewCast();
 						action = -1;
@@ -142,7 +142,7 @@ public:
 					if ((GetTickCount() - lastTimeBotRoundTime) > 0 && isNeedRoundTimeCast)
 					{
 
-						
+
 						Logger::Add(Logger::FISH, true, Logger::WHITE, "NEW START");
 						NewCast();
 						action = -1;
@@ -200,12 +200,12 @@ public:
 	void OnMenu()
 	{
 		Logger::Draw(Logger::FISH);
-		
-		
+
+
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("RandomizerBorder", ImVec2(400, 200), true);
-		
+
 		//Przyciski
 		ImGui::Checkbox("Stop - Position Changed", &Settings::FishBotStopIfPositionChanged); 	ImGui::SameLine();
 		ImGui::Checkbox("Stop - Equipment Full", &Settings::FishBotStopIfInventoryFull);
@@ -245,7 +245,7 @@ public:
 		ImGui::InputInt("Slot", &Settings::FISHBOT_BUY_BAIT_SHOP_SLOT);
 		ImGui::InputInt("Roration", &Settings::FISHBOT_CAST_ROTATION);
 		ImGui::Checkbox("Teleport", &Settings::FISHBOT_SHOP_CAST_TELEPORT);
-		if (ImGui::Button("Add Shop Pos")) 
+		if (ImGui::Button("Add Shop Pos"))
 		{
 			Settings::FISHBOT_SHOP_TELEPORT_CORDS = GameFunctionsCustom::PlayerGetPixelPosition();
 		}
@@ -320,8 +320,8 @@ public:
 			return;
 		}
 		action = num;
-		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d" ,action).c_str());
-		
+		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+
 	}
 	void AppendCastDirectString(int num, const char* message)
 	{
@@ -338,7 +338,7 @@ public:
 
 
 
-	
+
 	void CheckPosition()
 	{
 		if (Settings::FishBotStopIfPositionChanged)
@@ -384,7 +384,7 @@ public:
 		GameFunctions::NetworkStreamSendSequence();*/
 		//GameFunctions::PlayerSetAttackKeyState(true);
 
-	
+
 
 
 
@@ -489,10 +489,10 @@ public:
 		}
 		if (!UseBait())
 		{
-			if (Settings::FISHBOT_BUY_BAIT) 
+			if (Settings::FISHBOT_BUY_BAIT)
 			{
 				BuyBait();
-				if (!UseBait()) 
+				if (!UseBait())
 				{
 					/*Settings::FishBotEnable = false;*/
 					Logger::Add(Logger::FISH, true, Logger::WHITE, "NO BAITS ABORT!");
@@ -542,7 +542,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendShopSellPacketNew(*it, 255);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("SELLED %s FROM SLOT %d",  itor->second.second.c_str()).c_str(), *it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("SELLED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), *it);
 				}
 			}
 		}
@@ -563,7 +563,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendItemDropPacketNew(TItemPos(INVENTORY, *it), 0, 255);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("DROPED %s FROM SLOT %d", itor->second.second.c_str()).c_str(),*it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("DROPED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), *it);
 				}
 			}
 		}
@@ -582,7 +582,7 @@ public:
 				{
 
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, *it));
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("KILLED %s FROM SLOT %d" , itor->second.second.c_str()).c_str(),*it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("KILLED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), *it);
 				}
 			}
 		}
@@ -598,7 +598,7 @@ public:
 				if (slot != -1)
 				{
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("USED %s FROM SLOT %d",  itor->second.second.c_str()).c_str() ,slot);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("USED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), slot);
 					return true;
 				}
 				else
@@ -622,17 +622,38 @@ public:
 		{
 			return;
 		}
+
+#ifdef MEDIUM
+
+		if (StringExtension::Contains(message,"Musze nacisnac "))
+		{
+			int num1 = atoi(message+15);
+			int num2 = atoi(message+19);
+			int sum = atoi(message + 30);
+			if ((num1 + num2) == sum)
+			{
+				action = sum;
+				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+			}
+		}
+#else
+
 		for (map< DWORD, pair<string, DWORD>>::iterator itor = Settings::FISHBOT_COMMAND_LIST.begin(); itor != Settings::FISHBOT_COMMAND_LIST.end(); itor++)
 		{
 			string messageASCI = StringExtension::UTF8ToANSI((char*)itor->second.first.c_str());
-			
+
 			if (StringExtension::Contains(message, messageASCI))
 			{
-				
+
 				action = itor->second.second;
-				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d",action).c_str());
+				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 			}
 		}
+
+#endif
+
+
+
 	}
 
 

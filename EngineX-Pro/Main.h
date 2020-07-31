@@ -391,7 +391,7 @@ public:
 		ImGui::SameLine();
 		ImGui::RadioButton("Target", &Settings::MiniMHWaitHackOneTarget, 1);
 		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MiniMHWaitHackTime, 5, 100);
-		ImGui::Checkbox("Range", &Settings::MiniMHWaitHackSwordRange); ImGui::SameLine();
+		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MiniMHWaitHackDistanceValue, 100, 1000);
 		ImGui::RadioButton("Sword", &Settings::MiniMHWaitHackType, 0); ImGui::SameLine();
 		ImGui::RadioButton("Bow", &Settings::MiniMHWaitHackType, 1);
@@ -623,14 +623,14 @@ private:
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 			DWORD* pTargetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-			if (Settings::MiniMHWaitHackSwordRange)
+			if (Settings::MAIN_WAITHACK_RANGE)
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 			}
 			//GameFunctions::NetworkStreamSendAttackPacket(0, vid);
 			GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 
-			if (Settings::MiniMHWaitHackSwordRange)
+			if (Settings::MAIN_WAITHACK_RANGE)
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
 			}
@@ -666,7 +666,7 @@ private:
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
 #ifdef DEVELOPER_MODE
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MiniMHWaitHackDistanceValue);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
 #else
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue)
 #endif
@@ -683,9 +683,9 @@ private:
 				}
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-				if (Settings::MiniMHWaitHackSwordRange)
+				if (Settings::MAIN_WAITHACK_RANGE)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(700, oldPosition, newPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 					{
@@ -701,10 +701,10 @@ private:
 					//GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 				}
 				GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-				if (Settings::MiniMHWaitHackSwordRange)
+				if (Settings::MAIN_WAITHACK_RANGE)
 				{
 					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(700, newPosition, oldPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 					{
@@ -721,7 +721,7 @@ private:
 				}
 
 			}
-			if (!Settings::MiniMHWaitHackSwordRange)
+			if (!Settings::MAIN_WAITHACK_RANGE)
 			{
 				GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
 			}
@@ -741,7 +741,7 @@ private:
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(pTargetInstance, &newPosition);
 			if (pTargetInstance != 0 && pCharInstance != 0)
 			{
-				if (Settings::MiniMHWaitHackSwordRange)
+				if (Settings::MAIN_WAITHACK_RANGE)
 				{
 					GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 				}
@@ -749,8 +749,8 @@ private:
 				switch (Settings::MiniMHWaitHackType)
 				{
 				case 0:
-					GameFunctions::NetworkStreamSendAttackPacket(0, vid);
 					/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
+					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 					break;
 				case 1:
 					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
@@ -771,7 +771,7 @@ private:
 					break;
 #endif
 				}
-				if (Settings::MiniMHWaitHackSwordRange)
+				if (Settings::MAIN_WAITHACK_RANGE)
 				{
 					GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
 				}

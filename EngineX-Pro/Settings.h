@@ -154,7 +154,7 @@ public:
 	static bool MiniMHWaitHackEnable;
 	static int MiniMHWaitHackDistanceValue;
 	static int  MiniMHWaitHackType;
-	static bool MiniMHWaitHackSwordRange;
+	static bool MAIN_WAITHACK_RANGE;
 	static int MiniMHWaitHackSkillDelay;
 	static int MiniMHWaitHackTime;
 	static int MiniMHWaitHackOneTarget;
@@ -791,7 +791,7 @@ bool Settings::MiniMHWaitHackEnable = false;
 int Settings::MiniMHWaitHackDistanceValue = 4000;
 int Settings::MiniMHWaitHackType = 0;
 int Settings::MiniMHWaitHackSkillDelay = 25;
-bool Settings::MiniMHWaitHackSwordRange = false;
+bool Settings::MAIN_WAITHACK_RANGE = false;
 int Settings::MiniMHWaitHackTime = 50;
 int Settings::MiniMHWaitHackOneTarget = 0;
 bool Settings::MiniMHWaitHackDetect = false;
