@@ -113,7 +113,7 @@ using namespace std;
 //#define VERSION_PREMIUM
 
 //#define PYTHON_CUSTOM
-#define FISHBOT
+//#define FISHBOT
 #define DEVELOPER_MODE
 
 #define DLL_VERSION "0.0.60 Beta"

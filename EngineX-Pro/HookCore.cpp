@@ -85,8 +85,8 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 		StringExtension::Equals(c_szFunc, "OnMouseOverOut") ||
 		StringExtension::Equals(c_szFunc, "ShowToolTip") ||
 		StringExtension::Equals(c_szFunc, "HideToolTip") ||
-		StringExtension::Equals(c_szFunc, "OnEndFrame")
-
+		StringExtension::Equals(c_szFunc, "OnEndFrame") ||
+		StringExtension::Equals(c_szFunc, "OnKeyFrame")
 		)
 	{
 
@@ -156,8 +156,13 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 
 		}
 	}
+	if (StringExtension::Equals(c_szFunc, "OpenPShopSearchDialogCash"))
+	{
+		Logger::Add(Logger::MAIN, true, Logger::WHITE, to_string((DWORD)poClass).c_str());
+		Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szFunc);
+		Logger::Add(Logger::MAIN, true, Logger::WHITE, to_string((DWORD)poArgs).c_str());
+	}
 
-	
 	//Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szFunc);
 	return nPyCallClassMemberFunc(poClass, c_szFunc, poArgs);
 
@@ -695,7 +700,7 @@ bool _fastcall NewCPythonNetworkStreamSendCommandPacket(void* This, void* EDX,  
 {
 
 	string u = StringExtension::StringFormat("z[%d] y[% d] z[%s]  ", a1, a2, a3);
-	//Logger::Add(Logger::MAIN, true, Logger::WHITE, u.c_str());
+	Logger::Add(Logger::MAIN, true, Logger::WHITE, u.c_str());
 	return nCPythonNetworkStreamSendCommandPacket(This, a1,a2,a3);
 }
 
@@ -767,7 +772,7 @@ void Hooks::Initialize()
 	nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
 	nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
 	nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
-	nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+	//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 	nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 
 #endif
