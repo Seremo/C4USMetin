@@ -61,6 +61,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		/*MessageBox(NULL, "Break Point", "BP", 0)*/;
 
 		MainCore::Initialize();
+
 		/*CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);*/
 
 	}

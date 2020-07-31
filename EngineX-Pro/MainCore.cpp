@@ -38,11 +38,11 @@
 	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1AC6D), 0x90, 5);
 	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x6A312), 0x90, 5);
 	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0xECE6E), 0x90, 5);//hwnd
-	MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x929FE), 0x90, 5);
-	MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x92A71), 0x90, 5);
+	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x929FE), 0x90, 5);
+	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x92A71), 0x90, 5);
 
-	MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x36EC), 0x90, 5); // 68 54 E4 74 00
-	MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x8D411), 0x90, 15); //E8 ? ? ? ? E8 ? ? ? ? 8D 83 ? ? ? ? 
+	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x36EC), 0x90, 5); // 68 54 E4 74 00
+	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x8D411), 0x90, 15); //E8 ? ? ? ? E8 ? ? ? ? 8D 83 ? ? ? ? 
 
 #endif
 #ifdef ELITEMT2
