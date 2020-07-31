@@ -84,6 +84,8 @@ public:
 	static bool MainInfoStonesViewportShow;
 	static bool StatusInfoMinesViewportShow;
 	static bool StatusInfoBossesViewportShow;
+
+	static bool MAIN_MOBBER_ENABLE;
 	//################################################################################################
 	static bool GLOBAL_SWITCH;
 	static bool DUNGEON_BOT;
@@ -707,7 +709,7 @@ bool Settings::MainInfoStonesViewportShow = false;
 bool Settings::StatusInfoMinesViewportShow = false;
 bool Settings::StatusInfoBossesViewportShow = false;
 
-
+bool Settings::MAIN_MOBBER_ENABLE = false;
 
 bool Settings::GLOBAL_SWITCH = false;
 bool Settings::DUNGEON_BOT = false;

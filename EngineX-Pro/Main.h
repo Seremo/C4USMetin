@@ -185,7 +185,12 @@ public:
 				bool canAttack = true;
 				Potions();
 
+
+
+
 				Other();
+
+
 				if (Revive())
 				{
 					return;
@@ -206,8 +211,14 @@ public:
 
 				}
 
+				if(Settings::MAIN_MOBBER_ENABLE)
+				{
 
-
+					if (DynamicTimer::CheckAutoSet("MobMagnet", 5000))
+					{
+						GameFunctions::NetworkStreamSendUseSkillPacket(163, 0);
+					}
+				}
 
 				Skill();
 				WaitHack();
@@ -415,7 +426,11 @@ public:
 
 		
 		ImGui::Checkbox("Detect Stones", &Settings::MainInfoStonesViewportShow);
-
+#ifdef MEDIUM
+		
+		ImGui::Checkbox("Medium Mobber", &Settings::MAIN_MOBBER_ENABLE);
+	
+#endif	
 		ImGui::Hotkey(Settings::HotkeyTime, "Boost         ", &Settings::BoostKey);
 		ImGui::Hotkey(Settings::HotkeyTime, "Relog         ", &Settings::RelogKey);
 		ImGui::Hotkey(Settings::HotkeyTime, "MH Switch", &Settings::OnOffMH);
