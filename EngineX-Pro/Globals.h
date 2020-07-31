@@ -1320,7 +1320,7 @@ void Globals::ReAddressingLocas()
 	pCItemManagerGetItemDataPointer = Globals::hEntryBaseAddress + 0x135c00; // [66 ] [2 / 3]
 	pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x19b70; // [50 ] [1 / 2]
 	pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0xdfe90; // [100 ] [3 / 3]
-	//pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + (null); 
+	pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0x87000; 
 	pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x867e0; // [100 ] [1 / 1]
 	pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0xe0060; // [100 ] [2 / 2]
 	pCNetworkStreamPeek = Globals::hEntryBaseAddress + 0xe00d0; // [100 ] [2 / 2]
@@ -1335,20 +1335,14 @@ void Globals::ReAddressingLocas()
 	pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0x27ea0; // [100 ] [2 / 2]
 	pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x865c0; // [100 ] [1 / 1]
 	pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x868e0; // [100 ] [1 / 1]
-
-
 	pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + 0x492CA0; 
-
 	pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0x936E0;
-	//pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + (null); 
-
 	pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0x92df0; // [100 ] [5 / 5]
 	pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x92f70; // [100 ] [3 / 3]
-	//pCPythonNetworkStreamSendEmoticon = Globals::hEntryBaseAddress + 0x86B70; 
+	pCPythonNetworkStreamSendEmoticon = Globals::hEntryBaseAddress + 0x86B70; 
 	pCPythonNetworkStreamSendExchangeAcceptPacket = Globals::hEntryBaseAddress + 0x93460; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendExchangeItemAddPacket = Globals::hEntryBaseAddress + 0x93590; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendExchangeStartPacket = Globals::hEntryBaseAddress + 0x93600; // [100 ] [2 / 2]
- 
 	pCPythonNetworkStreamSendFishingPacket = Globals::hEntryBaseAddress + 0x93680; // [100 ] [3 / 3]
 	pCPythonNetworkStreamSendGiveItemPacket = Globals::hEntryBaseAddress + 0x93770;
 	pCPythonNetworkStreamSendItemDropPacketNew = Globals::hEntryBaseAddress + 0x96d90; // [100 ] [1 / 1]
