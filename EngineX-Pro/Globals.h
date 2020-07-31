@@ -1335,7 +1335,7 @@ void Globals::ReAddressingLocas()
 	pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0x27ea0; // [100 ] [2 / 2]
 	pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x865c0; // [100 ] [1 / 1]
 	pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x868e0; // [100 ] [1 / 1]
-	//pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + (null); 
+	pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0x936E0;
 	//pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + (null); 
 	pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0x92df0; // [100 ] [5 / 5]
 	pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x92f70; // [100 ] [3 / 3]
@@ -1345,7 +1345,7 @@ void Globals::ReAddressingLocas()
 	pCPythonNetworkStreamSendExchangeStartPacket = Globals::hEntryBaseAddress + 0x93600; // [100 ] [2 / 2]
 	//pCPythonNetworkStreamSendFishingQuitPacket = Globals::hEntryBaseAddress + (null); 
 	pCPythonNetworkStreamSendFishingPacket = Globals::hEntryBaseAddress + 0x93680; // [100 ] [3 / 3]
-	//pCPythonNetworkStreamSendGiveItemPacket = Globals::hEntryBaseAddress + (null); 
+	pCPythonNetworkStreamSendGiveItemPacket = Globals::hEntryBaseAddress + 0x93770;
 	pCPythonNetworkStreamSendItemDropPacketNew = Globals::hEntryBaseAddress + 0x96d90; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendItemMovePacket = Globals::hEntryBaseAddress + 0x96e00; // [50 ] [1 / 2]
 	pCPythonNetworkStreamSendItemPickUpPacket = Globals::hEntryBaseAddress + 0x96f30; // [100 ] [3 / 3]
@@ -1353,10 +1353,10 @@ void Globals::ReAddressingLocas()
 	pCPythonNetworkStreamSendOnClickPacket = Globals::hEntryBaseAddress + 0x93fd0; // [100 ] [2 / 2]
 	pCPythonNetworkStreamSendRefinePacket = Globals::hEntryBaseAddress + 0x943b0; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendScriptAnswerPacket = Globals::hEntryBaseAddress + 0x943e0; // [100 ] [2 / 2]
-	//pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + (null); 
+	pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + 0x94490;
 	pCPythonNetworkStreamSendShopBuyPacket = Globals::hEntryBaseAddress + 0x97320; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendShopEndPacket = Globals::hEntryBaseAddress + 0x97390; // [100 ] [1 / 1]
-	//pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + (null); 
+	pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0x97450;
 	pCPythonNetworkStreamSendSpecial = Globals::hEntryBaseAddress + 0x944d0; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendUseSkillPacket = Globals::hEntryBaseAddress + 0x94600; // [100 ] [3 / 3]
 	pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0x94660; // [100 ] [1 / 1]
@@ -1383,12 +1383,10 @@ void Globals::ReAddressingLocas()
 	pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0xf2400; // [100 ] [4 / 4]
 	pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x183c40; // [100 ] [2 / 2]
 	pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x355e0; // [100 ] [1 / 1]
-	//pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + (null); 
+	pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x3F3A84;
 	pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0xe09b0; // [100 ] [1 / 1]
 	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x15c20; // [100 ] [1 / 1]
-	//pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x162a0; // [33 ] [1 / 3]
 	pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x166c0; // [66 ] [2 / 3]
-	//pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + (null); 
 #endif
 
 #ifdef METINPL
