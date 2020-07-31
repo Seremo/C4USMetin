@@ -278,7 +278,7 @@ using namespace std;
 #endif
 
 #ifdef MEDIUM
-#define SERVER_NAME "MEDIUM"
+#define SERVER_NAME "Medium"
 #endif
 
 #ifdef GLADOR
