@@ -479,7 +479,10 @@ public:
 		return Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, a1, a2, a3);
 	}
 	//#################################################################################################################################
-
+	static float GetBackgroundHeight(float x, float y)
+	{
+		return Globals::CInstanceBase__GetBackgroundHeight(GameFunctions::PlayerNEW_GetMainActorPtr(), x, y);
+	}
 	
 };
 
