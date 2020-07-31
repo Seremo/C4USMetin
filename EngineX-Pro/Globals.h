@@ -1319,7 +1319,7 @@ void Globals::ReAddressingLocas()
 	pCItemDataGetName = Globals::hEntryBaseAddress + 0x126790; // [66 ] [2 / 3]
 	pCItemManagerGetItemDataPointer = Globals::hEntryBaseAddress + 0x135c00; // [66 ] [2 / 3]
 	pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x19b70; // [50 ] [1 / 2]
-	pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0xdfe90; // [100 ] [3 / 3]
+	pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0xDFF40; // [100 ] [3 / 3]
 	pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0x87000; 
 	pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x867e0; // [100 ] [1 / 1]
 	pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0xe0060; // [100 ] [2 / 2]
