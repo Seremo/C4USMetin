@@ -62,12 +62,12 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-#define METINPL
+//#define METINPL
 //#define PANGEA
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION
-//#define MEDIUM
+#define MEDIUM
 //#define EGORIA
 //#define VESTERIS
 //#define CLASSIC
