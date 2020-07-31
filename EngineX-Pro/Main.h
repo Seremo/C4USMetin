@@ -595,8 +595,8 @@ private:
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 			}
-			GameFunctions::NetworkStreamSendAttackPacket(0, vid);
-			/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
+			//GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+			GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 
 			if (Settings::MiniMHWaitHackSwordRange)
 			{
