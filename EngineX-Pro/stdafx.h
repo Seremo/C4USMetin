@@ -48,7 +48,7 @@ using namespace std;
 
 
 
-#define VISERION
+//#define VISERION
 
 //#define DIAMOND
 //#define ATYVA
@@ -116,7 +116,7 @@ using namespace std;
 //#define FISHBOT
 #define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.60 Beta"
+#define DLL_VERSION "0.0.61 Beta"
 
 #ifdef DIAMOND
 #define SERVER_NAME "DIAMOND"

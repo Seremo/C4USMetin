@@ -1336,14 +1336,14 @@ void Globals::ReAddressingLocas()
 	pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x865c0; // [100 ] [1 / 1]
 	pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x868e0; // [100 ] [1 / 1]
 	//pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + (null); 
-	//pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + (null); 
+	pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + 0x492CA0; 
 	pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0x92df0; // [100 ] [5 / 5]
 	pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x92f70; // [100 ] [3 / 3]
-	//pCPythonNetworkStreamSendEmoticon = Globals::hEntryBaseAddress + (null); 
+	//pCPythonNetworkStreamSendEmoticon = Globals::hEntryBaseAddress + 0x86B70; 
 	pCPythonNetworkStreamSendExchangeAcceptPacket = Globals::hEntryBaseAddress + 0x93460; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendExchangeItemAddPacket = Globals::hEntryBaseAddress + 0x93590; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendExchangeStartPacket = Globals::hEntryBaseAddress + 0x93600; // [100 ] [2 / 2]
-	//pCPythonNetworkStreamSendFishingQuitPacket = Globals::hEntryBaseAddress + (null); 
+ 
 	pCPythonNetworkStreamSendFishingPacket = Globals::hEntryBaseAddress + 0x93680; // [100 ] [3 / 3]
 	//pCPythonNetworkStreamSendGiveItemPacket = Globals::hEntryBaseAddress + (null); 
 	pCPythonNetworkStreamSendItemDropPacketNew = Globals::hEntryBaseAddress + 0x96d90; // [100 ] [1 / 1]
@@ -1383,12 +1383,12 @@ void Globals::ReAddressingLocas()
 	pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0xf2400; // [100 ] [4 / 4]
 	pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x183c40; // [100 ] [2 / 2]
 	pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x355e0; // [100 ] [1 / 1]
-	//pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + (null); 
+	pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x3F3A84;
 	pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0xe09b0; // [100 ] [1 / 1]
 	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x15c20; // [100 ] [1 / 1]
 	//pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x162a0; // [33 ] [1 / 3]
 	pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x166c0; // [66 ] [2 / 3]
-	//pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + (null); 
+	
 #endif
 
 #ifdef METINPL
