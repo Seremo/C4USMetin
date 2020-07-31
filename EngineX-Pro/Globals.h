@@ -1351,7 +1351,7 @@ void Globals::ReAddressingLocas()
 	pCPythonNetworkStreamSendItemPickUpPacket = Globals::hEntryBaseAddress + 0x96f30; // [100 ] [3 / 3]
 	pCPythonNetworkStreamSendItemUsePacket = Globals::hEntryBaseAddress + 0x96f80; // [100 ] [2 / 2]
 	pCPythonNetworkStreamSendOnClickPacket = Globals::hEntryBaseAddress + 0x93fd0; // [100 ] [2 / 2]
-	//pCPythonNetworkStreamSendRefinePacket = Globals::hEntryBaseAddress + (null); 
+	pCPythonNetworkStreamSendRefinePacket = Globals::hEntryBaseAddress + 0x943b0; // [100 ] [1 / 1]
 	pCPythonNetworkStreamSendScriptAnswerPacket = Globals::hEntryBaseAddress + 0x943e0; // [100 ] [2 / 2]
 	//pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + (null); 
 	pCPythonNetworkStreamSendShopBuyPacket = Globals::hEntryBaseAddress + 0x97320; // [100 ] [1 / 1]
@@ -1377,7 +1377,7 @@ void Globals::ReAddressingLocas()
 	pCPythonPlayerSetAttackKeyState = Globals::hEntryBaseAddress + 0x371e0; // [100 ] [1 / 1]
 	pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x36510; // [100 ] [2 / 2]
 	//pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + (null); 
-	//pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + (null); 
+	pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x36af0; // [100 ] [1 / 1]
 	pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0xe39f0; // [93 ] [15 / 16]
 	pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0xd5cb0; // [100 ] [14 / 14]
 	pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0xf2400; // [100 ] [4 / 4]
