@@ -48,7 +48,7 @@ using namespace std;
 
 
 
-//#define VISERION
+#define VISERION
 
 //#define DIAMOND
 //#define ATYVA
