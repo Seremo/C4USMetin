@@ -308,6 +308,10 @@ using namespace std;
 #define DIRECTINPUT_VERSION 0x0800
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+#define DirectDevice IDirect3DDevice9*
+#define DirectDevice2 LPDIRECT3DDEVICE9
+#define DirectTexture LPDIRECT3DTEXTURE9
+#define IMGUI_DEFINE_MATH_OPERATORS
 #else
 #include "ImGui/imgui_impl_dx8.h"
 #include <d3d8.h>

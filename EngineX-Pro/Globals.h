@@ -1324,7 +1324,7 @@ void Globals::ReAddressingLocas()
 	pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x867e0; // [100 ] [1 / 1]
 	pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0xe0060; // [100 ] [2 / 2]
 	pCNetworkStreamPeek = Globals::hEntryBaseAddress + 0xe00d0; // [100 ] [2 / 2]
-	pCNetworkStreamRecv = Globals::hEntryBaseAddress + 0xe02a0; // [100 ] [1 / 1]
+	pCNetworkStreamRecv = Globals::hEntryBaseAddress + 0xE00F0; // [100 ] [1 / 1]
 	pCNetworkStreamSend = Globals::hEntryBaseAddress + 0xe0310; // [100 ] [2 / 2]
 	pCNetworkStreamSendSequence = Globals::hEntryBaseAddress + 0xb5db0; // [100 ] [1 / 1]
 	pCPhysicsObjectIncreaseExternalForce = Globals::hEntryBaseAddress + 0x146e40; // [100 ] [2 / 2]
@@ -1381,7 +1381,7 @@ void Globals::ReAddressingLocas()
 	pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0xd5cb0; // [100 ] [14 / 14]
 	pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0xf2400; // [100 ] [4 / 4]
 	pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x183c40; // [100 ] [2 / 2]
-	pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x355e0; // [100 ] [1 / 1]
+	pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x6DD50; // [100 ] [1 / 1]
 	pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x3F3A84;
 	pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0xe09b0; // [100 ] [1 / 1]
 	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x15c20; // [100 ] [1 / 1]
