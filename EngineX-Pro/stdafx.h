@@ -49,7 +49,7 @@ using namespace std;
 
 
 //#define VISERION
-
+#define GANTIA2
 //#define DIAMOND
 //#define ATYVA
 //#define VIDGAR
@@ -67,7 +67,7 @@ using namespace std;
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION
-#define MEDIUM
+//#define MEDIUM
 //#define EGORIA
 //#define VESTERIS
 //#define CLASSIC
@@ -116,7 +116,12 @@ using namespace std;
 #define FISHBOT
 #define DEVELOPER_MODE
 
-#define DLL_VERSION "0.0.61 Beta"
+#define DLL_VERSION "0.0.62 Beta"
+
+
+#ifdef GANTIA2
+#define SERVER_NAME "Gantia2"
+#endif
 
 #ifdef DIAMOND
 #define SERVER_NAME "DIAMOND"
