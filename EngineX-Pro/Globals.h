@@ -195,7 +195,7 @@ public:
 	typedef bool(__thiscall* tCInstanceBaseIsWaiting)(void* This);
 	typedef void(__thiscall* tCInstanceBaseSetRotation)(void* This,float fRotation);
 	typedef bool(__thiscall* tCPythonNetworkStreamSendCommandPacket)(void* This, DWORD a1, DWORD a2,const char* a3);
-	
+	typedef float(__thiscall* tCInstanceBase__GetBackgroundHeight)(void* This, float x, float y);
 	
 	
 
@@ -343,6 +343,7 @@ public:
 	static DWORD pCInstanceBaseIsWaiting;
 	static DWORD pCInstanceBaseSetRotation;
 	static DWORD pCPythonNetworkStreamSendCommandPacket;
+	static DWORD pCInstanceBase__GetBackgroundHeight;
 public:
 	//#####################################################################################################################################
 	/*static tCNetworkStreamPeek CNetworkStreamPeek;*/
@@ -438,7 +439,7 @@ public:
 	static tCInstanceBaseIsWaiting CInstanceBaseIsWaiting;
 	static tCInstanceBaseSetRotation CInstanceBaseSetRotation;
 	static tCPythonNetworkStreamSendCommandPacket CPythonNetworkStreamSendCommandPacket;
-
+	static tCInstanceBase__GetBackgroundHeight CInstanceBase__GetBackgroundHeight;
 
 
 
@@ -608,7 +609,7 @@ DWORD Globals::pCInputKeyboardUpdateKeyboard = NULL;
 DWORD Globals::pCInstanceBaseIsWaiting = NULL;
 DWORD Globals::pCInstanceBaseSetRotation = NULL;
 DWORD Globals::pCPythonNetworkStreamSendCommandPacket = NULL;
-
+DWORD Globals::pCInstanceBase__GetBackgroundHeight = NULL;
 
 
 
@@ -705,6 +706,7 @@ Globals::tCInputKeyboardUpdateKeyboard Globals::CInputKeyboardUpdateKeyboard = N
 Globals::tCInstanceBaseIsWaiting Globals::CInstanceBaseIsWaiting = NULL;
 Globals::tCInstanceBaseSetRotation Globals::CInstanceBaseSetRotation = NULL;
 Globals::tCPythonNetworkStreamSendCommandPacket Globals::CPythonNetworkStreamSendCommandPacket = NULL;
+Globals::tCInstanceBase__GetBackgroundHeight Globals::CInstanceBase__GetBackgroundHeight = NULL;
 //####Globals::#################################################################################################################################
 
 Globals::tPyRun_SimpleStringFlags Globals::PyRun_SimpleStringFlags = NULL;
@@ -1386,7 +1388,7 @@ void Globals::ReAddressingLocas()
 	pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0xe09b0; // [100 ] [1 / 1]
 	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x15c20; // [100 ] [1 / 1]
 	pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x166c0; // [66 ] [2 / 3]
-
+	pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0xE940;
 #endif
 
 #ifdef METINPL
@@ -2273,7 +2275,10 @@ void Globals::ReDeclarationLocals()
 	{
 		CPythonNetworkStreamSendCommandPacket = (tCPythonNetworkStreamSendCommandPacket)(pCPythonNetworkStreamSendCommandPacket);
 	}
-	
+	if (pCInstanceBase__GetBackgroundHeight != NULL)
+	{
+		CInstanceBase__GetBackgroundHeight = (tCInstanceBase__GetBackgroundHeight)(pCInstanceBase__GetBackgroundHeight);
+	}
 }
 
 //#####################################################################################################################################}

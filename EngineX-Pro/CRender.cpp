@@ -284,7 +284,10 @@ void CRender::RenderSphere(LPD3DXMESH lpMesh, float fx, float fy, float fz, floa
 	lpMesh->GetIndexBuffer(&lpIndexBuffer);
 	lpMesh->GetVertexBuffer(&lpVertexBuffer);
 #ifdef MEDIUM
-	
+	//Device::pDevice->SetVertexShader(ms_lpSphereMesh->GetFVF());
+	Device::pDevice->SetIndices(lpIndexBuffer);
+	Device::pDevice->SetStreamSource(0, lpVertexBuffer, 0, 24);
+	Device::pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, lpMesh->GetNumVertices(), 0, lpMesh->GetNumFaces());
 #else
 	Device::pDevice->SetVertexShader(lpMesh->GetFVF());
 	Device::pDevice->SetIndices(lpIndexBuffer, 0);
@@ -308,7 +311,10 @@ void CRender::RenderBox(LPD3DXMESH ms_lpSphereMesh, float fx, float fy, float fz
 	ms_lpSphereMesh->GetVertexBuffer(&lpVertexBuffer);
 	ms_lpSphereMesh->DrawSubset(0);
 #ifdef MEDIUM
-
+	//Device::pDevice->SetVertexShader(ms_lpSphereMesh->GetFVF());
+	Device::pDevice->SetIndices(lpIndexBuffer);
+	Device::pDevice->SetStreamSource(0, lpVertexBuffer, 0, 24);
+	Device::pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, ms_lpSphereMesh->GetNumVertices(), 0, ms_lpSphereMesh->GetNumFaces());
 #else
 	Device::pDevice->SetVertexShader(ms_lpSphereMesh->GetFVF());
 	Device::pDevice->SetIndices(lpIndexBuffer, 0);
