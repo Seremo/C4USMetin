@@ -195,7 +195,7 @@ public:
 	typedef bool(__thiscall* tCInstanceBaseIsWaiting)(void* This);
 	typedef void(__thiscall* tCInstanceBaseSetRotation)(void* This,float fRotation);
 	typedef bool(__thiscall* tCPythonNetworkStreamSendCommandPacket)(void* This, DWORD a1, DWORD a2,const char* a3);
-	typedef float(__thiscall* tCInstanceBase__GetBackgroundHeight)(void* This, float x, float y);
+	typedef float(__cdecl* tCInstanceBase__GetBackgroundHeight)(float x, float y);
 	
 	
 
@@ -1501,6 +1501,7 @@ void Globals::ReAddressingLocas()
 	pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x72A40;
 	pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x73060;
 	pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + 0x201690;
+	pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0x550A0;
 #endif
 #ifdef BARIA
 

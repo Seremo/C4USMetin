@@ -402,7 +402,7 @@ public:
 			movss   xmm2, [y]
 			movss   xmm1, [x]
 			call	eax
-	}
+		}
 #else
 		return Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
 #endif
@@ -481,7 +481,8 @@ public:
 	//#################################################################################################################################
 	static float GetBackgroundHeight(float x, float y)
 	{
-		return Globals::CInstanceBase__GetBackgroundHeight(GameFunctions::PlayerNEW_GetMainActorPtr(), x, y);
+		DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
+		return Globals::CInstanceBase__GetBackgroundHeight(x, y);
 	}
 	
 };

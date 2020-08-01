@@ -35,6 +35,8 @@
 	MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x142B4F), 0x90, 5); //E8 ? ? ? ? 8B 4D F8 E8 ? ? ? ? EB 12
 #endif
 #ifdef MEDIUM
+	//MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x8A120, 0x90, 11);
+
 	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1AC6D), 0x90, 5);
 	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x6A312), 0x90, 5);
 	//MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0xECE6E), 0x90, 5);//hwnd

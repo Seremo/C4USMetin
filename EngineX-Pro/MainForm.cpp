@@ -730,7 +730,7 @@ void MainForm::Menu() {
 	}
 	if (SideBarIsOpen)
 	{
-#ifdef MEDIUM
+#ifdef DX9
 		ImGui_ImplDX9_NewFrame();
 #else
 		ImGui_ImplDX8_NewFrame();
@@ -891,7 +891,7 @@ void MainForm::Menu() {
 		}
 		ImGui::EndFrame();
 		ImGui::Render();
-#ifdef MEDIUM
+#ifdef DX9
 		ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 #else
 		ImGui_ImplDX8_RenderDrawData(ImGui::GetDrawData());
@@ -993,7 +993,7 @@ void MainForm::Initialize()
 	style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	ImGui_ImplWin32_Init(Globals::mainHwnd);
-#ifdef MEDIUM
+#ifdef DX9
 	ImGui_ImplDX9_Init(Device::pDevice);
 #else
 	ImGui_ImplDX8_Init(Device::pDevice);

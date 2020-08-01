@@ -206,6 +206,31 @@ public:
 
 	void OnRender()
 	{
+		for (auto itor = Farm::Instance().cordsMaps.begin(); itor != Farm::Instance().cordsMaps.end(); itor++)
+		{
+			auto ItorNext = itor;
+			ItorNext++;
+			if (ItorNext == Farm::Instance().cordsMaps.end())
+				break;
+
+			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
+			int i = 0;
+			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+			{
+				auto itNext = it;
+				itNext++;
+				if (itNext == gf.end())
+					break;
+				float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 40.0f;
+				float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 40.0f;
+				D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
+				D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
+				//CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, D3DCOLOR_RGBA(255, 0, 0, 255));
+				CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos1.x, LinePos1.y, LinePos1.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(255, 0, 0, 50));
+				CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos2.x, LinePos2.y, LinePos2.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(255, 0, 0, 50));
+				i++;
+			}
+		}
 	}
 
 	void OnMenu()

@@ -46,8 +46,6 @@ using namespace std;
 #pragma comment(lib, "Wininet")
 
 
-
-
 //#define VISERION
 
 //#define DIAMOND
@@ -106,7 +104,9 @@ using namespace std;
 //#define AKADEMIA_VESTERIS
 
 
-
+#ifdef MEDIUM
+#define DX9
+#endif
 
 #define VERSION_ELITE
 //#define VERSION_PUBLIC

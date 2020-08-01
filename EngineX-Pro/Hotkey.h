@@ -8,7 +8,7 @@
 #include <string>
 #include <functional>
 #include <vector>
-#ifdef MEDIUM
+#ifdef DX9
 #define DirectDevice IDirect3DDevice9*
 #define DirectDevice2 LPDIRECT3DDEVICE9
 #define DirectTexture LPDIRECT3DTEXTURE9

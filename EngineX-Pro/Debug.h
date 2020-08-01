@@ -55,6 +55,10 @@ public:
 			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialog", Globals::Py_BuildValue("()"));
 		}
 
+		if (ImGui::Button("Test")) {
+			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + 0x178);
+			Globals::PyCallClassMemberFunc((PyObject*)h, "SetGamePhase", Globals::Py_BuildValue("()"));
+		}
 		ImGui::Checkbox("Do Animation", &DoAnimation);
 		ImGui::InputInt("eFunc:", &eFunc);
 		ImGui::InputInt("uArg:", &uArg);
@@ -62,7 +66,7 @@ public:
 
 		if (ImGui::InputInt("Recv Limit Game Phase", &recv_limit))
 		{
-			MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1E1597), recv_limit, 1);
+			MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1EA1F7), recv_limit, 1);
 		}
 
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();
