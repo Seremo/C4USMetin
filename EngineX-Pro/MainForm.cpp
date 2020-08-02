@@ -509,31 +509,34 @@ void MainForm::ShowRadar()
 		ImGui::GetWindowDrawList()->AddCircle(ImVec2(x, y), radius, 0xFFFFFFFF, 50);
 		if (ImGui::IsWindowHovered())
 		{
-			if (Hotkey(VK_SCROLL)) {
+			if (GetForegroundWindow() == Globals::mainHwnd)
+			{
+				if (Hotkey(VK_SCROLL)) {
 
-			}
-			if (Hotkey(VK_MBUTTON)) {
-				float winX = midRadar.x - ImGui::GetWindowPos().x;
-				float winY = midRadar.y - ImGui::GetWindowPos().y;
-				float mouseX = ImGui::GetMousePos().x - ImGui::GetWindowPos().x;
-				float mouseY = ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
-				float distanceX = winX - mouseX;
-				float distanceY = winX - mouseY;
-				float scaleX = distanceX * (mapSizeY / bgSize.x);
-				float scaleY = distanceY * (mapSizeY / bgSize.y);
-				D3DVECTOR new_position{ charpos.x - scaleX, charpos.y - scaleY, charpos.z };
-				float distance = MiscExtension::CountDistanceTwoPoints(new_position.x, new_position.y, charpos.x, charpos.y);
-				int TmpCount = 0;
-				int Count, Crap;
-				D3DVECTOR TempPos = GameFunctionsCustom::GetTempPosition(new_position, Count);
-				while (TmpCount < Count)
-				{
-					TempPos = GameFunctionsCustom::GetTempPosition(new_position, Crap);
-					GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), TempPos.x, TempPos.y);
-					GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 0, 0);
-					TmpCount += 1;
 				}
-				GameFunctionsCustom::PlayerMoveToDestPixelPositionDirection(TempPos);
+				if (Hotkey(VK_MBUTTON)) {
+					float winX = midRadar.x - ImGui::GetWindowPos().x;
+					float winY = midRadar.y - ImGui::GetWindowPos().y;
+					float mouseX = ImGui::GetMousePos().x - ImGui::GetWindowPos().x;
+					float mouseY = ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
+					float distanceX = winX - mouseX;
+					float distanceY = winX - mouseY;
+					float scaleX = distanceX * (mapSizeY / bgSize.x);
+					float scaleY = distanceY * (mapSizeY / bgSize.y);
+					D3DVECTOR new_position{ charpos.x - scaleX, charpos.y - scaleY, charpos.z };
+					float distance = MiscExtension::CountDistanceTwoPoints(new_position.x, new_position.y, charpos.x, charpos.y);
+					int TmpCount = 0;
+					int Count, Crap;
+					D3DVECTOR TempPos = GameFunctionsCustom::GetTempPosition(new_position, Count);
+					while (TmpCount < Count)
+					{
+						TempPos = GameFunctionsCustom::GetTempPosition(new_position, Crap);
+						GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), TempPos.x, TempPos.y);
+						GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 0, 0);
+						TmpCount += 1;
+					}
+					GameFunctionsCustom::PlayerMoveToDestPixelPositionDirection(TempPos);
+				}
 			}
 		}
 		//FarmBot Points
