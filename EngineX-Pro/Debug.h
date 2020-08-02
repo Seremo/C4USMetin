@@ -27,10 +27,12 @@ public:
 	{
 		if (DoAnimation)
 		{
-			D3DVECTOR myPosition;
-			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &myPosition);
-			GameFunctions::NetworkStreamSendCharacterStatePacket(myPosition, GameFunctions::InstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr()), eFunc, uArg);
-			GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), eFunc, true);
+			if (DynamicTimer::CheckAutoSet("DoAnimation", 500))
+			{
+				D3DVECTOR myPosition;
+				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &myPosition);
+				GameFunctions::NetworkStreamSendCharacterStatePacket(myPosition, GameFunctions::InstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr()), eFunc, uArg);
+			}
 		}
 	}
 
