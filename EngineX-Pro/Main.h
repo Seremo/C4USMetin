@@ -245,55 +245,12 @@ public:
 
 	void OnRender()
 	{
-
-#ifdef BZDETY
-		DWORD pCInstanceBaseGetGraphicThingInstanceRef = Globals::hEntryBaseAddress + 0x59A70;
-		typedef DWORD* (__thiscall* tCInstanceBaseGetGraphicThingInstanceRef)(void* This);
-		tCInstanceBaseGetGraphicThingInstanceRef CInstanceBaseGetGraphicThingInstanceRef = (tCInstanceBaseGetGraphicThingInstanceRef)pCInstanceBaseGetGraphicThingInstanceRef;
-
-		DWORD pCGraphicThingInstanceGetBoundingSphere = Globals::hEntryBaseAddress + 0x47f360;
-		typedef bool(__thiscall* tCGraphicThingInstanceGetBoundingSphere)(void* This, D3DXVECTOR3& v3Center, float& fRadius);
-		tCGraphicThingInstanceGetBoundingSphere CGraphicThingInstanceGetBoundingSphere = (tCGraphicThingInstanceGetBoundingSphere)pCGraphicThingInstanceGetBoundingSphere;
-
-
-		//if (GameFunctions::PlayerNEW_GetMainActorPtr() == NULL)
-		//	return;
-
-		//DWORD* GraphicThing = CInstanceBaseGetGraphicThingInstanceRef(GameFunctions::PlayerNEW_GetMainActorPtr());
-		//D3DXVECTOR3 Position;
-		//float r;
-		//CGraphicThingInstanceGetBoundingSphere(GraphicThing, Position, r);
-		//D3DCOLOR color = D3DCOLOR_RGBA((int)(Settings::renderwh_color.x * 255.0f),
-		//(int)(Settings::renderwh_color.y * 255.0f),
-		//(int)(Settings::renderwh_color.z * 255.0f),
-		//(int)(Settings::renderwh_color.w * 255.0f));
-		//CRender::RenderSphere(Device::ms_lpSphereMesh, Position.x, Position.y, Position.z, Settings::MiniMHWaitHackDistanceValue, D3DFILL_SOLID, color);
-
-		//Render WH
-		if (!Settings::renderwh)
-			return;
-
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
-		if (objectList.size() > 0)
+		if (Settings::renderwh)
 		{
-			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
-			{
-				if (itor->second == GameFunctions::PlayerNEW_GetMainActorPtr())
-					continue;
-				DWORD* GraphicThing = CInstanceBaseGetGraphicThingInstanceRef(itor->second);
-				D3DXVECTOR3 Position;
-				float r;
-				CGraphicThingInstanceGetBoundingSphere(GraphicThing, Position, r);
-				//RenderSphere(Device::ms_lpSphereMesh, Position.x, Position.y, Position.z, r, D3DFILL_WIREFRAME, D3DCOLOR_RGBA(255, 0, 0, 125));
-				D3DCOLOR color = D3DCOLOR_RGBA((int)(Settings::renderwh_color.x * 255.0f),
-					(int)(Settings::renderwh_color.y * 255.0f),
-					(int)(Settings::renderwh_color.z * 255.0f),
-					(int)(Settings::renderwh_color.w * 255.0f));
-				//CRender::RenderBox(Device::ms_lpCylinderMesh, Position.x, Position.y, Position.z, r, D3DFILL_SOLID, color);
-				CRender::RenderSphere(Device::ms_lpSphereMesh, Position.x, Position.y, Position.z, r, D3DFILL_WIREFRAME, color);
-			}
+			D3DVECTOR mainPos;
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &mainPos);
+			CRender::Circle3D(mainPos.x, -mainPos.y, Settings::MiniMHWaitHackDistanceValue, 60.0f, Settings::renderwh_color);
 		}
-#endif
 	}
 
 	void OnMenu()
@@ -384,7 +341,10 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("WHBorder", ImVec2(315, 230), true);
-		ImGui::Checkbox("WaitHack", &Settings::MiniMHWaitHackEnable);
+		ImGui::Checkbox("WaitHack", &Settings::MiniMHWaitHackEnable); ImGui::SameLine();
+		ImGui::ColorEdit4("##RenderWH", (float*)&Settings::renderwh_color, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+		ImGui::Checkbox("Render WH", &Settings::renderwh);
+
 		ImGui::Checkbox("Detect Player", &Settings::MiniMHWaitHackDetect);
 
 		ImGui::RadioButton("Standard", &Settings::MiniMHWaitHackOneTarget, 0);
@@ -403,20 +363,6 @@ public:
 #endif	
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
-#ifdef BZDETY
-		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("RenderWH", ImVec2(150, 60), true);
-		ImGui::ColorEdit4("##RenderWH", (float*)&Settings::renderwh_color, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-		ImGui::Checkbox("Render WH", &Settings::renderwh);
-		ImGui::EndChild();
-		ImGui::PopStyleVar();
-#endif
-
-
-
-
-
 
 		ImGui::SameLine();
 

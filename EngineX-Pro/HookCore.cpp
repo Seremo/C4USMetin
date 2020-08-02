@@ -7,13 +7,6 @@ void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX)
 	if (!Settings::ProtectionDisableRender)
 	{
 		nCPythonApplicationRenderGame(This);
-		for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
-		{
-			if (itor->second.first)
-			{
-				itor->second.second->OnRender();
-			}
-		}
 	}
 	else {
 		Device::pDevice->Clear(0L, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xff000000, 1.0f, 0);
@@ -722,6 +715,18 @@ void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX)
 	nCInputKeyboardUpdateKeyboard(This);
 }
 
+
+void _fastcall Hooks::NewCPythonBackgroundRender(void* This, void* EDX)
+{
+	nCPythonBackgroundRender(This);
+	for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+	{
+		if (itor->second.first)
+		{
+			itor->second.second->OnRender();
+		}
+	}
+}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void Hooks::Initialize()
 {
@@ -886,6 +891,7 @@ void Hooks::Initialize()
 	nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 	//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 	nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+	nCPythonBackgroundRender = (Globals::tCPythonBackgroundRender)DetourFunction((PBYTE)Globals::CPythonBackgroundRender, (PBYTE)NewCPythonBackgroundRender);
 
 #endif
 #ifdef MEDIUM

@@ -47,7 +47,7 @@ using namespace std;
 
 
 //#define VISERION
-#define GANTIA2
+//#define GANTIA2
 //#define DIAMOND
 //#define ATYVA
 //#define VIDGAR
@@ -60,7 +60,7 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-//#define METINPL
+#define METINPL
 //#define PANGEA
 //#define MATADIA
 //#define BARIA

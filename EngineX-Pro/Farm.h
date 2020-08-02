@@ -221,13 +221,13 @@ public:
 				itNext++;
 				if (itNext == gf.end())
 					break;
-				float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 40.0f;
-				float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 40.0f;
+				float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 5.0f;
+				float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 5.0f;
 				D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
 				D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
-				//CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, D3DCOLOR_RGBA(255, 0, 0, 255));
-				CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos1.x, LinePos1.y, LinePos1.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(255, 0, 0, 50));
-				CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos2.x, LinePos2.y, LinePos2.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(255, 0, 0, 50));
+				CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::waypoint_color);
+				//CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos1.x, LinePos1.y, LinePos1.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(255, 0, 0, 50));
+				//CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos2.x, LinePos2.y, LinePos2.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(0, 255, 0, 50));
 				i++;
 			}
 		}
@@ -249,7 +249,9 @@ public:
 			{
 				OnStop();
 			}
-		}
+		} ImGui::SameLine();
+		ImGui::ColorEdit4("##RendeFarm", (float*)&Settings::waypoint_color, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+		ImGui::Checkbox("Render Path", &Settings::renderfarmbot);
 		ImGui::Text("Move Type      "); ImGui::SameLine();
 		ImGui::RadioButton("Move", &Settings::FARM_MOVE_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Teleport", &Settings::FARM_MOVE_TYPE, 1);

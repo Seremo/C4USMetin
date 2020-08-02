@@ -203,9 +203,6 @@ D3DXMATRIX stateoldGame;
 
 DWORD cullingGame;
 DWORD LightingGame;
-
-DWORD zEnableGame;
-
 class RestoreStateGame
 {
 public:
@@ -226,17 +223,12 @@ public:
 		Device::pDevice->GetRenderState(D3DRS_ALPHABLENDENABLE, &alpaBlendGame);
 		Device::pDevice->GetRenderState(D3DRS_SRCBLEND, &srcBlendGame);
 		Device::pDevice->GetRenderState(D3DRS_DESTBLEND, &destBlendGame);
-		Device::pDevice->GetRenderState(D3DRS_ZENABLE, &zEnableGame);
 		Device::pDevice->GetTransform(D3DTS_WORLD, &stateoldGame);
 
 		//SET VALUES
 		Device::pDevice->SetTexture(0, NULL);
 		Device::pDevice->SetTexture(1, NULL);
 		Device::pDevice->SetPixelShader(NULL);
-
-		Device::pDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-		//Device::pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		//Device::pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 
 		Device::pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		Device::pDevice->SetRenderState(D3DRS_FILLMODE, d3dFillMode);
@@ -271,7 +263,6 @@ public:
 		Device::pDevice->SetRenderState(D3DRS_DESTBLEND, destBlendGame);
 		Device::pDevice->SetTransform(D3DTS_WORLD, &stateoldGame);
 		Device::pDevice->SetRenderState(D3DRS_FILLMODE, FillOldGame);
-		Device::pDevice->SetRenderState(D3DRS_ZENABLE, zEnableGame);
 	}
 };
 
@@ -331,9 +322,17 @@ void CRender::RenderBox(LPD3DXMESH ms_lpSphereMesh, float fx, float fy, float fz
 #endif
 }
 
-
-void CRender::Line3D(int x, int y, int z, int ex, int ey, int ez, D3DCOLOR color) 
+template<typename T>
+inline T Clamp(float v, T mn, T mx)
 {
+	return (v < mn) ? mn : (v > mx) ? mx : v;
+}
+
+void CRender::Line3D(int x, int y, int z, int ex, int ey, int ez, ImVec4 colorvec)
+{
+	float f[4] = { colorvec.x, colorvec.y, colorvec.z, colorvec.w };
+	int i[4] = { IM_F32_TO_INT8_UNBOUND(f[0]), IM_F32_TO_INT8_UNBOUND(f[1]), IM_F32_TO_INT8_UNBOUND(f[2]), IM_F32_TO_INT8_UNBOUND(f[3]) };
+	D3DCOLOR color = D3DCOLOR_RGBA(Clamp(i[0], 0, 255), Clamp(i[1], 0, 255), Clamp(i[2], 0, 255), Clamp(i[3], 0, 255));
 	SPDTVertexRaw pVertex[2] =
 	{
 		{ x, y, z, color, 0.0f, 0.0f },
@@ -369,6 +368,38 @@ void CRender::Line3D(int x, int y, int z, int ex, int ey, int ez, D3DCOLOR color
 
 	lpVertexBuffer->Release();
 	lpVertexBuffer = NULL;
+}
+
+void CRender::Circle3D(int fx, int fy, int radius, int points, ImVec4 colour) {
+	int count;
+	float theta, delta;
+	std::vector<D3DXVECTOR3> pts;
+	pts.clear();
+	pts.resize(points);
+	theta = 0.0;
+	delta = 2 * D3DX_PI / float(points);
+	for (count = 0; count < points; count++)
+	{
+		pts[count] = D3DXVECTOR3(radius * cosf(theta), radius * sinf(theta), 0.0f);
+		theta += delta;
+	}
+	for (count = 0; count < points - 1; count++)
+	{
+		float fx1 = fx + pts[count].x;
+		float fx2 = fx + pts[count + 1].x;
+		float fy1 = fy + pts[count].y;
+		float fy2 = fy + pts[count + 1].y;
+		float fz1 = GameFunctions::GetBackgroundHeight(fx1, fy1) + 10.0f;
+		float fz2 = GameFunctions::GetBackgroundHeight(fx2, fy2) + 10.0f;
+		Line3D(fx1, fy1, fz1, fx2, fy2, fz2, colour);
+	}
+	float fx1 = fx + pts[points - 1].x;
+	float fx2 = fx + pts[0].x;
+	float fy1 = fy + pts[points - 1].y;
+	float fy2 = fy + pts[0].y;
+	float fz1 = GameFunctions::GetBackgroundHeight(fx1, fy1) + 10.0f;
+	float fz2 = GameFunctions::GetBackgroundHeight(fx2, fy2) + 10.0f;
+	Line3D(fx1, fy1, fz1, fx2, fy2, fz2, colour);
 }
 
 void CRender::Circle(int x, int y, int z, int radius, int points, D3DCOLOR colour) {
@@ -422,29 +453,6 @@ void CRender::Cube3D(int sx, int sy, int sz, int ex, int ey, int ez, D3DCOLOR ms
 	}
 	delete[] pVertex;
 }
-
-void CRender::Circle3D(int fx, int fy, int fz, int radius, int points, D3DCOLOR colour) {
-	int count;
-	float theta, delta;
-	std::vector<D3DXVECTOR3> pts;
-	pts.clear();
-	pts.resize(points);
-	theta = 0.0;
-	delta = 2 * D3DX_PI / float(points);
-	for (count = 0; count < points; count++)
-	{
-		pts[count] = D3DXVECTOR3(radius * cosf(theta), radius * sinf(theta), 0.0f);
-		theta += delta;
-	}
-	for (count = 0; count < points - 1; count++)
-	{
-		Line3D(fx + pts[count].x, fy + pts[count].y, fz + pts[count].z,
-			fx + pts[count + 1].x, fy + pts[count + 1].y, fz + pts[count + 1].z, colour);
-	}
-	Line3D(fx + pts[points - 1].x, fy + pts[points - 1].y, fz + pts[points - 1].z,
-		fx + pts[0].x, fy + pts[0].y, fz + pts[0].z, colour);
-}
-
 
 void CRender::FilledCircle3D(int x, int y, int z, int radius, int points, D3DCOLOR colour) {
 	int count;

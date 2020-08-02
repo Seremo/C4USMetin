@@ -234,6 +234,7 @@ public:
 	//render
 	static ImVec4 renderwh_color;
 	static bool renderwh;
+	static bool renderfarmbot;
 	//radar
 	static ImVec4 monster_color;
 	static ImVec4 boss_color;
@@ -906,6 +907,7 @@ int Settings::BoostSpeed3 = 47;
 //render
 ImVec4 Settings::renderwh_color = ImColor(255, 0, 0, 15);
 bool Settings::renderwh = true;
+bool Settings::renderfarmbot = true;
 //
 ImVec4 Settings::monster_color = ImVec4(255, 0, 0, 255);
 ImVec4 Settings::boss_color = ImColor(255, 64, 0);

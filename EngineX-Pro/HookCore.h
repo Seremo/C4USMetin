@@ -23,6 +23,7 @@ public:
 
 	static Globals::tCPythonApplicationOnUIRender nCPythonApplicationOnUIRender;
 	static Globals::tCInputKeyboardUpdateKeyboard nCInputKeyboardUpdateKeyboard;
+	static Globals::tCPythonBackgroundRender nCPythonBackgroundRender;
 
 	static void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX);
 	static bool _fastcall Hooks::NewCActorInstanceTestActorCollision(void* This, void* EDX, DWORD* rVictim);
@@ -42,6 +43,7 @@ public:
 	static bool _fastcall Hooks::NewCPythonApplicationProcess(void* This, void* EDX);
 	static void _fastcall Hooks::NewCPythonApplicationOnUIRender(void* This, void* EDX);
 	static void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX);
+	static void _fastcall Hooks::NewCPythonBackgroundRender(void* This, void* EDX);
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	static void Hooks::Initialize();
 
@@ -66,4 +68,5 @@ Globals::tCPythonApplicationProcess Hooks::nCPythonApplicationProcess = NULL;
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
 Globals::tCPythonApplicationOnUIRender Hooks::nCPythonApplicationOnUIRender = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NULL;
+Globals::tCPythonBackgroundRender Hooks::nCPythonBackgroundRender = NULL;
 
