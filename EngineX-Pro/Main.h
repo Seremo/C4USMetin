@@ -249,7 +249,7 @@ public:
 		{
 			D3DVECTOR mainPos;
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &mainPos);
-			CRender::Circle3D(mainPos.x, -mainPos.y, Settings::MiniMHWaitHackDistanceValue, 60.0f, Settings::renderwh_color);
+			CRender::Circle3D(mainPos.x, mainPos.y, Settings::MiniMHWaitHackDistanceValue, 60.0f, Settings::renderwh_color);
 		}
 	}
 
@@ -631,39 +631,33 @@ private:
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
 				if (Settings::MAIN_WAITHACK_RANGE)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(700, oldPosition, newPosition);
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 					{
 						bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
 						if (!InDistance)
 						{
-							//DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-							//DelayActions::AppendBlock(false, 10 * (i + 1), &GameFunctions::NetworkStreamSendCharacterStatePacket, D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
 						i++;			
 					}
-					//GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 				}
 				GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
 				if (Settings::MAIN_WAITHACK_RANGE)
 				{
 					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(700, newPosition, oldPosition);
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 					{
 						bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
 						if (!InDistance)
 						{
-							//DelayActions::AppendBlock(false, 34 * (i + 1), &GameFunctionsCustom::Teleport, D3DVECTOR{ it->x, it->y, it->z });
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-							//DelayActions::AppendBlock(false, 10 * (i + 1), &GameFunctions::NetworkStreamSendCharacterStatePacket, D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
 						i++;
 					}
-					//GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
 				}
 
 			}

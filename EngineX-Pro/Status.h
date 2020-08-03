@@ -7,6 +7,7 @@ class Status :public IAbstractModuleBase, public Singleton<Status>
 	 string stringPlayerID = "";
 	 string stringPlayerPositionX = "";
 	 string stringPlayerPositionY = "";
+	 string stringPlayerPositionZ = "";
 	 string stringTargetIndex = "";
 	 string stringTargetVnum = "";
 	 string stringTargetDistance = "";
@@ -49,6 +50,10 @@ public:
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "/");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringPlayerPositionY.c_str());
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "/");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringPlayerPositionZ.c_str());
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "VID Player:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringPlayerID.c_str());
@@ -133,11 +138,13 @@ public:
 			{
 				stringPlayerPositionX = to_string(playerPosition.x);
 				stringPlayerPositionY = to_string(playerPosition.y);
+				stringPlayerPositionZ = to_string(playerPosition.z);
 			}
 			else
 			{
 				stringPlayerPositionX = "-";
 				stringPlayerPositionY = "-";
+				stringPlayerPositionZ = "-";
 			}
 
 			if (targetIndex != 0)

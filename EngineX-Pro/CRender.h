@@ -4,6 +4,7 @@ public:
 	CRender();
 	~CRender();
 
+	static D3DMATRIX WorldStateCopy;
 	static void String(int x, int y, D3DCOLOR colour, ID3DXFont* font, bool outlined, char* string, ...);
 	static int StringWidth(ID3DXFont* font, char* string);
 	static void Line(int x, int y, int x2, int y2, D3DCOLOR colour);

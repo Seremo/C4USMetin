@@ -905,7 +905,7 @@ int Settings::BoostSpeed1 = 14;
 int Settings::BoostSpeed2 = 1;
 int Settings::BoostSpeed3 = 47;
 //render
-ImVec4 Settings::renderwh_color = ImColor(255, 0, 0, 15);
+ImVec4 Settings::renderwh_color = ImColor(255, 0, 0, 255);
 bool Settings::renderwh = true;
 bool Settings::renderfarmbot = true;
 //

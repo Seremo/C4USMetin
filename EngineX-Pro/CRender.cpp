@@ -21,6 +21,8 @@ struct SPDTVertexRaw
 
 CRender::CRender() {}
 CRender::~CRender() {}
+
+D3DMATRIX CRender::WorldStateCopy;
 #ifdef DX9
 #define SetVertex SetFVF
 #define GetVertex GetFVF
@@ -233,17 +235,19 @@ public:
 		Device::pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		Device::pDevice->SetRenderState(D3DRS_FILLMODE, d3dFillMode);
 		Device::pDevice->SetRenderState(D3DRS_TEXTUREFACTOR, colour);
+
 		Device::pDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TFACTOR);
 		Device::pDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TEXTURE);
 		Device::pDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-
 		Device::pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
 		Device::pDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
 		Device::pDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
+
 		Device::pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 		Device::pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		Device::pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		Device::pDevice->SetTransform(D3DTS_WORLD, &CRender::WorldStateCopy);
 	}
 
 	virtual ~RestoreStateGame()
@@ -391,7 +395,7 @@ void CRender::Circle3D(int fx, int fy, int radius, int points, ImVec4 colour) {
 		float fy2 = fy + pts[count + 1].y;
 		float fz1 = GameFunctions::GetBackgroundHeight(fx1, fy1) + 10.0f;
 		float fz2 = GameFunctions::GetBackgroundHeight(fx2, fy2) + 10.0f;
-		Line3D(fx1, fy1, fz1, fx2, fy2, fz2, colour);
+		Line3D(fx1, -fy1, fz1, fx2, -fy2, fz2, colour);
 	}
 	float fx1 = fx + pts[points - 1].x;
 	float fx2 = fx + pts[0].x;
@@ -399,7 +403,7 @@ void CRender::Circle3D(int fx, int fy, int radius, int points, ImVec4 colour) {
 	float fy2 = fy + pts[0].y;
 	float fz1 = GameFunctions::GetBackgroundHeight(fx1, fy1) + 10.0f;
 	float fz2 = GameFunctions::GetBackgroundHeight(fx2, fy2) + 10.0f;
-	Line3D(fx1, fy1, fz1, fx2, fy2, fz2, colour);
+	Line3D(fx1, -fy1, fz1, fx2, -fy2, fz2, colour);
 }
 
 void CRender::Circle(int x, int y, int z, int radius, int points, D3DCOLOR colour) {

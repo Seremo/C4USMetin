@@ -481,7 +481,6 @@ public:
 	//#################################################################################################################################
 	static float GetBackgroundHeight(float x, float y)
 	{
-		DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
 		return Globals::CInstanceBase__GetBackgroundHeight(x, y);
 	}
 	
