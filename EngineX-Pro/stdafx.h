@@ -60,12 +60,12 @@ using namespace std;
 //#define NODIA
 //#define SENTHIA
 //#define MORAH
-#define METINPL
+//#define METINPL
 //#define PANGEA
 //#define MATADIA
 //#define BARIA
 //#define ASGARDION
-//#define MEDIUM
+#define MEDIUM
 //#define EGORIA
 //#define VESTERIS
 //#define CLASSIC
@@ -114,7 +114,7 @@ using namespace std;
 
 //#define PYTHON_CUSTOM
 #define FISHBOT
-#define DEVELOPER_MODE
+//#define DEVELOPER_MODE
 
 #define DLL_VERSION "0.0.62 Beta"
 

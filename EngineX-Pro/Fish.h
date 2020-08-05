@@ -19,6 +19,8 @@ public:
 #endif
 	DWORD  lastTimeBotCast = 0;
 	DWORD  lastTimeBotRoundTime = 0;
+	int TrueMessage = 0;
+	int MessageCount = 0;
 	D3DVECTOR standingPosition;
 	void OnStart()
 	{
@@ -31,9 +33,10 @@ public:
 		Logger::Add(Logger::FISH, true, Logger::GREEN, "START");
 
 		standingPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %d %d", (standingPosition.x / 100), (standingPosition.y / 100)).c_str());
+		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %f %f", (standingPosition.x / 100), (standingPosition.y / 100)).c_str());
 		NewCast();
-
+		TrueMessage = 0;
+		MessageCount = 0;
 
 	}
 	void OnStop()
@@ -634,6 +637,43 @@ public:
 			{
 				action = sum;
 				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+			}
+		}
+		if (StringExtension::Contains(message, "Prawdziwy komunikat to:"))
+		{
+			if (StringExtension::Contains(message, "pierwszy"))
+			{
+				TrueMessage = 1;
+			}
+			else if (StringExtension::Contains(message, "drugi"))
+			{
+				TrueMessage = 2;
+			}
+			else if (StringExtension::Contains(message, "trzeci"))
+			{
+				TrueMessage = 3;
+			}
+		}
+		if (StringExtension::Contains(message, "W tej chwili kliknij "))
+		{
+			MessageCount++;
+			if (MessageCount == TrueMessage)
+			{
+				action = atoi(message + 21);
+				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+				MessageCount = 0;
+				TrueMessage = 0;
+			}
+		}
+		if (StringExtension::Contains(message, "Wybierz przycisk spacja "))
+		{
+			MessageCount++;
+			if (MessageCount == TrueMessage)
+			{
+				action = atoi(message + 24);
+				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+				MessageCount = 0;
+				TrueMessage = 0;
 			}
 		}
 #else
