@@ -786,27 +786,35 @@ void MainForm::Menu() {
 				}
 				if (ImGui::BeginPopup("##channelchange", ImGuiWindowFlags_AlwaysAutoResize))
 				{
+#ifdef	METINPL
 					for (map< pair<DWORD, pair<string, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST.begin(); itor != Settings::SERVER_INFO_LIST.end(); itor++)
 					{
-#ifdef  METINPL
 						const char* serverName = (const char*)(GetStr(Globals::iCPythonNetworkStreamInstance + 0x7A70));
-#else
-						const char* serverName = SERVER_NAME;
-#endif 
-
-						
-						
-						if (StringExtension::Contains(serverName,itor->first.second.first.c_str()))
+						if (StringExtension::Contains(serverName, itor->first.second.first.c_str()))
 						{
 							if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
 							{
 								/*int last_slot = GameFunctions::GetLastCharSlot();*/
 								GameFunctions::NetworkStream__DirectEnterMode_Set(0);
-								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first+Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
 							}
 						}
-
 					}
+#else
+					for (map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST2.begin(); itor != Settings::SERVER_INFO_LIST2.end(); itor++)
+					{
+						if (itor->first.second.first == Globals::Server)
+						{
+							if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
+							{
+								/*int last_slot = GameFunctions::GetLastCharSlot();*/
+								GameFunctions::NetworkStream__DirectEnterMode_Set(0);
+								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+							}
+						}
+					}
+#endif 					
+
 					ImGui::EndPopup();
 				}
 				if (ImGui::PopupButton("Exit Game", ExitGameIcon, ImVec2(20, 20)))

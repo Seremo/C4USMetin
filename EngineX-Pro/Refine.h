@@ -43,12 +43,7 @@ public:
 				
 			for (int i = 0; i < Settings::REFINE_UPGRADE_COUNT; i++)
 			{
-#ifdef RUBINUM
-				GameFunctions::NetworkStreamSendRefinePacket(Settings::REFINE_ITEM_SLOT , Settings::REFINE_UPGRADE_TYPE);
-#else
-				GameFunctions::NetworkStreamSendRefinePacket(Settings::REFINE_ITEM_SLOT - 1, Settings::REFINE_UPGRADE_TYPE);
-#endif
-				
+				GameFunctions::NetworkStreamSendRefinePacket(Settings::REFINE_ITEM_SLOT - 1, Settings::REFINE_UPGRADE_TYPE);			
 			}
 		}
 		ImGui::EndChild();

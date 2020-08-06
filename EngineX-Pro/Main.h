@@ -372,11 +372,14 @@ public:
 
 		
 		ImGui::Checkbox("Detect Stones", &Settings::MainInfoStonesViewportShow);
-#ifdef MEDIUM
-		
-		ImGui::Checkbox("Medium Mobber", &Settings::MAIN_MOBBER_ENABLE);
-	
-#endif	
+
+		switch (Globals::Server)
+		{
+		case ServerName::MEDIUMMT2:
+			ImGui::Checkbox("Medium Mobber", &Settings::MAIN_MOBBER_ENABLE);
+			break;
+		}
+
 		ImGui::Hotkey(Settings::HotkeyTime, "Boost         ", &Settings::BoostKey);
 		ImGui::Hotkey(Settings::HotkeyTime, "Relog         ", &Settings::RelogKey);
 		ImGui::Hotkey(Settings::HotkeyTime, "MH Switch", &Settings::OnOffMH);

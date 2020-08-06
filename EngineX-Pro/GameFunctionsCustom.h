@@ -214,19 +214,6 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static void PlayerSetPixelPosition(D3DVECTOR position)
-	{
-		DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
-		if (instance)
-		{
-			GameFunctions::InstanceBaseNEW_SetPixelPosition(instance, position);
-			GameFunctions::PlayerNEW_SetSingleDIKKeyState(DIR_UP, TRUE);
-			GameFunctions::PlayerNEW_SetSingleDIKKeyState(DIR_DOWN, TRUE);
-			GameFunctions::PlayerNEW_SetSingleDIKKeyState(DIR_UP, FALSE);
-			GameFunctions::PlayerNEW_SetSingleDIKKeyState(DIR_DOWN, FALSE);
-		}
-	}
-	//#################################################################################################################################
 	static void MountHorse()
 	{
 #ifdef METINPL
@@ -342,11 +329,7 @@ public:
 	//#################################################################################################################################
 	static void UseAllFishVnumInInventoryTillSize(int vnum)
 	{
-#ifdef PANGEA
 		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT); i++)
-#else
-		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT); i++)
-#endif
 		{
 			if (vnum == GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i)))
 			{
@@ -654,7 +637,6 @@ public:
 #ifndef VALIUM
 		
 			string widnowTitle = "";
-			widnowTitle += SERVER_NAME;
 			int counter = 0;
 			map<DWORD, DWORD*> playersList = GameFunctionsCustom::GetObjectList(OBJECT_PC);
 			for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)
@@ -711,9 +693,6 @@ public:
 
 	static bool IsGroundItemsCanPickup()
 	{
-
-		
-
 		map<DWORD, TGroundItemInstance*> vidList;
 		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
 #if defined( METINPL)
@@ -795,8 +774,21 @@ public:
 		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
 		for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
 		{
-			if (itor->second->m_ItemTable.dwVnum == vnum) {
-				return itor->second->m_ItemTable.szLocaleName;
+			TItemTable table;
+			switch (Globals::Server)
+			{
+			case ServerName::VIDGAR:
+				table = (*(TItemTable*)(itor->second + 229));
+				break;
+			case ServerName::PANGEA:
+				table = (*(TItemTable*)(itor->second + 201));
+				break;
+			default:
+				table = itor->second->m_ItemTable;
+				break;
+			}
+			if (table.dwVnum == vnum) {
+				return table.szLocaleName;
 			}
 		}
 	}
@@ -941,21 +933,21 @@ public:
 	static bool InstanceIsBoss(DWORD* instance) 
 	{
 		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
-		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
-		
+		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);	
 		if (mob_info != NULL)
 		{
-/*			BYTE mob_grade;
-			
-#if defined( SAMIAS2)
-			memcpy(&mob_grade, mob_info + 0x7F, sizeof(BYTE));
-#elif defined (PANGEA)
-			memcpy(&mob_grade, mob_info + 0x37, sizeof(BYTE));
-			
-#endif*/ 
+			BYTE bRank;
+			switch (Globals::Server)
+			{
+			case ServerName::SAMIAS2:
+				bRank = (*(BYTE*)(mob_info + 128));
+				break;
+			default:
+				bRank = mob_info->bRank;
+				break;
+			}
 
-			
-			if (mob_info->bRank >= 4)
+			if (bRank >= 4)
 			{
 				return true;
 			}

@@ -58,49 +58,14 @@ public:
 			{
 				filterItemLineLast = filterItemLine;
 				itemPickupFilteredList.clear();
-				/*for (map<DWORD, TCItemData*>::iterator itor = Globals::itemProtoList.begin(); itor != Globals::itemProtoList.end(); itor++)
-				{
-
-
-#ifdef RUBINUM
-					if (!StringExtension::Equals(itor->second->m_ItemTable.szName, "") && StringExtension::Contains(itor->second->m_ItemTable.szName,filterItemLine.c_str()))
-					{
-						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second->m_ItemTable.szName), false)));
-					}
-#else
-
-					if (!StringExtension::Equals(itor->second->m_ItemTable.szLocaleName, "") && StringExtension::Contains(itor->second->m_ItemTable.szLocaleName, filterItemLine.c_str()))
-					{
-						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second->m_ItemTable.szLocaleName), false)));
-					}
-#endif
-						
-					
-
-				}*/
-
 				for (map<DWORD, const char*>::iterator itor = Globals::itemProtoNames.begin(); itor != Globals::itemProtoNames.end(); itor++)
-				{
-
-
-					
+				{		
 					if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
 					{
 						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(StringExtension::to_utf8(itor->second) +" " + to_string(itor->first), false)));
 					}
-
-
-
 				}
-
-
-			}
-			
-			
-		
-
-			
-			
+			}	
 		}
 		if(!itemPickupFilteredList.size())
 		{
@@ -114,9 +79,6 @@ public:
 				{
 					itemPickupFilteredListSelected = itor->first;
 				}
-
-
-
 				if (itor->first == itemPickupFilteredListSelected)
 				{
 					itor->second.second = true;
@@ -127,8 +89,7 @@ public:
 				}
 
 			}
-		}
-		
+		}	
 		ImGui::EndChild();
 		ImGui::NextColumn();
 		ImGui::BeginChild("ItemProtoListFiltered", ImVec2(190, 255), true);
@@ -235,34 +196,27 @@ public:
 	{
 		
 		if (Settings::GLOBAL_SWITCH && GameFunctionsCustom::PlayerIsInstance())
-		{
-			
+		{		
 			Pickup();
-
 			Slots();
-
-#ifdef VIDGAR
-			vector<DWORD> eraseList;
-			for (map<DWORD, TGroundItemInstance*>::iterator itor = Globals::GroundItemList.begin(); itor != Globals::GroundItemList.end(); itor++)
-			{
-				
-				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-				LONG GlobalX = playerPosition.x;
-				LONG GlobalY = playerPosition.y;
-			
-				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, itor->second->v3EndPosition.x, -itor->second->v3EndPosition.y);
-				if (Distance > 30000)
-				{
-					eraseList.push_back(itor->first);
-
-				}
-				
-			}
-			for (auto itor = eraseList.begin(); itor != eraseList.end(); itor++)
-			{
-				Globals::GroundItemList.erase(*itor);
-			}
-#endif
+//#ifdef VIDGAR
+//			vector<DWORD> eraseList;
+//			for (map<DWORD, TGroundItemInstance*>::iterator itor = Globals::GroundItemList.begin(); itor != Globals::GroundItemList.end(); itor++)
+//			{			
+//				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
+//				LONG GlobalX = playerPosition.x;
+//				LONG GlobalY = playerPosition.y;	
+//				float Distance = MiscExtension::CountDistanceTwoPoints(GlobalX, GlobalY, itor->second->v3EndPosition.x, -itor->second->v3EndPosition.y);
+//				if (Distance > 30000)
+//				{
+//					eraseList.push_back(itor->first);
+//				}		
+//			}
+//			for (auto itor = eraseList.begin(); itor != eraseList.end(); itor++)
+//			{
+//				Globals::GroundItemList.erase(*itor);
+//			}
+//#endif
 		}
 
 	} 

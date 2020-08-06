@@ -5,18 +5,11 @@ private:
 
 
 public:
-
-#ifdef IVEYA
-	const char* actionString = "";
-#endif
 	int action = 0;
 	int couting = 0;
 	bool isEnable = false;
 	DWORD lastTimeFishing = 0;
 	bool isNeedRoundTimeCast = false;
-#ifdef IVEYA
-	const char* FishBot::actionString = NULL;
-#endif
 	DWORD  lastTimeBotCast = 0;
 	DWORD  lastTimeBotRoundTime = 0;
 	int TrueMessage = 0;
@@ -153,38 +146,6 @@ public:
 						isNeedRoundTimeCast = false;
 					}
 				}
-#ifdef IVEYA
-				if (actionString != NULL)
-				{
-
-
-					vector<int> mili;
-					string str1 = (const char*)actionString;
-					string str2 = StringExtension::ReplaceString(str1, "LowienieRn ", "");
-
-					std::string delimiter = "|";
-
-					size_t pos = 0;
-					std::string token;
-					while ((pos = str2.find(delimiter)) != std::string::npos) {
-						token = str2.substr(0, pos);
-						mili.push_back(stoi(token));
-						str2.erase(0, pos + delimiter.length());
-					}
-					mili.push_back(stoi(str2));
-					int u[4];
-					u[0] = (mili[0]) * 9;
-					u[1] = (mili[1] - mili[0]) * 9;
-					u[2] = (mili[2] - mili[1]) * 9;
-					u[3] = (mili[3] - mili[2]) * 9;
-
-					string uu = "/fevent " + to_string((mili[0] + mili[1] + mili[2] + mili[3]) - 8);
-					Hooks::nCPythonNetworkStreamSendChatPacket((void*)Globals::iCPythonNetworkStreamInstance, uu.c_str(), 0);
-
-
-					actionString = NULL;
-				}
-#endif
 			}
 			/*int extraWait = Misc::Random(1, 9000);
 			if (extraWait < 5)
@@ -332,9 +293,6 @@ public:
 		{
 			return;
 		}
-#ifdef IVEYA
-		actionString = message;
-#endif
 		action = num;
 	}
 
@@ -377,23 +335,7 @@ public:
 			   // isEnable = false;*/
 			//}
 		}
-#if defined( GLADOR )||defined( VALIUM ) 
-		/*TPacketCGFishing kPacketAtk;
-		kPacketAtk.header = 82;
-		GameFunctions::NetworkStreamSend(1, &kPacketAtk);
-		TPacketCGFishing kPacketAtk2;
-		kPacketAtk2.header = 0;
-		GameFunctions::NetworkStreamSend(1, &kPacketAtk2);
-		GameFunctions::NetworkStreamSendSequence();*/
-		//GameFunctions::PlayerSetAttackKeyState(true);
-
-
-
-
-
-
-#elif defined(DEVELOPER_MODE)
-
+#if defined(DEVELOPER_MODE)
 		if (Settings::FISHBOT_SHOP_CAST_TELEPORT)
 		{
 			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1800, standingPosition, Settings::FISHBOT_CAST_TELEPORT_CORDS);
@@ -427,7 +369,6 @@ public:
 			/*GameFunctions::PythonPlayerNEW_Fishing();*/
 		}
 #else
-		/*GameFunctions::PlayerSetAttackKeyState(true);*/
 		GameFunctions::PythonPlayerNEW_Fishing();
 #endif
 		lastTimeFishing = GetTickCount();
@@ -626,76 +567,106 @@ public:
 			return;
 		}
 
-#ifdef MEDIUM
-
-		if (StringExtension::Contains(message,"Musze nacisnac "))
+		switch (Globals::Server)
 		{
-			int num1 = atoi(message+15);
-			int num2 = atoi(message+19);
-			int sum = atoi(message + 30);
-			if ((num1 + num2) == sum)
+		case ServerName::MEDIUMMT2:
+			if (StringExtension::Contains(message, "Musze nacisnac "))
 			{
-				action = sum;
-				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+				int num1 = atoi(message + 15);
+				int num2 = atoi(message + 19);
+				int sum = atoi(message + 30);
+				if ((num1 + num2) == sum)
+				{
+					action = sum;
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+				}
 			}
+			if (StringExtension::Contains(message, "Prawdziwy komunikat to:"))
+			{
+				if (StringExtension::Contains(message, "pierwszy"))
+				{
+					TrueMessage = 1;
+				}
+				else if (StringExtension::Contains(message, "drugi"))
+				{
+					TrueMessage = 2;
+				}
+				else if (StringExtension::Contains(message, "trzeci"))
+				{
+					TrueMessage = 3;
+				}
+			}
+			if (StringExtension::Contains(message, "W tej chwili kliknij "))
+			{
+				MessageCount++;
+				if (MessageCount == TrueMessage)
+				{
+					action = atoi(message + 21);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					MessageCount = 0;
+					TrueMessage = 0;
+				}
+			}
+			if (StringExtension::Contains(message, "Wybierz przycisk spacja "))
+			{
+				MessageCount++;
+				if (MessageCount == TrueMessage)
+				{
+					action = atoi(message + 24);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					MessageCount = 0;
+					TrueMessage = 0;
+				}
+			}
+			if (StringExtension::Contains(message, "Kliknij w spacje"))
+			{
+				MessageCount++;
+				if (MessageCount == TrueMessage)
+				{
+					action = atoi(message + 24);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					MessageCount = 0;
+					TrueMessage = 0;
+				}
+			}
+			if (StringExtension::Contains(message, "Czyzby rybka brala"))
+			{
+				MessageCount++;
+				if (MessageCount == TrueMessage)
+				{
+					action = atoi(message + 24);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					MessageCount = 0;
+					TrueMessage = 0;
+				}
+			}
+			if (StringExtension::Contains(message, "Masz refleks"))
+			{
+				MessageCount++;
+				if (MessageCount == TrueMessage)
+				{
+					action = atoi(message + 24);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					MessageCount = 0;
+					TrueMessage = 0;
+				}
+			}
+			break;
+		default:
+			for (map< DWORD, pair<string, DWORD>>::iterator itor = Settings::FISHBOT_COMMAND_LIST.begin(); itor != Settings::FISHBOT_COMMAND_LIST.end(); itor++)
+			{
+				string messageASCI = StringExtension::UTF8ToANSI((char*)itor->second.first.c_str());
+
+				if (StringExtension::Contains(message, messageASCI))
+				{
+
+					action = itor->second.second;
+					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+				}
+			}
+
+			break;
 		}
-		if (StringExtension::Contains(message, "Prawdziwy komunikat to:"))
-		{
-			if (StringExtension::Contains(message, "pierwszy"))
-			{
-				TrueMessage = 1;
-			}
-			else if (StringExtension::Contains(message, "drugi"))
-			{
-				TrueMessage = 2;
-			}
-			else if (StringExtension::Contains(message, "trzeci"))
-			{
-				TrueMessage = 3;
-			}
-		}
-		if (StringExtension::Contains(message, "W tej chwili kliknij "))
-		{
-			MessageCount++;
-			if (MessageCount == TrueMessage)
-			{
-				action = atoi(message + 21);
-				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-				MessageCount = 0;
-				TrueMessage = 0;
-			}
-		}
-		if (StringExtension::Contains(message, "Wybierz przycisk spacja "))
-		{
-			MessageCount++;
-			if (MessageCount == TrueMessage)
-			{
-				action = atoi(message + 24);
-				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-				MessageCount = 0;
-				TrueMessage = 0;
-			}
-		}
-#else
-
-		for (map< DWORD, pair<string, DWORD>>::iterator itor = Settings::FISHBOT_COMMAND_LIST.begin(); itor != Settings::FISHBOT_COMMAND_LIST.end(); itor++)
-		{
-			string messageASCI = StringExtension::UTF8ToANSI((char*)itor->second.first.c_str());
-
-			if (StringExtension::Contains(message, messageASCI))
-			{
-
-				action = itor->second.second;
-				Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-			}
-		}
-
-#endif
-
-
-
 	}
-
-
 };
 

@@ -6,6 +6,7 @@ public:
 	static bool CheckMembers();	
 	static void Initialize();
 	static void  UpdateLoop();
+
 	static map < pair<DWORD, string>, pair<bool, shared_ptr<IAbstractModuleBase>>> moduleList;
 };
 
@@ -16,8 +17,6 @@ map < pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  Ma
 #ifdef FISHBOT
 	{ make_pair(3, "Fish"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Fish()))},
 #endif
-
-	
     { make_pair(4, "Farm"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Farm()))},
 	{ make_pair(5, "Spam"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Spam()))},
 	{ make_pair(6, "Refine"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Refine()))},
@@ -32,7 +31,6 @@ map < pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  Ma
 //	{ make_pair(13, "Configuration"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Configuration()))},
 #ifdef DEVELOPER_MODE
 	{ make_pair(14, "Debug"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Debug()))},
-
 	{ make_pair(15, "PacketSniffer"), make_pair(true, shared_ptr<IAbstractModuleBase >(new PacketSniffer()))},
 	{ make_pair(16, "Dungeons"), make_pair(true, shared_ptr<IAbstractModuleBase >(new MainDungs()))},
 #endif

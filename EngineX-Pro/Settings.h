@@ -13,6 +13,7 @@ public:
 
 	static map<DWORD, pair<string, DWORD>> FISHBOT_COMMAND_LIST;
 	static map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST;
+	static map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST2;
 
 	static DWORD INVENTORY_PAGE_SIZE;
 	static DWORD INVENTORY_PAGE_COUNT;
@@ -269,6 +270,7 @@ DWORD Settings::INVENTORY_PAGE_COUNT = 2;
 #else
 DWORD Settings::INVENTORY_PAGE_COUNT = 5;
 #endif
+
 map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST =
 {
 	{ make_pair(1,  make_pair("Amicicia","CH1")), make_pair(12100, "79.110.92.173") },
@@ -281,21 +283,6 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(8,  make_pair("Amicicia","CH8")), make_pair(12800, "79.110.92.176") },
 	{ make_pair(9,  make_pair("Amicicia","CH9")), make_pair(12900, "79.110.92.181") },
 
-
-
-
-
-	/*{ make_pair(10,  make_pair("Carptura","CH1")), make_pair(12102, "79.110.92.187") },
-	{ make_pair(11,  make_pair("Carptura","CH2")), make_pair(12202, "79.110.92.189") },
-	{ make_pair(12,  make_pair("Carptura","CH3")), make_pair(12302, "79.110.92.190") },
-	{ make_pair(13,  make_pair("Carptura","CH4")), make_pair(12402, "79.110.92.187") },
-	{ make_pair(14,  make_pair("Carptura","CH5")), make_pair(12502, "79.110.92.189") },
-	{ make_pair(15,  make_pair("Carptura","CH6")), make_pair(12602, "79.110.92.190") },
-	{ make_pair(16,  make_pair("Carptura","CH7")), make_pair(12702, "79.110.92.187") },
-	{ make_pair(17,  make_pair("Carptura","CH8")), make_pair(12802, "79.110.92.189") },
-	{ make_pair(18,  make_pair("Carptura","CH9")), make_pair(12902, "79.110.92.190") },*/
-
-
 	{ make_pair(10,  make_pair("Carptura","CH1")), make_pair(12100, "79.110.92.187") },
 	{ make_pair(11,  make_pair("Carptura","CH2")), make_pair(12200, "79.110.92.189") },
 	{ make_pair(12,  make_pair("Carptura","CH3")), make_pair(12300, "79.110.92.190") },
@@ -306,71 +293,56 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(17,  make_pair("Carptura","CH8")), make_pair(12800, "79.110.92.189") },
 	{ make_pair(18,  make_pair("Carptura","CH9")), make_pair(12900, "79.110.92.190") },
 
+	{ make_pair(19,  make_pair("Polyphemos","CH1")), make_pair(12100, "79.110.92.201") },
+	{ make_pair(20,  make_pair("Polyphemos","CH2")), make_pair(12200, "79.110.92.229") },
+	{ make_pair(21,  make_pair("Polyphemos","CH3")), make_pair(12300, "79.110.92.201") },
+	{ make_pair(22,  make_pair("Polyphemos","CH4")), make_pair(12400, "79.110.92.229") },
+	{ make_pair(23,  make_pair("Polyphemos","CH5")), make_pair(12500, "79.110.92.201") },
+	{ make_pair(24,  make_pair("Polyphemos","CH6")), make_pair(12600, "79.110.92.229") },
+	{ make_pair(25,  make_pair("Polyphemos","CH7")), make_pair(12700, "79.110.92.126") },
+	{ make_pair(26,  make_pair("Polyphemos","CH8")), make_pair(12800, "79.110.92.126") },
+	{ make_pair(27,  make_pair("Polyphemos","CH9")), make_pair(12900, "79.110.92.126") },
 
 
+	{ make_pair(28,  make_pair("Tigerghost","CH1")), make_pair(12100, "79.110.92.207") },
+	{ make_pair(29,  make_pair("Tigerghost","CH2")), make_pair(12200, "79.110.92.127") },
+	{ make_pair(30,  make_pair("Tigerghost","CH3")), make_pair(12300, "79.110.92.207") },
+	{ make_pair(31,  make_pair("Tigerghost","CH4")), make_pair(12400, "79.110.92.127") },
+	{ make_pair(32,  make_pair("Tigerghost","CH5")), make_pair(12500, "79.110.92.207") },
+	{ make_pair(33,  make_pair("Tigerghost","CH6")), make_pair(12600, "79.110.92.127") },
+};
 
-	{ make_pair(19,  make_pair("Vidgar","CH1")), make_pair(60106, "137.74.5.73") },
-	{ make_pair(20,  make_pair("Vidgar","CH2")), make_pair(60206, "137.74.5.73") },
-	{ make_pair(21,  make_pair("Vidgar","CH3")), make_pair(60306, "137.74.5.73") },
-	{ make_pair(22,  make_pair("Vidgar","CH4")), make_pair(60406, "137.74.5.73") },
-	{ make_pair(23,  make_pair("Vidgar","CH5")), make_pair(60506, "137.74.5.73") },
-	{ make_pair(24,  make_pair("Vidgar","CH6")), make_pair(60606, "137.74.5.73") },
-	{ make_pair(25,  make_pair("Vidgar","CH7")), make_pair(60706, "137.74.5.73") },
-	{ make_pair(26,  make_pair("Vidgar","CH8")), make_pair(60806, "137.74.5.73") },
+map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST2 =
+{
+	{ make_pair(1,  make_pair(ServerName::VIDGAR,"CH1")), make_pair(60106, "137.74.5.73") },
+	{ make_pair(2,  make_pair(ServerName::VIDGAR,"CH2")), make_pair(60206, "137.74.5.73") },
+	{ make_pair(3,  make_pair(ServerName::VIDGAR,"CH3")), make_pair(60306, "137.74.5.73") },
+	{ make_pair(4,  make_pair(ServerName::VIDGAR,"CH4")), make_pair(60406, "137.74.5.73") },
+	{ make_pair(5,  make_pair(ServerName::VIDGAR,"CH5")), make_pair(60506, "137.74.5.73") },
+	{ make_pair(6,  make_pair(ServerName::VIDGAR,"CH6")), make_pair(60606, "137.74.5.73") },
+	{ make_pair(7,  make_pair(ServerName::VIDGAR,"CH7")), make_pair(60706, "137.74.5.73") },
+	{ make_pair(8,  make_pair(ServerName::VIDGAR,"CH8")), make_pair(60806, "137.74.5.73") },
 
+	{ make_pair(9,  make_pair(ServerName::PANGEA,"CH1")), make_pair(41000, "51.77.43.124") },
+	{ make_pair(10,  make_pair(ServerName::PANGEA,"CH2")), make_pair(42000, "51.77.43.124") },
+	{ make_pair(11,  make_pair(ServerName::PANGEA,"CH3")), make_pair(43000, "51.77.43.124") },
+	{ make_pair(12,  make_pair(ServerName::PANGEA,"CH4")), make_pair(44000, "51.77.43.124") },
+	{ make_pair(13,  make_pair(ServerName::PANGEA,"CH5")), make_pair(45000, "51.77.43.124") },
+	{ make_pair(14,  make_pair(ServerName::PANGEA,"CH6")), make_pair(46000, "51.77.43.124") },
 
-	{ make_pair(27,  make_pair("Rubinum","CH1")), make_pair(13010, "51.83.151.177") },
-	{ make_pair(28,  make_pair("Rubinum","CH2")), make_pair(13040, "51.83.151.177") },
-	{ make_pair(29,  make_pair("Rubinum","CH3")), make_pair(13070, "51.83.151.177") },
-	{ make_pair(30,  make_pair("Rubinum","CH4")), make_pair(13340, "51.210.33.62") },
-	{ make_pair(31,  make_pair("Rubinum","CH5")), make_pair(13130, "51.83.151.177") },
-	{ make_pair(32,  make_pair("Rubinum","CH6")), make_pair(13160, "51.210.33.62") },
-	{ make_pair(33,  make_pair("Rubinum","CH7")), make_pair(13190, "51.83.151.177") },
-	{ make_pair(34,  make_pair("Rubinum","CH8")), make_pair(13220, "51.210.33.62") },
-	{ make_pair(35,  make_pair("Rubinum","CH9")), make_pair(13250, "185.100.87.115") },
-	{ make_pair(36,  make_pair("Rubinum","CH10")), make_pair(13280, "185.100.87.115") },
-	{ make_pair(37,  make_pair("Rubinum","CH11")), make_pair(13310, "185.100.87.115") },
-	{ make_pair(38,  make_pair("Rubinum","CH12")), make_pair(13340, "185.100.87.115") },
+	{ make_pair(15,  make_pair(ServerName::SAMIAS2,"CH1")), make_pair(16211, "54.38.85.102") },
+	{ make_pair(16,  make_pair(ServerName::SAMIAS2,"CH2")), make_pair(16221, "54.38.85.102") },
+	{ make_pair(17,  make_pair(ServerName::SAMIAS2,"CH3")), make_pair(16231, "54.38.85.102") },
+	{ make_pair(18,  make_pair(ServerName::SAMIAS2,"CH4")), make_pair(16241, "54.38.85.102") },
+	{ make_pair(19,  make_pair(ServerName::SAMIAS2,"CH5")), make_pair(16251, "54.38.85.102") },
+	{ make_pair(20,  make_pair(ServerName::SAMIAS2,"CH6")), make_pair(16261, "54.38.85.102") },
 
-	{ make_pair(39,  make_pair("Pangea","CH1")), make_pair(41000, "51.77.43.124") },
-	{ make_pair(40,  make_pair("Pangea","CH2")), make_pair(42000, "51.77.43.124") },
-	{ make_pair(41,  make_pair("Pangea","CH3")), make_pair(43000, "51.77.43.124") },
-	{ make_pair(42,  make_pair("Pangea","CH4")), make_pair(44000, "51.77.43.124") },
-	{ make_pair(43,  make_pair("Pangea","CH5")), make_pair(45000, "51.77.43.124") },
-	{ make_pair(44,  make_pair("Pangea","CH6")), make_pair(46000, "51.77.43.124") },
-
-	{ make_pair(45,  make_pair("Samia","CH1")), make_pair(16211, "54.38.85.102") },
-	{ make_pair(46,  make_pair("Samia","CH2")), make_pair(16221, "54.38.85.102") },
-	{ make_pair(47,  make_pair("Samia","CH3")), make_pair(16231, "54.38.85.102") },
-	{ make_pair(48,  make_pair("Samia","CH4")), make_pair(16241, "54.38.85.102") },
-	{ make_pair(49,  make_pair("Samia","CH5")), make_pair(16251, "54.38.85.102") },
-	{ make_pair(50,  make_pair("Samia","CH6")), make_pair(16261, "54.38.85.102") },
-	
-	{ make_pair(51,  make_pair("Polyphemos","CH1")), make_pair(12100, "79.110.92.201") },
-	{ make_pair(52,  make_pair("Polyphemos","CH2")), make_pair(12200, "79.110.92.229") },
-	{ make_pair(53,  make_pair("Polyphemos","CH3")), make_pair(12300, "79.110.92.201") },
-	{ make_pair(54,  make_pair("Polyphemos","CH4")), make_pair(12400, "79.110.92.229") },
-	{ make_pair(55,  make_pair("Polyphemos","CH5")), make_pair(12500, "79.110.92.201") },
-	{ make_pair(56,  make_pair("Polyphemos","CH6")), make_pair(12600, "79.110.92.229") },
-	{ make_pair(57,  make_pair("Polyphemos","CH7")), make_pair(12700, "79.110.92.126") },
-	{ make_pair(58,  make_pair("Polyphemos","CH8")), make_pair(12800, "79.110.92.126") },
-	{ make_pair(59,  make_pair("Polyphemos","CH9")), make_pair(12900, "79.110.92.126") },
-
-
-	{ make_pair(60,  make_pair("Tigerghost","CH1")), make_pair(12100, "79.110.92.207") },
-	{ make_pair(61,  make_pair("Tigerghost","CH2")), make_pair(12200, "79.110.92.127") },
-	{ make_pair(62,  make_pair("Tigerghost","CH3")), make_pair(12300, "79.110.92.207") },
-	{ make_pair(63,  make_pair("Tigerghost","CH4")), make_pair(12400, "79.110.92.127") },
-	{ make_pair(64,  make_pair("Tigerghost","CH5")), make_pair(12500, "79.110.92.207") },
-	{ make_pair(65,  make_pair("Tigerghost","CH6")), make_pair(12600, "79.110.92.127") },
-
-
-	{ make_pair(66,  make_pair("Medium","CH1")), make_pair(14001, "51.77.56.238") },
-	{ make_pair(67,  make_pair("Medium","CH2")), make_pair(14002, "51.77.56.238") },
-	{ make_pair(68,  make_pair("Medium","CH3")), make_pair(14003, "51.77.56.238") },
-	{ make_pair(69,  make_pair("Medium","CH4")), make_pair(14004, "51.77.56.238") },
-	{ make_pair(70,  make_pair("Medium","CH5")), make_pair(14005, "51.77.56.238") },
-	{ make_pair(71,  make_pair("Medium","CH6")), make_pair(14006, "51.77.56.238") },
+	{ make_pair(21,  make_pair(ServerName::MEDIUMMT2,"CH1")), make_pair(14001, "51.77.56.238") },
+	{ make_pair(22,  make_pair(ServerName::MEDIUMMT2,"CH2")), make_pair(14002, "51.77.56.238") },
+	{ make_pair(23,  make_pair(ServerName::MEDIUMMT2,"CH3")), make_pair(14003, "51.77.56.238") },
+	{ make_pair(24,  make_pair(ServerName::MEDIUMMT2,"CH4")), make_pair(14004, "51.77.56.238") },
+	{ make_pair(25,  make_pair(ServerName::MEDIUMMT2,"CH5")), make_pair(14005, "51.77.56.238") },
+	{ make_pair(26,  make_pair(ServerName::MEDIUMMT2,"CH6")), make_pair(14006, "51.77.56.238") },
 
 };
 

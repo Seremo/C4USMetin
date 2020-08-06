@@ -36,11 +36,21 @@ public:
 	//#################################################################################################################################
 	static void NetworkStreamSendItemUsePacket(TItemPos cell)
 	{
-#ifdef BARIA
-		Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, TItemPos(INVENTORY, slot), '\0');
-#else
-		Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
-#endif
+		switch (Globals::Server) 
+		{
+			case ServerName::BARIA:
+			{
+				typedef bool(__thiscall* SendItemUsePacket)(void* This, TItemPos pos, char unk);
+				SendItemUsePacket ItemUse = *(SendItemUsePacket*)Globals::pCPythonNetworkStreamSendItemUsePacket;
+				ItemUse((void*)Globals::iCPythonNetworkStreamInstance, cell, '\0');
+				break;
+			}
+			default:
+			{
+				Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
+				break;
+			}
+		}
 	}
 	//#################################################################################################################################
 	static bool InstanceBaseIsMountingHorse(DWORD* instance)
@@ -55,13 +65,7 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSendRefinePacket(BYTE pos, BYTE type)
 	{
-#ifdef RUBINUM	
-		return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type,0);
-#else
 		return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type);
-#endif
-
-		
 	}
 	//#################################################################################################################################
 	static void PlayerClickSkillSlot(int skillIndex)
@@ -211,11 +215,21 @@ public:
 
 	static DWORD PlayerGetItemIndex(TItemPos cell)
 	{
-#ifdef BARIA
-		return Globals::CPythonPlayerGetItemIndex((void*)(Globals::iCPythonPlayerInstance + 4), cell,'\0');
-#else
-		return Globals::CPythonPlayerGetItemIndex((void*)(Globals::iCPythonPlayerInstance + 4), cell);
-#endif
+		switch (Globals::Server)
+		{
+			case ServerName::BARIA:
+			{
+				typedef DWORD(__thiscall* GetItemIndex)(void* This, TItemPos Cell, char unk);
+				GetItemIndex ItemUse = *(GetItemIndex*)Globals::pCPythonPlayerGetItemIndex;
+				ItemUse((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
+				break;
+			}
+			default:
+			{
+				return Globals::CPythonPlayerGetItemIndex((void*)(Globals::iCPythonPlayerInstance + 4), cell);
+				break;
+			}
+		}
 	}
 
 	static const char* GameFunctions::PlayerGetName() 
@@ -246,16 +260,6 @@ public:
 	static bool  ItemManagerGetItemDataPointer(DWORD dwItemID, DWORD** ppItemData)
 	{
 		return Globals::CItemManagerGetItemDataPointer((void*)(Globals::iCItemManagerInstance), dwItemID, ppItemData);
-	}
-	
-	//#################################################################################################################################
-	static void InstanceBaseNEW_SetPixelPosition(DWORD* instance, const D3DVECTOR& c_rPixelPosition)
-	{
-#ifdef SAMIAS2
-		return Globals::CInstanceBaseNEW_SetPixelPosition(instance, c_rPixelPosition.x, c_rPixelPosition.y, c_rPixelPosition.z);
-#else
-		return Globals::CInstanceBaseNEW_SetPixelPosition(instance, c_rPixelPosition);
-#endif
 	}
 	//#################################################################################################################################
 	static bool NetworkStreamSendItemDropPacketNew(TItemPos cell, DWORD elk, DWORD count)
@@ -328,13 +332,8 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSendCharacterStatePacket(const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg)
 	{
-#ifdef RUBINUM
-		return Globals::CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg,0);
-	}
-#else
 		return Globals::CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg);
 	}
-#endif
 		
 	//#################################################################################################################################
 	static void NetworkStreamConnectGameServer(UINT iChrSlot)

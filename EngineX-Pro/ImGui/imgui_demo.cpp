@@ -60,6 +60,7 @@ Index of this file:
 
 */
 
+#ifdef DEVELOPER_MODE
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -4870,3 +4871,4 @@ void ImGui::ShowStyleEditor(ImGuiStyle*) {}
 #endif
 
 #endif // #ifndef IMGUI_DISABLE
+#endif
