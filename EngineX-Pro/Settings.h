@@ -265,11 +265,8 @@ public:
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 DWORD Settings::INVENTORY_PAGE_SIZE = 45;
-#ifdef METINPL
-DWORD Settings::INVENTORY_PAGE_COUNT = 2;
-#else
 DWORD Settings::INVENTORY_PAGE_COUNT = 5;
-#endif
+
 
 map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST =
 {
@@ -372,21 +369,10 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_KILL_FISH_LIST =
 	{ make_pair(19, true), make_pair(27821, "Shiri")},
 	{ make_pair(20, true), make_pair(27822, "Lustrzany Karp")},
 	{ make_pair(21, true), make_pair(27823, "Złoty Karał")},
-
-#ifdef METINPL
-	{ make_pair(22, true), make_pair(27824, "Weżoglów")},
-	{ make_pair(23, true), make_pair(27825, "Skaber")},
-	{ make_pair(24, true), make_pair(27826, "Krab Królewski")},
-	{ make_pair(25, true), make_pair(27827, "Rak Niebiański")},
-
-#endif
 };
 //##########################################################################################
 map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_BAIT_LIST =
 {
-#ifdef METINPL
-	{ make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")},
-#endif
 	{ make_pair(2, true), make_pair(27802, "Drobne Ryby")},
 	{ make_pair(3, true), make_pair(27801, "Robak")},
 	{ make_pair(4, true), make_pair(27800, "Papka")},
@@ -442,17 +428,6 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_DROP_LIST =
 	{ make_pair(39, false), make_pair(27851, "Martwa Shiri") },
 	{ make_pair(40, false), make_pair(27852, "Martwy Lustrzany Karp") },
 	{ make_pair(41, false), make_pair(27853, "Martwy Złoty Karaś") },
-
-
-
-
-#ifdef METINPL
-{ make_pair(42, false), make_pair(27854, "Martwy Wężogóów") },
-{ make_pair(43, false), make_pair(27855, "Martwy Skaber") },
-{ make_pair(44, false), make_pair(27856, "Martwy Krab Królewski") },
-{ make_pair(45, false), make_pair(27857, "Martwy Rak Niebieski") },
-
-#endif
 };
 map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 {
@@ -501,23 +476,6 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 	{ make_pair(39, true), make_pair(27851, "Martwa Shiri") },
 	{ make_pair(40, true), make_pair(27852, "Martwy Lustrzany Karp") },
 	{ make_pair(41, true), make_pair(27853, "Martwy Złoty Karaś") },
-
-
-
-
-#ifdef METINPL
-{ make_pair(42, false), make_pair(27854, "Martwy Wężogóów") },
-{ make_pair(43, false), make_pair(27855, "Martwy Skaber") },
-{ make_pair(44, false), make_pair(27856, "Martwy Krab Królewski") },
-{ make_pair(45, false), make_pair(27857, "Martwy Rak Niebieski") },
-
-#endif
-
-
-
-
-
-
 };
 
  map<DWORD, pair<string, DWORD>> Settings::FISHBOT_COMMAND_LIST

@@ -18,7 +18,7 @@ private:
 	bool autoReviveNeedWait = false;
 	DWORD lastMiniMHMoveSpeed = 0;
 	DWORD lastMiniMHAttackSpeed = 0;
-	
+
 
 
 	DWORD lastTimeStonesArrowShow = 0;
@@ -156,7 +156,7 @@ public:
 		Settings::GLOBAL_SWITCH = true;
 		playerUsingHorse = GameFunctionsCustom::PlayerIsMountingHorse();
 		lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		
+
 	}
 
 	void OnStop()
@@ -211,7 +211,7 @@ public:
 
 				}
 
-				if(Settings::MAIN_MOBBER_ENABLE)
+				if (Settings::MAIN_MOBBER_ENABLE)
 				{
 
 					if (DynamicTimer::CheckAutoSet("MobMagnet", 5000))
@@ -226,7 +226,7 @@ public:
 				{
 					GameFunctions::PlayerSetAttackKeyState(canAttack);
 				}
-				
+
 
 			}
 			else
@@ -279,18 +279,18 @@ public:
 		ImGui::BeginChild("AtakBorder", ImVec2(645, 80), true);
 		if (ImGui::Checkbox("Auto Attack   ", &Settings::MiniMHAttackEnable))
 		{
-			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();		
-		
+			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
+
 		}
 		else
 		{
 			GameFunctions::PlayerSetAttackKeyState(false);
 		}
 		ImGui::SameLine();
-		
-		
+
+
 		ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance);
-		
+
 		ImGui::SameLine();
 		ImGui::Checkbox("Rotation", &Settings::MiniMHRotation);
 		ImGui::SameLine();
@@ -370,7 +370,7 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("OtherBorder", ImVec2(315, 230), true);
 
-		
+
 		ImGui::Checkbox("Detect Stones", &Settings::MainInfoStonesViewportShow);
 
 		switch (Globals::Server)
@@ -384,7 +384,7 @@ public:
 		ImGui::Hotkey(Settings::HotkeyTime, "Relog         ", &Settings::RelogKey);
 		ImGui::Hotkey(Settings::HotkeyTime, "MH Switch", &Settings::OnOffMH);
 		ImGui::Hotkey(Settings::HotkeyTime, "Hide UI      ", &Settings::HideUI);
-		
+
 		ImGui::PushItemWidth(100); ImGui::InputInt("Boost Distance", &Settings::BoostSpeed3, 5, 100);
 		ImGui::InputInt("Channel Changer Port +/-", &Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET, 1, 1);
 
@@ -401,7 +401,7 @@ private:
 			autoReviveNeedWait = false;
 			return false;
 		}
-		if (GameFunctionsCustom::PlayerIsDead() )
+		if (GameFunctionsCustom::PlayerIsDead())
 		{
 			if (DynamicTimer::CheckAutoSet("Revive", 1000))
 			{
@@ -411,12 +411,12 @@ private:
 			}
 			return true;
 		}
-	
+
 		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && autoReviveNeedWait)
 		{
 			return true;
 		}
-		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue && autoReviveNeedWait)
+		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue&& autoReviveNeedWait)
 		{
 			if (playerUsingHorse)
 			{
@@ -565,7 +565,7 @@ private:
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
 #endif
 
-		
+
 		for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
@@ -601,7 +601,7 @@ private:
 		{
 			GameFunctions::NetworkStreamSendShootPacket(0);
 		}
-		
+
 	}
 public:
 	void ResetSkillTimer()
@@ -610,7 +610,7 @@ public:
 	}
 private:
 #ifdef DEVELOPER_MODE
-	void SkillWH() 
+	void SkillWH()
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
@@ -619,56 +619,56 @@ private:
 #else
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue)
 #endif
-		if (objectList.size() > 0)
-		{
-			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+			if (objectList.size() > 0)
 			{
-				DWORD vid = itor->first;
+				for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+				{
+					DWORD vid = itor->first;
 
-				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
-				{
-					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
-					Main::lastWaitHackSkillDelay = GetTickCount();
-				}
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
-				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-				if (Settings::MAIN_WAITHACK_RANGE)
-				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
-					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
 					{
-						bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
-						if (!InDistance)
-						{
-							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-						}
-						i++;			
+						GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
+						Main::lastWaitHackSkillDelay = GetTickCount();
 					}
+					GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
+					GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
+					if (Settings::MAIN_WAITHACK_RANGE)
+					{
+						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
+						int i = 0;
+						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+						{
+							bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
+							if (!InDistance)
+							{
+								GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+							}
+							i++;
+						}
+					}
+					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
+					if (Settings::MAIN_WAITHACK_RANGE)
+					{
+						GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
+						int i = 0;
+						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+						{
+							bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
+							if (!InDistance)
+							{
+								GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+							}
+							i++;
+						}
+					}
+
 				}
-				GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-				if (Settings::MAIN_WAITHACK_RANGE)
+				if (!Settings::MAIN_WAITHACK_RANGE)
 				{
 					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
-					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-					{
-						bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
-						if (!InDistance)
-						{
-							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-						}
-						i++;
-					}
 				}
-
 			}
-			if (!Settings::MAIN_WAITHACK_RANGE)
-			{
-				GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
-			}
-		}
 
 	}
 #endif
@@ -775,8 +775,8 @@ private:
 			{
 
 				/*GameFunctionsCustom::SetDirection((MiscExtension::Random(0, 7)));*/
-				GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(),MiscExtension::RandomInt(0, 360));
-				
+				GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), MiscExtension::RandomInt(0, 360));
+
 
 
 			}
@@ -816,20 +816,21 @@ private:
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
 			return;
 		}
-#ifdef METINPL
-		slot = GameFunctionsCustom::FindItemSlotInInventory(27008);
-		if (slot != -1)
+		if (Globals::Server == ServerName::METINPL)
 		{
-			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-			return;
+			slot = GameFunctionsCustom::FindItemSlotInInventory(27008);
+			if (slot != -1)
+			{
+				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+				return;
+			}
+			slot = GameFunctionsCustom::FindItemSlotInInventory(27052);
+			if (slot != -1)
+			{
+				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+				return;
+			}
 		}
-		slot = GameFunctionsCustom::FindItemSlotInInventory(27052);
-		if (slot != -1)
-		{
-			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-			return;
-		}
-#endif
 	}
 	void Potions()
 	{
@@ -875,20 +876,21 @@ private:
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
 			return;
 		}
-#ifdef METINPL
-		slot = GameFunctionsCustom::FindItemSlotInInventory(27007);
-		if (slot != -1)
+		if (Globals::Server == ServerName::METINPL)
 		{
-			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-			return;
+			slot = GameFunctionsCustom::FindItemSlotInInventory(27007);
+			if (slot != -1)
+			{
+				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+				return;
+			}
+			slot = GameFunctionsCustom::FindItemSlotInInventory(27051);
+			if (slot != -1)
+			{
+				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+				return;
+			}
 		}
-		slot = GameFunctionsCustom::FindItemSlotInInventory(27051);
-		if (slot != -1)
-		{
-			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
-			return;
-		}
-#endif
 	}
 
 

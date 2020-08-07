@@ -17,7 +17,6 @@ public:
 	D3DVECTOR standingPosition;
 	void OnStart()
 	{
-
 		isEnable = true;
 		lastTimeFishing = GetTickCount();
 
@@ -37,12 +36,11 @@ public:
 		isEnable = false;
 		Logger::Add(Logger::FISH, true, Logger::RED, "STOP");
 		standingPosition = { 0, 0, 0 };
-
-#ifdef METINPL
-		GameFunctions::NetworkStreamSendEmoticon(116);
-		GameFunctions::NetworkStreamSendFishingQuitPacket(3, 0);
-#endif
-
+		if (Globals::Server == ServerName::METINPL)
+		{
+			GameFunctions::NetworkStreamSendEmoticon(116);
+			GameFunctions::NetworkStreamSendFishingQuitPacket(3, 0);
+		}
 	}
 	void OnUpdate()
 	{
@@ -51,13 +49,14 @@ public:
 		{
 			if (Settings::FishBotEmergencyRunTime)
 			{
-				if ((GetTickCount() - lastTimeFishing) > Settings::FishBotEmergencyRunTimeValue && lastTimeFishing != 0)
+				if ((GetTickCount() - lastTimeFishing) > Settings::FishBotEmergencyRunTimeValue&& lastTimeFishing != 0)
 				{
 					action = -1;
 					Logger::Add(Logger::FISH, true, Logger::RED, "RESUME");
-#ifdef METINPL
-					Cast2();
-#endif
+					if (Globals::Server == ServerName::METINPL)
+					{
+						Cast2();
+					}
 					NewCast();
 					lastTimeFishing = GetTickCount();
 				}
@@ -83,13 +82,14 @@ public:
 					int clickTime = MiscExtension::RandomInt(Settings::FishBotCastTimeMinValue, Settings::FishBotCastTimeMaxValue);
 					if ((GetTickCount() - lastTimeBotCast) > clickTime)
 					{
-
-#ifdef METINPL
-
-						Cast2();
-#else
-						Cast();
-#endif
+						if (Globals::Server == ServerName::METINPL)
+						{
+							Cast2();
+						}
+						else 
+						{
+							Cast();
+						}
 						action--;
 						Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d AFTER %d (ms)", action, clickTime).c_str());
 						lastTimeBotCast = GetTickCount();
@@ -102,13 +102,14 @@ public:
 				}
 				else
 				{
-
-#ifdef METINPL
-
-					Cast2();
-#else
-					Cast();
-#endif
+					if (Globals::Server == ServerName::METINPL)
+					{
+						Cast2();
+					}
+					else
+					{
+						Cast();
+					}
 					action--;
 					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d", action).c_str());
 					if (action == 0)
@@ -147,12 +148,6 @@ public:
 					}
 				}
 			}
-			/*int extraWait = Misc::Random(1, 9000);
-			if (extraWait < 5)
-			{
-			//QMetaObject::invokeMethod(Globals::mainform, "AppendFishBotLog", Q_ARG(QString, "WYLOSOWANO DODATKOWA PRZERWE SORRY :" ));
-			Sleep(9000);
-			}*/
 		}
 	}
 

@@ -55,8 +55,7 @@ enum ServerName
 };
 
 //#define METINPL
-#define MEDIUM
-
+//#define MEDIUM
 
 #ifdef MEDIUM
 #define DX9

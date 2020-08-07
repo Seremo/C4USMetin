@@ -562,12 +562,7 @@ void MainForm::ShowRadar()
 		// Players positions
 		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 255, 255));
 		int r, g, b;
-		
-#ifdef METINPL
-		TCharacterInstanceMap m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 56) + 4));
-#else
-		TCharacterInstanceMap m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
-#endif
+		auto m_kAliveInstMap = GameFunctionsCustom::GetObjectList(OBJECT_ALL);
 		for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
 		{
 			DWORD* instance = itor->second;
@@ -702,25 +697,21 @@ void MainForm::Menu() {
 		}
 		if (Hotkey(Settings::RelogKey))
 		{
-			
-#ifndef METINPL
-			int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
-			if (lastSlot != -1)
+			if (Globals::Server == ServerName::METINPL)
 			{
-				GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+				GameFunctions::NetworkStreamConnectGameServer(0);
 				Main::Instance().ResetSkillTimer();
 			}
-#else
-			GameFunctions::NetworkStreamConnectGameServer(0);
-			Main::Instance().ResetSkillTimer();
-#endif 
-
-		
-				
-			
-		}
-
-											
+			else
+			{
+				int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+				if (lastSlot != -1)
+				{
+					GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+					Main::Instance().ResetSkillTimer();
+				}
+			}	
+		}										
 		if (Hotkey(Settings::BoostKey, Settings::BoostSpeed1))
 		{
 			GameFunctionsCustom::Boost();
@@ -786,35 +777,37 @@ void MainForm::Menu() {
 				}
 				if (ImGui::BeginPopup("##channelchange", ImGuiWindowFlags_AlwaysAutoResize))
 				{
-#ifdef	METINPL
-					for (map< pair<DWORD, pair<string, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST.begin(); itor != Settings::SERVER_INFO_LIST.end(); itor++)
+					if (Globals::Server == ServerName::METINPL)
 					{
-						const char* serverName = (const char*)(GetStr(Globals::iCPythonNetworkStreamInstance + 0x7A70));
-						if (StringExtension::Contains(serverName, itor->first.second.first.c_str()))
+						for (map< pair<DWORD, pair<string, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST.begin(); itor != Settings::SERVER_INFO_LIST.end(); itor++)
 						{
-							if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
+							const char* serverName = (const char*)(GetStr(Globals::iCPythonNetworkStreamInstance + 0x7A70));
+							if (StringExtension::Contains(serverName, itor->first.second.first.c_str()))
 							{
-								/*int last_slot = GameFunctions::GetLastCharSlot();*/
-								GameFunctions::NetworkStream__DirectEnterMode_Set(0);
-								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+								if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
+								{
+									/*int last_slot = GameFunctions::GetLastCharSlot();*/
+									GameFunctions::NetworkStream__DirectEnterMode_Set(0);
+									GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+								}
 							}
 						}
 					}
-#else
-					for (map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST2.begin(); itor != Settings::SERVER_INFO_LIST2.end(); itor++)
+					else
 					{
-						if (itor->first.second.first == Globals::Server)
+						for (map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST2.begin(); itor != Settings::SERVER_INFO_LIST2.end(); itor++)
 						{
-							if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
+							if (itor->first.second.first == Globals::Server)
 							{
-								/*int last_slot = GameFunctions::GetLastCharSlot();*/
-								GameFunctions::NetworkStream__DirectEnterMode_Set(0);
-								GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+								if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
+								{
+									/*int last_slot = GameFunctions::GetLastCharSlot();*/
+									GameFunctions::NetworkStream__DirectEnterMode_Set(0);
+									GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+								}
 							}
 						}
-					}
-#endif 					
-
+					}			
 					ImGui::EndPopup();
 				}
 				if (ImGui::PopupButton("Exit Game", ExitGameIcon, ImVec2(20, 20)))
@@ -830,11 +823,14 @@ void MainForm::Menu() {
 					if (ImGui::Button("Logout", ImVec2(60, 0)))
 					{
 						
-#ifdef METINPL
-						GameFunctions::NetworkStreamSendCommandPacket(0, 2, "");
-#else
-						GameFunctions::NetworkStreamSendChatPacket("/logout");
-#endif
+						if (Globals::Server == ServerName::METINPL)
+						{
+							GameFunctions::NetworkStreamSendCommandPacket(0, 2, "");
+						}
+						else
+						{
+							GameFunctions::NetworkStreamSendChatPacket("/logout");
+						}
 					}
 					
 					ImGui::EndPopup();

@@ -279,11 +279,21 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSendShopSellPacketNew(BYTE bySlot, BYTE byCount)
 	{
-#ifdef METINPL
-		return Globals::CPythonNetworkStreamSendShopSellPacketNew((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount,  1);
-#else
-		return Globals::CPythonNetworkStreamSendShopSellPacketNew((void*)Globals::iCPythonNetworkStreamInstance, bySlot,  byCount);
-#endif
+		switch (Globals::Server)
+		{
+			case ServerName::METINPL:
+			{
+				typedef bool(__thiscall* SendShopSellPacketNew)(void* This, BYTE bySlot, BYTE byCount, BYTE unk);
+				SendShopSellPacketNew SendShopSell = *(SendShopSellPacketNew*)Globals::pCPythonNetworkStreamSendShopSellPacketNew;
+				SendShopSell((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount, 1);
+				break;
+			}
+			default:
+			{
+				return Globals::CPythonNetworkStreamSendShopSellPacketNew((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount);
+				break;
+			}
+		}
 	}
 	//#################################################################################################################################
 	static bool NetworkStreamSendShopBuyPacket(BYTE bPos)
@@ -298,11 +308,7 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSendGiveItemPacket(DWORD dwTargetVID, TItemPos ItemPos, int iItemCount)
 	{
-#ifdef METINPL
-		return Globals::CPythonNetworkStreamSendGiveItemPacket((void*)Globals::iCPythonNetworkStreamInstance, dwTargetVID, ItemPos,  iItemCount);
-#else
 		return Globals::CPythonNetworkStreamSendGiveItemPacket((void*)Globals::iCPythonNetworkStreamInstance, dwTargetVID, ItemPos, iItemCount);
-#endif
 	}
 	//#################################################################################################################################
 	static bool NetworkStreamSendItemMovePacket(TItemPos pos, TItemPos change_pos, BYTE num)
@@ -454,7 +460,21 @@ public:
 	//#################################################################################################################################
 	static TMapInfo* BackgroundGlobalPositionToMapInfo(DWORD dwGlobalX, DWORD dwGlobalY)
 	{
-		return Globals::CBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
+		if (Globals::Server == ServerName::METINPL)
+		{
+			typedef TMapInfoGlobal* (__thiscall* GlobalPositionToMapInfo)(void* This, DWORD dwGlobalX, DWORD dwGlobalY);
+			GlobalPositionToMapInfo ToMapInfo = *(GlobalPositionToMapInfo*)Globals::pCPythonBackgroundGlobalPositionToMapInfo;	
+			TMapInfoGlobal* global_map = ToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
+			TMapInfo ret_map
+			{
+				*global_map->name, global_map->m_dwBaseX, global_map->m_dwBaseY, global_map->m_dwSizeX, global_map->m_dwSizeY, global_map->m_dwEndX, global_map->m_dwEndY
+			};
+			return &ret_map;
+		}
+		else
+		{
+			return Globals::CBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
+		}	
 	}
 	//#################################################################################################################################
 	static const char* NetworkStreamGetAccountCharacterSlotDataz(UINT iSlot, UINT eType)

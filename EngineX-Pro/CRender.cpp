@@ -36,56 +36,6 @@ D3DMATRIX CRender::WorldStateCopy;
 
 #endif
 
-//void RenderBox3D(DWORD* instance) {
-//	D3DXVECTOR3 center;
-//	float r;
-//	GameFunctions::GetBoundingSphere(GameFunctions::GetGraphicThingInstancePtr(instance), center, r);
-//	Settings::box_posx = center.x;
-//	Settings::box_posy = center.y;
-//	Settings::box_posz = center.z + float(220);
-//	GameFunctions::SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-//	Device::pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
-//	GameFunctions::RenderSphere(NULL, center.x, center.y, center.z, r, D3DFILL_WIREFRAME);
-//	GameFunctions::RenderCircle3D(Settings::box_posx, Settings::box_posy, Settings::box_posz, 500.0f, 50);
-//
-//}
-//
-//void RenderCircle() {
-//	//ID3DXFont* g_font = NULL;
-//	//HFONT hFont = CreateFont(0, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-//	//	ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-//	//	DEFAULT_QUALITY, DEFAULT_PITCH, L"Arial");
-//	//HFONT hFont = CreateFont(14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"Arial");
-//	//D3DXCreateFont(pDevice, hFont, &g_font);
-//	//static char cTitle[256];
-//	//sprintf_s(cTitle, "%s | %s\nFrame Rate: %i", "C4US", "METIN", pRender->FrameRate());
-//	//pRender->GradientBoxOutlined(pDevice, 40, 70, pRender->StringWidth(pDevice, g_font, cTitle) + 4, 25, 1, D3DCOLOR_RGBA(100, 100, 100, 255), D3DCOLOR_RGBA(50, 50, 50, 255), D3DCOLOR_RGBA(0, 0, 0, 255), true);
-//	//pRender->String(pDevice, 42, 70, D3DCOLOR_RGBA(255, 255, 255, 255), g_font, true, cTitle);
-//	D3DXVECTOR3 kPPosCur; //world position to project to screen {x,y,z}
-//	D3DXVECTOR3 screenPos;
-//	DWORD* pCharInstance = GameFunctions::PlayerNEW_GetMainActorPtr();
-//	GameFunctions::InstanceBaseNEW_GetPixelPosition(pCharInstance, &kPPosCur);
-//	//D3DXVECTOR3 kD3DVt3Cur(kPPosCur.x, -kPPosCur.y, kPPosCur.z);
-//	//D3DXVECTOR3 kD3DVt3Dst;
-//	//D3DXVECTOR3 kD3DVt3AdvDir(0.0f, -1.0f, 0.0f);
-//	//D3DXMATRIX kD3DMatAdv;
-//	//D3DXMatrixRotationZ(&kD3DMatAdv, D3DXToRadian(GameFunctions::CameraRotation()));
-//	//D3DXVec3TransformCoord(&kD3DVt3AdvDir, &kD3DVt3AdvDir, &kD3DMatAdv);
-//	//D3DXVec3Scale(&kD3DVt3AdvDir, &kD3DVt3AdvDir, 300.0f);
-//	//D3DXVec3Add(&kD3DVt3Dst, &kD3DVt3AdvDir, &kD3DVt3Cur);
-//	//D3DXVECTOR3 kPPosDst;
-//	//kPPosDst.x = +kD3DVt3Dst.x;
-//	//kPPosDst.y = -kD3DVt3Dst.y;
-//	//kPPosDst.z = +kD3DVt3Dst.z;
-//	//GameFunctions::GetCenterPosition(&pos);
-//	GameFunctions::ProjectPosition(kPPosCur.x, -kPPosCur.y, kPPosCur.z, &screenPos.x, &screenPos.y, &screenPos.z);
-//	GameFunctions::SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-//	//WorldToScreen(pDevice, &screenPos, &screenPos);
-//	//pRender->Circle3D(pDevice, screenPos.x + 960.0f, screenPos.y + 510.0f, Settings::BoostSpeed2, 500, 50, D3DCOLOR_RGBA(100, 100, 100, 255));
-//	GameFunctions::RenderLine3D(1920.0f / 3, 1080.0f / 3, Settings::BoostSpeed2, 1920.0f / 2, 1080.0f / 2, Settings::BoostSpeed2);
-//}
-
-
 DWORD textureFactor;
 DWORD colorArg1;
 DWORD colorArg2;

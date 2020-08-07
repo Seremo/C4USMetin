@@ -88,13 +88,17 @@ public:
 	{
 
 		
-		for (int i = 0; i < 8; i++) 
+		for (int i = 0; i < 8; i++)
 		{
-#ifdef METINPL
-			string slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 0);
-#else
-			string slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 1);
-#endif
+			string slotName;
+			if (Globals::Server == ServerName::METINPL)
+			{
+				slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 0);
+			}
+			else
+			{
+				slotName = GameFunctions::NetworkStreamGetAccountCharacterSlotDataz(i, 1);
+			}
 			if (slotName != "" && slotName == playerName)
 			{
 				return i;
@@ -157,11 +161,14 @@ public:
 	//#################################################################################################################################
 	static void PlayerRevive()
 	{
-#ifdef METINPL
-		GameFunctions::NetworkStreamSendCommandPacket(5, 1, "");
-#else
-		GameFunctions::NetworkStreamSendChatPacket("/restart_here", CHAT_TYPE_TALKING);
-#endif
+		if (Globals::Server == ServerName::METINPL)
+		{
+			GameFunctions::NetworkStreamSendCommandPacket(5, 1, "");
+		}
+		else
+		{
+			GameFunctions::NetworkStreamSendChatPacket("/restart_here", CHAT_TYPE_TALKING);
+		}
 	}
 	//#################################################################################################################################
 	static bool PlayerIsMountingHorse()
@@ -216,23 +223,26 @@ public:
 	//#################################################################################################################################
 	static void MountHorse()
 	{
-#ifdef METINPL
-		GameFunctions::NetworkStreamSendCommandPacket(25, 0, "");
-#else
-		GameFunctions::NetworkStreamSendChatPacket("/ride", CHAT_TYPE_TALKING);
-
-#endif
+		if (Globals::Server == ServerName::METINPL)
+		{
+			GameFunctions::NetworkStreamSendCommandPacket(25, 0, "");
+		}
+		else
+		{
+			GameFunctions::NetworkStreamSendChatPacket("/ride", CHAT_TYPE_TALKING);
+		}
 	}
 	//#################################################################################################################################
 	static void UnMountHorse()
 	{
-#ifdef METINPL
-		GameFunctions::NetworkStreamSendCommandPacket(43, 0, "");
-#else
-		GameFunctions::NetworkStreamSendChatPacket("/unmount", CHAT_TYPE_TALKING);
-
-#endif
-		
+		if (Globals::Server == ServerName::METINPL)
+		{
+			GameFunctions::NetworkStreamSendCommandPacket(43, 0, "");
+		}
+		else
+		{
+			GameFunctions::NetworkStreamSendChatPacket("/unmount", CHAT_TYPE_TALKING);
+		}	
 	}
 	//#################################################################################################################################
 	static void SetDirection(int dir)
@@ -560,178 +570,257 @@ public:
 	static map<DWORD, DWORD*> GetObjectList(int objectType, DWORD distance = 20000)
 	{
 		map<DWORD, DWORD*> objectList;
-#if defined(METINPL) || defined(DREIKON)
-		TCharacterInstanceMap m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 56) + 4));
-#else
-		TCharacterInstanceMap m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
-#endif
-		for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
+		if (Globals::Server == ServerName::METINPL)
 		{
-			DWORD iIndex = itor->first;
-			DWORD* instance = itor->second;
-			if (instance == NULL || instance == GameFunctions::PlayerNEW_GetMainActorPtr() || GameFunctions::InstanceBaseIsDead(instance))
+			TCharacterInstanceMapGlobal m_kAliveInstMap = *(TCharacterInstanceMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 56) + 4));
+			for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
 			{
-				continue;
-			}
-			DWORD instanceDistance = GameFunctionsCustom::InstanceBaseGetDistance(GameFunctions::PlayerNEW_GetMainActorPtr(), instance);
-			if (instanceDistance > distance)
-			{
-				continue;
-			}
-			int instanceType = GameFunctions::InstanceBaseGetInstanceType(instance);
+				DWORD iIndex = itor->first;
+				DWORD* instance = itor->second;
+				if (instance == NULL || instance == GameFunctions::PlayerNEW_GetMainActorPtr() || GameFunctions::InstanceBaseIsDead(instance))
+				{
+					continue;
+				}
+				DWORD instanceDistance = GameFunctionsCustom::InstanceBaseGetDistance(GameFunctions::PlayerNEW_GetMainActorPtr(), instance);
+				if (instanceDistance > distance)
+				{
+					continue;
+				}
+				int instanceType = GameFunctions::InstanceBaseGetInstanceType(instance);
 
-			if (objectType & OBJECT_ALL)
-			{
-				objectList.insert(std::make_pair(iIndex, instance));
-			}
-			if (objectType & OBJECT_MOB)
-			{
-				if (instanceType == TYPE_ENEMY && !GameFunctionsCustom::InstanceIsBoss(instance))
+				if (objectType & OBJECT_ALL)
 				{
 					objectList.insert(std::make_pair(iIndex, instance));
 				}
-			}
-			if (objectType & OBJECT_STONE)
-			{
-				if (instanceType == TYPE_STONE)
+				if (objectType & OBJECT_MOB)
 				{
-					objectList.insert(std::make_pair(iIndex, instance));
+					if (instanceType == TYPE_ENEMY && !GameFunctionsCustom::InstanceIsBoss(instance))
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_STONE)
+				{
+					if (instanceType == TYPE_STONE)
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_BOSS)
+				{
+					if (instanceType == TYPE_ENEMY && GameFunctionsCustom::InstanceIsBoss(instance))
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_PC)
+				{
+					if (instanceType == TYPE_PC)
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_MINE)
+				{
+					if (instanceType == TYPE_NPC && GameFunctionsCustom::InstanceIsResource(instance))
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_NPC)
+				{
+					if (instanceType == TYPE_NPC)
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
 				}
 			}
-			if (objectType & OBJECT_BOSS)
+		}
+		else
+		{
+			TCharacterInstanceMap m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
+			for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
 			{
-				if (instanceType == TYPE_ENEMY && GameFunctionsCustom::InstanceIsBoss(instance))
+				DWORD iIndex = itor->first;
+				DWORD* instance = itor->second;
+				if (instance == NULL || instance == GameFunctions::PlayerNEW_GetMainActorPtr() || GameFunctions::InstanceBaseIsDead(instance))
 				{
-					objectList.insert(std::make_pair(iIndex, instance));
+					continue;
 				}
-			}
-			if (objectType & OBJECT_PC)
-			{
-				if (instanceType == TYPE_PC)
+				DWORD instanceDistance = GameFunctionsCustom::InstanceBaseGetDistance(GameFunctions::PlayerNEW_GetMainActorPtr(), instance);
+				if (instanceDistance > distance)
 				{
-					objectList.insert(std::make_pair(iIndex, instance));
+					continue;
 				}
-			}
-			if (objectType & OBJECT_MINE)
-			{
-				if (instanceType == TYPE_NPC && GameFunctionsCustom::InstanceIsResource(instance))
-				{
-					objectList.insert(std::make_pair(iIndex, instance));
-				}
-			}
-			if (objectType & OBJECT_NPC)
-			{
-				if (instanceType == TYPE_NPC)
-				{
-					objectList.insert(std::make_pair(iIndex, instance));
-				}
-			}
+				int instanceType = GameFunctions::InstanceBaseGetInstanceType(instance);
 
-
+				if (objectType & OBJECT_ALL)
+				{
+					objectList.insert(std::make_pair(iIndex, instance));
+				}
+				if (objectType & OBJECT_MOB)
+				{
+					if (instanceType == TYPE_ENEMY && !GameFunctionsCustom::InstanceIsBoss(instance))
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_STONE)
+				{
+					if (instanceType == TYPE_STONE)
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_BOSS)
+				{
+					if (instanceType == TYPE_ENEMY && GameFunctionsCustom::InstanceIsBoss(instance))
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_PC)
+				{
+					if (instanceType == TYPE_PC)
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_MINE)
+				{
+					if (instanceType == TYPE_NPC && GameFunctionsCustom::InstanceIsResource(instance))
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+				if (objectType & OBJECT_NPC)
+				{
+					if (instanceType == TYPE_NPC)
+					{
+						objectList.insert(std::make_pair(iIndex, instance));
+					}
+				}
+			}
 		}
 		return objectList;
 	}
 	//#################################################################################################################################
 	static bool DetectPlayer(vector<string> whiteListNames)
 	{
-#ifndef VALIUM
-		
-			string widnowTitle = "";
-			int counter = 0;
-			map<DWORD, DWORD*> playersList = GameFunctionsCustom::GetObjectList(OBJECT_PC);
-			for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)
-			{
-				string playerName(GameFunctions::InstanceBaseGetNameString(itor->second));
-				if (std::find(whiteListNames.begin(), whiteListNames.end(), playerName) != whiteListNames.end())
-				{
-					continue;
-				}
-				counter++;
-				widnowTitle += " " + playerName;
-			}
-			SetWindowTextA(Globals::mainHwnd, widnowTitle.c_str());
-			return counter > 0 ? true : false;
-		
-	
-#endif
+		if (Globals::Server == ServerName::VALIUM)
+		{
 			return false;
+		}
+
+		string widnowTitle = "";
+		int counter = 0;
+		map<DWORD, DWORD*> playersList = GameFunctionsCustom::GetObjectList(OBJECT_PC);
+		for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)
+		{
+			string playerName(GameFunctions::InstanceBaseGetNameString(itor->second));
+			if (std::find(whiteListNames.begin(), whiteListNames.end(), playerName) != whiteListNames.end())
+			{
+				continue;
+			}
+			counter++;
+			widnowTitle += " " + playerName;
+		}
+		SetWindowTextA(Globals::mainHwnd, widnowTitle.c_str());
+		return counter > 0 ? true : false;
 	}
 
 	//#################################################################################################################################
 	static map<DWORD, TGroundItemInstance*> GetGroundItemList()
 	{
-		
-
-
 		map<DWORD, TGroundItemInstance*> vidList;
-		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
-#if defined( METINPL)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 4));
-#elif defined(VIDGAR)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
-		return m_GroundItemInstanceMap;
-#elif defined( RUBINUM)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
-#else
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
-#endif
-		for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
+		if (Globals::Server == ServerName::METINPL)
 		{
-#if defined( METINPL)
-			string ownerShip = GetStr((DWORD)itor->second->stOwnership);
-#else
-			string ownerShip = itor->second->stOwnership;
-#endif
-			if (ownerShip == "" || ownerShip == player_name)
+			string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
+			TGroundItemInstanceMapGlobal m_GroundItemInstanceMap = *(TGroundItemInstanceMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 4));
+			for (TGroundItemInstanceMapGlobal::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
 			{
-				vidList.insert(std::make_pair(itor->first, itor->second));
+				string ownerShip = GetStr((DWORD)itor->second->stOwnership);
+				if (ownerShip == "" || ownerShip == player_name)
+				{
+					TGroundItemInstance org
+					{
+						itor->second->Instance, itor->second->dwVirtualNumber, itor->second->v3EndPosition,
+						itor->second->v3RotationAxis,itor->second->qEnd, itor->second->v3Center,
+						itor->second->ThingInstance, itor->second->dwStartTime, itor->second->dwEndTime,
+						itor->second->eDropSoundType, itor->second->stOwnership
+					};
+					vidList.insert(std::make_pair(itor->first, &org));
+				}
+			}
+		}
+		else
+		{
+			map<DWORD, TGroundItemInstance*> vidList;
+			string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
+			TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
+			for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
+			{
+				string ownerShip = itor->second->stOwnership;
+				if (ownerShip == "" || ownerShip == player_name)
+				{
+					vidList.insert(std::make_pair(itor->first, itor->second));
+				}
 			}
 		}
 		return vidList;
-//#endif
 	}
 
 	static bool IsGroundItemsCanPickup()
 	{
-		map<DWORD, TGroundItemInstance*> vidList;
-		string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
-#if defined( METINPL)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 4));
-#elif defined(VIDGAR)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = Globals::GroundItemList;
-		return m_GroundItemInstanceMap;
-#elif defined( RUBINUM)
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
-#else
-		TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
-#endif
-		for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
+		if (Globals::Server == ServerName::METINPL)
 		{
-#if defined( METINPL)
-			string ownerShip = GetStr((DWORD)itor->second->stOwnership);
-#else
-			string ownerShip = itor->second->stOwnership;
-#endif
-			if (ownerShip == "" || ownerShip == player_name)
+			string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
+			TGroundItemInstanceMapGlobal m_GroundItemInstanceMap = *(TGroundItemInstanceMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 28) + 4));
+			for (TGroundItemInstanceMapGlobal::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
 			{
-				return true;
+				string ownerShip = GetStr((DWORD)itor->second->stOwnership);
+				if (ownerShip == "" || ownerShip == player_name)
+				{
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
+		else
+		{
+			string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
+			TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
+			for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
+			{
+				string ownerShip = itor->second->stOwnership;
+				if (ownerShip == "" || ownerShip == player_name)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 	//#################################################################################################################################
-	static map<DWORD, TCItemData*> GetItemProtoList() 
+	static map<DWORD, TCItemData*> GetItemProtoList()
 	{
 		map<DWORD, TCItemData*> itemsList;
-#ifdef METINPL
-		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 28) + 4));
-#else
-		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
-#endif
-		for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
+		if (Globals::Server == ServerName::METINPL)
 		{
-			TCItemData* inst = itor->second;
-			itemsList.insert(std::make_pair(itor->first, itor->second));
+			TItemMapGlobal m_ItemMap = *(TItemMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 28) + 4));
+			for (TItemMapGlobal::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
+			{
+				TCItemData inst{ itor->second->m_ItemTable };
+				itemsList.insert(std::make_pair(itor->first, &inst));
+			}
+		}
+		else 
+		{
+			TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
+			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
+			{
+				itemsList.insert(std::make_pair(itor->first, itor->second));
+			}
 		}
 		return itemsList;
 	}
@@ -739,61 +828,48 @@ public:
 	static map<DWORD, const char*> GetItemProtoNames()
 	{
 		map<DWORD, const char*> itemsList;
-#ifdef METINPL
-		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 28) + 4));
-#else
-		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
-#endif
-		for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
+		if (Globals::Server == ServerName::METINPL)
 		{
-#if defined(SAMIAS2)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-#elif defined(PANGEA)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
-#elif defined(VIDGAR)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
-#elif defined(VALIUM)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-#elif defined(METINPL)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-#elif defined(DIAMOND)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 263));
-#elif defined(MEDIUM)
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-#else
-
-			itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
-#endif
-			
-		}
-		return itemsList;
-	}
-	//#################################################################################################################################
-	string GetItemNameByVnum(DWORD vnum) 
-	{
-		TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
-		for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
-		{
-			TItemTable table;
-			switch (Globals::Server)
+			TItemMapGlobal m_ItemMap = *(TItemMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 28) + 4));
+			for (TItemMapGlobal::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
 			{
-			case ServerName::VIDGAR:
-				table = (*(TItemTable*)(itor->second + 229));
-				break;
-			case ServerName::PANGEA:
-				table = (*(TItemTable*)(itor->second + 201));
-				break;
-			default:
-				table = itor->second->m_ItemTable;
-				break;
-			}
-			if (table.dwVnum == vnum) {
-				return table.szLocaleName;
+				itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
 			}
 		}
+		else 
+		{
+			TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
+			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
+			{
+				switch (Globals::Server)
+				{
+				case ServerName::SAMIAS2:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+					break;
+				case ServerName::PANGEA:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+					break;
+				case ServerName::VIDGAR:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
+					break;
+				case ServerName::VALIUM:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+					break;
+				case ServerName::METINPL:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+					break;
+				case ServerName::MEDIUMMT2:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+					break;
+				default:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+					break;
+				}
+			}
+			return itemsList;
+		}
+
 	}
-
-
 	//#################################################################################################################################
 	static float InstanceBaseGetDistance(DWORD* instance, DWORD* pkTargetInst)
 	{
@@ -827,11 +903,15 @@ public:
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(ptrTar, &tar);
 		DWORD angle = (int)MiscExtension::AngleBetweenTwoPoints(main.x, main.y, tar.x, tar.y);
 		angle += 90;
-#ifdef METINPL
-		string u = "DetectObject " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(angle);
-#else
-		string u = "StoneDetect " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(angle);
-#endif
+		string u;
+		if (Globals::Server == ServerName::METINPL)
+		{
+			u = "DetectObject " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(angle);
+		}
+		else
+		{
+			u = "StoneDetect " + to_string(GameFunctions::PlayerGetMainCharacterIndex()) + " " + to_string(targetType) + " " + to_string(angle);
+		}
 		GameFunctions::NetworkStreamServerCommand(u.c_str());
 	}
 	//#################################################################################################################################
@@ -1239,18 +1319,19 @@ public:
 
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
 	{
-		
-
-
 		TPacketCGAttack kPacketAtk;
-#if defined( SAMIAS2)
-		kPacketAtk.header = 0x3A;
-
-#elif defined(METINPL)
-		kPacketAtk.header = 0x52;
-#else
-		kPacketAtk.header = HEADER_CG_ATTACK;
-#endif
+		switch (Globals::Server)
+		{
+		case ServerName::SAMIAS2:
+			kPacketAtk.header = 0x3A;
+			break;
+		case ServerName::METINPL:
+			kPacketAtk.header = 0x52;
+			break;
+		default:
+			kPacketAtk.header = HEADER_CG_ATTACK;
+			break;
+		}
 		kPacketAtk.bType = uMotAttack;
 		kPacketAtk.dwVictimVID = dwVIDVictim;
 

@@ -68,11 +68,16 @@ public:
 
 		if (ImGui::InputInt("Recv Limit Game Phase", &recv_limit))
 		{
-#if defined(MEDIUM)
-			MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x8D035), recv_limit, 1);
-#elif defined(METINPL)
-			MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1EA1F7), recv_limit, 1);
-#endif		
+			switch (Globals::Server)
+			{
+			case ServerName::MEDIUMMT2:
+				MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x8D035), recv_limit, 1);
+				break;
+
+			case ServerName::METINPL:
+				MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1EA1F7), recv_limit, 1);
+				break;
+			}
 		}
 
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();

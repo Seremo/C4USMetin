@@ -44,25 +44,25 @@ public:
 
 	void OnUpdate()
 	{
-#ifdef METINPL
-		if ( Settings::ProtectionAutoLogin && DynamicTimer::CheckAutoSet("AutoLogin", 5000) )
+		if (Globals::Server == ServerName::METINPL)
 		{
-			if (GameFunctionsCustom::PlayerDirectEnter())
+			if (Settings::ProtectionAutoLogin && DynamicTimer::CheckAutoSet("AutoLogin", 5000))
 			{
-#else
-		if (DynamicTimer::CheckAutoSet("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
-		{
-			if(GameFunctionsCustom::PlayerDirectEnter())
-			{
-			
-#endif
-				Main::Instance().ResetSkillTimer();
-				
+				if (GameFunctionsCustom::PlayerDirectEnter())
+				{
+					Main::Instance().ResetSkillTimer();
+				}
 			}
 		}
-
-
+		else 
+		{
+			if (DynamicTimer::CheckAutoSet("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
+			{
+				if (GameFunctionsCustom::PlayerDirectEnter())
+				{
+					Main::Instance().ResetSkillTimer();
+				}
+			}
+		}
 	}
-
-
 };
