@@ -296,13 +296,10 @@ public:
 				TGroundItemInstance* groundItemInstance = itor->second;
 				if (Settings::ITEM_PICKUP_FILTER)
 				{
-
-					
 					if (!Settings::ITEM_PICKUP_SELECTED_LIST.count(groundItemInstance->dwVirtualNumber))
 					{
 						continue;
-					}
-						
+					}		
 				}
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
 				float Distance = MiscExtension::CountDistanceTwoPoints(playerPosition.x, playerPosition.y, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);

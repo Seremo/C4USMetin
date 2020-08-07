@@ -467,25 +467,49 @@ void MainForm::ShowRadar()
 		LONG GlobalX = charpos.x;
 		LONG GlobalY = charpos.y;
 		GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
-		TMapInfo* map_info = GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY);
-		if (map_info != NULL) {
-			int Width = map_info->m_dwSizeX;
-			int Height = map_info->m_dwSizeY;
+
+		string MapName = "";
+		int Width;
+		int Height;
+		switch (Globals::Server)
+		{
+			case ServerName::METINPL:
+			{
+				TMapInfoGlobal* map_info = (TMapInfoGlobal*)GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY);
+				if (map_info) {
+					MapName = GetStr((DWORD)map_info->name);
+					Width = map_info->m_dwSizeX;
+					Height = map_info->m_dwSizeY;
+				}
+				break;
+			}
+			default:
+			{
+				TMapInfo* map_info = GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY);
+				if (map_info) {
+					MapName = GetStr((DWORD)map_info->name);
+					Width = map_info->m_dwSizeX;
+					Height = map_info->m_dwSizeY;
+				}
+				break;
+			}
+		}
+		if (MapName != "") {
 			float ZoomSizeX = (25600 / mapSizeY) * bgSize.x;
 			float ZoomSizeY = (25600 / mapSizeY) * bgSize.y;
 			float AtlasX = midRadar.x + (charpos.x / mapSizeX) * bgSize.x;
 			float AtlasY = midRadar.y - (charpos.y / mapSizeY) * bgSize.y;
 			float PosX = AtlasX;
-			for (int i = 0; i < Width; i++) 
+			for (int i = 0; i < Width; i++)
 			{
 				float PosY = AtlasY;
-				for (int j = 0; j < Height; j++) 
+				for (int j = 0; j < Height; j++)
 				{
-					string MapName = GetStr((DWORD)map_info->name);
-					MapName += "\\";
-					MapName += GetMapFolder(i, j);
-					MapName += "\\minimap.dds";
-					ImGui::DrawImagePos(GameFunctionsCustom::GetD3DTexture(MapName.c_str()), ImVec2(ZoomSizeX, ZoomSizeY), ImVec2(PosX, PosY));
+					string MapPath = MapName;
+					MapPath += "\\";
+					MapPath += GetMapFolder(i, j);
+					MapPath += "\\minimap.dds";
+					ImGui::DrawImagePos(GameFunctionsCustom::GetD3DTexture(MapPath.c_str()), ImVec2(ZoomSizeX, ZoomSizeY), ImVec2(PosX, PosY));
 					PosY += ZoomSizeY;
 				}
 				PosX += ZoomSizeX;
@@ -734,9 +758,9 @@ void MainForm::Menu() {
 		{
 			static float f = 0.0f;
 			static int counter = 0;
-#ifdef DEVELOPER_MODE
-			ImGui::ShowDemoWindow();
-#endif
+//#ifdef DEVELOPER_MODE
+//			ImGui::ShowDemoWindow();
+//#endif
 			ImGui::SetNextWindowBgAlpha(0.0f);
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
 			ImGui::Begin("Buttons", &SideBarIsOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNavInputs);

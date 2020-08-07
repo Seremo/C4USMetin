@@ -126,13 +126,6 @@ public:
 			GameFunctionsCustom::SendPacket(string(packetHex.c_str()));
 			
 		}
-		
-
-		if (ImGui::Button("TEST 3"))
-		{
-			
-		}
-		
 
 		if (ImGui::Button("TEST 2"))
 		{

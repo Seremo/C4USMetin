@@ -742,20 +742,12 @@ public:
 				string ownerShip = GetStr((DWORD)itor->second->stOwnership);
 				if (ownerShip == "" || ownerShip == player_name)
 				{
-					TGroundItemInstance org
-					{
-						itor->second->Instance, itor->second->dwVirtualNumber, itor->second->v3EndPosition,
-						itor->second->v3RotationAxis,itor->second->qEnd, itor->second->v3Center,
-						itor->second->ThingInstance, itor->second->dwStartTime, itor->second->dwEndTime,
-						itor->second->eDropSoundType, ownerShip
-					};
-					vidList.insert(std::make_pair(itor->first, &org));
+					vidList.insert(std::make_pair(itor->first, (TGroundItemInstance*)itor->second));
 				}
 			}
 		}
 		else
 		{
-			map<DWORD, TGroundItemInstance*> vidList;
 			string player_name = GameFunctions::InstanceBaseGetNameString(GameFunctions::PlayerNEW_GetMainActorPtr());
 			TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
 			for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
@@ -1351,7 +1343,15 @@ public:
 		LONG GlobalX = CharPos.x;
 		LONG GlobalY = CharPos.y;
 		GameFunctions::BackgroundLocalPositionToGlobalPosition(GlobalX, GlobalY);
-		return GetStr((DWORD)GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY)->name);
+		switch (Globals::Server)
+		{
+		case ServerName::METINPL:
+			return GetStr((DWORD)(TMapInfoGlobal*)GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY)->name);
+			break;
+		default:
+			return GetStr((DWORD)GameFunctions::BackgroundGlobalPositionToMapInfo(GlobalX, GlobalY)->name);
+			break;
+		}
 	}
 
 	static void GlobalPositionToLocalPosition(LONG& rGlobalX, LONG& rGlobalY)

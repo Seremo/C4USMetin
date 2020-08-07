@@ -460,21 +460,7 @@ public:
 	//#################################################################################################################################
 	static TMapInfo* BackgroundGlobalPositionToMapInfo(DWORD dwGlobalX, DWORD dwGlobalY)
 	{
-		if (Globals::Server == ServerName::METINPL)
-		{
-			typedef TMapInfoGlobal* (__thiscall* GlobalPositionToMapInfo)(void* This, DWORD dwGlobalX, DWORD dwGlobalY);
-			GlobalPositionToMapInfo ToMapInfo = *(GlobalPositionToMapInfo*)Globals::pCPythonBackgroundGlobalPositionToMapInfo;	
-			TMapInfoGlobal* global_map = ToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
-			TMapInfo ret_map
-			{
-				*global_map->name, global_map->m_dwBaseX, global_map->m_dwBaseY, global_map->m_dwSizeX, global_map->m_dwSizeY, global_map->m_dwEndX, global_map->m_dwEndY
-			};
-			return &ret_map;
-		}
-		else
-		{
-			return Globals::CBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
-		}	
+		return Globals::CBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
 	}
 	//#################################################################################################################################
 	static const char* NetworkStreamGetAccountCharacterSlotDataz(UINT iSlot, UINT eType)
