@@ -747,7 +747,7 @@ public:
 						itor->second->Instance, itor->second->dwVirtualNumber, itor->second->v3EndPosition,
 						itor->second->v3RotationAxis,itor->second->qEnd, itor->second->v3Center,
 						itor->second->ThingInstance, itor->second->dwStartTime, itor->second->dwEndTime,
-						itor->second->eDropSoundType, itor->second->stOwnership
+						itor->second->eDropSoundType, ownerShip
 					};
 					vidList.insert(std::make_pair(itor->first, &org));
 				}
@@ -835,6 +835,7 @@ public:
 			{
 				itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
 			}
+			return itemsList;
 		}
 		else 
 		{
@@ -868,7 +869,6 @@ public:
 			}
 			return itemsList;
 		}
-
 	}
 	//#################################################################################################################################
 	static float InstanceBaseGetDistance(DWORD* instance, DWORD* pkTargetInst)
