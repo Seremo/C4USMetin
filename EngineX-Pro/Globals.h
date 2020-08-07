@@ -420,7 +420,7 @@ public:
 
 
 ServerName Globals::Server = ServerName::VEDNAR;
-bool Globals::PythonCustom = false;
+bool Globals::PythonCustom = true;
 map<DWORD, TCItemData*> Globals::itemProtoList;
 map<DWORD, TGroundItemInstance*> Globals::groundItemList;
 map<DWORD, const char*>  Globals::itemProtoNames;
@@ -891,7 +891,6 @@ void Globals::ReAddressingLocas()
 		}
 		case ServerName::VEDNAR:
 		{
-			//51293/18800/19844
 			pCPythonNetworkStreamInstance = Globals::hEntryBaseAddress + 0x556c90; // [100 ] [103 / 103]
 			pCPythonCharacterManagerInstance = Globals::hEntryBaseAddress + 0x562b00; // [98 ] [78 / 79]
 			pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x556c98; // [95 ] [42 / 44]
@@ -909,20 +908,16 @@ void Globals::ReAddressingLocas()
 			pCInstanceBaseGetInstanceType = Globals::hEntryBaseAddress + 0x60e30; // [100 ] [1 / 1]
 			pCInstanceBaseGetInstanceVirtualNumber = Globals::hEntryBaseAddress + 0x60e50; // [100 ] [1 / 1]
 			pCInstanceBaseGetNameString = Globals::hEntryBaseAddress + 0x60840; // [85 ] [6 / 7]
-			pCInstanceBaseGetNameString = Globals::hEntryBaseAddress + 0xdc3c0; // [14 ] [1 / 7]
 			pCInstanceBaseGetRotation = Globals::hEntryBaseAddress + 0x68e80; // [100 ] [6 / 6]
 			pCInstanceBaseIsDead = Globals::hEntryBaseAddress + 0x5f0b0; // [100 ] [7 / 7]
 			pCInstanceBaseIsMountingHorse = Globals::hEntryBaseAddress + 0x5ed70; // [90 ] [9 / 10]
-			pCInstanceBaseIsMountingHorse = Globals::hEntryBaseAddress + 0xdc3c0; // [10 ] [1 / 10]
 			pCInstanceBaseNEW_GetPixelPosition = Globals::hEntryBaseAddress + 0x68da0; // [100 ] [15 / 15]
 			pCInstanceBaseNEW_MoveToDestPixelPositionDirection = Globals::hEntryBaseAddress + 0x68a20; // [100 ] [1 / 1]
 			pCInstanceBaseSCRIPT_SetPixelPosition = Globals::hEntryBaseAddress + 0x68d40; // [100 ] [1 / 1]
 			pCInstanceBaseSetDirection = Globals::hEntryBaseAddress + 0x68ec0; // [100 ] [2 / 2]
 			pCInstanceBase__SetAffect = Globals::hEntryBaseAddress + 0x65fd0; // [100 ] [1 / 1]
 			pCItemDataGetName = Globals::hEntryBaseAddress + 0x2c2ad0; // [80 ] [4 / 5]
-			pCItemDataGetName = Globals::hEntryBaseAddress + 0x2fe900; // [20 ] [1 / 5]
 			pCItemManagerGetItemDataPointer = Globals::hEntryBaseAddress + 0x2c0e70; // [100 ] [5 / 5]
-			pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x68da0; // [50 ] [1 / 2]
 			pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x77330; // [50 ] [1 / 2]
 			pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0x275a00; // [100 ] [5 / 5]
 			pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0xA0FA0;
@@ -966,12 +961,10 @@ void Globals::ReAddressingLocas()
 			pCPythonNetworkStreamSendUseSkillPacket = Globals::hEntryBaseAddress + 0xa8060; // [100 ] [3 / 3]
 			pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0xa8990; // [100 ] [1 / 1]
 			pCPythonNetworkStreamServerCommand = Globals::hEntryBaseAddress + 0xa1ac0; // [100 ] [24 / 24]
-			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0x60e50; // [25 ] [2 / 8]
 			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0xb41f0; // [75 ] [6 / 8]
 			pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0xc0620; // [100 ] [3 / 3]
 			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0xB5ED0;
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0xb5f90; // [50 ] [1 / 2]
-			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x2c2bb0; // [50 ] [1 / 2]
 			pCPythonPlayerGetMainCharacterIndex = Globals::hEntryBaseAddress + 0xb5410; // [100 ] [2 / 2]
 			pCPythonPlayerGetName = Globals::hEntryBaseAddress + 0x60840; // [100 ] [2 / 2]
 			pCPythonPlayerGetRace = Globals::hEntryBaseAddress + 0x8bc40; // [100 ] [2 / 2]
@@ -1005,10 +998,26 @@ void Globals::ReDeclarationLocals()
 {
 	if (Globals::PythonCustom)
 	{
-		Globals::PyRun_SimpleStringFlags = (tPyRun_SimpleStringFlags)PatternScan::FindPattern("55 8B EC 83 EC ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 89 45 ? 83 7D ? ? 75 ? 83 C8");
-		Globals::PyString_AsString = (tPyString_AsString)PatternScan::FindPattern("55 8B EC 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 75 ? 8B 45 ? 50 E8 ? ? ? ? 83 C4 ? EB ? 8B 45");
-		Globals::PyTuple_GetItem = (tPyTuple_GetItem)PatternScan::FindPattern("55 8B EC 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 75 ? 6A ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 33 C0");
-		Globals::PyInt_AsLong = (tPyInt_AsLong)PatternScan::FindPattern("55 8B EC 83 EC ? 83 7D ? ? 74 ? 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 74 ? 8B 45 ? 8B 40 ? E9 ? ? ? ? 83 7D ? ? 74 ? 8B 4D ? 8B 51 ? 8B 42 ? 89 45");
+		switch (Globals::Server)
+		{
+			case ServerName::VEDNAR:
+			{
+				//Globals::PyRun_SimpleStringFlags = (tPyRun_SimpleStringFlags)PatternScan::FindPattern("55 8B EC 83 EC ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 89 45 ? 83 7D ? ? 75 ? 83 C8");//NULL
+				Globals::PyString_AsString = (tPyString_AsString)PatternScan::FindPattern("55 8B EC 83 E4 F8 8B 4D 08 83 EC 08 8B 41 04 F7 40 54 00 00 00 08 75 22 8D");
+				Globals::PyTuple_GetItem = (tPyTuple_GetItem)PatternScan::FindPattern("55 8B EC 83 E4 F8 8B 4D 08 8B 41 04 F7 40 54 00 00 00 04 75 20 6A 7D 68");
+				Globals::PyInt_AsLong = (tPyInt_AsLong)PatternScan::FindPattern("85 C9 0F 84 ? ? ? ? 8B 41 04 F7 40 ? ? ? ? ? 74 04 8B");
+
+				break;
+			}
+			default:
+			{
+				Globals::PyRun_SimpleStringFlags = (tPyRun_SimpleStringFlags)PatternScan::FindPattern("55 8B EC 83 EC ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 89 45 ? 83 7D ? ? 75 ? 83 C8");
+				Globals::PyString_AsString = (tPyString_AsString)PatternScan::FindPattern("55 8B EC 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 75 ? 8B 45 ? 50 E8 ? ? ? ? 83 C4 ? EB ? 8B 45");
+				Globals::PyTuple_GetItem = (tPyTuple_GetItem)PatternScan::FindPattern("55 8B EC 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 75 ? 6A ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 33 C0");
+				Globals::PyInt_AsLong = (tPyInt_AsLong)PatternScan::FindPattern("55 8B EC 83 EC ? 83 7D ? ? 74 ? 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 74 ? 8B 45 ? 8B 40 ? E9 ? ? ? ? 83 7D ? ? 74 ? 8B 4D ? 8B 51 ? 8B 42 ? 89 45");
+				break;
+			}
+		}
 	}
 	else 
 	{

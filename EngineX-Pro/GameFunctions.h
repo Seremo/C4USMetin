@@ -495,7 +495,31 @@ public:
 	//#################################################################################################################################
 	static float GetBackgroundHeight(float x, float y)
 	{
-		return Globals::CInstanceBase__GetBackgroundHeight(x, y);
+		DWORD address = Globals::pCInstanceBase__GetBackgroundHeight;
+		float height = 0;
+		switch (Globals::Server)
+		{
+			case ServerName::VEDNAR:
+			{
+				//__asm
+				//{
+				//	mov     eax, [address]
+				//	movss   xmm2, [y]
+				//	movss   xmm1, [x]
+				//	call	eax
+				//	movss[height], xmm0
+				//}
+				//return height;
+				return Globals::CInstanceBase__GetBackgroundHeight(x, y);
+				break;
+			}
+			default:
+			{
+				return Globals::CInstanceBase__GetBackgroundHeight(x, y);
+				break;
+			}
+		}
+		
 	}
 	
 };

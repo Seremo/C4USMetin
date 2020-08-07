@@ -117,7 +117,7 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 	}
 	if (StringExtension::Equals(c_szFunc, "OnRecvWhisper"))
 	{
-		int  type = Globals::PyInt_AsLong(Globals::PyTuple_GetItem(poArgs, 0));
+		int type = Globals::PyInt_AsLong(Globals::PyTuple_GetItem(poArgs, 0));
 		const char* name = Globals::PyString_AsString(Globals::PyTuple_GetItem(poArgs, 1));
 		const char* line = Globals::PyString_AsString(Globals::PyTuple_GetItem(poArgs, 2));
 
@@ -154,7 +154,6 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 			fi.uCount = 3;
 			fi.dwTimeout = 0;
 			FlashWindowEx(&fi);
-
 		}
 	}
 	if (StringExtension::Equals(c_szFunc, "OpenPShopSearchDialogCash"))
