@@ -52,6 +52,7 @@ enum ServerName
 	BARIA,
 	VALIUM,
 	SG2,
+	VEDNAR,
 };
 
 //#define METINPL

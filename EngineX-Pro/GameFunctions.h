@@ -409,7 +409,24 @@ public:
 			call	eax
 		}
 #else
-		return Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
+		switch (Globals::Server)
+		{
+		case ServerName::VEDNAR:
+			__asm
+			{
+				mov     eax, [0x468D40]
+				mov     ecx, instance
+				movd    xmm2, [y]
+				movd   xmm1, [x]
+				cvtdq2ps xmm2, xmm2
+				cvtdq2ps xmm1, xmm1
+				call	eax
+			}
+			break;
+		default:
+			Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
+			break;
+		}	
 #endif
 	}
 	//#################################################################################################################################
