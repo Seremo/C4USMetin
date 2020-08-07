@@ -87,7 +87,7 @@ public:
 	static int GetCharSlotByName(string playerName)
 	{
 
-		
+
 		for (int i = 0; i < 8; i++)
 		{
 			string slotName;
@@ -130,7 +130,7 @@ public:
 		{
 			return -1;
 		}
-		
+
 	}
 	//#################################################################################################################################
 	static bool InstanceIsDead(DWORD vid)
@@ -242,7 +242,7 @@ public:
 		else
 		{
 			GameFunctions::NetworkStreamSendChatPacket("/unmount", CHAT_TYPE_TALKING);
-		}	
+		}
 	}
 	//#################################################################################################################################
 	static void SetDirection(int dir)
@@ -281,7 +281,7 @@ public:
 			{
 				distance = objDistance;
 				lastVid = itor->first;
-			}		
+			}
 		}
 		return lastVid;
 	}
@@ -370,7 +370,7 @@ public:
 	//#################################################################################################################################
 	static int FindItemSlotInInventory(int vnum)
 	{
-		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT) ; i++)
+		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT); i++)
 		{
 			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
 			if (vnum == current_vnum)
@@ -390,18 +390,18 @@ public:
 			DWORD itemIndex = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
 			if (!itemIndex)
 			{
-				
+
 				return false;
 			}
 			else
 			{
-				
+
 			}
 		}
 		return true;
 	}
 	//#################################################################################################################################
-	
+
 	static DWORD InventoryEquippedPercentage()
 	{
 		DWORD emptySlots = 0;
@@ -411,7 +411,7 @@ public:
 			if (!itemIndex)
 			{
 				emptySlots++;
-				
+
 			}
 			else
 			{
@@ -530,18 +530,18 @@ public:
 		map<DWORD, DWORD*> playersList = GetObjectList(OBJECT_PC);
 		for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)
 		{
-			
+
 			DWORD* instance = itor->second;
-			
-				if (StringExtension::Equals(name, GameFunctions::InstanceBaseGetNameString(instance)))
-				{
-					return instance;
-				}
-			
+
+			if (StringExtension::Equals(name, GameFunctions::InstanceBaseGetNameString(instance)))
+			{
+				return instance;
+			}
+
 		}
 		return NULL;
 	}
-	
+
 	//#################################################################################################################################
 	static DWORD GetCharacterVIDByName(const char* name)
 	{
@@ -566,7 +566,7 @@ public:
 	}
 
 
-		//#################################################################################################################################
+	//#################################################################################################################################
 	static map<DWORD, DWORD*> GetObjectList(int objectType, DWORD distance = 20000)
 	{
 		map<DWORD, DWORD*> objectList;
@@ -806,7 +806,7 @@ public:
 				itemsList.insert(std::make_pair(itor->first, &inst));
 			}
 		}
-		else 
+		else
 		{
 			TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
 			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
@@ -829,7 +829,7 @@ public:
 			}
 			return itemsList;
 		}
-		else 
+		else
 		{
 			TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
 			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
@@ -852,6 +852,9 @@ public:
 					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
 					break;
 				case ServerName::MEDIUMMT2:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+					break;
+				case ServerName::VEDNAR:
 					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
 					break;
 				default:
@@ -911,7 +914,7 @@ public:
 	{
 		int BoostCount = 0;
 		DWORD* pCharInstance = GameFunctions::PlayerNEW_GetMainActorPtr();
-		if (pCharInstance != 0) 
+		if (pCharInstance != 0)
 		{
 			if (GameFunctions::InstanceIsWaiting(pCharInstance))
 				return;
@@ -926,15 +929,15 @@ public:
 			int x = Position.x;
 			int y = Position.y;
 			newPosition.x = x + xx;
-			newPosition.y = y - yy; 
-			
+			newPosition.y = y - yy;
+
 			GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(pCharInstance, newPosition.x, newPosition.y);
 			if (BoostCount >= Settings::BoostSpeed2)
 			{
 				BoostCount = 0;
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, rotation, 1, 0);
 			}
-			else 
+			else
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, rotation, 0, 0);
 				BoostCount++;
@@ -1002,10 +1005,10 @@ public:
 		return false;
 	}
 	//#################################################################################################################################
-	static bool InstanceIsBoss(DWORD* instance) 
+	static bool InstanceIsBoss(DWORD* instance)
 	{
 		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
-		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);	
+		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
 		if (mob_info != NULL)
 		{
 			BYTE bRank;
@@ -1028,8 +1031,8 @@ public:
 				return false;
 			}
 		}
-		
-			
+
+
 		return false;
 	}
 	//#################################################################################################################################
@@ -1085,21 +1088,28 @@ public:
 	//#################################################################################################################################
 	static float PlayerGetCameraRotation()
 	{
+		DWORD address = Globals::pCInstanceBaseGetRotation;
 		float rotation = 0;
-#if defined(RUBINUM)
-		DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
-		__asm
+		switch (Globals::Server)
 		{
-			mov     eax, [0x481E30]
-			mov     ecx, playerInstance
-			call	eax
-			movss	[rotation], xmm0
+			case ServerName::VEDNAR:
+			{
+				DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
+				__asm
+				{
+					mov     eax, [address]
+					mov     ecx, playerInstance
+					call	eax
+					movss[rotation], xmm0
+				}
+				break;
+			}
+			default:
+			{
+				rotation = Globals::CInstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
+				break;
+			}
 		}
-#else
-		rotation = Globals::CInstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
-#endif
-		
-	
 		float frotation = 180.0f - rotation;
 
 		return frotation;

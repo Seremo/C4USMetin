@@ -127,9 +127,17 @@ public:
 			
 		}
 
-		if (ImGui::Button("TEST 2"))
+		static float x, y, z;
+		ImGui::InputFloat("X:", &x, 1.0f, 10.0f, 1);
+		ImGui::InputFloat("y:", &y, 1.0f, 10.0f, 1);
+		ImGui::InputFloat("z:", &z, 1.0f, 10.0f, 1);
+		if (ImGui::Button("SetPixelPos"))
 		{
-			
+			GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), x, y);
+		}
+		if (ImGui::Button("SetPixelPos2"))
+		{
+			GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), y, x);
 		}
 
 		if (ImGui::Button("TEST 4"))

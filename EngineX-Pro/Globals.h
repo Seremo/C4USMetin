@@ -891,11 +891,11 @@ void Globals::ReAddressingLocas()
 		}
 		case ServerName::VEDNAR:
 		{
+			//51293/18800/19844
 			pCPythonNetworkStreamInstance = Globals::hEntryBaseAddress + 0x556c90; // [100 ] [103 / 103]
 			pCPythonCharacterManagerInstance = Globals::hEntryBaseAddress + 0x562b00; // [98 ] [78 / 79]
 			pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x556c98; // [95 ] [42 / 44]
 			pCItemManagerInstance = Globals::hEntryBaseAddress + 0x562b10; // [98 ] [50 / 51]
-			pCItemManagerInstance = Globals::hEntryBaseAddress + 0x562b18; // [1 ] [1 / 51]
 			pCPythonItemInstance = Globals::hEntryBaseAddress + 0x562b40; // [100 ] [5 / 5]
 			pCPythonApplicationInstance = Globals::hEntryBaseAddress + 0x55713c; // [100 ] [1 / 1]
 			pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x562b20; // [100 ] [7 / 7]
@@ -969,7 +969,7 @@ void Globals::ReAddressingLocas()
 			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0x60e50; // [25 ] [2 / 8]
 			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0xb41f0; // [75 ] [6 / 8]
 			pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0xc0620; // [100 ] [3 / 3]
-			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0xB60F0;
+			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0xB5ED0;
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0xb5f90; // [50 ] [1 / 2]
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x2c2bb0; // [50 ] [1 / 2]
 			pCPythonPlayerGetMainCharacterIndex = Globals::hEntryBaseAddress + 0xb5410; // [100 ] [2 / 2]
