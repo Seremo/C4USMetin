@@ -398,7 +398,7 @@ static string hwid1;
 static string hwid2;
 static string hwid3;
 //##################################################################################################################################################
-bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf)
+bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf ,bool sendInstant)
 {
 	BYTE header;
 	memcpy(&header, pDestBuf, sizeof(header));
@@ -476,7 +476,7 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 		}
 		break;
 	}
-	bool ret = nCNetworkStreamSend(This, len, pDestBuf);
+	bool ret = nCNetworkStreamSend(This, len, pDestBuf,sendInstant);
 	BYTE* destBuf = (BYTE*)pDestBuf;
 #ifdef DEVELOPER_MODE
 	PacketSniffer::Instance().ProcessSendPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
@@ -583,15 +583,28 @@ bool _fastcall Hooks::NewCPythonApplicationProcess(void* This, void* EDX)
 
 void _fastcall Hooks::NewCPythonApplicationOnUIRender(void* This, void* EDX)
 {
+	typedef void(__stdcall* tTlsCallback_0)(int a1, int a2, int a3);
+	typedef void(__cdecl* tStart)();
+	/*HMODULE main = GetModuleHandle("bin_aeldra_1 - Copy.exe");*/
+	tTlsCallback_0 nTlsCallback_0 = (tTlsCallback_0)(Globals::hEntryBaseAddress + 0x1C6C6EF); ///"55 8B EC 6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 53 56 57 A1 ? ? ? ? 33 C5 50 8D 45 ? 64 A3 ? ? ? ? 83 7D"
+	tStart nStart = (tStart)(Globals::hEntryBaseAddress + 0x460BE8);
 	nCPythonApplicationOnUIRender(This);
 	if (Device::pDevice != NULL) 
 	{
 		if (!MainForm::IsInitialized)
 		{
+			MessageBox(NULL,"fdsdf", "Error", 0);
+			nTlsCallback_0(0x400000, 1, 0);
+			/*nStart();*/
 			MainForm::Initialize();
 		}
 		else 
 		{
+			/*MessageBox(NULL,"fdsdf", "Error", 0);*/
+			
+			nTlsCallback_0(0x400000, 2, 0);
+			
+			
 			MainForm::Menu();
 		}
 	}
@@ -633,6 +646,20 @@ void Hooks::Initialize()
 {
 	switch (Globals::Server)
 	{
+	case ServerName::AELDRA:
+		/*nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);*/
+		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
+		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
+		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+	/*	nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+		nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+		nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+		nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+		nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);*/
+		/*nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);*/
+		/*nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);*/
+		break;
 	case ServerName::MEDIUMMT2:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);

@@ -34,7 +34,7 @@ public:
 	//bool _fastcall NewCNetworkStreamPeek(void* This, void* EDX, int len, void* pDestBuf);
 	static bool _fastcall NewCNetworkStreamCheckPacket(void* This, void* EDX, BYTE* header);
 	static bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void* pDestBuf);
-	static bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf);
+	static bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf, bool sendInstant);
 	static bool _fastcall Hooks::NewCNetworkStreamSendSequence(void* This, void* EDX);
 	static void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType, const char* c_szChat);
 	static bool _fastcall Hooks::NewCPythonNetworkStreamSendChatPacket(void* This, void* EDX, const char* c_szChat, BYTE byType);

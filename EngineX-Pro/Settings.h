@@ -836,8 +836,8 @@ int Settings::BoostSpeed2 = 1;
 int Settings::BoostSpeed3 = 47;
 //render
 ImVec4 Settings::renderwh_color = ImColor(255, 0, 0, 255);
-bool Settings::renderwh = true;
-bool Settings::renderfarmbot = true;
+bool Settings::renderwh = false;
+bool Settings::renderfarmbot = false;
 //
 ImVec4 Settings::monster_color = ImVec4(255, 0, 0, 255);
 ImVec4 Settings::boss_color = ImColor(255, 64, 0);
