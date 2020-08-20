@@ -323,7 +323,21 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSend(int len, void* pSrcBuf)
 	{
-		return Globals::CNetworkStreamSend((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf,0);
+		switch (Globals::Server)
+		{
+			case ServerName::AELDRA:
+			{
+				typedef bool(__thiscall* NetworkStreamSend)(void* This, int len, void* pDestBuf, bool sendInstant);
+				NetworkStreamSend Send = *(NetworkStreamSend*)Globals::pCNetworkStreamSend;
+				return Send((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf, 0);
+				break;
+			}
+			default:
+			{
+				return Globals::CNetworkStreamSend((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf);
+				break;
+			}
+		}
 	}
 	//#################################################################################################################################
 	/*static bool NetworkStreamPeek(int nLen, void* pvBuf)

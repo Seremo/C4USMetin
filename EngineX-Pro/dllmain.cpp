@@ -25,27 +25,6 @@ __declspec(dllexport) void __cdecl ImportAttach(void)
 {
 
 }
-typedef HMODULE(__stdcall* tLoadLibraryA)(LPCSTR lpLibFileName);
-tLoadLibraryA nLoadLibraryA;
-HMODULE __stdcall NewLoadLibraryA(LPCSTR lpLibFileName)
-{
-	string d = lpLibFileName;
-	if (d == "htrap2/HackTrap.dll")
-	{
-		DWORD d = (DWORD)_ReturnAddress();
-		MessageBox(NULL, to_string(d).c_str(), "Error", 0);
-		return (HMODULE)1;
-		/*return NULL;*/
-	}
-	if (d == "htrap/HackTrap.dll")
-	{
-		DWORD d = (DWORD)_ReturnAddress();
-		MessageBox(NULL, to_string(d).c_str(), "Error2", 0);
-		return (HMODULE)1;
-		/*return NULL;*/
-	}
-	return nLoadLibraryA(lpLibFileName);
-}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
@@ -53,46 +32,24 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-	
-	
-		FARPROC f2 = NULL;
-		HMODULE kernel32Module = GetModuleHandle("KERNEL32.dll");
-		
-		f2 = GetProcAddress(kernel32Module, "LoadLibraryA");
-		nLoadLibraryA = (tLoadLibraryA)DetourFunction((PBYTE)f2, (PBYTE)NewLoadLibraryA);
-
-
-		/*CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DLLAction, NULL, 0, NULL);*/
-		
-	/*	MainCore::Crack();*/
-	/*	MessageBox(NULL, "Cheat Wrong Version", "Error", 0);*/
+		/*CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DLLAction, NULL, 0, NULL);*/	
+		/*	MainCore::Crack();*/
 #ifdef _DEBUG
-		/*if (!MainCore::CheckMembers())
+		if (!MainCore::CheckMembers())
 		{
 			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
 			exit(0);
-		}*/
+		}
 #endif	
 #ifdef DEVELOPER_MODE
-		/*if (!MainCore::CheckMembers())
+		if (!MainCore::CheckMembers())
 		{
 			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
 			exit(0);
-		}*/
-	/*	HMODULE a = GetModuleHandle("HackTrap.dll");
-		BOOL b =FreeLibrary(a);*/
-		/*AllocConsole();
-		freopen("CONOUT$", "w", stdout);
-		std::cout << "Debug Console" << std::endl;
-		//*///MessageBox(NULL, "Break Point", "BP", 0);
+		}
 #endif
-	/*	Globals::hModule = hModule;*/
-		
-
-		/*MessageBox(NULL, "Break Point", "BP", 0)*/;
-
-		/*MainCore::Initialize();*/
-
+		Globals::hModule = hModule;
+		//MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
 		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);
 
 	}

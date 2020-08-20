@@ -398,7 +398,7 @@ static string hwid1;
 static string hwid2;
 static string hwid3;
 //##################################################################################################################################################
-bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf ,bool sendInstant)
+bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf)
 {
 	BYTE header;
 	memcpy(&header, pDestBuf, sizeof(header));
@@ -476,7 +476,7 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 		}
 		break;
 	}
-	bool ret = nCNetworkStreamSend(This, len, pDestBuf,sendInstant);
+	bool ret = nCNetworkStreamSend(This, len, pDestBuf);
 	BYTE* destBuf = (BYTE*)pDestBuf;
 #ifdef DEVELOPER_MODE
 	PacketSniffer::Instance().ProcessSendPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
@@ -528,16 +528,16 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 	{
 		Fish::Instance().ParseMessage(c_szChat);
 	}
-#ifdef DEVELOPER_MODE
-	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
-		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
-		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
-		string Text3 = Text2 + "\n";
-		std::ofstream outfile;
-		outfile.open("nicki.txt", std::ios_base::app);
-		outfile << Text3;
-	}
-#endif
+//#ifdef DEVELOPER_MODE
+//	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
+//		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
+//		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
+//		string Text3 = Text2 + "\n";
+//		std::ofstream outfile;
+//		outfile.open("nicki.txt", std::ios_base::app);
+//		outfile << Text3;
+//	}
+//#endif
 
 	nCPythonChatAppendChat(This, iType, c_szChat);
 }
@@ -583,32 +583,20 @@ bool _fastcall Hooks::NewCPythonApplicationProcess(void* This, void* EDX)
 
 void _fastcall Hooks::NewCPythonApplicationOnUIRender(void* This, void* EDX)
 {
-	typedef void(__stdcall* tTlsCallback_0)(int a1, int a2, int a3);
-	typedef void(__cdecl* tStart)();
-	/*HMODULE main = GetModuleHandle("bin_aeldra_1 - Copy.exe");*/
-	tTlsCallback_0 nTlsCallback_0 = (tTlsCallback_0)(Globals::hEntryBaseAddress + 0x1C6C6EF); ///"55 8B EC 6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 53 56 57 A1 ? ? ? ? 33 C5 50 8D 45 ? 64 A3 ? ? ? ? 83 7D"
-	tStart nStart = (tStart)(Globals::hEntryBaseAddress + 0x460BE8);
 	nCPythonApplicationOnUIRender(This);
 	if (Device::pDevice != NULL) 
 	{
 		if (!MainForm::IsInitialized)
 		{
-			MessageBox(NULL,"fdsdf", "Error", 0);
-			nTlsCallback_0(0x400000, 1, 0);
-			/*nStart();*/
 			MainForm::Initialize();
 		}
 		else 
 		{
-			/*MessageBox(NULL,"fdsdf", "Error", 0);*/
-			
-			nTlsCallback_0(0x400000, 2, 0);
-			
-			
 			MainForm::Menu();
 		}
 	}
 }
+
 Globals::tCPythonNetworkStreamSendCharacterStatePacket nCPythonNetworkStreamSendCharacterStatePacket;
 bool _fastcall NewCPythonNetworkStreamSendCharacterStatePacket(void* This, void* EDX, const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg /*,BYTE unk*/)
 {
@@ -649,7 +637,6 @@ void Hooks::Initialize()
 	case ServerName::AELDRA:
 		/*nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);*/
 		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
-		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
 		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
 		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 	/*	nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
