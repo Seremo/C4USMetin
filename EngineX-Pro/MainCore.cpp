@@ -36,7 +36,10 @@ bool MainCore::CheckMembers()
 ///##################################################################################################################
  void MainCore::Initialize()
  {
-	/* Sleep(2000);*/
+	/* HMODULE a = GetModuleHandle("HackTrap.dll");
+	 BOOL b = FreeLibrary(a);*/
+	 Sleep(2000);
+	 	
 	 Globals::ReAddressingLocas();
 	 Globals::ReDeclarationLocals();
 

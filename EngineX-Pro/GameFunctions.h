@@ -323,7 +323,7 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSend(int len, void* pSrcBuf)
 	{
-		return Globals::CNetworkStreamSend((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf);
+		return Globals::CNetworkStreamSend((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf,0);
 	}
 	//#################################################################################################################################
 	/*static bool NetworkStreamPeek(int nLen, void* pvBuf)

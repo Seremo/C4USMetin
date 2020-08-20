@@ -53,6 +53,7 @@ enum ServerName
 	VALIUM,
 	SG2,
 	VEDNAR,
+	AELDRA
 };
 
 //#define METINPL
