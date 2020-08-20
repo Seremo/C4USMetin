@@ -56,12 +56,8 @@ enum ServerName
 	AELDRA
 };
 
-//#define METINPL
-//#define MEDIUM
 
-#ifdef MEDIUM
-#define DX9
-#endif
+//#define DX9
 
 #define VERSION_ELITE
 //#define VERSION_PUBLIC

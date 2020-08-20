@@ -92,5 +92,4 @@ void  MainCore::UpdateLoop()
 			itor->second.second->OnUpdate();
 		}
 	}
-
 }
