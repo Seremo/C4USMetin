@@ -350,6 +350,10 @@ public:
 		ImGui::RadioButton("Standard", &Settings::MiniMHWaitHackOneTarget, 0);
 		ImGui::SameLine();
 		ImGui::RadioButton("Target", &Settings::MiniMHWaitHackOneTarget, 1);
+		ImGui::SameLine();
+#ifdef DEVELOPER_MODE
+		ImGui::RadioButton("Standard+", &Settings::MiniMHWaitHackOneTarget, 2);
+#endif
 		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MiniMHWaitHackTime, 5, 100);
 		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MiniMHWaitHackDistanceValue, 100, 1000);
@@ -614,62 +618,119 @@ private:
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
-#ifdef DEVELOPER_MODE
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
-#else
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue)
-#endif
-			if (objectList.size() > 0)
+		if (objectList.size() > 0)
+		{
+			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
 			{
-				for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+				DWORD vid = itor->first;
+
+				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
 				{
-					DWORD vid = itor->first;
-
-					if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
-					{
-						GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
-						Main::lastWaitHackSkillDelay = GetTickCount();
-					}
-					GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
-					GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-					if (Settings::MAIN_WAITHACK_RANGE)
-					{
-						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
-						int i = 0;
-						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-						{
-							bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
-							if (!InDistance)
-							{
-								GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-							}
-							i++;
-						}
-					}
-					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-					if (Settings::MAIN_WAITHACK_RANGE)
-					{
-						GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
-						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
-						int i = 0;
-						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-						{
-							bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
-							if (!InDistance)
-							{
-								GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-							}
-							i++;
-						}
-					}
-
+					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
+					Main::lastWaitHackSkillDelay = GetTickCount();
 				}
-				if (!Settings::MAIN_WAITHACK_RANGE)
+				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
+				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
+				if (Settings::MAIN_WAITHACK_RANGE)
+				{
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
+					int i = 0;
+					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					{
+						bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
+						if (!InDistance)
+						{
+							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+						}
+						i++;
+					}
+				}
+				GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
+				if (Settings::MAIN_WAITHACK_RANGE)
 				{
 					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
+					int i = 0;
+					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					{
+						bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
+						if (!InDistance)
+						{
+							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+						}
+						i++;
+					}
 				}
-			}
 
+			}
+			if (!Settings::MAIN_WAITHACK_RANGE)
+			{
+				GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+			}
+		}
+	}
+
+	void SkillWHx50()
+	{
+		D3DVECTOR oldPosition;
+		D3DVECTOR newPosition;
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
+		if (objectList.size() > 0)
+		{
+			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+			{
+				DWORD vid = itor->first;
+				DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
+				{
+					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
+					Main::lastWaitHackSkillDelay = GetTickCount();
+				}
+				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
+				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
+				if (Settings::MAIN_WAITHACK_RANGE)
+				{
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
+					int i = 0;
+					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					{
+						bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
+						if (!InDistance)
+						{
+							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+						}
+						i++;
+					}
+				}
+				if (type == TYPE_ENEMY && !GameFunctionsCustom::InstanceIsBoss(itor->second))
+				{
+					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
+					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+				}
+				else {
+					for (int i = 0; i < 50; i++) {
+						GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ 0,0,0 });
+						GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+					}
+				}
+				if (Settings::MAIN_WAITHACK_RANGE)
+				{
+					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
+					int i = 0;
+					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					{
+						bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
+						if (!InDistance)
+						{
+							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+						}
+						i++;
+					}
+				}
+
+			}
+		}
 	}
 #endif
 	void Target()
@@ -737,7 +798,7 @@ private:
 			{
 				Target();
 			}
-			else
+			else if(Settings::MiniMHWaitHackOneTarget == 0)
 			{
 				switch (Settings::MiniMHWaitHackType)
 				{
@@ -754,6 +815,12 @@ private:
 #endif
 				}
 			}
+#ifdef DEVELOPER_MODE
+			else if (Settings::MiniMHWaitHackOneTarget == 2)
+			{
+				SkillWHx50();
+			}
+#endif
 			lastWaitHackEnable = GetTickCount();
 		}
 	}

@@ -6,6 +6,7 @@ private:
 	{
 		DT = 0,
 		ATYVA_DT = 1,
+		BARIA_175_0 = 2,
 	};
 public:
 	int Phase = 0;
@@ -15,7 +16,7 @@ public:
 	int Floor5Step = 0;
 	vector<D3DVECTOR> Floor5Positions;
 
-	void CheckRelog()
+	void CheckRelogDT()
 	{
 		if (GameFunctionsCustom::GetMapName() != "metin2_map_deviltower1")
 		{
@@ -98,6 +99,30 @@ public:
 		}
 	}
 
+	void Dungeon175Start(int i)
+	{
+		if (Phase == 0) {
+			if (GameFunctionsCustom::GetMapName() == "vulcan_cave") {
+				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
+				Phase = 1;
+			}
+			else {
+				DWORD DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20509);
+				if (!DemonTowerGuard)
+				{
+					Logger::Add(Logger::MAIN, true, Logger::WHITE, "Brak NPC!");
+					return;
+				}
+				GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(i);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				//Phase = 1;
+				Logger::Add(Logger::MAIN, true, Logger::WHITE, "Pietro 1!");
+			}
+		}
+	}
+
 	void OnStart()
 	{
 		Floor2Positions = {
@@ -121,6 +146,9 @@ public:
 		case DungeonType::ATYVA_DT:
 			AtyvaDemonTowerStart(1);
 			break;
+		case DungeonType::BARIA_175_0:
+			Dungeon175Start(0);
+			break;
 		}
 	}
 
@@ -132,7 +160,12 @@ public:
 
 	}
 
-	static void RestartDT()
+	static void Exit175()
+	{
+
+	}
+
+	static void Restart()
 	{
 		switch (Settings::DUNGEON_TYPE) {
 		case DungeonType::DT:
@@ -140,6 +173,10 @@ public:
 			break;
 		case DungeonType::ATYVA_DT:
 			MainDungs::Instance().DemonTowerStart(1);
+			break;
+		case DungeonType::BARIA_175_0:
+			MainDungs::Instance().Dungeon175Start(0);
+			Main::Instance().ResetSkillTimer();
 			break;
 		}
 	}
@@ -243,10 +280,89 @@ public:
 		}
 	}
 
+	void Update175()
+	{
+		if (GameFunctionsCustom::GetMapName() != "vulcan_cave")
+		{
+			if (Phase != 0) {
+				if (GameFunctionsCustom::PlayerIsInstance()) {
+					DWORD DemonTowerGuard = 0;
+					switch (Settings::DUNGEON_TYPE) {
+					case DungeonType::BARIA_175_0:
+						DemonTowerGuard = GameFunctionsCustom::GetCloseObjectByVnum(20509);
+						if (!DemonTowerGuard)
+						{
+							return;
+						}
+						GameFunctions::NetworkStreamSendOnClickPacket(DemonTowerGuard);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						break;
+					}
+				}
+			}
+			return;
+		}
+		D3DVECTOR CharPos;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &CharPos);
+		DWORD MetinZguby = GameFunctionsCustom::GetCloseObjectByVnum(8087);
+		if (MetinZguby)
+		{
+			Phase = 1;
+
+			D3DVECTOR MobPos;
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(MetinZguby), &MobPos);
+			if (!MathExtension::PointInCircle(CharPos, MobPos, 400))
+			{
+				Teleport(MobPos);
+			}	
+			return;
+		}
+		DWORD KrwistySmok = GameFunctionsCustom::GetCloseObjectByVnum(2496);
+		if (KrwistySmok)
+		{
+			Phase = 2;
+
+			D3DVECTOR MobPos;
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::CharacterManagerGetInstancePtr(KrwistySmok), &MobPos);
+			if (!MathExtension::PointInCircle(CharPos, MobPos, 400))
+			{
+				Teleport(MobPos);
+			}
+			return;
+		}
+		//Floors
+		switch (Phase)
+		{
+			case 1: {
+				break;
+			}
+			case 2: {
+				DWORD KrwistySmok = GameFunctionsCustom::GetCloseObjectByVnum(2496);
+				if (!KrwistySmok)
+				{
+					DWORD Pieczec = GameFunctionsCustom::GetCloseObjectByVnum(20081);
+					if (Pieczec)
+					{
+						GameFunctions::NetworkStreamSendOnClickPacket(Pieczec);
+						int GroundSize = GameFunctionsCustom::GetGroundItemList().size();
+						if (GroundSize == 0)
+						{
+							GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+							DelayActions::AppendBlock(false, 5000, &Restart);
+						}
+					}
+				}
+				break;
+			}
+		}
+	}
+
 	void UpdateDT()
 	{
 		//Check relog
-		CheckRelog();
+		CheckRelogDT();
 		//Check Coords
 		CheckCoords();
 		//Floors
@@ -374,7 +490,7 @@ public:
 						//	GameFunctions::NetworkStreamConnectGameServer(lastSlot);
 						//	Main::Instance().ResetSkillTimer();
 						//}
-						//DelayActions::AppendBlock(false, 5000, &RestartDT);
+						//DelayActions::AppendBlock(false, 5000, &Restart);
 					}
 				}
 				break;
@@ -405,6 +521,9 @@ public:
 				case DungeonType::ATYVA_DT:
 					UpdateDT();
 					break;
+				case DungeonType::BARIA_175_0:
+					Update175();
+					break;
 				}
 			}
 		}
@@ -418,7 +537,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DungBot", ImVec2(645, 110), true);
+		ImGui::BeginChild("DungBot", ImVec2(645, 210), true);
 		std::string PhaseText = "Phase:" + to_string(Phase);
 		ImGui::Text(PhaseText.c_str());
 		if (ImGui::Checkbox("On/Off", &Settings::DUNGEON_BOT)) {
@@ -433,6 +552,7 @@ public:
 		}
 		ImGui::RadioButton("DT", &Settings::DUNGEON_TYPE, 0);
 		ImGui::RadioButton("ATYVA DT", &Settings::DUNGEON_TYPE, 1);
+		ImGui::RadioButton("BARIA 175", &Settings::DUNGEON_TYPE, 2);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
