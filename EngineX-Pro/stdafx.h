@@ -168,4 +168,4 @@ typedef int                 Py_ssize_t;
 #include "Configuration.h"
 #include "HookCore.h"
 #include "MainCore.h"
-
+#include "Security.h"

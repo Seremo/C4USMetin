@@ -231,6 +231,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="CHANGE_LOG.h" />
+    <ClInclude Include="Security.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

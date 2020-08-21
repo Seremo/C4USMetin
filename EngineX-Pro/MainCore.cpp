@@ -31,11 +31,28 @@ bool MainCore::CheckMembers()
 	}
 	return false;
 }
+
+typedef BOOL(__stdcall* tIsDebuggerPresent)();
+typedef HMODULE(__stdcall* tLoadLibraryA)(LPCSTR lpLibFileName);
+
+tIsDebuggerPresent oIsDebuggerPresent;
+tLoadLibraryA oLoadLibrary;
+
+BOOL WINAPI mIsDebuggerPresent() {
+	MainCore::ConsoleOutput("[+] IsDebugger");
+	return false;
+}
  
+HMODULE WINAPI mLoadLibrary(LPCTSTR dllName) {
+	MainCore::ConsoleOutput(dllName);
+	return oLoadLibrary(dllName);
+}
+
 void MainCore::ConsoleOutput(const char* txt, ...)
 {
 #ifdef DEVELOPER_MODE
-	std::cout << txt << std::endl;
+	printf(txt);
+	printf("\n");
 #endif
 }
 ///##################################################################################################################
@@ -45,7 +62,11 @@ void MainCore::Initialize()
 	AllocConsole();
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONIN$", "r", stdin);
+	setbuf(stdout, NULL);
 #endif
+	Security::SaveOriginalNT();
+	oIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)mIsDebuggerPresent);
+	//oLoadLibrary = (tLoadLibraryA)DetourFunction((PBYTE)GetProcAddress(GetModuleHandle("KERNEL32.dll"), "LoadLibraryA"), (PBYTE)mLoadLibrary);
 	while (!Device::pDevice)
 	{
 		Globals::ReAddressingLocas();
@@ -53,6 +74,8 @@ void MainCore::Initialize()
 		Sleep(100);
 	}
 	ConsoleOutput("[+] Application detected.");
+	Sleep(2000);
+	Security::RestoreOriginalNT();
 	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
 	if (Globals::Server == ServerName::METINPL)
 	{
@@ -68,7 +91,6 @@ void MainCore::Initialize()
 		Settings::INVENTORY_PAGE_COUNT = 2;
 	}
 	Hooks::Initialize();
-	 
 	string title = "";
 	title += "Version ";
 	title += DLL_VERSION;
