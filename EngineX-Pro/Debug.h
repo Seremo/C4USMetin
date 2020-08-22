@@ -92,12 +92,12 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonItemInstance).c_str());
 		ImGui::Text("CItemManagerInstance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
-		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
-		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
+		//ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
+		//ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
 
 
 		
-		ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
+		//ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 
 	/*	if (GameFunctions::PlayerGetTargetVID())
 		{

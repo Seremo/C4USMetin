@@ -484,6 +484,29 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	return ret;
 }
 
+
+bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant)
+{
+	BYTE header;
+	memcpy(&header, pDestBuf, sizeof(header));
+
+	if (header == 0x02 && len == 6)
+	{
+		strncpy((char*)pDestBuf + 2, "\xA8", 1);
+	}
+	if (header == 0x0A && len > 150)
+	{
+		strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
+	}
+
+	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, 1);
+	BYTE* destBuf = (BYTE*)pDestBuf;
+#ifdef DEVELOPER_MODE
+	PacketSniffer::Instance().ProcessSendPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+#endif
+	return ret;
+}
+
 bool _fastcall Hooks::NewCNetworkStreamSendSequence(void* This, void* EDX)
 {
 	bool ret = nCNetworkStreamSendSequence(This);
@@ -637,6 +660,7 @@ void Hooks::Initialize()
 	case ServerName::AELDRA:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
+		nCNetworkStreamSendAeldra = (Globals::tCNetworkStreamSendAeldra)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSendAeldra);
 		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
 		//nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 	/*	nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);

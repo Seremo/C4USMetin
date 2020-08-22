@@ -587,6 +587,7 @@ void MainForm::ShowRadar()
 		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 255, 255));
 		int r, g, b;
 		auto m_kAliveInstMap = GameFunctionsCustom::GetObjectList(OBJECT_ALL);
+		//auto m_kAliveInstMap = map<DWORD, DWORD*>();
 		for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
 		{
 			DWORD* instance = itor->second;

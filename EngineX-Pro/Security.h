@@ -2,7 +2,7 @@
 class Security
 {
 private:
-	static char NtAllocateVirtualMemoryOriginal[6];
+	static BYTE NtAllocateVirtualMemoryOriginal[6];
 public:
 	static void SaveOriginalNT()
 	{
@@ -10,6 +10,11 @@ public:
 		if (NtAllocateVirtualMemory)
 		{
 			memcpy(NtAllocateVirtualMemoryOriginal, NtAllocateVirtualMemory, 6);
+			for (int i = 0; i < 6; i++)
+			{
+				printf("[+] Byte: 0x%x", NtAllocateVirtualMemoryOriginal[i]);
+				printf("\n");
+			}
 		}
 	}
 
@@ -46,4 +51,4 @@ public:
 	}
 };
 
-char Security::NtAllocateVirtualMemoryOriginal[6] = "";
+BYTE Security::NtAllocateVirtualMemoryOriginal[6] = "";

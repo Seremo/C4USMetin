@@ -3,7 +3,6 @@
 #include "tlhelp32.h"
 //#include "C:\Program Files\VMProtect Lite\Include\C\VMProtectSDK.h"
 
-
 LONG WINAPI Handler(EXCEPTION_POINTERS* pException)
 {
 	DWORD dwExceptionAddress = pException->ContextRecord->Eip;
@@ -21,9 +20,34 @@ LONG WINAPI Handler(EXCEPTION_POINTERS* pException)
 	system("pause");
 	return EXCEPTION_CONTINUE_SEARCH;
 }
-__declspec(dllexport) void __cdecl ImportAttach(void)
-{
 
+typedef BOOL(__stdcall* tIsDebuggerPresent)();
+typedef HMODULE(__stdcall* tLoadLibraryA)(LPCSTR lpLibFileName);
+
+tIsDebuggerPresent oIsDebuggerPresent;
+tLoadLibraryA oLoadLibrary;
+
+BOOL WINAPI mIsDebuggerPresent() {
+	MainCore::ConsoleOutput("[+] IsDebugger");
+	return false;
+}
+
+HMODULE WINAPI mLoadLibrary(LPCTSTR dllName) {
+	string d = dllName;
+	MainCore::ConsoleOutput(d.c_str());
+	if (d == "htrap3/HackTrap.dll")
+	{
+		return (HMODULE)1;
+	}
+	if (d == "htrap2/HackTrap.dll")
+	{
+		return (HMODULE)1;
+	}
+	if (d == "htrap/HackTrap.dll")
+	{
+		return (HMODULE)1;
+	}
+	return oLoadLibrary(dllName);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
@@ -32,22 +56,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		/*CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)DLLAction, NULL, 0, NULL);*/	
-		/*	MainCore::Crack();*/
-#ifdef _DEBUG
-		if (!MainCore::CheckMembers())
-		{
-			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
-			exit(0);
-		}
-#endif	
 #ifdef DEVELOPER_MODE
-		if (!MainCore::CheckMembers())
-		{
-			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
-			exit(0);
-		}
+		AllocConsole();
+		freopen("CONOUT$", "w", stdout);
 #endif
+		oLoadLibrary = (tLoadLibraryA)DetourFunction((PBYTE)GetProcAddress(GetModuleHandle("KERNEL32.dll"), "LoadLibraryA"), (PBYTE)mLoadLibrary);
+		oIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)mIsDebuggerPresent);
 		Globals::hModule = hModule;
 		//MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
 		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);

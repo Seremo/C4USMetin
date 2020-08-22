@@ -8,6 +8,7 @@ public:
 	static Globals::tCNetworkStreamRecv nCNetworkStreamRecv;
 	//static Globals::tCNetworkStreamPeek nCNetworkStreamPeek;
 	static Globals::tCNetworkStreamSend nCNetworkStreamSend;
+	static Globals::tCNetworkStreamSendAeldra nCNetworkStreamSendAeldra;
 	static Globals::tCNetworkStreamCheckPacket	nCNetworkStreamCheckPacket;
 	static Globals::tCPythonChatAppendChat nCPythonChatAppendChat;
 	static Globals::tCPythonNetworkStreamSendChatPacket nCPythonNetworkStreamSendChatPacket;
@@ -34,7 +35,10 @@ public:
 	//bool _fastcall NewCNetworkStreamPeek(void* This, void* EDX, int len, void* pDestBuf);
 	static bool _fastcall NewCNetworkStreamCheckPacket(void* This, void* EDX, BYTE* header);
 	static bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void* pDestBuf);
+
 	static bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf);
+	static bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant);
+
 	static bool _fastcall Hooks::NewCNetworkStreamSendSequence(void* This, void* EDX);
 	static void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType, const char* c_szChat);
 	static bool _fastcall Hooks::NewCPythonNetworkStreamSendChatPacket(void* This, void* EDX, const char* c_szChat, BYTE byType);
@@ -52,6 +56,7 @@ Globals::tCNetworkStreamSendSequence Hooks::nCNetworkStreamSendSequence = NULL;
 Globals::tCNetworkStreamRecv Hooks::nCNetworkStreamRecv = NULL;
 //Globals::tCNetworkStreamPeek Hooks::nCNetworkStreamPeek = NULL;
 Globals::tCNetworkStreamSend Hooks::nCNetworkStreamSend = NULL;
+Globals::tCNetworkStreamSendAeldra Hooks::nCNetworkStreamSendAeldra = NULL;
 Globals::tCNetworkStreamCheckPacket Hooks::nCNetworkStreamCheckPacket = NULL;
 Globals::tCPythonChatAppendChat Hooks::nCPythonChatAppendChat = NULL;
 Globals::tCPhysicsObjectIncreaseExternalForce Hooks::nCPhysicsObjectIncreaseExternalForce = NULL;

@@ -638,7 +638,19 @@ public:
 		}
 		else
 		{
-			TCharacterInstanceMap m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
+			TCharacterInstanceMap m_kAliveInstMap;
+			switch (Globals::Server)
+			{
+				case ServerName::AELDRA:
+				{
+					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 44) + 4));
+					break;
+				}
+				default: {
+					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
+					break;
+				}
+			}
 			for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
 			{
 				DWORD iIndex = itor->first;
