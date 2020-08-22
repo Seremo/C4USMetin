@@ -956,7 +956,7 @@ void Globals::ReAddressingLocas()
 			pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0x2ceed0; // [100 ] [2 / 2]
 			pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x2e94e0; // [100 ] [1 / 1]
 			pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x2e97c0; // [100 ] [1 / 1]
-			//pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + (null); 
+			pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0x303920;
 			//pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + (null); 
 			pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0x304620; // [100 ] [3 / 3]
 			pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x3047a0; // [100 ] [3 / 3]
@@ -972,7 +972,7 @@ void Globals::ReAddressingLocas()
 			pCPythonNetworkStreamSendItemUsePacket = Globals::hEntryBaseAddress + 0x30bc20; // [100 ] [1 / 1]
 			pCPythonNetworkStreamSendRefinePacket = Globals::hEntryBaseAddress + 0x3067c0; // [100 ] [1 / 1]
 			pCPythonNetworkStreamSendScriptAnswerPacket = Globals::hEntryBaseAddress + 0x306c40; // [100 ] [1 / 1]
-			//pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + (null); 
+			pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + 0x306EC0;
 			pCPythonNetworkStreamSendShopBuyPacket = Globals::hEntryBaseAddress + 0x30c560; // [100 ] [2 / 2]
 			pCPythonNetworkStreamSendShopEndPacket = Globals::hEntryBaseAddress + 0x30c630; // [100 ] [2 / 2]
 			pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0x30c760; // [100 ] [1 / 1]
@@ -981,7 +981,6 @@ void Globals::ReAddressingLocas()
 			pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0x3072c0; // [100 ] [1 / 1]
 			pCPythonNetworkStreamServerCommand = Globals::hEntryBaseAddress + 0x2ea130; // [100 ] [1 / 1]
 			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0x30f5c0; // [100 ] [2 / 2]
-			//pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0x289b50; // [100 ] [1 / 1]
 			pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0x320160; // [100 ] [1 / 1]
 			//pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + (null); 
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x313400; // [100 ] [2 / 2]
