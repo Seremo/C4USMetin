@@ -221,7 +221,12 @@ public:
 			{
 				typedef DWORD(__thiscall* GetItemIndex)(void* This, TItemPos Cell, char unk);
 				GetItemIndex ItemUse = *(GetItemIndex*)Globals::pCPythonPlayerGetItemIndex;
-				ItemUse((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
+				return ItemUse((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
+				break;
+			}
+			case ServerName::AELDRA:
+			{
+				return 0;
 				break;
 			}
 			default:

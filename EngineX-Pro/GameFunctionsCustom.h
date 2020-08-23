@@ -843,7 +843,20 @@ public:
 		}
 		else
 		{
-			TItemMap m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
+			TItemMap m_ItemMap;
+			switch (Globals::Server)
+			{
+				case ServerName::AELDRA:
+				{
+					m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
+					break;
+				}
+				default:
+				{
+					m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
+					break;
+				}
+			}
 			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
 			{
 				switch (Globals::Server)
@@ -868,6 +881,9 @@ public:
 					break;
 				case ServerName::VEDNAR:
 					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+					break;
+				case ServerName::AELDRA:
+					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 280));
 					break;
 				default:
 					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
@@ -1333,29 +1349,35 @@ public:
 
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
 	{
-		TPacketCGAttack kPacketAtk;
-		switch (Globals::Server)
+		if (Globals::Server == ServerName::AELDRA)
 		{
-		case ServerName::SAMIAS2:
-			kPacketAtk.header = 0x3A;
-			break;
-		case ServerName::METINPL:
-			kPacketAtk.header = 0x52;
-			break;
-		default:
-			kPacketAtk.header = HEADER_CG_ATTACK;
-			break;
+			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
 		}
-		kPacketAtk.bType = uMotAttack;
-		kPacketAtk.dwVictimVID = dwVIDVictim;
+		else {
+			TPacketCGAttack kPacketAtk;
+			switch (Globals::Server)
+			{
+			case ServerName::SAMIAS2:
+				kPacketAtk.header = 0x3A;
+				break;
+			case ServerName::METINPL:
+				kPacketAtk.header = 0x52;
+				break;
+			default:
+				kPacketAtk.header = HEADER_CG_ATTACK;
+				break;
+			}
+			kPacketAtk.bType = uMotAttack;
+			kPacketAtk.dwVictimVID = dwVIDVictim;
 
-		if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
-		{
+			if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
+			{
 
-			return false;
+				return false;
+			}
+
+			return GameFunctions::NetworkStreamSendSequence();
 		}
-		
-		return GameFunctions::NetworkStreamSendSequence();
 	}
 
 	static string GetMapName()

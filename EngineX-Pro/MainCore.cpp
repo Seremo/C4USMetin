@@ -1,9 +1,17 @@
 #include "stdafx.h"
 #include "MainCore.h"
 
- void MainCore::Crack()
+void MainCore::Crack()
 {
-
+	switch (Globals::Server)
+	{
+		case ServerName::AELDRA:
+		{
+			DWORD addr1 = Globals::pCPythonNetworkStreamSendAttackPacket + 0x29;
+			MemoryExtension::MemSet(addr1, 0x90, 16);
+			break;
+		}
+	}
 }
 ///##################################################################################################################
 bool MainCore::CheckMembers()
@@ -42,7 +50,7 @@ void MainCore::ConsoleOutput(const char* txt, ...)
 ///##################################################################################################################
 void MainCore::Initialize()
 {
-	Security::SaveOriginalNT();
+	//Security::SaveOriginalNT();
 #ifdef _DEBUG
 	if (!MainCore::CheckMembers())
 	{
@@ -64,7 +72,8 @@ void MainCore::Initialize()
 		Sleep(100);
 	}
 	ConsoleOutput("[+] Application detected.");
-	Security::RestoreOriginalNT();
+	MainCore::Crack();
+	//Security::RestoreOriginalNT();
 	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
 	if (Globals::Server == ServerName::METINPL)
 	{
