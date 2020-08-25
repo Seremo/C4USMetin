@@ -492,11 +492,11 @@ bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len
 
 	if (header == 0x02 && len == 6)
 	{
-		strncpy((char*)pDestBuf + 2, "\xA8", 1);
+		strncpy((char*)pDestBuf + 2, "\xA7", 1);
 	}
 	if (header == 0x0A && len > 150)
 	{
-		strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
+		strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
 	}
 
 	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, 1);

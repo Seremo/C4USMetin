@@ -50,15 +50,10 @@ void MainCore::ConsoleOutput(const char* txt, ...)
 ///##################################################################################################################
 void MainCore::Initialize()
 {
+	
 	//Security::SaveOriginalNT();
-#ifdef _DEBUG
-	if (!MainCore::CheckMembers())
-	{
-		MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
-		exit(0);
-	}
-#endif	
-#ifdef DEVELOPER_MODE
+
+#if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{
 		MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
