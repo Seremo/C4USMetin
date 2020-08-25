@@ -982,12 +982,12 @@ void Globals::ReAddressingLocas()
 			pCPythonNetworkStreamServerCommand = Globals::hEntryBaseAddress + 0x2ea130; // [100 ] [1 / 1]
 			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0x30f5c0; // [100 ] [2 / 2]
 			pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0x320160; // [100 ] [1 / 1]
-			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0x314aa0;
+			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0x313380;
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x313400; // [100 ] [2 / 2]
 			pCPythonPlayerGetMainCharacterIndex = Globals::hEntryBaseAddress + 0x3134f0; // [100 ] [1 / 1]
 			pCPythonPlayerGetName = Globals::hEntryBaseAddress + 0x313500; // [100 ] [2 / 2]
 			pCPythonPlayerGetRace = Globals::hEntryBaseAddress + 0x3135c0; // [100 ] [2 / 2]
-			pCPythonPlayerGetStatus = Globals::hEntryBaseAddress + 0x3135F0;
+			pCPythonPlayerGetStatus = Globals::hEntryBaseAddress + 0x3137D0;
 			//pCPythonPlayerGetTargetVID = Globals::hEntryBaseAddress + 0x317250; // [100 ] [1 / 1]
 			pCPythonPlayerGetTargetVID = Globals::hEntryBaseAddress + 0x317f50; // [100 ] [1 / 1]
 			pCPythonPlayerIsSkillActive = Globals::hEntryBaseAddress + 0x313cb0; // [100 ] [2 / 2]

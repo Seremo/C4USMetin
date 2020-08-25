@@ -158,7 +158,7 @@ public:
 						
 						
 						const char* name = GameFunctions::InstanceBaseGetNameString(itor->second);
-						DelayActions::Append((Settings::SPAM_WHISPER_TIME * targetNumber), &GameFunctions::NetworkStreamSendWhisperStringPacket, name, StringExtension::UTF8_To_ASCII(text));
+						DelayActions::Append((Settings::SPAM_WHISPER_TIME * targetNumber), &GameFunctions::NetworkStreamSendWhisperPacket, name, StringExtension::UTF8_To_ASCII(text));
 						targetNumber++;
 
 					}

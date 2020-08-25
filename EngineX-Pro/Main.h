@@ -832,8 +832,19 @@ private:
 
 		if (Settings::MiniMHNOP)
 		{
-
-			GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 16, true);
+			switch (Globals::Server)
+			{
+				case ServerName::AELDRA:
+				{
+					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 40, true);
+					break;
+				}
+				default:
+				{
+					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 16, true);
+					break;
+				}
+			}		
 		}
 
 		if (((GetTickCount() - lastMiniMHRotation) > (MiscExtension::RandomInt(500, 8000))) && Settings::MiniMHRotation)

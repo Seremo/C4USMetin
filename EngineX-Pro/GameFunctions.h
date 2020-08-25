@@ -177,14 +177,23 @@ public:
 		return Globals::CPythonNetworkStreamSendSpecial((void*)Globals::iCPythonNetworkStreamInstance, nLen, pvBuf);
 	}
 	//#################################################################################################################################
-	static bool NetworkStreamSendWhisperPacket(const char* name, const char* c_szChat)
+	static bool NetworkStreamSendWhisperPacket(const char* name, string s_szChat)
 	{
-		return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, c_szChat);
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendWhisperStringPacket(const char* name, string s_szChat)
-	{
-		return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str());
+		switch (Globals::Server)
+		{
+			case ServerName::AELDRA:
+			{
+				typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, char unk);
+				SendWhisperPacket SendWhisper = *(SendWhisperPacket*)Globals::pCPythonNetworkStreamSendWhisperPacket;
+				return SendWhisper((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str(), '\0');
+				break;
+			}
+			default:
+			{
+				return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str());
+				break;
+			}
+		}
 	}
 	//#################################################################################################################################
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
@@ -222,11 +231,6 @@ public:
 				typedef DWORD(__thiscall* GetItemIndex)(void* This, TItemPos Cell, char unk);
 				GetItemIndex ItemUse = *(GetItemIndex*)Globals::pCPythonPlayerGetItemIndex;
 				return ItemUse((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
-				break;
-			}
-			case ServerName::AELDRA:
-			{
-				return 0;
 				break;
 			}
 			default:

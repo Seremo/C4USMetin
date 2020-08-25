@@ -94,8 +94,12 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
 
 		ImGui::Text("GetItemIndex  "); ImGui::SameLine();
-		DWORD addres = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance) + 68);
+		DWORD addres = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance + 4) + 68);
 		ImGui::Text(StringExtension::DWORDToHexString(addres - Globals::hEntryBaseAddress).c_str());
+		ImGui::Text("GetStatus  "); ImGui::SameLine();
+		DWORD addres2 = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance) + 16);
+		ImGui::Text(StringExtension::DWORDToHexString(addres2 - Globals::hEntryBaseAddress).c_str());
+
 		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
 		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
 
