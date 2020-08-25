@@ -41,7 +41,7 @@ public:
 			case ServerName::BARIA:
 			{
 				typedef bool(__thiscall* SendItemUsePacket)(void* This, TItemPos pos, char unk);
-				SendItemUsePacket ItemUse = *(SendItemUsePacket*)Globals::pCPythonNetworkStreamSendItemUsePacket;
+				SendItemUsePacket ItemUse = (SendItemUsePacket)Globals::pCPythonNetworkStreamSendItemUsePacket;
 				ItemUse((void*)Globals::iCPythonNetworkStreamInstance, cell, '\0');
 				break;
 			}
@@ -65,7 +65,28 @@ public:
 	//#################################################################################################################################
 	static bool NetworkStreamSendRefinePacket(BYTE pos, BYTE type)
 	{
-		return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type);
+		switch (Globals::Server)
+		{
+			case ServerName::AELDRA:
+			{
+				try
+				{
+					typedef bool(__thiscall* SendRefinePacket)(void* This, BYTE byPos, BYTE byType, bool unk);
+					SendRefinePacket sendRefine = (SendRefinePacket)Globals::pCPythonNetworkStreamSendRefinePacket;
+					return sendRefine((void*)Globals::iCPythonNetworkStreamInstance, pos, type, 0);
+				}
+				catch (...)
+				{
+					return false;
+				}
+				break;
+			}
+			default:
+			{
+				return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type);
+				break;
+			}
+		}
 	}
 	//#################################################################################################################################
 	static void PlayerClickSkillSlot(int skillIndex)
@@ -183,9 +204,16 @@ public:
 		{
 			case ServerName::AELDRA:
 			{
-				typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, char unk);
-				SendWhisperPacket SendWhisper = *(SendWhisperPacket*)Globals::pCPythonNetworkStreamSendWhisperPacket;
-				return SendWhisper((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str(), '\0');
+				try 
+				{
+					typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, bool unk);
+					SendWhisperPacket sendWhisper = (SendWhisperPacket)Globals::pCPythonNetworkStreamSendWhisperPacket;
+					return sendWhisper((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str(), false);
+				}
+				catch(...)
+				{
+					return false;
+				}
 				break;
 			}
 			default:
@@ -229,7 +257,7 @@ public:
 			case ServerName::BARIA:
 			{
 				typedef DWORD(__thiscall* GetItemIndex)(void* This, TItemPos Cell, char unk);
-				GetItemIndex ItemUse = *(GetItemIndex*)Globals::pCPythonPlayerGetItemIndex;
+				GetItemIndex ItemUse = (GetItemIndex)Globals::pCPythonPlayerGetItemIndex;
 				return ItemUse((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
 				break;
 			}
@@ -293,7 +321,7 @@ public:
 			case ServerName::METINPL:
 			{
 				typedef bool(__thiscall* SendShopSellPacketNew)(void* This, BYTE bySlot, BYTE byCount, BYTE unk);
-				SendShopSellPacketNew SendShopSell = *(SendShopSellPacketNew*)Globals::pCPythonNetworkStreamSendShopSellPacketNew;
+				SendShopSellPacketNew SendShopSell = (SendShopSellPacketNew)Globals::pCPythonNetworkStreamSendShopSellPacketNew;
 				SendShopSell((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount, 1);
 				break;
 			}
@@ -337,7 +365,7 @@ public:
 			case ServerName::AELDRA:
 			{
 				typedef bool(__thiscall* NetworkStreamSend)(void* This, int len, void* pDestBuf, bool sendInstant);
-				NetworkStreamSend Send = *(NetworkStreamSend*)Globals::pCNetworkStreamSend;
+				NetworkStreamSend Send = (NetworkStreamSend)Globals::pCNetworkStreamSend;
 				return Send((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf, 0);
 				break;
 			}
@@ -541,9 +569,7 @@ public:
 				return Globals::CInstanceBase__GetBackgroundHeight(x, y);
 				break;
 			}
-		}
-		
+		}	
 	}
-	
 };
 

@@ -316,8 +316,8 @@ public:
 		ImGui::Checkbox("Wallhack Terrain", &Settings::MainWallHackTerrain); ImGui::SameLine();
 
 
-		ImGui::Checkbox("NOK", &Settings::MiniMHNOK); ImGui::SameLine();
-		ImGui::Checkbox("NOP", &Settings::MiniMHNOP);
+		ImGui::Checkbox("Enemy AntiFly", &Settings::MiniMHNOK); ImGui::SameLine();
+		ImGui::Checkbox("Player AntiFly", &Settings::MiniMHNOP);
 		ImGui::EndChild();
 		ImGui::PopStyleVar(); /*ImGui::SameLine();*/
 

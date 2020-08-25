@@ -47,6 +47,20 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
 
+
+		if (ImGui::Button("test try"))
+		{
+			try
+			{
+				typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, char unk);
+				SendWhisperPacket SendWhisper = *(SendWhisperPacket*)0x45412412;
+				SendWhisper((void*)Globals::iCPythonNetworkStreamInstance, "xd", "xd", '\0');
+			}
+			catch (...)
+			{
+				printf("Something is wrong!");
+			}
+		}
 		if (ImGui::Button("Open Shop Search")) {
 			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244*4));
 			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialogCash", Globals::Py_BuildValue("()"));

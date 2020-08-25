@@ -50,12 +50,25 @@ HMODULE WINAPI mLoadLibrary(LPCTSTR dllName) {
 	return oLoadLibrary(dllName);
 }
 
+void mySEHtranslator(unsigned int exceptionCode, PEXCEPTION_POINTERS exceptionRecord)
+{
+	if (exceptionRecord->ExceptionRecord->ExceptionCode == EXCEPTION_ACCESS_VIOLATION)
+	{
+		puts("access violation not count");
+	}
+	else
+	{
+		throw "1"; // does not suppose to be caught.
+	}
+}
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
 	{
+		_set_se_translator(mySEHtranslator);
 #ifdef DEVELOPER_MODE
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);

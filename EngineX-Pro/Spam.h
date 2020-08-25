@@ -178,7 +178,7 @@ public:
 		ImGui::Checkbox("Whisper", &Settings::SPAM_WISPER_ENABLE);
 		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_WHISPER_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamWhisperColor", (float*)&Settings::SPAM_WHISPER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_WHISPER_COLOR_ENABLE);
 		ImGui::SameLine(); 
-		if(ImGui::Checkbox("Rainow Color", &Settings::SPAM_WHISPER_RAINBOW_COLOR_ENABLE))
+		if(ImGui::Checkbox("Rainbow Color", &Settings::SPAM_WHISPER_RAINBOW_COLOR_ENABLE))
 		{
 			Settings::SPAM_WHISPER_COLOR_ENABLE = false;
 		};
@@ -192,7 +192,7 @@ public:
 		ImGui::Checkbox("Normal", &Settings::SPAM_NORMAL_ENABLE);
 		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_NORMAL_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamNormalColor", (float*)&Settings::SPAM_NORMAL_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_NORMAL_COLOR_ENABLE);
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Rainow Color", &Settings::SPAM_NORMAL_RAINBOW_COLOR_ENABLE))
+		if (ImGui::Checkbox("Rainbow Color", &Settings::SPAM_NORMAL_RAINBOW_COLOR_ENABLE))
 		{
 			Settings::SPAM_NORMAL_COLOR_ENABLE = false;
 		};
@@ -206,7 +206,7 @@ public:
 		ImGui::Checkbox("Shout", &Settings::SPAM_SHOUT_ENABLE);
 		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_SHOUT_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamShoutColor", (float*)&Settings::SPAM_SHOUT_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine(); ImGui::Checkbox("Text Color", &Settings::SPAM_SHOUT_COLOR_ENABLE);
 		ImGui::SameLine();
-		if (ImGui::Checkbox("Rainow Color", &Settings::SPAM_SHOUT_RAINBOW_COLOR_ENABLE))
+		if (ImGui::Checkbox("Rainbow Color", &Settings::SPAM_SHOUT_RAINBOW_COLOR_ENABLE))
 		{
 			Settings::SPAM_SHOUT_COLOR_ENABLE = false;
 		};

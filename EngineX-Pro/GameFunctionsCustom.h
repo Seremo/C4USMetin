@@ -846,11 +846,6 @@ public:
 			TItemMap m_ItemMap;
 			switch (Globals::Server)
 			{
-				case ServerName::AELDRA:
-				{
-					m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
-					break;
-				}
 				default:
 				{
 					m_ItemMap = *(TItemMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 4) + 4));
@@ -859,36 +854,38 @@ public:
 			}
 			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
 			{
-				switch (Globals::Server)
-				{
-				case ServerName::SAMIAS2:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-					break;
-				case ServerName::PANGEA:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
-					break;
-				case ServerName::VIDGAR:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
-					break;
-				case ServerName::VALIUM:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-					break;
-				case ServerName::METINPL:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-					break;
-				case ServerName::MEDIUMMT2:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-					break;
-				case ServerName::VEDNAR:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-					break;
-				case ServerName::AELDRA:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 280));
-					break;
-				default:
-					itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
-					break;
-				}
+				//ItemDataGetName
+				itemsList.insert(std::make_pair(itor->first, GameFunctions::ItemDataGetName((DWORD*)itor->second)));
+				//switch (Globals::Server)
+				//{
+				//case ServerName::SAMIAS2:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+				//	break;
+				//case ServerName::PANGEA:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+				//	break;
+				//case ServerName::VIDGAR:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
+				//	break;
+				//case ServerName::VALIUM:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+				//	break;
+				//case ServerName::METINPL:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+				//	break;
+				//case ServerName::MEDIUMMT2:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+				//	break;
+				//case ServerName::VEDNAR:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
+				//	break;
+				//case ServerName::AELDRA:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+				//	break;
+				//default:
+				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
+				//	break;
+				//}
 			}
 			return itemsList;
 		}
