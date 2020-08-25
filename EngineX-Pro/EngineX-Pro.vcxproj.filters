@@ -234,6 +234,9 @@
     <ClInclude Include="Security.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="popinsmedium.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -265,6 +268,9 @@
     </Filter>
     <Filter Include="Core\Modules\Dungeons">
       <UniqueIdentifier>{f9b160f3-cfcc-4907-a086-478461b2f8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{16f4f4ac-38c9-428e-bed5-2067896f60ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

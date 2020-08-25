@@ -59,10 +59,25 @@ public:
 				filterItemLineLast = filterItemLine;
 				itemPickupFilteredList.clear();
 				for (map<DWORD, const char*>::iterator itor = Globals::itemProtoNames.begin(); itor != Globals::itemProtoNames.end(); itor++)
-				{		
-					if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
+				{
+					switch (Globals::Server)
 					{
-						itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(StringExtension::to_utf8(itor->second) +" " + to_string(itor->first), false)));
+						case ServerName::AELDRA:
+						{
+							if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
+							{
+								itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second) + " " + to_string(itor->first), false)));
+							}
+							break;
+						}
+						default:
+						{
+							if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
+							{
+								itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(StringExtension::to_utf8(itor->second) + " " + to_string(itor->first), false)));
+							}
+							break;
+						}
 					}
 				}
 			}	
@@ -309,14 +324,14 @@ public:
 					if (Distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						return;
+						continue;
 					}
 					break;
 				case 1://range
 					if (Distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						return;
+						continue;
 					}
 					else if (Distance > 300 && Distance < 5000)
 					{
@@ -332,7 +347,7 @@ public:
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
-						return;
+						continue;
 					}
 					break;
 				}

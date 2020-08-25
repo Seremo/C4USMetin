@@ -135,6 +135,7 @@ typedef int                 Py_ssize_t;
 #include "CRender.h"
 #include"SplashScreen.h"
 #include "Logger.h"
+#include "popinsmedium.h"
 #include "MainForm.h"
 #include "SimpleIni.h"
 

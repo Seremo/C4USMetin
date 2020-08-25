@@ -73,8 +73,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);
 #endif
-		oLoadLibrary = (tLoadLibraryA)DetourFunction((PBYTE)GetProcAddress(GetModuleHandle("KERNEL32.dll"), "LoadLibraryA"), (PBYTE)mLoadLibrary);
-		oIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)mIsDebuggerPresent);
+		//oLoadLibrary = (tLoadLibraryA)DetourFunction((PBYTE)GetProcAddress(GetModuleHandle("KERNEL32.dll"), "LoadLibraryA"), (PBYTE)mLoadLibrary);
+		//oIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)mIsDebuggerPresent);
 		Globals::hModule = hModule;
 		//MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
 		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);

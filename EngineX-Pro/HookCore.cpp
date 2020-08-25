@@ -485,25 +485,25 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 }
 
 
-bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant)
+bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, int pDestBuf, bool instant)
 {
-	BYTE header;
-	memcpy(&header, pDestBuf, sizeof(header));
+	//BYTE header;
+	//memcpy(&header, pDestBuf, sizeof(header));
 
-	if (header == 0x02 && len == 6)
-	{
-		strncpy((char*)pDestBuf + 2, "\xA7", 1);
-	}
-	if (header == 0x0A && len > 150)
-	{
-		strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
-		//strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
-	}
+	//if (header == 0x02 && len == 6)
+	//{
+	//	strncpy((char*)pDestBuf + 2, "\xA7", 1);
+	//}
+	//if (header == 0x0A && len > 150)
+	//{
+	//	strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
+	//	//strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
+	//}
 
-	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, 1);
-	BYTE* destBuf = (BYTE*)pDestBuf;
+	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, instant);
+	//BYTE* destBuf = (BYTE*)pDestBuf;
 #ifdef DEVELOPER_MODE
-	PacketSniffer::Instance().ProcessSendPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+	PacketSniffer::Instance().ProcessRetPacket(len, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
 #endif
 	return ret;
 }

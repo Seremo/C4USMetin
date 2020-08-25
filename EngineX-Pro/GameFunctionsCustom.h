@@ -837,7 +837,8 @@ public:
 			TItemMapGlobal m_ItemMap = *(TItemMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCItemManagerInstance + 28) + 4));
 			for (TItemMapGlobal::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
 			{
-				itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+				//itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
+				itemsList.insert(std::make_pair(itor->first, GameFunctions::ItemDataGetName((DWORD*)itor->second)));
 			}
 			return itemsList;
 		}
@@ -854,38 +855,19 @@ public:
 			}
 			for (TItemMap::iterator itor = m_ItemMap.begin(); itor != m_ItemMap.end(); itor++)
 			{
-				//ItemDataGetName
-				itemsList.insert(std::make_pair(itor->first, GameFunctions::ItemDataGetName((DWORD*)itor->second)));
-				//switch (Globals::Server)
-				//{
-				//case ServerName::SAMIAS2:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-				//	break;
-				//case ServerName::PANGEA:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
-				//	break;
-				//case ServerName::VIDGAR:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 261));
-				//	break;
-				//case ServerName::VALIUM:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-				//	break;
-				//case ServerName::METINPL:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-				//	break;
-				//case ServerName::MEDIUMMT2:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-				//	break;
-				//case ServerName::VEDNAR:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 237));
-				//	break;
-				//case ServerName::AELDRA:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 297));
-				//	break;
-				//default:
-				//	itemsList.insert(std::make_pair(itor->first, (const char*)itor->second + 229));
-				//	break;
-				//}
+				switch (Globals::Server)
+				{
+					case ServerName::AELDRA:
+					{
+						itemsList.insert(std::make_pair(itor->first, GameFunctions::ItemDataGetName((DWORD*)itor->second)));
+						break;
+					}
+					default:
+					{
+						itemsList.insert(std::make_pair(itor->first, GameFunctions::ItemDataGetName((DWORD*)itor->second)));
+						break;
+					}
+				}
 			}
 			return itemsList;
 		}

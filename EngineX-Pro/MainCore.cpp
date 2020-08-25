@@ -67,7 +67,7 @@ void MainCore::Initialize()
 		Sleep(100);
 	}
 	ConsoleOutput("[+] Application detected.");
-	MainCore::Crack();
+	//MainCore::Crack();
 	//Security::RestoreOriginalNT();
 	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
 	if (Globals::Server == ServerName::METINPL)

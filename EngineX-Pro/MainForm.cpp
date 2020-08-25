@@ -942,7 +942,8 @@ void MainForm::Initialize()
 		0x0104, 0x017C,
 		0,
 	};
-	ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahomabd.ttf", 12.0f, 0, ranges);
+	ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(&PoppinsMedium_compressed_data, PoppinsMedium_compressed_size, 13.0f, 0, ranges);
+	//ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahomabd.ttf", 12.0f, 0, ranges);
 	unsigned char* pixels;
 	int width, height, BYTEs_per_pixel;
 	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &BYTEs_per_pixel);

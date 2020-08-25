@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>_MBCS;WINVER=0x0601;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -269,6 +269,7 @@
     <ClInclude Include="MainCore.h" />
     <ClInclude Include="MainForm.h" />
     <ClInclude Include="Misc.h" />
+    <ClInclude Include="popinsmedium.h" />
     <ClInclude Include="PythonScript.h" />
     <ClInclude Include="Radar.h" />
     <ClInclude Include="Refine.h" />

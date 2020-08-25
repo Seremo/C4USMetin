@@ -85,6 +85,16 @@ public:
 		}
 	}
 
+	void ProcessRetPacket(int len, DWORD address)
+	{
+		if (PacketSendEnable)
+		{
+			Logger::AddString(Logger::SNIFFER, true, Logger::YELLOW, StringExtension::DWORDToHexString(address));
+
+
+		}
+	}
+
 	void ProcessRecvPacket(int len, void* pDestBuf, DWORD address)
 	{
 		BYTE header;
