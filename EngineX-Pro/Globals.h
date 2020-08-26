@@ -55,7 +55,7 @@ public:
 	typedef bool(__thiscall* tCNetworkStreamRecv)(void* This, int len, void* pDestBuf);
 
 	typedef bool(__thiscall* tCNetworkStreamSend)(void* This, int len, void* pDestBuf);
-	typedef bool(__thiscall* tCNetworkStreamSendAeldra)(void* This, int len, int pDestBuf, bool instant);
+	typedef int(__stdcall* tCNetworkStreamSendAeldra)(SOCKET s, const char* pDestBuf, int len, int flags);
 	typedef bool(__thiscall* tCNetworkStreamCheckPacket)(void* This, BYTE* header);
 
 	typedef bool(__thiscall* tCNetworkStreamIsOnline)(void* This);
@@ -1007,7 +1007,7 @@ void Globals::ReAddressingLocas()
 			pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x2EF830;
 			pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x2EFB50;
 			pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0x309470; // [100 ] [1 / 1]
-			pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + 0x31C770;
+			pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + 0x2752238;
 			pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0x30a020; // [100 ] [1 / 1]
 			pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x30a1a0; // [100 ] [1 / 1]
 			pCPythonNetworkStreamSendEmoticon = Globals::hEntryBaseAddress + 0x2efd50; // [100 ] [1 / 1]

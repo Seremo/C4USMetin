@@ -485,7 +485,7 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 }
 
 
-bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, int pDestBuf, bool instant)
+int _stdcall Hooks::NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, int len, int flags)
 {
 	//BYTE header;
 	//memcpy(&header, pDestBuf, sizeof(header));
@@ -500,10 +500,10 @@ bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len
 	//	//strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
 	//}
 
-	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, instant);
-	//BYTE* destBuf = (BYTE*)pDestBuf;
+	int ret = nCNetworkStreamSendAeldra(s, pDestBuf, len, flags);
+	BYTE* destBuf = (BYTE*)pDestBuf;
 #ifdef DEVELOPER_MODE
-	PacketSniffer::Instance().ProcessRetPacket(len, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+	PacketSniffer::Instance().ProcessSendPacket(len, (void*)pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
 #endif
 	return ret;
 }
@@ -661,7 +661,7 @@ void Hooks::Initialize()
 	case ServerName::AELDRA:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
-		nCNetworkStreamSendAeldra = (Globals::tCNetworkStreamSendAeldra)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSendAeldra);
+		nCNetworkStreamSendAeldra = (Globals::tCNetworkStreamSendAeldra)DetourFunction((PBYTE)send, (PBYTE)NewCNetworkStreamSendAeldra);
 		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
 		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 	    nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);

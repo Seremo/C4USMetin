@@ -1330,6 +1330,18 @@ public:
 	{
 		if (Globals::Server == ServerName::AELDRA)
 		{
+			//TPacketCGAttackAeldra attack;
+			//attack.header = 79;
+			//attack.unk = 0;
+			//attack.unk2 = 0x0C;
+			//attack.unk3 = 0;
+			//attack.unk4 = 0;
+			//attack.unk5 = 0;
+			//attack.unk6 = 16;
+			//attack.dwVictimVID = dwVIDVictim;
+			//attack.unk7 = 07;
+			//SOCKET s = (SOCKET)Globals::iCPythonNetworkStreamInstance + 76;
+			//send(s, (const char*)&attack, sizeof(attack), 0);
 			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
 		}
 		else {
