@@ -552,14 +552,13 @@ typedef struct command_attack
 typedef struct command_attack2
 {
 	BYTE	header;
-	BYTE	unk;			// °ø°Ý À¯Çü
+	BYTE	unk1;			// °ø°Ý À¯Çü
+	BYTE	size;
 	BYTE	unk2;
 	BYTE	unk3;
 	BYTE	unk4;
-	BYTE	unk5;
-	BYTE	unk6;
 	DWORD	dwVictimVID;	// Àû VID
-	BYTE	unk7;
+	BYTE	app37;
 } TPacketCGAttackAeldra;
 
 typedef struct packet_fly

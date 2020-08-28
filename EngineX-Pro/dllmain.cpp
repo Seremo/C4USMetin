@@ -54,7 +54,7 @@ void mySEHtranslator(unsigned int exceptionCode, PEXCEPTION_POINTERS exceptionRe
 {
 	if (exceptionRecord->ExceptionRecord->ExceptionCode == EXCEPTION_ACCESS_VIOLATION)
 	{
-		puts("access violation not count");
+		//puts("access violation not count");
 	}
 	else
 	{
@@ -68,7 +68,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		_set_se_translator(mySEHtranslator);
+		//_set_se_translator(mySEHtranslator);
 #ifdef DEVELOPER_MODE
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);

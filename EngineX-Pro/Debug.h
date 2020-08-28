@@ -47,20 +47,6 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
 
-
-		if (ImGui::Button("test try"))
-		{
-			try
-			{
-				typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, char unk);
-				SendWhisperPacket SendWhisper = *(SendWhisperPacket*)0x45412412;
-				SendWhisper((void*)Globals::iCPythonNetworkStreamInstance, "xd", "xd", '\0');
-			}
-			catch (...)
-			{
-				printf("Something is wrong!");
-			}
-		}
 		if (ImGui::Button("Open Shop Search")) {
 			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244*4));
 			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialogCash", Globals::Py_BuildValue("()"));
@@ -106,13 +92,29 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonItemInstance).c_str());
 		ImGui::Text("CItemManagerInstance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
+		ImGui::Text("CPythonApplicationInstance  "); ImGui::SameLine();
+		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonApplicationInstance).c_str());
+		ImGui::Text("My instance  "); ImGui::SameLine();
+		ImGui::Text(StringExtension::DWORDToHexString((DWORD)GameFunctions::PlayerNEW_GetMainActorPtr()).c_str());
+		//ImGui::Text("GetItemIndex  "); ImGui::SameLine();
+		//DWORD addres = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance + 4) + 68);
+		//ImGui::Text(StringExtension::DWORDToHexString(addres - Globals::hEntryBaseAddress).c_str());
+		//ImGui::Text("GetStatus  "); ImGui::SameLine();
+		//DWORD addres2 = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance) + 16);
+		//ImGui::Text(StringExtension::DWORDToHexString(addres2 - Globals::hEntryBaseAddress).c_str());
+		ImGui::Text("VALUE:  "); ImGui::SameLine();
+		DWORD addres = *(unsigned __int8*)(Globals::iCPythonApplicationInstance + 37) + 4;
+		if (addres)
+		{
+			ImGui::Text(StringExtension::DWORDToHexString(addres - Globals::hEntryBaseAddress).c_str());
+		}
+		ImGui::Text("VID TARGET:  "); ImGui::SameLine();
+		DWORD vid = GameFunctions::PlayerGetTargetVID();
+		if (vid)
+		{
+			ImGui::Text(StringExtension::DWORDToHexString(vid).c_str());
+		}
 
-		ImGui::Text("GetItemIndex  "); ImGui::SameLine();
-		DWORD addres = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance + 4) + 68);
-		ImGui::Text(StringExtension::DWORDToHexString(addres - Globals::hEntryBaseAddress).c_str());
-		ImGui::Text("GetStatus  "); ImGui::SameLine();
-		DWORD addres2 = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance) + 16);
-		ImGui::Text(StringExtension::DWORDToHexString(addres2 - Globals::hEntryBaseAddress).c_str());
 
 		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
 		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();

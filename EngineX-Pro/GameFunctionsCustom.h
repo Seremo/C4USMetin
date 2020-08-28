@@ -161,13 +161,23 @@ public:
 	//#################################################################################################################################
 	static void PlayerRevive()
 	{
-		if (Globals::Server == ServerName::METINPL)
+		switch (Globals::Server)
 		{
-			GameFunctions::NetworkStreamSendCommandPacket(5, 1, "");
-		}
-		else
-		{
-			GameFunctions::NetworkStreamSendChatPacket("/restart_here", CHAT_TYPE_TALKING);
+			case ServerName::METINPL:
+			{
+				GameFunctions::NetworkStreamSendCommandPacket(5, 1, "");
+				break;
+			}
+			case ServerName::ORIGINS:
+			{
+				GameFunctions::NetworkStreamSendChatPacket("/zhcedqrmoacnwtkr", CHAT_TYPE_TALKING);
+				break;
+			}
+			default:
+			{
+				GameFunctions::NetworkStreamSendChatPacket("/restart_here", CHAT_TYPE_TALKING);
+				break;
+			}
 		}
 	}
 	//#################################################################################################################################
@@ -1332,17 +1342,24 @@ public:
 		{
 			//TPacketCGAttackAeldra attack;
 			//attack.header = 79;
-			//attack.unk = 0;
-			//attack.unk2 = 0x0C;
+			//attack.unk1 = 0;
+			//attack.size = 12;
+			//attack.unk2 = 0;
 			//attack.unk3 = 0;
-			//attack.unk4 = 0;
-			//attack.unk5 = 0;
-			//attack.unk6 = 16;
+			//attack.unk4 = 16;
 			//attack.dwVictimVID = dwVIDVictim;
-			//attack.unk7 = 07;
+			//attack.app37 = *(unsigned __int8*)(Globals::iCPythonApplicationInstance + 37) + 4;
 			//SOCKET s = (SOCKET)Globals::iCPythonNetworkStreamInstance + 76;
+			//PacketSniffer::Instance().ProcessSendPacket(sizeof(attack), (void*)&attack, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
 			//send(s, (const char*)&attack, sizeof(attack), 0);
+			//typedef void(__thiscall* OnHit)(void* This, UINT uSkill, DWORD& rkInstVictm, BOOL isSendPacket);
+			//DWORD* mobInstance = GameFunctions::CharacterManagerGetInstancePtr(dwVIDVictim);
+			//BOOL isSend = true;
+			//OnHit onHitFunc = (OnHit)(Globals::hEntryBaseAddress + 0x316DB0);
+			//DWORD playerEventHandler = *reinterpret_cast<DWORD*>(Globals::hEntryBaseAddress + 0x2C78088);
+			//onHitFunc((void*)playerEventHandler, uMotAttack, *mobInstance, isSend);
 			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
+			return true;
 		}
 		else {
 			TPacketCGAttack kPacketAtk;
@@ -1361,13 +1378,24 @@ public:
 			kPacketAtk.bType = uMotAttack;
 			kPacketAtk.dwVictimVID = dwVIDVictim;
 
-			if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
+			if (Globals::Server == ServerName::ORIGINS)
 			{
+				if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
+				{
+					return false;
+				}
 
-				return false;
+				return true;
 			}
+			else 
+			{
+				if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
+				{
+					return false;
+				}
 
-			return GameFunctions::NetworkStreamSendSequence();
+				return GameFunctions::NetworkStreamSendSequence();
+			}
 		}
 	}
 

@@ -45,6 +45,7 @@ public:
 		ImGui::BeginChild("PickupBorder", ImVec2(420, 420), true);
 		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); 
 		ImGui::SliderInt("Pickup Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000);
+		ImGui::PushItemWidth(100); ImGui::InputInt("Pickup Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000);
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1); 
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER); ImGui::SameLine();
@@ -333,7 +334,7 @@ public:
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
 						continue;
 					}
-					else if (Distance > 300 && Distance < 5000)
+					else if (Distance > 300 && Distance < Settings::ITEM_PICKUP_DISTANCE)
 					{
 						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z });
 						int i = 0;

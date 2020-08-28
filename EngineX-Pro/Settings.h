@@ -162,6 +162,7 @@ public:
 	static bool MiniMHAttackStopAttackNoMobDistance;
 	static bool ITEM_PICKUP_ENABLE;
 	static bool ITEM_PICKUP_FILTER;
+	static int ITEM_PICKUP_DISTANCE;
 	static int ITEM_PICKUP_TIME;
 
 	static int ITEM_PICKUP_TYPE;
@@ -731,7 +732,7 @@ bool Settings::MiniMHWaitHackDetect = false;
 bool Settings::ITEM_PICKUP_ENABLE = false;
 bool Settings::ITEM_PICKUP_FILTER = false;
 int Settings::ITEM_PICKUP_TIME = 900;
-
+int Settings::ITEM_PICKUP_DISTANCE = 5000;
 int Settings::ITEM_PICKUP_TYPE = 0;
 map< DWORD, pair<string, bool>> Settings::ITEM_PICKUP_SELECTED_LIST;
 //#############################################################################################

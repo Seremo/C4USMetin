@@ -72,11 +72,6 @@ void _fastcall Hooks::NewCInstanceBaseBlockMovement(void* This, void* EDX)
 bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_szFunc, PyObject* poArgs)
 
 {
-
-
-
-
-
 	if (StringExtension::Equals(c_szFunc, "Update") ||
 		StringExtension::Equals(c_szFunc, "OnRender") ||
 		StringExtension::Equals(c_szFunc, "DownEvent") ||
@@ -484,29 +479,65 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	return ret;
 }
 
-
-int _stdcall Hooks::NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, int len, int flags)
+bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant)
 {
-	//BYTE header;
-	//memcpy(&header, pDestBuf, sizeof(header));
+	BYTE header;
+	memcpy(&header, pDestBuf, sizeof(header));
 
 	//if (header == 0x02 && len == 6)
 	//{
-	//	strncpy((char*)pDestBuf + 2, "\xA7", 1);
+	//	strncpy((char*)pDestBuf + 2, "\xB5", 1);
 	//}
-	//if (header == 0x0A && len > 150)
-	//{
-	//	strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
-	//	//strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
-	//}
+	if (header == 0x0A && len > 120)
+	{
+		for (int i = 0; i < len; i++)
+		{
+			BYTE check1 = 0;
+			BYTE check2 = 0;
+			BYTE check3 = 0;
+			BYTE check4 = 0;
+			memcpy(&check1, static_cast<char*>(pDestBuf) + i, sizeof(check1));
+			memcpy(&check2, static_cast<char*>(pDestBuf) + (i + 1), sizeof(check2));
+			memcpy(&check3, static_cast<char*>(pDestBuf) + (i + 2), sizeof(check3));
+			memcpy(&check4, static_cast<char*>(pDestBuf) + (i + 3), sizeof(check4));
+			if (check1 == 0xDD && check2 == 0xFC && check3 == 0xDF && check4 == 0xF9)
+			{
+				strncpy((char*)pDestBuf + (i), "\xBD\xDE\xA0\xFA", 4); //83 d8 9f fa
+				break;
+			}
+		}
+	}
 
-	int ret = nCNetworkStreamSendAeldra(s, pDestBuf, len, flags);
-	BYTE* destBuf = (BYTE*)pDestBuf;
+	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, 1);
+	//BYTE* destBuf = (BYTE*)pDestBuf;
 #ifdef DEVELOPER_MODE
 	PacketSniffer::Instance().ProcessSendPacket(len, (void*)pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
 #endif
 	return ret;
 }
+
+//int _stdcall Hooks::NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, int len, int flags)
+//{
+//	BYTE header;
+//	memcpy(&header, pDestBuf, sizeof(header));
+//
+//	if (header == 0x02 && len == 6)
+//	{
+//		strncpy((char*)pDestBuf + 2, "\xA7", 1);
+//	}
+//	if (header == 0x0A && len > 150)
+//	{
+//		strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
+//		//strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
+//	}
+//
+//	int ret = nCNetworkStreamSendAeldra(s, pDestBuf, len, flags);
+//	BYTE* destBuf = (BYTE*)pDestBuf;
+//#ifdef DEVELOPER_MODE
+//	PacketSniffer::Instance().ProcessSendPacket(len, (void*)pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+//#endif
+//	return ret;
+//}
 
 bool _fastcall Hooks::NewCNetworkStreamSendSequence(void* This, void* EDX)
 {
@@ -548,10 +579,13 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 		}
 		
 	}
+
+#ifdef FISHBOT
 	if (iType == CHAT_TYPE_NOTICE || iType == CHAT_TYPE_INFO)
 	{
 		Fish::Instance().ParseMessage(c_szChat);
 	}
+#endif
 //#ifdef DEVELOPER_MODE
 //	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
 //		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
@@ -661,10 +695,24 @@ void Hooks::Initialize()
 	case ServerName::AELDRA:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
-		nCNetworkStreamSendAeldra = (Globals::tCNetworkStreamSendAeldra)DetourFunction((PBYTE)send, (PBYTE)NewCNetworkStreamSendAeldra);
+		nCNetworkStreamSendAeldra = (Globals::tCNetworkStreamSendAeldra)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSendAeldra);
 		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
 		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 	    nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+		nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+		nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+		nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+		nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
+		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+		nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+		break;
+	case ServerName::ORIGINS:
+		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
+		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
+		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
+		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+		nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
 		nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
 		nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
 		nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);

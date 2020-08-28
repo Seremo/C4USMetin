@@ -350,8 +350,8 @@ public:
 		ImGui::RadioButton("Standard", &Settings::MiniMHWaitHackOneTarget, 0);
 		ImGui::SameLine();
 		ImGui::RadioButton("Target", &Settings::MiniMHWaitHackOneTarget, 1);
-		ImGui::SameLine();
 #ifdef DEVELOPER_MODE
+		ImGui::SameLine();
 		ImGui::RadioButton("Standard+", &Settings::MiniMHWaitHackOneTarget, 2);
 #endif
 		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MiniMHWaitHackTime, 5, 100);
@@ -837,6 +837,11 @@ private:
 				case ServerName::AELDRA:
 				{
 					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 40, true);
+					break;
+				}
+				case ServerName::ORIGINS:
+				{
+					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 16, true);
 					break;
 				}
 				default:
