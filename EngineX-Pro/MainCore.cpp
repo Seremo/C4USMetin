@@ -49,8 +49,7 @@ void MainCore::ConsoleOutput(const char* txt, ...)
 }
 ///##################################################################################################################
 void MainCore::Initialize()
-{
-	
+{	
 	//Security::SaveOriginalNT();
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
@@ -59,16 +58,27 @@ void MainCore::Initialize()
 		exit(0);
 	}
 #endif
-	while (!Device::pDevice)
+	while (!Device::pDevice || !Globals::mainHwnd)
 	{
-		Globals::ReAddressingLocas();
-		Globals::ReDeclarationLocals();
-		Sleep(100);
+		try
+		{
+			Globals::ReAddressingLocas();
+			Globals::ReDeclarationLocals();
+			auto hwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
+			if (hwnd)
+			{
+				Globals::mainHwnd = hwnd;
+			}
+		}
+		catch (...)
+		{
+			ConsoleOutput("[+] Wait...");
+			Sleep(100);
+		}
 	}
 	ConsoleOutput("[+] Application detected.");
 	MainCore::Crack();
 	//Security::RestoreOriginalNT();
-	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
 	if (Globals::Server == ServerName::METINPL)
 	{
 		Settings::FISHBOT_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));

@@ -811,7 +811,6 @@ void MainForm::Menu() {
 							{
 								if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
 								{
-									/*int last_slot = GameFunctions::GetLastCharSlot();*/
 									GameFunctions::NetworkStream__DirectEnterMode_Set(0);
 									GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
 								}
@@ -826,7 +825,6 @@ void MainForm::Menu() {
 							{
 								if (ImGui::Button(itor->first.second.second.c_str(), ImVec2(60, 0)))
 								{
-									/*int last_slot = GameFunctions::GetLastCharSlot();*/
 									GameFunctions::NetworkStream__DirectEnterMode_Set(0);
 									GameFunctions::NetworkStreamConnect(inet_addr(itor->second.second.c_str()), itor->second.first + Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET);
 								}
