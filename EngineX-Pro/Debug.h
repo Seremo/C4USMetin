@@ -96,6 +96,19 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonApplicationInstance).c_str());
 		ImGui::Text("My instance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString((DWORD)GameFunctions::PlayerNEW_GetMainActorPtr()).c_str());
+
+		//DWORD targetVID = GameFunctions::PlayerGetTargetVID();
+		//if (targetVID)
+		//{
+		//	DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(GameFunctions::CharacterManagerGetInstancePtr(targetVID));
+		//	const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
+		//	if (mob_info != NULL)
+		//	{
+		//		BYTE bRank = (*(BYTE*)(mob_info + 55));
+		//		ImGui::Text("TARGET bRANK:  "); ImGui::SameLine();
+		//		ImGui::Text(to_string(bRank).c_str());
+		//	}
+		//}
 		//ImGui::Text("GetItemIndex  "); ImGui::SameLine();
 		//DWORD addres = *reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonPlayerInstance + 4) + 68);
 		//ImGui::Text(StringExtension::DWORDToHexString(addres - Globals::hEntryBaseAddress).c_str());

@@ -81,6 +81,20 @@ public:
 				}
 				break;
 			}
+			case ServerName::CALLIOPE:
+			{
+				try
+				{
+					typedef bool(__thiscall* SendRefinePacket)(void* This, BYTE byPos, BYTE byType, BYTE unk1, BYTE unk2, BYTE unk3, BYTE unk4);
+					SendRefinePacket sendRefine = (SendRefinePacket)Globals::pCPythonNetworkStreamSendRefinePacket;
+					return sendRefine((void*)Globals::iCPythonNetworkStreamInstance, pos, type, 0, 0, 0, 0);
+				}
+				catch (...)
+				{
+					return false;
+				}
+				break;
+			}
 			default:
 			{
 				return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type);
@@ -465,6 +479,18 @@ public:
 				}
 				break;
 			}
+			case ServerName::CALLIOPE:
+			{
+				__asm
+				{
+					mov     eax, [address]
+					mov     ecx, instance
+					movss   xmm2, [y]
+					movss   xmm1, [x]
+					call	eax
+				}
+				break;
+			}
 			default:
 			{
 				Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
@@ -550,26 +576,30 @@ public:
 		float height = 0;
 		switch (Globals::Server)
 		{
-			case ServerName::VEDNAR:
+			case ServerName::CALLIOPE:
 			{
-				//__asm
-				//{
-				//	mov     eax, [address]
-				//	movss   xmm2, [y]
-				//	movss   xmm1, [x]
-				//	call	eax
-				//	movss[height], xmm0
-				//}
-				//return height;
-				return Globals::CInstanceBase__GetBackgroundHeight(x, y);
+				DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
+				if (instance)
+				{
+					__asm
+					{
+						mov     eax, [address]
+						mov     ecx, instance
+						movss   xmm2, [y]
+						movss   xmm1, [x]
+						call	eax
+						movss[height], xmm0
+					}
+				}
 				break;
 			}
 			default:
 			{
-				return Globals::CInstanceBase__GetBackgroundHeight(x, y);
+				height = Globals::CInstanceBase__GetBackgroundHeight(x, y);
 				break;
 			}
-		}	
+		}
+		return height;
 	}
 };
 

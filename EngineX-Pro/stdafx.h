@@ -55,6 +55,7 @@ enum ServerName
 	VEDNAR,
 	AELDRA,
 	ORIGINS,
+	CALLIOPE
 };
 
 

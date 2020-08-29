@@ -656,6 +656,11 @@ public:
 					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 44) + 4));
 					break;
 				}
+				case ServerName::CALLIOPE:
+				{
+					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 36) + 4));
+					break;
+				}
 				default: {
 					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
 					break;
@@ -1034,12 +1039,15 @@ public:
 			case ServerName::SAMIAS2:
 				bRank = (*(BYTE*)(mob_info + 128));
 				break;
+			case ServerName::CALLIOPE:
+				bRank = (*(BYTE*)(mob_info + 55));
+				break;
 			default:
 				bRank = mob_info->bRank;
 				break;
 			}
 
-			if (bRank >= 4)
+			if (bRank >= 4 && bRank < 10)
 			{
 				return true;
 			}
@@ -1110,6 +1118,18 @@ public:
 		switch (Globals::Server)
 		{
 			case ServerName::VEDNAR:
+			{
+				DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
+				__asm
+				{
+					mov     eax, [address]
+					mov     ecx, playerInstance
+					call	eax
+					movss[rotation], xmm0
+				}
+				break;
+			}
+			case ServerName::CALLIOPE:
 			{
 				DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
 				__asm
@@ -1370,6 +1390,9 @@ public:
 				break;
 			case ServerName::METINPL:
 				kPacketAtk.header = 0x52;
+				break;
+			case ServerName::CALLIOPE:
+				kPacketAtk.header = -112;
 				break;
 			default:
 				kPacketAtk.header = HEADER_CG_ATTACK;

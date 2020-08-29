@@ -720,6 +720,20 @@ void Hooks::Initialize()
 		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 		nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 		break;
+	case ServerName::CALLIOPE:
+		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
+		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
+		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
+		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+		nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+		nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+		nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+		nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+		nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
+		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+		nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+		break;
 	case ServerName::MEDIUMMT2:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);
