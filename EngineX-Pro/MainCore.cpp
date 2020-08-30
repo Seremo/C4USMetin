@@ -50,7 +50,6 @@ void MainCore::ConsoleOutput(const char* txt, ...)
 ///##################################################################################################################
 void MainCore::Initialize()
 {	
-	//Security::SaveOriginalNT();
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{
@@ -77,8 +76,7 @@ void MainCore::Initialize()
 		}
 	}
 	ConsoleOutput("[+] Application detected.");
-	MainCore::Crack();
-	//Security::RestoreOriginalNT();
+	//MainCore::Crack();
 	if (Globals::Server == ServerName::METINPL)
 	{
 		Settings::FISHBOT_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));

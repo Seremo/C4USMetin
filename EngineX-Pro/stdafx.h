@@ -67,7 +67,7 @@ enum ServerName
 
 //#define PYTHON_CUSTOM
 //#define FISHBOT
-#define DEVELOPER_MODE
+//#define DEVELOPER_MODE
 
 #define DLL_VERSION "0.0.62 Beta"
 
@@ -169,6 +169,7 @@ typedef int                 Py_ssize_t;
 #include "Debug.h"
 #include "Radar.h"
 #include "Configuration.h"
+#include "HookIAT.h"
 #include "HookCore.h"
 #include "MainCore.h"
 #include "Security.h"

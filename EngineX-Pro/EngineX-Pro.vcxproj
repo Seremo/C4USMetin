@@ -23,7 +23,7 @@
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <RootNamespace>ImGuiWin32</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>EngineX-Calliope</ProjectName>
+    <ProjectName>EngineX-Origins</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -237,6 +237,7 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DelayActions.h" />
+    <ClInclude Include="HookIAT.h" />
     <ClInclude Include="MainDungs.h" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="Device.h" />

@@ -237,6 +237,7 @@
     <ClInclude Include="popinsmedium.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="HookIAT.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
