@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>_MBCS;WINVER=0x0601;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <ExceptionHandling>Async</ExceptionHandling>
+      <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -143,7 +143,7 @@
       <ConformanceMode>false</ConformanceMode>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ExceptionHandling>Async</ExceptionHandling>
+      <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
@@ -223,6 +223,8 @@
     </ClCompile>
     <ClCompile Include="MainCore.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="Network.cpp" />
+    <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -270,6 +272,9 @@
     <ClInclude Include="MainCore.h" />
     <ClInclude Include="MainForm.h" />
     <ClInclude Include="Misc.h" />
+    <ClInclude Include="Network.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="popinsmedium.h" />
     <ClInclude Include="PythonScript.h" />
     <ClInclude Include="Radar.h" />

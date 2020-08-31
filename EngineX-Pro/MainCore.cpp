@@ -52,9 +52,28 @@ void MainCore::ConsoleOutput(const char* txt, ...)
 	printf("\n");
 #endif
 }
+
+void MainCore::NetworkThread()
+{
+	Network::Initialize();
+	Network::SetRecvBufferSize(9999999);
+	Network::SetSendBufferSize(4256);
+	if (!Network::Connect(AUTH_IP_ADDRESS, AUTH_PORT))
+	{
+		ExitProcess(0);
+	}
+	PacketHandler::SendAuthPacket();
+	while (true)
+	{
+		Network::Process();
+		PacketHandler::Process();
+		Sleep(1);
+	}
+}
 ///##################################################################################################################
 void MainCore::Initialize()
 {	
+
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{
@@ -62,11 +81,11 @@ void MainCore::Initialize()
 		exit(0);
 	}
 #endif
-	while (!Device::pDevice || !MainCore::DXLoaded)
+	while (!Device::pDevice || !MainCore::DXLoaded || !PacketHandler::AddressReceived)
 	{
 		try
 		{
-			Globals::ReAddressingLocas();
+			//Globals::ReAddressingLocas();
 			Globals::ReDeclarationLocals();
 			ConsoleOutput("[+] Wait...");
 			Sleep(500);

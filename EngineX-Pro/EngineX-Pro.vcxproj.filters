@@ -44,6 +44,12 @@
     <ClCompile Include="SplashScreen.cpp">
       <Filter>Utils\Other</Filter>
     </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Communication</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>Communication</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">
@@ -238,6 +244,15 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="HookIAT.h" />
+    <ClInclude Include="Network.h">
+      <Filter>Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>Communication</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">
@@ -272,6 +287,9 @@
     </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{16f4f4ac-38c9-428e-bed5-2067896f60ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Communication">
+      <UniqueIdentifier>{7f6cf64e-6319-4945-bb48-8f6949aace31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

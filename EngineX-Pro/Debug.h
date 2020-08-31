@@ -56,11 +56,6 @@ public:
 			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244 * 4));
 			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialog", Globals::Py_BuildValue("()"));
 		}
-
-		if (ImGui::Button("Test")) {
-			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + 0x178);
-			Globals::PyCallClassMemberFunc((PyObject*)h, "SetGamePhase", Globals::Py_BuildValue("()"));
-		}
 		ImGui::Checkbox("Do Animation", &DoAnimation);
 		ImGui::InputInt("eFunc:", &eFunc);
 		ImGui::InputInt("uArg:", &uArg);

@@ -4,6 +4,7 @@ class MainCore
 public:
 	static bool DXLoaded;
 	static void Crack();
+	static void NetworkThread();
 	static bool CheckMembers();	
 	static void Initialize();
 	static void UpdateLoop();

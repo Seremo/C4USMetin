@@ -142,6 +142,10 @@ typedef int                 Py_ssize_t;
 #include "SimpleIni.h"
 
 #include "Globals.h"
+//NETWORK
+#include "Packet.h"
+#include "Network.h"
+#include "PacketHandler.h"
 
 #include "GameFunctions.h"
 #include "GameFunctionsCustom.h"
