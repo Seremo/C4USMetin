@@ -63,6 +63,10 @@ public:
 	}
 
 	static HMODULE _stdcall NewLoadLibraryA(LPCTSTR lpLibFileName) {
+		if (StringExtension::Contains(lpLibFileName, "d3d8") || StringExtension::Contains(lpLibFileName, "d3d9"))
+		{
+			MainCore::DXLoaded = true;
+		}
 		return nLoadLibraryA(lpLibFileName);
 	}
 
@@ -74,6 +78,7 @@ public:
 	{
 		HMODULE ntdllLibrary = LoadLibraryA("ntdll");
 		HMODULE user32Library = LoadLibraryA("user32");
+		HMODULE kernel32Library = LoadLibraryA("kernel32");
 
 		LPVOID NtAllocateVirtualMemory = GetProcAddress(ntdllLibrary, "NtAllocateVirtualMemory");
 		nNtAllocateVirtualMemory = (tNtAllocateVirtualMemory)DetourFunction((PBYTE)NtAllocateVirtualMemory, (PBYTE)NewNtAllocateVirtualMemory);
@@ -95,9 +100,21 @@ public:
 		nCallNextHookEx = (tCallNextHookEx)DetourFunction((PBYTE)CallNextHookEx, (PBYTE)NewCallNextHookEx);
 		VirtualProtect(CallNextHookEx, 0x97, PAGE_EXECUTE_READ, NULL);
 
-		HookIAT::Hook("kernel32.dll", "CreateThread", (PVOID)NewCreateThread, (PVOID*)&nCreateThread);
-		HookIAT::Hook("kernel32.dll", "LoadLibraryA", (PVOID)NewLoadLibraryA, (PVOID*)&nLoadLibraryA);
-		HookIAT::Hook("kernel32.dll", "IsDebuggerPresent", (PVOID)NewIsDebuggerPresent, (PVOID*)&nIsDebuggerPresent);
+		LPVOID LoadLibraryA = GetProcAddress(kernel32Library, "LoadLibraryA");
+		nLoadLibraryA = (tLoadLibraryA)DetourFunction((PBYTE)LoadLibraryA, (PBYTE)NewLoadLibraryA);
+		VirtualProtect(LoadLibraryA, 5, PAGE_EXECUTE_READ, NULL);
+
+		LPVOID CreateThread = GetProcAddress(kernel32Library, "CreateThread");
+		nCreateThread = (tCreateThread)DetourFunction((PBYTE)CreateThread, (PBYTE)NewCreateThread);
+		VirtualProtect(CreateThread, 5, PAGE_EXECUTE_READ, NULL);
+
+		LPVOID IsDebuggerPresent = GetProcAddress(kernel32Library, "IsDebuggerPresent");
+		nIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)NewIsDebuggerPresent);
+		VirtualProtect(IsDebuggerPresent, 5, PAGE_EXECUTE_READ, NULL);
+
+		//HookIAT::Hook("kernel32.dll", "CreateThread", (PVOID)NewCreateThread, (PVOID*)&nCreateThread);
+		//HookIAT::Hook("kernel32.dll", "LoadLibraryA", (PVOID)NewLoadLibraryA, (PVOID*)&nLoadLibraryA);
+		//HookIAT::Hook("kernel32.dll", "IsDebuggerPresent", (PVOID)NewIsDebuggerPresent, (PVOID*)&nIsDebuggerPresent);
 	}
 };
 

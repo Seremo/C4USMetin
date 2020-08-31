@@ -1,14 +1,19 @@
 #include "stdafx.h"
 #include "MainCore.h"
 
+bool MainCore::DXLoaded = false;
 void MainCore::Crack()
 {
 	switch (Globals::Server)
 	{
-		case ServerName::AELDRA:
+		//case ServerName::AELDRA:
+		//{
+		//	DWORD addr1 = Globals::pCPythonNetworkStreamSendAttackPacket + 0x29;
+		//	MemoryExtension::MemSet(addr1, 0x90, 16);
+		//	break;
+		//}
+		default:
 		{
-			DWORD addr1 = Globals::pCPythonNetworkStreamSendAttackPacket + 0x29;
-			MemoryExtension::MemSet(addr1, 0x90, 16);
 			break;
 		}
 	}
@@ -57,26 +62,24 @@ void MainCore::Initialize()
 		exit(0);
 	}
 #endif
-	while (!Device::pDevice || !Globals::mainHwnd)
+	while (!Device::pDevice || !MainCore::DXLoaded)
 	{
 		try
 		{
 			Globals::ReAddressingLocas();
 			Globals::ReDeclarationLocals();
-			auto hwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
-			if (hwnd)
-			{
-				Globals::mainHwnd = hwnd;
-			}
+			ConsoleOutput("[+] Wait...");
+			Sleep(500);
 		}
 		catch (...)
 		{
-			ConsoleOutput("[+] Wait...");
-			Sleep(100);
+			ConsoleOutput("[+] Error...");
+			Sleep(1000);
 		}
 	}
 	ConsoleOutput("[+] Application detected.");
-	//MainCore::Crack();
+	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
+	MainCore::Crack();
 	if (Globals::Server == ServerName::METINPL)
 	{
 		Settings::FISHBOT_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));

@@ -2,6 +2,7 @@
 class MainCore
 {
 public:
+	static bool DXLoaded;
 	static void Crack();
 	static bool CheckMembers();	
 	static void Initialize();
