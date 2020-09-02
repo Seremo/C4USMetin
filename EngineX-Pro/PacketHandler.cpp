@@ -217,6 +217,5 @@ bool PacketHandler::RecvAuthPacket()
 	Globals::pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + recv_auth_packet.pCPythonNetworkStreamSendCommandPacket;
 
 	AddressReceived = true;
-
 	return true;
 }

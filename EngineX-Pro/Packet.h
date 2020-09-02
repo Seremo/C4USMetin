@@ -13,7 +13,6 @@
 #define LODWORD(h)				((DWORD)(__int64(h) & __int64(0xffffffff)))   
 #define HIDWORD(h)				((DWORD)(__int64(h) >> __int64(32)))
 
-#pragma pack(push, 1)
 enum
 {
 	HEADER_SEND_NULL,
@@ -28,25 +27,12 @@ enum
 	HEADER_RECV_DLL_HEARTBEAT = 254,
 };
 
-typedef struct RECV_HEADER_PACKET
-{
-	BYTE header;
-	DWORD size;
-};
-
-typedef struct SEND_AUTH_PACKET
-{
-	BYTE header;
-	DWORD size;
-	char hwid[35];
-};
-
-
+#pragma pack(push, 1)
 typedef struct RECV_AUTH_PACKET
 {
 	BYTE header;
 	DWORD size;
-	BYTE  server_id;
+	WORD  server_id;
 	DWORD pCPythonNetworkStreamInstance;
 	DWORD pCPythonCharacterManagerInstance;
 	DWORD pCPythonBackgroundInstance;
@@ -145,6 +131,21 @@ typedef struct RECV_AUTH_PACKET
 	DWORD pCInstanceBaseSetRotation;
 	DWORD pCPythonNetworkStreamSendCommandPacket;
 };
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+typedef struct RECV_HEADER_PACKET
+{
+	BYTE header;
+	DWORD size;
+};
+
+typedef struct SEND_AUTH_PACKET
+{
+	BYTE header;
+	DWORD size;
+	char hwid[35];
+};
 
 typedef struct SEND_HEARTBEAT_PACKET
 {
@@ -158,3 +159,4 @@ typedef struct RECV_HEARTBEAT_PACKET
 	BYTE header;
 	DWORD size;
 };
+#pragma pack(pop)
