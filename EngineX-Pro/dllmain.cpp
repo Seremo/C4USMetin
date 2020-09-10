@@ -35,7 +35,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		{
 			Sleep(100);
 		}
+#ifdef NETWORK_MODE
 		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::NetworkThread, NULL, NULL, NULL);
+#endif
 		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);
 	}
 	case DLL_THREAD_ATTACH:

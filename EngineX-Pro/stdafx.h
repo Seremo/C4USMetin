@@ -68,6 +68,7 @@ enum ServerName
 //#define PYTHON_CUSTOM
 #define FISHBOT
 #define DEVELOPER_MODE
+#define NETWORK_MODE
 
 #define DLL_VERSION "0.0.62 Beta"
 

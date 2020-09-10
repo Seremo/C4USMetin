@@ -81,12 +81,17 @@ void MainCore::Initialize()
 		exit(0);
 	}
 #endif
+#ifdef NETWORK_MODE
 	while (!Device::pDevice || !PacketHandler::AddressReceived)
-	//while (!Device::pDevice)
+#else
+	while (!Device::pDevice)
+#endif
 	{
 		try
-		{
-			//Globals::ReAddressingLocas();
+		{		
+#ifndef NETWORK_MODE
+			Globals::ReAddressingLocas();
+#endif
 			Globals::ReDeclarationLocals();
 			ConsoleOutput("[+] Wait...");
 			Sleep(500);
