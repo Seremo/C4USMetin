@@ -31,7 +31,11 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 #endif
 		Security::Initialize();
 		Globals::hModule = hModule;
-		//CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::NetworkThread, NULL, NULL, NULL);
+		while (!MainCore::DXLoaded)
+		{
+			Sleep(100);
+		}
+		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::NetworkThread, NULL, NULL, NULL);
 		CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);
 	}
 	case DLL_THREAD_ATTACH:

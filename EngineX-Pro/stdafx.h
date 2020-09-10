@@ -44,7 +44,7 @@ using namespace std;
 
 enum ServerName
 {
-	METINPL,
+	METINPL = 1,
 	MEDIUMMT2,
 	VIDGAR,
 	PANGEA,
