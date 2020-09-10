@@ -31,7 +31,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 #endif
 		Security::Initialize();
 		Globals::hModule = hModule;
-		while (!MainCore::DXLoaded)
+		bool DXIsAlreadyLoaded = GetModuleHandleA("d3d8.dll") || GetModuleHandleA("d3d9.dll");
+		while (!MainCore::DXLoaded && !DXIsAlreadyLoaded)
 		{
 			Sleep(100);
 		}
