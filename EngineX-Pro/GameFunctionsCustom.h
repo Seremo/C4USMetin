@@ -255,15 +255,6 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static void SetDirection(int dir)
-	{
-		DWORD* chr = GameFunctions::PlayerNEW_GetMainActorPtr();
-		if (chr)
-		{
-			GameFunctions::InstanceBaseSetDirection(chr, dir);
-		}
-	}
-	//#################################################################################################################################
 	static void UseAllItemVnumInInventory(int vnum)
 	{
 		for (int i = 0; i < (45 * 5); i++)

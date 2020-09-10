@@ -140,7 +140,6 @@ bool PacketHandler::RecvAuthPacket()
 	Globals::pCInstanceBaseNEW_GetPixelPosition = Globals::hEntryBaseAddress + recv_auth_packet.pCInstanceBaseNEW_GetPixelPosition;
 	Globals::pCInstanceBaseNEW_MoveToDestPixelPositionDirection = Globals::hEntryBaseAddress + recv_auth_packet.pCInstanceBaseNEW_MoveToDestPixelPositionDirection;
 	Globals::pCInstanceBaseSCRIPT_SetPixelPosition = Globals::hEntryBaseAddress + recv_auth_packet.pCInstanceBaseSCRIPT_SetPixelPosition;
-	Globals::pCInstanceBaseSetDirection = Globals::hEntryBaseAddress + recv_auth_packet.pCInstanceBaseSetDirection;
 	Globals::pCInstanceBase__SetAffect = Globals::hEntryBaseAddress + recv_auth_packet.pCInstanceBase__SetAffect;
 	Globals::pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + recv_auth_packet.pCInstanceBase__GetBackgroundHeight;
 	Globals::pCItemDataGetName = Globals::hEntryBaseAddress + recv_auth_packet.pCItemDataGetName;

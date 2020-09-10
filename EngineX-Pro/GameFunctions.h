@@ -9,11 +9,6 @@ public:
 		return Globals::CPythonPlayerNEW_GetMainActorPtr((void*)(Globals::iCPythonPlayerInstance + 4));
 	}
 	//#################################################################################################################################
-	static void InstanceBaseSetDirection(DWORD* chr, int dir)
-	{
-		Globals::CInstanceBaseSetDirection(chr, dir);
-	}
-	//#################################################################################################################################
 	static bool NetworkStreamSendFishingPacket(int rot)
 	{
 		return Globals::CPythonNetworkStreamSendFishingPacket((void*)Globals::iCPythonNetworkStreamInstance, rot);

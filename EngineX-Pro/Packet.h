@@ -55,7 +55,6 @@ typedef struct RECV_AUTH_PACKET
 	DWORD pCInstanceBaseNEW_GetPixelPosition;
 	DWORD pCInstanceBaseNEW_MoveToDestPixelPositionDirection;
 	DWORD pCInstanceBaseSCRIPT_SetPixelPosition;
-	DWORD pCInstanceBaseSetDirection;
 	DWORD pCInstanceBase__SetAffect;
 	DWORD pCInstanceBase__GetBackgroundHeight;
 	DWORD pCItemDataGetName;

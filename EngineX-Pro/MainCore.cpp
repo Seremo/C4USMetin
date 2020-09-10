@@ -81,11 +81,13 @@ void MainCore::Initialize()
 		exit(0);
 	}
 #endif
-	while (!Device::pDevice || !MainCore::DXLoaded || !PacketHandler::AddressReceived)
+	//while (!Device::pDevice || !MainCore::DXLoaded || !PacketHandler::AddressReceived)
+	//while (!Device::pDevice || !MainCore::DXLoaded)
+	while (!Device::pDevice)
 	{
 		try
 		{
-			//Globals::ReAddressingLocas();
+			Globals::ReAddressingLocas();
 			Globals::ReDeclarationLocals();
 			ConsoleOutput("[+] Wait...");
 			Sleep(500);

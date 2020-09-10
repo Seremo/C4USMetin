@@ -70,7 +70,7 @@ public:
 				break;
 
 			case ServerName::METINPL:
-				MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1EA1F7), recv_limit, 1);
+				MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1F4387), recv_limit, 1);
 				break;
 			}
 		}
