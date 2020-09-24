@@ -92,6 +92,11 @@ public:
 		ImGui::Text("My instance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString((DWORD)GameFunctions::PlayerNEW_GetMainActorPtr()).c_str());
 
+
+		if(ImGui::Button("JSON TESTER"))
+		{
+			//Settings2::LoadSettings();
+		}
 		//DWORD targetVID = GameFunctions::PlayerGetTargetVID();
 		//if (targetVID)
 		//{

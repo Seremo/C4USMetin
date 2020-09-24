@@ -1,5 +1,351 @@
 #pragma once
 
+//using json = nlohmann::json;
+//
+//namespace ns {
+//	class Settings
+//	{
+//	public:
+//		vector<string> DETECT_PLAYER_WHITE_LIST_NAMES;
+//		map< pair<DWORD, bool>, pair<DWORD, string>> FISHBOT_KILL_FISH_LIST;
+//		map< pair<DWORD, bool>, pair<DWORD, string>> FISHBOT_BAIT_LIST;
+//		map< pair<DWORD, bool>, pair<DWORD, string>> FISHBOT_DROP_LIST;
+//		map< pair<DWORD, bool>, pair<DWORD, string>> FISHBOT_SELL_LIST;
+//		map<DWORD, pair<string, DWORD>> FISHBOT_COMMAND_LIST;
+//		map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> SERVER_INFO_LIST;
+//		map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> SERVER_INFO_LIST2;
+//		DWORD INVENTORY_PAGE_SIZE;
+//		DWORD INVENTORY_PAGE_COUNT;
+//		bool DropBotEnable;
+//		bool FARM_ENABLE;
+//		bool FARM_MOB_ENABLE;
+//		bool FARM_BOSS_ENABLE;
+//		bool FARM_METIN_ENABLE;
+//		bool FARM_MINE_ENABLE;
+//		bool FARM_PLANT_ENABLE;
+//		int	FARM_DISTANCE;
+//		int	FARM_MOVE_TYPE;
+//		int	LevelBotAttackType;
+//		float LevelBotCoordsX[250];
+//		float LevelBotCoordsY[250];
+//		bool FishBotEnable;
+//		int FishBotSuccesPercentValue;
+//		int FishBotCastTimeMinValue;
+//		int FishBotCastTimeMaxValue;
+//		int FishBotRoundTimeMinValue;
+//		int FishBotRoundTimeMaxValue;
+//		int FishBotEmergencyRunTimeValue;
+//		bool FishBotSuccesPercent;
+//		bool FishBotCastTime;
+//		bool FishBotRoundTime;
+//		bool FishBotEmergencyRunTime;
+//		bool FISHBOT_DETECT_PLAYER;
+//		bool FishBotKillTillSize;
+//		double FishBotKillTillSizeValue;
+//		bool FishBotUseFirstSlot;
+//		bool FISHBOT_KILL_FISH;
+//		bool FISHBOT_SELL_TRASH;
+//		int FISHBOT_SELL_TRASH_AFTER_PERCENTAGE;
+//		bool FISHBOT_DROP_TRASH;
+//		bool FISHBOT_BUY_BAIT;
+//		int FISHBOT_BUY_BAIT_SHOP_SLOT;
+//		int FISHBOT_BUY_BAIT_SHOP_COUNT;
+//		bool FISHBOT_SHOP_CAST_TELEPORT;
+//		int FISHBOT_CAST_ROTATION;
+//		D3DVECTOR FISHBOT_SHOP_TELEPORT_CORDS;
+//		D3DVECTOR FISHBOT_CAST_TELEPORT_CORDS;
+//		bool FishBotStopIfPositionChanged;
+//		bool FishBotStopIfInventoryFull;
+//		bool StatusEnable;
+//		bool MainInfoStonesViewportShow;
+//		bool StatusInfoMinesViewportShow;
+//		bool StatusInfoBossesViewportShow;
+//		bool MAIN_MOBBER_ENABLE;
+//		//################################################################################################
+//		bool GLOBAL_SWITCH;
+//		bool DUNGEON_BOT;
+//		int DUNGEON_TYPE;
+//		bool MiniMHAttackEnable;
+//		bool MiniMHRotation;
+//		int MiniMHRotationValue;
+//		bool MAIN_SKILL_ENABLE;
+//		bool ITEM_SLOT_RANDOM_ENABLE;
+//		bool ITEM_SLOT_ENABLE_3;
+//		bool ITEM_SLOT_ENABLE_4;
+//		bool ITEM_SLOT_ENABLE_5;
+//		bool ITEM_SLOT_ENABLE_6;
+//		bool ITEM_SLOT_ENABLE_7;
+//		bool ITEM_SLOT_ENABLE_8;
+//		bool ITEM_SLOT_ENABLE_9;
+//		bool ITEM_SLOT_ENABLE_10;
+//		bool ITEM_SLOT_ENABLE_11;
+//		bool ITEM_SLOT_ENABLE_12;
+//		bool ITEM_SLOT_ENABLE_13;
+//		bool ITEM_SLOT_ENABLE_14;
+//		bool ITEM_SLOT_ENABLE_15;
+//		bool ITEM_SLOT_ENABLE_16;
+//		float ITEM_SLOT_RANDOM_MIN_TIME;
+//		float ITEM_SLOT_RANDOM_MAX_TIME;
+//		float ITEM_SLOT_TIME_3;
+//		float ITEM_SLOT_TIME_4;
+//		float ITEM_SLOT_TIME_5;
+//		float ITEM_SLOT_TIME_6;
+//		float ITEM_SLOT_TIME_7;
+//		float ITEM_SLOT_TIME_8;
+//		float ITEM_SLOT_TIME_9;
+//		float ITEM_SLOT_TIME_10;
+//		float ITEM_SLOT_TIME_11;
+//		float ITEM_SLOT_TIME_12;
+//		float ITEM_SLOT_TIME_13;
+//		float ITEM_SLOT_TIME_14;
+//		float ITEM_SLOT_TIME_15;
+//		float ITEM_SLOT_TIME_16;
+//		bool MAIN_SKILL_1;
+//		bool MAIN_SKILL_2;
+//		bool MAIN_SKILL_3;
+//		bool MAIN_SKILL_4;
+//		bool MAIN_SKILL_5;
+//		bool MAIN_SKILL_6;
+//		bool MiniMHNOK;
+//		bool MiniMHNOP;
+//		bool MainWallHackMob;
+//		bool MainWallHackObject;
+//		bool MainWallHackTerrain;
+//		bool MiniMHMoveSpeed;
+//		int MiniMHMoveSpeedValue;
+//		bool MiniMHAttackSpeed;
+//		int MiniMHAttackSpeedValue;
+//		bool MiniMHWaitHackEnable;
+//		int MiniMHWaitHackDistanceValue;
+//		int  MiniMHWaitHackType;
+//		bool MAIN_WAITHACK_RANGE;
+//		int MiniMHWaitHackSkillDelay;
+//		int MiniMHWaitHackTime;
+//		int MiniMHWaitHackOneTarget;
+//		bool MiniMHAttackStopAttackNoMobDistance;
+//		bool ITEM_PICKUP_ENABLE;
+//		bool ITEM_PICKUP_FILTER;
+//		int ITEM_PICKUP_DISTANCE;
+//		int ITEM_PICKUP_TIME;
+//		int ITEM_PICKUP_TYPE;
+//		map< DWORD, pair<string, bool>> ITEM_PICKUP_SELECTED_LIST;
+//		bool MiniMHUseRedPotion;
+//		int MiniMHUseRedPotionValue;
+//		int MiniMHUseRedPotionSpeed;
+//		bool MiniMHUseBluePotion;
+//		int MiniMHUseBluePotionValue;
+//		int MiniMHUseBluePotionSpeed;
+//		bool MiniMHAutoRevive;
+//		int MiniMHAutoReviveHpPercentValue;
+//		int MAIN_CHANNEL_CHANGER_PORT_OFFSET;
+//		bool ProtectionShowWisperLogs;
+//		bool ProtectionShowWisperBalloon;
+//		bool ProtectionShowTalkBalloon;
+//		bool ProtectionPlayWisperBeep;;
+//		bool ProtectionPlayTalkBeep;
+//		bool ProtectionFlashTalkIcon;
+//		bool ProtectionShowTalkLogs;
+//		bool ProtectionRestoreWisperWindow;;
+//		bool ProtectionFlashWisperIcon;
+//		bool BUFF_ENABLE;
+//		bool BUFF_SKILL_1;
+//		bool BUFF_SKILL_2;
+//		bool BUFF_SKILL_3;
+//		float BUFF_SKILL_1_TIME;
+//		float BUFF_SKILL_2_TIME;
+//		float BUFF_SKILL_3_TIME;
+//		bool SPAM_NORMAL_ENABLE;
+//		bool SPAM_SHOUT_ENABLE;
+//		bool SPAM_WISPER_ENABLE;
+//		float  SPAM_NORMAL_TIME;
+//		float  SPAM_WHISPER_TIME;
+//		float  SPAM_SHOUT_TIME;
+//		ImVec4 SPAM_NORMAL_COLOR;
+//		ImVec4 SPAM_WHISPER_COLOR;
+//		ImVec4 SPAM_SHOUT_COLOR;
+//		bool SPAM_NORMAL_COLOR_ENABLE;
+//		bool SPAM_WHISPER_COLOR_ENABLE;
+//		bool SPAM_SHOUT_COLOR_ENABLE;
+//		bool SPAM_NORMAL_RAINBOW_COLOR_ENABLE;
+//		bool SPAM_WHISPER_RAINBOW_COLOR_ENABLE;
+//		bool SPAM_SHOUT_RAINBOW_COLOR_ENABLE;
+//		bool ProtectionDisableRender;
+//		bool ProtectionDisableUpdate;
+//		bool PerformanceDisableRenerFrames;
+//		bool ProtectionAutoLogin;
+//		int	BoostKey;
+//		int	RelogKey;
+//		int  OnOffMH;
+//		int  HideUI;
+//		DWORD HotkeyTime;
+//		int BoostSpeed1;
+//		int BoostSpeed2;
+//		int BoostSpeed3;
+//		bool MiniMHWaitHackDetect;
+//		//render
+//		ImVec4 renderwh_color;
+//		bool renderwh;
+//		bool renderfarmbot;
+//		//radar
+//		ImVec4 monster_color;
+//		ImVec4 boss_color;
+//		ImVec4 npc_color;
+//		ImVec4 mining_color;
+//		ImVec4 metin_color;
+//		ImVec4 pc_color;
+//		ImVec4 waypoint_color;
+//		bool monster_show;
+//		bool boss_show;
+//		bool npc_show;
+//		bool mining_show;
+//		bool metin_show;
+//		bool pc_show;
+//		bool waypoint_show;
+//		float radar_zoom;
+//		float box_posx;
+//		float box_posy;
+//		float box_posz;
+//		int MiniMHSkillNumber;
+//		int REFINE_UPGRADE_TYPE;
+//		int REFINE_UPGRADE_COUNT;
+//		int REFINE_ITEM_SLOT;
+//	};
+//
+//
+//	void to_json(json& j, const Settings& p) {
+//		j = json
+//		{
+//			{"DETECT_PLAYER_WHITE_LIST_NAMES", p.DETECT_PLAYER_WHITE_LIST_NAMES},
+//			{"FISHBOT_KILL_FISH_LIST", p.FISHBOT_KILL_FISH_LIST},
+//			{"FISHBOT_BAIT_LIST", p.FISHBOT_BAIT_LIST},
+//			{"FISHBOT_DROP_LIST", p.FISHBOT_DROP_LIST},
+//			{"FISHBOT_SELL_LIST", p.FISHBOT_SELL_LIST},
+//			{"FISHBOT_COMMAND_LIST", p.FISHBOT_COMMAND_LIST},
+//			{"SERVER_INFO_LIST", p.SERVER_INFO_LIST},
+//			{"SERVER_INFO_LIST2", p.SERVER_INFO_LIST2},
+//			{"INVENTORY_PAGE_SIZE", p.INVENTORY_PAGE_SIZE},
+//			{"INVENTORY_PAGE_COUNT", p.INVENTORY_PAGE_COUNT},
+//			{"DropBotEnable", p.DropBotEnable},
+//			{"FARM_ENABLE", p.FARM_MOB_ENABLE},
+//			{"FARM_BOSS_ENABLE", p.FARM_BOSS_ENABLE},
+//			{"FARM_METIN_ENABLE", p.FARM_METIN_ENABLE},
+//			{"FARM_MINE_ENABLE", p.FARM_MINE_ENABLE},
+//			{"FARM_PLANT_ENABLE", p.FARM_PLANT_ENABLE},
+//			{"FARM_DISTANCE", p.FARM_DISTANCE},
+//			{"FARM_MOVE_TYPE", p.FARM_MOVE_TYPE},
+//			{"LevelBotAttackType", p.LevelBotAttackType},
+//			{"LevelBotCoordsX", p.LevelBotCoordsX},
+//			{"LevelBotCoordsY", p.LevelBotCoordsY},
+//			{"FishBotEnable", p.FishBotEnable},
+//			{"FishBotSuccesPercentValue", p.FishBotSuccesPercentValue},
+//			{"FishBotCastTimeMinValue", p.FishBotCastTimeMinValue},
+//			{"FishBotCastTimeMaxValue", p.FishBotCastTimeMaxValue},
+//			{"FishBotRoundTimeMinValue", p.FishBotRoundTimeMinValue},
+//			{"FishBotRoundTimeMaxValue", p.FishBotRoundTimeMaxValue},
+//			{"FishBotEmergencyRunTimeValue", p.FishBotEmergencyRunTimeValue},
+//			{"FishBotSuccesPercent", p.FishBotSuccesPercent},
+//			{"FishBotCastTime", p.FishBotCastTime},
+//			{"FishBotRoundTime", p.FishBotRoundTime},
+//			{"FishBotEmergencyRunTime", p.FishBotEmergencyRunTime},
+//			{"FISHBOT_DETECT_PLAYER", p.FISHBOT_DETECT_PLAYER},
+//			{"FishBotKillTillSize", p.FishBotKillTillSize},
+//			{"FishBotKillTillSizeValue", p.FishBotKillTillSizeValue},
+//			{"FishBotUseFirstSlot", p.FishBotUseFirstSlot},
+//			{"FISHBOT_KILL_FISH", p.FISHBOT_KILL_FISH},
+//			{"FISHBOT_SELL_TRASH", p.FISHBOT_SELL_TRASH},
+//			{"FISHBOT_SELL_TRASH_AFTER_PERCENTAGE", p.FISHBOT_SELL_TRASH_AFTER_PERCENTAGE},
+//			{"FISHBOT_DROP_TRASH", p.FISHBOT_DROP_TRASH},
+//			{"FISHBOT_BUY_BAIT", p.FISHBOT_BUY_BAIT},
+//			{"FISHBOT_BUY_BAIT_SHOP_SLOT", p.FISHBOT_BUY_BAIT_SHOP_SLOT},
+//			{"FISHBOT_BUY_BAIT_SHOP_COUNT", p.FISHBOT_BUY_BAIT_SHOP_COUNT},
+//			{"FISHBOT_SHOP_CAST_TELEPORT", p.FISHBOT_SHOP_CAST_TELEPORT},
+//			{"FISHBOT_CAST_ROTATION", p.FISHBOT_CAST_ROTATION},
+//			{"FISHBOT_SHOP_TELEPORT_CORDS.x", p.FISHBOT_SHOP_TELEPORT_CORDS.x},
+//			{"FISHBOT_SHOP_TELEPORT_CORDS.y", p.FISHBOT_SHOP_TELEPORT_CORDS.y},
+//			{"FISHBOT_SHOP_TELEPORT_CORDS.z", p.FISHBOT_SHOP_TELEPORT_CORDS.z},
+//			{"FISHBOT_CAST_TELEPORT_CORDS.x", p.FISHBOT_CAST_TELEPORT_CORDS.x},
+//			{"FISHBOT_CAST_TELEPORT_CORDS.y", p.FISHBOT_CAST_TELEPORT_CORDS.y},
+//			{"FISHBOT_CAST_TELEPORT_CORDS.z", p.FISHBOT_CAST_TELEPORT_CORDS.z},
+//			{"FishBotStopIfPositionChanged", p.FishBotStopIfPositionChanged},
+//			{"FishBotStopIfInventoryFull", p.FishBotStopIfInventoryFull}
+//		};
+//	}
+//
+//	void from_json(const json& j, Settings& p)
+//	{
+//		j.at("DETECT_PLAYER_WHITE_LIST_NAMES").get_to(p.DETECT_PLAYER_WHITE_LIST_NAMES);
+//		j.at("FISHBOT_KILL_FISH_LIST").get_to(p.FISHBOT_KILL_FISH_LIST);
+//		j.at("FISHBOT_BAIT_LIST").get_to(p.FISHBOT_BAIT_LIST);
+//		j.at("FISHBOT_DROP_LIST").get_to(p.FISHBOT_DROP_LIST);
+//		j.at("FISHBOT_SELL_LIST").get_to(p.FISHBOT_SELL_LIST);
+//		j.at("FISHBOT_COMMAND_LIST").get_to(p.FISHBOT_COMMAND_LIST);
+//		j.at("SERVER_INFO_LIST").get_to(p.SERVER_INFO_LIST);
+//		j.at("SERVER_INFO_LIST2").get_to(p.SERVER_INFO_LIST2);
+//		j.at("INVENTORY_PAGE_SIZE").get_to(p.INVENTORY_PAGE_SIZE);
+//		j.at("INVENTORY_PAGE_COUNT").get_to(p.INVENTORY_PAGE_COUNT);
+//		j.at("DropBotEnable").get_to(p.DropBotEnable);
+//		j.at("FARM_ENABLE").get_to(p.FARM_MOB_ENABLE);
+//		j.at("FARM_BOSS_ENABLE").get_to(p.FARM_BOSS_ENABLE);
+//		j.at("FARM_METIN_ENABLE").get_to(p.FARM_METIN_ENABLE);
+//		j.at("FARM_MINE_ENABLE").get_to(p.FARM_MINE_ENABLE);
+//		j.at("FARM_PLANT_ENABLE").get_to(p.FARM_PLANT_ENABLE);
+//		j.at("FARM_DISTANCE").get_to(p.FARM_DISTANCE);
+//		j.at("FARM_MOVE_TYPE").get_to(p.FARM_MOVE_TYPE);
+//		j.at("LevelBotAttackType").get_to(p.LevelBotAttackType);
+//		j.at("LevelBotCoordsX").get_to(p.LevelBotCoordsX);
+//		j.at("LevelBotCoordsY").get_to(p.LevelBotCoordsY);
+//		j.at("FishBotEnable").get_to(p.FishBotEnable);
+//		j.at("FishBotSuccesPercentValue").get_to(p.FishBotSuccesPercentValue);
+//		j.at("FishBotCastTimeMinValue").get_to(p.FishBotCastTimeMinValue);
+//		j.at("FishBotCastTimeMaxValue").get_to(p.FishBotCastTimeMaxValue);
+//		j.at("FishBotRoundTimeMinValue").get_to(p.FishBotRoundTimeMinValue);
+//		j.at("FishBotRoundTimeMaxValue").get_to(p.FishBotRoundTimeMaxValue);
+//		j.at("FishBotEmergencyRunTimeValue").get_to(p.FishBotEmergencyRunTimeValue);
+//		j.at("FishBotSuccesPercent").get_to(p.FishBotSuccesPercent);
+//		j.at("FishBotCastTime").get_to(p.FishBotCastTime);
+//		j.at("FishBotRoundTime").get_to(p.FishBotRoundTime);
+//		j.at("FishBotEmergencyRunTime").get_to(p.FishBotEmergencyRunTime);
+//		j.at("FISHBOT_DETECT_PLAYER").get_to(p.FISHBOT_DETECT_PLAYER);
+//		j.at("FishBotKillTillSize").get_to(p.FishBotKillTillSize);
+//		j.at("FishBotKillTillSizeValue").get_to(p.FishBotKillTillSizeValue);
+//		j.at("FishBotUseFirstSlot").get_to(p.FishBotUseFirstSlot);
+//		j.at("FISHBOT_KILL_FISH").get_to(p.FISHBOT_KILL_FISH);
+//		j.at("FISHBOT_SELL_TRASH").get_to(p.FISHBOT_SELL_TRASH);
+//		j.at("FISHBOT_SELL_TRASH_AFTER_PERCENTAGE").get_to(p.FISHBOT_SELL_TRASH_AFTER_PERCENTAGE);
+//		j.at("FISHBOT_DROP_TRASH").get_to(p.FISHBOT_DROP_TRASH);
+//		j.at("FISHBOT_BUY_BAIT").get_to(p.FISHBOT_BUY_BAIT);
+//		j.at("FISHBOT_BUY_BAIT_SHOP_SLOT").get_to(p.FISHBOT_BUY_BAIT_SHOP_SLOT);
+//		j.at("FISHBOT_BUY_BAIT_SHOP_COUNT").get_to(p.FISHBOT_BUY_BAIT_SHOP_COUNT);
+//		j.at("FISHBOT_SHOP_CAST_TELEPORT").get_to(p.FISHBOT_SHOP_CAST_TELEPORT);
+//		j.at("FISHBOT_CAST_ROTATION").get_to(p.FISHBOT_CAST_ROTATION);
+//		j.at("FISHBOT_SHOP_TELEPORT_CORDS.x").get_to(p.FISHBOT_SHOP_TELEPORT_CORDS.x);
+//		j.at("FISHBOT_SHOP_TELEPORT_CORDS.y").get_to(p.FISHBOT_SHOP_TELEPORT_CORDS.y);
+//		j.at("FISHBOT_SHOP_TELEPORT_CORDS.z").get_to(p.FISHBOT_SHOP_TELEPORT_CORDS.z);
+//		j.at("FISHBOT_CAST_TELEPORT_CORDS.x").get_to(p.FISHBOT_CAST_TELEPORT_CORDS.x);
+//		j.at("FISHBOT_CAST_TELEPORT_CORDS.y").get_to(p.FISHBOT_CAST_TELEPORT_CORDS.y);
+//		j.at("FISHBOT_CAST_TELEPORT_CORDS.z").get_to(p.FISHBOT_CAST_TELEPORT_CORDS.z);
+//		j.at("FishBotStopIfPositionChanged").get_to(p.FishBotStopIfPositionChanged);
+//		j.at("FishBotStopIfInventoryFull").get_to(p.FishBotStopIfInventoryFull);
+//	}
+//}
+
+//class Settings2
+//{
+//public:
+//	//static ns::Settings instance;
+//
+//	static void LoadSettings()
+//	{
+//		ns::Settings p = 
+//		{
+//			vector<string>(),
+//			map < pair<DWORD, bool>, pair<DWORD, string>>(),
+//			map < pair<DWORD, bool>, pair<DWORD, string>>(),
+//		};
+//		json j = p;
+//		std::cout << j << std::endl;
+//	}
+//};
 
 class Settings
 {
@@ -18,14 +364,9 @@ public:
 	static DWORD INVENTORY_PAGE_SIZE;
 	static DWORD INVENTORY_PAGE_COUNT;
 
-
-	
-
-	
-
 	static void Load(const char* name) 
 	{
-	
+
 	}
 
 	static void Save(const char* name)

@@ -38,9 +38,6 @@
     <ClCompile Include="MainCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="HookCore.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="SplashScreen.cpp">
       <Filter>Utils\Other</Filter>
     </ClCompile>
@@ -50,6 +47,7 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Communication</Filter>
     </ClCompile>
+    <ClCompile Include="HookCore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">

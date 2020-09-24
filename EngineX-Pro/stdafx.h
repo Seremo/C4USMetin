@@ -66,9 +66,9 @@ enum ServerName
 //#define VERSION_PREMIUM
 
 //#define PYTHON_CUSTOM
-#define FISHBOT
-#define DEVELOPER_MODE
-#define NETWORK_MODE
+//#define FISHBOT
+//#define DEVELOPER_MODE
+//#define NETWORK_MODE
 
 #define DLL_VERSION "0.0.62 Beta"
 
@@ -131,7 +131,7 @@ typedef int                 Py_ssize_t;
 #include "PatternScan.h"
 #include "PatternScan2.h"
 
-
+//#include "json.hpp"
 #include "Settings.h"
 #include "Hotkey.h"
 #include "Device.h"

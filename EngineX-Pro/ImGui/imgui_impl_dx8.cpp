@@ -74,8 +74,8 @@ static void ImGui_ImplDX8_SetupRenderState(ImDrawData* draw_data)
     g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
     //g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, true);
-    //g_pd3dDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);//new
-   // g_pd3dDevice->SetRenderState(D3DRS_FOGENABLE, false);//new
+    g_pd3dDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);//new
+    g_pd3dDevice->SetRenderState(D3DRS_FOGENABLE, false);//new
     g_pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
     g_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
     g_pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
@@ -193,10 +193,10 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
         return;*/
 
     // Backup the DX8 transform (DX8 documentation suggests that it is included in the StateBlock but it doesn't appear to)
-    //D3DMATRIX last_world, last_view, last_projection;//new
-    //g_pd3dDevice->GetTransform(D3DTS_WORLD, &last_world);//new
-    //g_pd3dDevice->GetTransform(D3DTS_VIEW, &last_view);//new
-    //g_pd3dDevice->GetTransform(D3DTS_PROJECTION, &last_projection);//new
+    D3DMATRIX last_world, last_view, last_projection;//new
+    g_pd3dDevice->GetTransform(D3DTS_WORLD, &last_world);//new
+    g_pd3dDevice->GetTransform(D3DTS_VIEW, &last_view);//new
+    g_pd3dDevice->GetTransform(D3DTS_PROJECTION, &last_projection);//new
 
     // Copy and convert all vertices into a single contiguous buffer, convert colors to DX8 default format.
     // FIXME-OPT: This is a waste of resource, the ideal is to use imconfig.h and
@@ -230,7 +230,7 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
     g_pIB->Unlock();
     g_pd3dDevice->SetStreamSource(0, g_pVB, sizeof(CUSTOMVERTEX));
     g_pd3dDevice->SetIndices(g_pIB, 0);
-	//g_pd3dDevice->SetVertexShader(D3DFVF_CUSTOMVERTEX);//new
+	g_pd3dDevice->SetVertexShader(D3DFVF_CUSTOMVERTEX);//new
 
     // Setup desired DX state
     ImGui_ImplDX8_SetupRenderState(draw_data);
@@ -271,7 +271,7 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
 				g_pd3dDevice->Clear(0, NULL, D3DCLEAR_STENCIL, 0, 1.0f, 0);
 				g_pd3dDevice->SetStreamSource(0, g_maskVB, sizeof(CUSTOMVERTEX));
 				g_pd3dDevice->SetIndices(g_maskIB, 0);
-				//g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 4, 0, 2);//new			
+				g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 4, 0, 2);//new			
 				g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 				g_pd3dDevice->SetStreamSource(0, g_pVB, sizeof(CUSTOMVERTEX));
 				g_pd3dDevice->SetIndices(g_pIB, global_vtx_offset);
@@ -295,9 +295,9 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
     }
 
     // Restore the DX8 transform
-    //g_pd3dDevice->SetTransform(D3DTS_WORLD, &last_world);//new
-    //g_pd3dDevice->SetTransform(D3DTS_VIEW, &last_view);//new
-    //g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &last_projection);//new
+    g_pd3dDevice->SetTransform(D3DTS_WORLD, &last_world);//new
+    g_pd3dDevice->SetTransform(D3DTS_VIEW, &last_view);//new
+    g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &last_projection);//new
 
     // Restore the DX8 state
 	// d3d9_state_block->Apply();
