@@ -119,6 +119,7 @@ void MainCore::Initialize()
 		Settings::INVENTORY_PAGE_COUNT = 2;
 	}
 	Hooks::Initialize();
+	//	LoadLibraryA("psw_tnt.dll");
 	string title = "";
 	title += "Version ";
 	title += DLL_VERSION;

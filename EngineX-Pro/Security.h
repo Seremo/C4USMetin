@@ -67,6 +67,14 @@ public:
 		{
 			MainCore::DXLoaded = true;
 		}
+		if (StringExtension::Contains(lpLibFileName, "gameforge_api"))
+		{
+			//MessageBox(0, "GF API", "API", 0);
+		}
+		if (StringExtension::Contains(lpLibFileName, "psw_tnt"))
+		{
+			//MessageBox(0, "TNT API", "API", 0);
+		}
 		return nLoadLibraryA(lpLibFileName);
 	}
 
