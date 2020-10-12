@@ -935,7 +935,7 @@ public:
 		}
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::Server != METINPL)
 			{
 				*pPixelPosition = PythonExtension::GetPythonD3DVECTOR1(Globals::pCInstanceBaseNEW_GetPixelPosition, InstanceBaseGetVirtualNumber(instance));
 			}
