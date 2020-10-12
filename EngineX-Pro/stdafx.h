@@ -41,6 +41,8 @@ using namespace std;
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Wininet")
 
+#include "Python.h"
+#pragma comment(lib, "python27.lib")
 
 enum ServerName
 {
@@ -69,6 +71,7 @@ enum ServerName
 #define FISHBOT
 #define DEVELOPER_MODE
 //#define NETWORK_MODE
+#define PYTHON_FUNCTIONS
 
 #define DLL_VERSION "0.0.62 Beta"
 
@@ -100,11 +103,10 @@ enum ServerName
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 
-//#include "Python.h"
-//#pragma comment(lib, "python27.lib")
 
-typedef unsigned long       PyObject;
-typedef int                 Py_ssize_t;
+
+//typedef unsigned long       PyObject;
+//typedef int                 Py_ssize_t;
 
 #include "DynamicTimer.h"
 
@@ -121,6 +123,7 @@ typedef int                 Py_ssize_t;
 #include "TAbstractSingleton.h"
 #include "Singleton.h"
 
+#include "PythonExtension.h"
 #include "MiscExtension.h"
 #include "CryptExtension.h"
 #include "FileExtension.h"

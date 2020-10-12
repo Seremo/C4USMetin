@@ -2,6 +2,8 @@
 #include "MainCore.h"
 
 bool MainCore::DXLoaded = false;
+
+
 void MainCore::Crack()
 {
 	switch (Globals::Server)
@@ -77,8 +79,8 @@ void MainCore::Initialize()
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{
-		MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
-		exit(0);
+		//MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
+		//exit(0);
 	}
 #endif
 #ifdef NETWORK_MODE
@@ -90,19 +92,23 @@ void MainCore::Initialize()
 		try
 		{		
 #ifndef NETWORK_MODE
-			Globals::ReAddressingLocas();
+			Globals::ReAddressingInstances();
 #endif
-			Globals::ReDeclarationLocals();
-			ConsoleOutput("[+] Wait...");
+			Globals::ReDeclarationInstances();
 			Sleep(500);
 		}
 		catch (...)
 		{
-			ConsoleOutput("[+] Error...");
 			Sleep(1000);
 		}
 	}
 	ConsoleOutput("[+] Application detected.");
+	Globals::ReAddressingLocas();
+	Globals::ReDeclarationLocals();
+	if (Globals::UsePythonFunctions)
+	{
+		Globals::ReAddressingPython();
+	}
 	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
 	MainCore::Crack();
 	if (Globals::Server == ServerName::METINPL)
@@ -119,7 +125,6 @@ void MainCore::Initialize()
 		Settings::INVENTORY_PAGE_COUNT = 2;
 	}
 	Hooks::Initialize();
-	//	LoadLibraryA("psw_tnt.dll");
 	string title = "";
 	title += "Version ";
 	title += DLL_VERSION;

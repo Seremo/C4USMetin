@@ -20,6 +20,8 @@ private:
 	typedef HMODULE(__stdcall* tLoadLibraryA)(LPCSTR lpLibFileName);
 	typedef BOOL(__stdcall* tIsDebuggerPresent)();
 
+	typedef PyObject* (__cdecl* tPy_InitModule4)(const char* name, PyMethodDef* methods, const char* doc, PyObject* self, int apiver);
+
 	static tNtAllocateVirtualMemory nNtAllocateVirtualMemory;
 	static tNtFreeVirtualMemory nNtFreeVirtualMemory;
 	static tNtMapViewOfSection nNtMapViewOfSection;
@@ -30,6 +32,7 @@ private:
 	static tCreateThread nCreateThread;
 	static tLoadLibraryA nLoadLibraryA;
 	static tIsDebuggerPresent nIsDebuggerPresent;
+	static tPy_InitModule4 nPy_InitModule4;
 
 public:
 	static NTSTATUS _stdcall NewNtAllocateVirtualMemory(HANDLE ProcessHandle, PVOID* BaseAddress, ULONG_PTR ZeroBits, PSIZE_T RegionSize, ULONG AllocationType, ULONG Protect)
@@ -82,6 +85,28 @@ public:
 		return nIsDebuggerPresent();
 	}
 
+
+	static PyObject* _cdecl NewPy_InitModule4(const char* name, PyMethodDef* methods, const char* doc, PyObject* self, int apiver)
+	{
+		string import_name = PythonExtension::CheckImportNames(name, methods);
+		if (import_name != "zipimport")
+		{
+			if (methods != NULL)
+			{
+				for (int i = 0;; i++)
+				{
+					if (methods[i].ml_name == NULL)
+					{
+						break;
+					}
+					string add = "" + import_name + methods[i].ml_name;
+					PythonExtension::ModulesMap.insert(map< string, DWORD>::value_type((add), (DWORD)methods[i].ml_meth));
+				}
+			}
+		}
+		return nPy_InitModule4(name, methods, doc, self, apiver);
+	}
+
 	static void Initialize()
 	{
 		HMODULE ntdllLibrary = LoadLibraryA("ntdll");
@@ -108,9 +133,9 @@ public:
 		nCallNextHookEx = (tCallNextHookEx)DetourFunction((PBYTE)CallNextHookEx, (PBYTE)NewCallNextHookEx);
 		VirtualProtect(CallNextHookEx, 0x97, PAGE_EXECUTE_READ, NULL);
 
-		LPVOID LoadLibraryA = GetProcAddress(kernel32Library, "LoadLibraryA");
-		nLoadLibraryA = (tLoadLibraryA)DetourFunction((PBYTE)LoadLibraryA, (PBYTE)NewLoadLibraryA);
-		VirtualProtect(LoadLibraryA, 5, PAGE_EXECUTE_READ, NULL);
+		LPVOID LoadLibraryAddr = GetProcAddress(kernel32Library, "LoadLibraryA");
+		nLoadLibraryA = (tLoadLibraryA)DetourFunction((PBYTE)LoadLibraryAddr, (PBYTE)NewLoadLibraryA);
+		VirtualProtect(LoadLibraryAddr, 5, PAGE_EXECUTE_READ, NULL);
 
 		LPVOID CreateThread = GetProcAddress(kernel32Library, "CreateThread");
 		nCreateThread = (tCreateThread)DetourFunction((PBYTE)CreateThread, (PBYTE)NewCreateThread);
@@ -119,6 +144,33 @@ public:
 		LPVOID IsDebuggerPresent = GetProcAddress(kernel32Library, "IsDebuggerPresent");
 		nIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)NewIsDebuggerPresent);
 		VirtualProtect(IsDebuggerPresent, 5, PAGE_EXECUTE_READ, NULL);
+
+		tPy_InitModule4 Py_InitModule4 = (tPy_InitModule4)GetProcAddress(LoadLibraryA("python27"), "Py_InitModule4");
+		if (Py_InitModule4 == NULL)
+		{
+			Py_InitModule4 = (tPy_InitModule4)GetProcAddress(LoadLibraryA("python22"), "Py_InitModule4");
+		}
+		if (Py_InitModule4 == NULL)
+		{
+			DWORD pInitModule4 = PatternScan::FindPattern("55 8B EC 81 EC ? ? ? ? A1 ? ? ? ? 33 C5 89 45 FC E8 ? ? ? ? 85 C0");
+			Py_InitModule4 = (tPy_InitModule4)(pInitModule4);
+		}
+		if (Py_InitModule4 == NULL)
+		{
+			DWORD pInitModule4 = PatternScan::FindPattern("55 8B EC 81 EC ? ? ? ? A1 ? ? ? ? 33 C5 89 45 ? 8B 45 ? 53 8B 5D ? 89 85 ? ? ? ? 8B 45 ? 56 8B 75");
+			Py_InitModule4 = (tPy_InitModule4)(pInitModule4);
+		}
+		if (Py_InitModule4 == NULL)
+		{
+			DWORD pInitModule4 = PatternScan::FindPattern("55 8B EC 83 E4 F8 81 EC ? ? ? ? A1 ? ? ? ? 33 C4 89 84 24 ? ? ? ? 8B 45 10 53 8B 5D 0C");
+			Py_InitModule4 = (tPy_InitModule4)(pInitModule4);
+		}
+		if (Py_InitModule4 == NULL)
+		{
+			DWORD pInitModule4 = PatternScan::FindPattern("55 8B EC 81 EC ? ? ? ? A1 ? ? ? ? 33 C5 89 45 ? 8B 45 ? 8B 4D ? 53 8B 5D ? 57");
+			Py_InitModule4 = (tPy_InitModule4)(pInitModule4);
+		}
+		nPy_InitModule4 = (tPy_InitModule4)DetourFunction((PBYTE)Py_InitModule4, (PBYTE)NewPy_InitModule4);
 
 		//HookIAT::Hook("kernel32.dll", "CreateThread", (PVOID)NewCreateThread, (PVOID*)&nCreateThread);
 		//HookIAT::Hook("kernel32.dll", "LoadLibraryA", (PVOID)NewLoadLibraryA, (PVOID*)&nLoadLibraryA);
@@ -134,3 +186,4 @@ Security::tCallNextHookEx Security::nCallNextHookEx = NULL;
 Security::tCreateThread Security::nCreateThread = NULL;
 Security::tLoadLibraryA Security::nLoadLibraryA = NULL;
 Security::tIsDebuggerPresent Security::nIsDebuggerPresent = NULL;
+Security::tPy_InitModule4 Security::nPy_InitModule4 = NULL;

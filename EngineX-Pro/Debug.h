@@ -39,22 +39,28 @@ public:
 	void OnRender()
 	{
 	}
-
 	
 	void OnMenu()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
-
-		if (ImGui::Button("Open Shop Search")) {
-			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244*4));
-			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialogCash", Globals::Py_BuildValue("()"));
+		if (ImGui::Button("Test adres"))
+		{
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, "GetStatus:");
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(PythonExtension::ModulesMap["playerGetStatus"]));
 		}
-
-		if (ImGui::Button("Open Shop Search 2")) {
-			DWORD h = *reinterpret_cast<DWORD*>(Globals::iCPythonNetworkStreamInstance + (244 * 4));
-			Globals::PyCallClassMemberFunc((PyObject*)h, "OpenPShopSearchDialog", Globals::Py_BuildValue("()"));
+		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
+		if (ImGui::Button("Test speed C++")) {
+			auto t1 = std::chrono::high_resolution_clock::now();
+			for (int i = 0; i < 1000000; i++)
+			{
+				int value = GameFunctions::PlayerGetStatus(1);
+			}
+			auto t2 = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, "Time");
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(duration));
 		}
 		ImGui::Checkbox("Do Animation", &DoAnimation);
 		ImGui::InputInt("eFunc:", &eFunc);
