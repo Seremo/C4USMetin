@@ -59,12 +59,29 @@ public:
 			return false;
 		}
 	}
+	static void SelectItem(DWORD vnum)
+	{
+		try
+		{
+			PythonExtension::CallPythonInteger1(Globals::CythonItemSelectItem, vnum);
+		}
+		catch (...)
+		{
+		}
+	}
 	//#################################################################################################################################
 	static const char* ItemDataGetName(DWORD* cItemData)
 	{
 		try
 		{
-			return Globals::CItemDataGetName(cItemData);
+			if (Globals::UsePythonFunctions && Globals::CythonItemGetItemName)
+			{
+				return PythonExtension::GetPythonString0(Globals::CythonItemGetItemName);
+			}
+			else
+			{
+				return Globals::CItemDataGetName(cItemData);
+			}
 		}
 		catch (...)
 		{
@@ -891,6 +908,37 @@ public:
 		}
 	}
 	//#################################################################################################################################
+	static bool NetworkStreamConnect(DWORD dwAddr, int port, int limitSec = 3)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions && Globals::CythonNetConnectTCP)
+			{
+				char szAddr[256];
+				{
+					BYTE ip[4];
+					ip[0] = dwAddr & 0xff; dwAddr >>= 8;
+					ip[1] = dwAddr & 0xff; dwAddr >>= 8;
+					ip[2] = dwAddr & 0xff; dwAddr >>= 8;
+					ip[3] = dwAddr & 0xff; dwAddr >>= 8;
+
+					sprintf(szAddr, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+				}
+
+				PythonExtension::CallPythonStringInt(Globals::CythonNetConnectTCP, szAddr, port);
+				return true;
+			}
+			else
+			{
+				return Globals::CNetworkStreamConnect((void*)Globals::iCPythonNetworkStreamInstance, dwAddr, port, limitSec);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
 	static void NetworkStreamServerCommand(const char* c_szCommand)
 	{
 		try
@@ -899,18 +947,6 @@ public:
 		}
 		catch (...)
 		{
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamUseSequence()
-	{
-		try
-		{
-			return *reinterpret_cast<BYTE*>(Globals::iCPythonNetworkStreamInstance + 116);
-		}
-		catch (...)
-		{
-			return false;
 		}
 	}
 	//#################################################################################################################################
@@ -1098,18 +1134,6 @@ public:
 		catch (...)
 		{
 
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamConnect(DWORD dwAddr, int port, int limitSec = 3)
-	{
-		try
-		{
-			return Globals::CNetworkStreamConnect((void*)Globals::iCPythonNetworkStreamInstance, dwAddr, port, limitSec);
-		}
-		catch (...)
-		{
-			return false;
 		}
 	}
 	//#################################################################################################################################

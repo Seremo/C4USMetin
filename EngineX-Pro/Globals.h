@@ -344,10 +344,14 @@ public:
 	static DWORD CythonNetSendGiveItemPacket;
 	static DWORD CythonNetSendItemMovePacket;
 	static DWORD CythonNetDirectEnter;
+	static DWORD CythonNetConnectTCP;
 	static DWORD CythonNetIsConnect;
 	static DWORD CythonNetGetMainActorSkillGroup;
 	static DWORD CythonNetGetAccountCharacterSlotData;
 	static DWORD CythonNetSendCommandPacket;
+	//item
+	static DWORD CythonItemSelectItem;
+	static DWORD CythonItemGetItemName;
 public:
 	//#####################################################################################################################################
 	/*static tCNetworkStreamPeek CNetworkStreamPeek;*/
@@ -657,10 +661,14 @@ DWORD Globals::CythonNetSendShopEndPacket = NULL;
 DWORD Globals::CythonNetSendGiveItemPacket = NULL;
 DWORD Globals::CythonNetSendItemMovePacket = NULL;
 DWORD Globals::CythonNetDirectEnter = NULL;
+DWORD Globals::CythonNetConnectTCP = NULL;
 DWORD Globals::CythonNetIsConnect = NULL;
 DWORD Globals::CythonNetGetMainActorSkillGroup = NULL;
 DWORD Globals::CythonNetGetAccountCharacterSlotData = NULL;
 DWORD Globals::CythonNetSendCommandPacket = NULL;
+//item
+DWORD Globals::CythonItemSelectItem = NULL;
+DWORD Globals::CythonItemGetItemName = NULL;
 
 Globals::tCActorInstanceTestActorCollision Globals::CActorInstanceTestActorCollision = NULL;
 Globals::tCPythonBackgroundGlobalPositionToMapInfo Globals::CBackgroundGlobalPositionToMapInfo = NULL;
@@ -1247,10 +1255,14 @@ void Globals::ReAddressingPython()
 	CythonNetSendGiveItemPacket = PythonExtension::ModulesMap["netSendGiveItemPacket"];
 	CythonNetSendItemMovePacket = PythonExtension::ModulesMap["netSendItemMovePacket"];
 	CythonNetDirectEnter = PythonExtension::ModulesMap["netDirectEnter"];
+	CythonNetConnectTCP = PythonExtension::ModulesMap["netConnectTCP"];
 	CythonNetIsConnect = PythonExtension::ModulesMap["netIsConnect"];
 	CythonNetGetMainActorSkillGroup = PythonExtension::ModulesMap["netGetMainActorSkillGroup"];
 	CythonNetGetAccountCharacterSlotData = PythonExtension::ModulesMap["netGetAccountCharacterSlotDataString"];
 	CythonNetSendCommandPacket = PythonExtension::ModulesMap["netSendCommandPacket"];
+	//item
+	CythonItemSelectItem = PythonExtension::ModulesMap["itemSelectItem"];
+	CythonItemGetItemName = PythonExtension::ModulesMap["itemGetItemName"];
 }
 
 void Globals::ReDeclarationInstances()

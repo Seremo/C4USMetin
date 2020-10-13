@@ -40,33 +40,33 @@ public:
 
 	typedef PyObject* PythonModuleFunction(PyObject* poSelf, PyObject* PoArgs);
 
-	static bool PyTuple_GetFloat(PyObject* poArgs, int pos, float* ret)
+	static bool PyTuple_GetFloat(PyObject* poItem, int pos, float* ret)
 	{
-		if (pos >= PyTuple_Size(poArgs))
-			return false;
-
-		PyObject* poItem = PyTuple_GetItem(poArgs, pos);
-
 		if (!poItem)
 			return false;
 
 		*ret = float(PyFloat_AsDouble(poItem));
-		Py_DECREF(poItem);
 		return true;
 	}
 
-	static bool PyTuple_GetInteger(PyObject* poArgs, int pos, int* ret)
+	static bool PyTuple_GetInteger(PyObject* poItem, int pos, int* ret)
 	{
-		if (pos >= PyTuple_Size(poArgs))
-			return false;
-
-		PyObject* poItem = PyTuple_GetItem(poArgs, pos);
-
 		if (!poItem)
 			return false;
 
 		*ret = PyLong_AsLong(poItem);
-		Py_DECREF(poItem);
+		return true;
+	}
+
+	static bool PyTuple_GetString(PyObject* poItem, int pos, const char** ret)
+	{
+		if (!poItem)
+			return false;
+
+		if (!PyString_Check(poItem))
+			return false;
+
+		*ret = PyString_AsString(poItem);
 		return true;
 	}
 
@@ -95,7 +95,10 @@ public:
 		const char* result;
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, NULL);
-		result = PyString_AsString(ret);
+		if (!PyTuple_GetString(ret, 0, &result))
+		{
+			result = "";
+		}
 		Py_DECREF(ret);
 		return result;
 	}
@@ -107,7 +110,10 @@ public:
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, args);
-		result = PyString_AsString(ret);
+		if (!PyTuple_GetString(ret, 0, &result))
+		{
+			result = "";
+		}
 		Py_DECREF(ret);
 		Py_DECREF(args);
 		return result;
@@ -121,7 +127,10 @@ public:
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, args);
-		result = PyString_AsString(ret);
+		if (!PyTuple_GetString(ret, 0, &result))
+		{
+			result = "";
+		}
 		Py_DECREF(ret);
 		Py_DECREF(args);
 		return result;

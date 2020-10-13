@@ -45,10 +45,13 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
-		if (ImGui::Button("Test adres"))
+		if (ImGui::Button("Test isonline"))
 		{
-			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, "GetStatus:");
-			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(PythonExtension::ModulesMap["playerGetStatus"]));
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(GameFunctions::NetworkStreamIsOnline()));
+		}
+		if (ImGui::Button("Test name"))
+		{
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, GameFunctions::PlayerGetName());
 		}
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
 		if (ImGui::Button("Test speed DWORD")) {
