@@ -299,6 +299,9 @@ public:
 	static DWORD pCInstanceBaseSetRotation;
 	static DWORD pCPythonNetworkStreamSendCommandPacket;
 	static DWORD pCInstanceBase__GetBackgroundHeight;
+
+	//python only
+	static DWORD pCChrSelectInstance;
 public:
 	//#####################################################################################################################################
 	/*static tCNetworkStreamPeek CNetworkStreamPeek;*/
@@ -563,7 +566,7 @@ DWORD Globals::pCInstanceBaseIsWaiting = NULL;
 DWORD Globals::pCInstanceBaseSetRotation = NULL;
 DWORD Globals::pCPythonNetworkStreamSendCommandPacket = NULL;
 DWORD Globals::pCInstanceBase__GetBackgroundHeight = NULL;
-
+DWORD Globals::pCChrSelectInstance = NULL;
 
 Globals::tCActorInstanceTestActorCollision Globals::CActorInstanceTestActorCollision = NULL;
 Globals::tCPythonBackgroundGlobalPositionToMapInfo Globals::CBackgroundGlobalPositionToMapInfo = NULL;
@@ -1107,6 +1110,7 @@ void Globals::ReAddressingLocas()
 
 void Globals::ReAddressingPython()
 {
+	//player
 	pCPythonPlayerGetStatus = PythonExtension::ModulesMap["playerGetStatus"];
 	pCPythonPlayerGetMainCharacterIndex = PythonExtension::ModulesMap["playerGetMainCharacterIndex"];
 	pCPythonPlayerGetItemIndex = PythonExtension::ModulesMap["playerGetItemIndex"];
@@ -1120,7 +1124,39 @@ void Globals::ReAddressingPython()
 	pCPythonPlayerGetTargetVID = PythonExtension::ModulesMap["playerGetTargetVID"];
 	pCPythonPlayerSetTarget = PythonExtension::ModulesMap["playerSetTarget"];
 	pCPythonPlayerSetAttackKeyState = PythonExtension::ModulesMap["playerSetAttackKeyState"];
+	pCInstanceBaseIsMountingHorse = PythonExtension::ModulesMap["playerIsMountingHorse"];
+	//chr
+	pCChrSelectInstance = PythonExtension::ModulesMap["chrSelectInstance"];
 	pCInstanceBaseNEW_GetPixelPosition = PythonExtension::ModulesMap["chrGetPixelPosition"];
+	pCInstanceBaseNEW_MoveToDestPixelPositionDirection = PythonExtension::ModulesMap["chrMoveToDestPosition"];
+	pCInstanceBaseGetInstanceType = PythonExtension::ModulesMap["chrGetInstanceType"];
+	pCInstanceBaseGetInstanceVirtualNumber = PythonExtension::ModulesMap["chrGetVirtualNumber"];
+	pCInstanceBaseGetNameString = PythonExtension::ModulesMap["chrGetNameByVID"];
+	pCInstanceBaseSCRIPT_SetPixelPosition = PythonExtension::ModulesMap["chrSetPixelPosition"];
+	pCInstanceBaseSetRotation = PythonExtension::ModulesMap["chrSetRotation"];
+	pCInstanceBaseGetRotation = PythonExtension::ModulesMap["chrGetRotation"];
+	pCInstanceBase__SetAffect = PythonExtension::ModulesMap["chrmgrSetAffect"];
+	//net
+	pCPythonNetworkStreamSendItemUsePacket = PythonExtension::ModulesMap["netSendItemUsePacket"];
+	pCPythonNetworkStreamSendChatPacket = PythonExtension::ModulesMap["netSendChatPacket"];
+	pCPythonNetworkStreamSendRefinePacket = PythonExtension::ModulesMap["netSendRefinePacket"];
+	pCPythonNetworkStreamSendExchangeStartPacket = PythonExtension::ModulesMap["netSendExchangeStartPacket"];
+	pCPythonNetworkStreamSendExchangeItemAddPacket = PythonExtension::ModulesMap["netSendExchangeItemAddPacket"];
+	pCPythonNetworkStreamSendExchangeAcceptPacket = PythonExtension::ModulesMap["netSendExchangeAcceptPacket"];
+	pCPythonNetworkStreamSendWhisperPacket = PythonExtension::ModulesMap["netSendWhisperPacket"];
+	pCPythonNetworkStreamSendItemPickUpPacket = PythonExtension::ModulesMap["netSendItemPickUpPacket"];
+	pCPythonNetworkStreamSendItemDropPacketNew = PythonExtension::ModulesMap["netSendItemDropPacketNew"];
+	pCPythonNetworkStreamSendOnClickPacket = PythonExtension::ModulesMap["netOnClickPacket"];
+	pCPythonNetworkStreamSendShopSellPacketNew = PythonExtension::ModulesMap["netSendShopSellPacketNew"];
+	pCPythonNetworkStreamSendShopBuyPacket = PythonExtension::ModulesMap["netSendShopBuyPacket"];
+	pCPythonNetworkStreamSendShopEndPacket = PythonExtension::ModulesMap["netSendShopEndPacket"];
+	pCPythonNetworkStreamSendGiveItemPacket = PythonExtension::ModulesMap["netSendGiveItemPacket"];
+	pCPythonNetworkStreamSendItemMovePacket = PythonExtension::ModulesMap["netSendItemMovePacket"];
+	pCPythonNetworkStreamConnectGameServer = PythonExtension::ModulesMap["netDirectEnter"];
+	pCNetworkStreamIsOnline = PythonExtension::ModulesMap["netIsConnect"];
+	pCPythonNetworkStreamGetMainActorSkillGroup = PythonExtension::ModulesMap["netGetMainActorSkillGroup"];
+	pCNetworkStreamGetAccountCharacterSlotDataz = PythonExtension::ModulesMap["netGetAccountCharacterSlotDataString"];
+	pCPythonNetworkStreamSendCommandPacket = PythonExtension::ModulesMap["netSendCommandPacket"];
 }
 
 void Globals::ReDeclarationInstances()

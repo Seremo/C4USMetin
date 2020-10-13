@@ -65,7 +65,7 @@ public:
 		DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
 		if (instance)
 		{
-			Globals::CInstanceBaseGetNameString(instance);
+			GameFunctions::InstanceBaseGetNameString(instance);
 		}
 		else
 		{
@@ -77,7 +77,7 @@ public:
 		DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
 		if (instance)
 		{
-			return string(Globals::CInstanceBaseGetNameString(instance));
+			return string(GameFunctions::InstanceBaseGetNameString(instance));
 		}
 		else
 		{
@@ -467,7 +467,7 @@ public:
 		DWORD* instance = GameFunctions::PlayerNEW_GetMainActorPtr();
 		if (instance != NULL)
 		{
-			return Globals::CInstanceBaseNEW_MoveToDestPixelPositionDirection(instance, d3dVector);;
+			return GameFunctions::InstanceBaseNEW_MoveToDestPixelPositionDirection(instance, d3dVector);
 		}
 		else
 		{
@@ -1104,41 +1104,7 @@ public:
 	//#################################################################################################################################
 	static float PlayerGetCameraRotation()
 	{
-		DWORD address = Globals::pCInstanceBaseGetRotation;
-		float rotation = 0;
-		switch (Globals::Server)
-		{
-			case ServerName::VEDNAR:
-			{
-				DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
-				__asm
-				{
-					mov     eax, [address]
-					mov     ecx, playerInstance
-					call	eax
-					movss[rotation], xmm0
-				}
-				break;
-			}
-			case ServerName::CALLIOPE:
-			{
-				DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
-				__asm
-				{
-					mov     eax, [address]
-					mov     ecx, playerInstance
-					call	eax
-					movss[rotation], xmm0
-				}
-				break;
-			}
-			default:
-			{
-				rotation = Globals::CInstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
-				break;
-			}
-		}
-		float frotation = 180.0f - rotation;
+		float frotation = 180.0f - GameFunctions::InstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
 
 		return frotation;
 	}

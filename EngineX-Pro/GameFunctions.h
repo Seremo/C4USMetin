@@ -3,6 +3,50 @@
 class GameFunctions
 {
 public:
+	static DWORD GetVIDByInstance(DWORD* instance)
+	{
+		DWORD vid = 0;
+		if (Globals::Server == ServerName::METINPL)
+		{
+			TCharacterInstanceMapGlobal m_kAliveInstMap = *(TCharacterInstanceMapGlobal*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 56) + 4));
+			for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
+			{
+				if (itor->second == instance)
+				{
+					vid = itor->first;
+				}
+			}
+		}
+		else
+		{
+			TCharacterInstanceMap m_kAliveInstMap;
+			switch (Globals::Server)
+			{
+			case ServerName::AELDRA:
+			{
+				m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 44) + 4));
+				break;
+			}
+			case ServerName::CALLIOPE:
+			{
+				m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 36) + 4));
+				break;
+			}
+			default: {
+				m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 32) + 4));
+				break;
+			}
+			}
+			for (auto itor = m_kAliveInstMap.begin(); itor != m_kAliveInstMap.end(); itor++)
+			{
+				if (itor->second == instance)
+				{
+					vid = itor->first;
+				}
+			}
+		}
+		return vid;
+	}
 	//#################################################################################################################################
 	static DWORD* CharacterManagerGetInstancePtr(int vid)
 	{
@@ -46,7 +90,7 @@ public:
 		{
 			if (Globals::UsePythonFunctions)
 			{
-				return PythonExtension::GetPythonInteger0(Globals::pCPythonPlayerGetMainCharacterIndex);
+				return PythonExtension::GetPythonInt(Globals::pCPythonPlayerGetMainCharacterIndex);
 			}
 			else
 			{
@@ -175,7 +219,7 @@ public:
 		{
 			if (Globals::UsePythonFunctions)
 			{
-				return PythonExtension::GetPythonInteger0(Globals::pCPythonPlayerGetRace);
+				return PythonExtension::GetPythonInt(Globals::pCPythonPlayerGetRace);
 			}
 			else
 			{
@@ -269,7 +313,7 @@ public:
 		{
 			if (Globals::UsePythonFunctions)
 			{
-				return PythonExtension::GetPythonInteger0(Globals::pCPythonPlayerGetTargetVID);
+				return PythonExtension::GetPythonInt(Globals::pCPythonPlayerGetTargetVID);
 			}
 			else
 			{
@@ -365,6 +409,511 @@ public:
 		}
 	}
 	//#################################################################################################################################
+	static void NetworkStreamSendItemUsePacket(TItemPos cell)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger2(Globals::pCPythonNetworkStreamSendItemUsePacket, cell.window_type, cell.cell);
+			}
+			else
+			{
+				switch (Globals::Server)
+				{
+				case ServerName::BARIA:
+				{
+					typedef bool(__thiscall* SendItemUsePacket)(void* This, TItemPos pos, char unk);
+					SendItemUsePacket ItemUse = (SendItemUsePacket)Globals::pCPythonNetworkStreamSendItemUsePacket;
+					ItemUse((void*)Globals::iCPythonNetworkStreamInstance, cell, '\0');
+					break;
+				}
+				default:
+				{
+					Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
+					break;
+				}
+				}
+			}
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//#################################################################################################################################
+	static void NetworkStreamSendChatPacket(const char* c_szChat, BYTE byType = CHAT_TYPE_TALKING)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonStringInt(Globals::pCPythonNetworkStreamSendChatPacket, c_szChat, byType);
+			}
+			else
+			{
+				Globals::CPythonNetworkStreamSendChatPacket((void*)Globals::iCPythonNetworkStreamInstance, c_szChat, byType);
+			}
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendRefinePacket(BYTE pos, BYTE type)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger2(Globals::pCPythonNetworkStreamSendRefinePacket, pos, type);
+				return true;
+			}
+			else
+			{
+				switch (Globals::Server)
+				{
+				case ServerName::AELDRA:
+				{
+					try
+					{
+						typedef bool(__thiscall* SendRefinePacket)(void* This, BYTE byPos, BYTE byType, bool unk);
+						SendRefinePacket sendRefine = (SendRefinePacket)Globals::pCPythonNetworkStreamSendRefinePacket;
+						return sendRefine((void*)Globals::iCPythonNetworkStreamInstance, pos, type, 0);
+					}
+					catch (...)
+					{
+						return false;
+					}
+					break;
+				}
+				case ServerName::CALLIOPE:
+				{
+					try
+					{
+						typedef bool(__thiscall* SendRefinePacket)(void* This, BYTE byPos, BYTE byType, BYTE unk1, BYTE unk2, BYTE unk3, BYTE unk4);
+						SendRefinePacket sendRefine = (SendRefinePacket)Globals::pCPythonNetworkStreamSendRefinePacket;
+						return sendRefine((void*)Globals::iCPythonNetworkStreamInstance, pos, type, 0, 0, 0, 0);
+					}
+					catch (...)
+					{
+						return false;
+					}
+					break;
+				}
+				default:
+				{
+					return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type);
+					break;
+				}
+				}
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendSendExchangeStartPacket(DWORD vid)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendExchangeStartPacket, vid);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendExchangeStartPacket((void*)Globals::iCPythonNetworkStreamInstance, vid);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendSendExchangeItemAddPacket(TItemPos ItemPos, BYTE byDisplayPos)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger3(Globals::pCPythonNetworkStreamSendExchangeItemAddPacket, ItemPos.window_type, ItemPos.window_type, byDisplayPos);
+				return true;
+			}
+			else
+			{
+				return  Globals::CPythonNetworkStreamSendExchangeItemAddPacket((void*)Globals::iCPythonNetworkStreamInstance, ItemPos, byDisplayPos);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendSendExchangeAcceptPacket()
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPython(Globals::pCPythonNetworkStreamSendExchangeAcceptPacket);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendExchangeAcceptPacket((void*)Globals::iCPythonNetworkStreamInstance);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendWhisperPacket(const char* name, string s_szChat)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonString2(Globals::pCPythonNetworkStreamSendWhisperPacket, name, s_szChat.c_str());
+				return true;
+			}
+			else
+			{
+				switch (Globals::Server)
+				{
+				case ServerName::AELDRA:
+				{
+					try
+					{
+						typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, bool unk);
+						SendWhisperPacket sendWhisper = (SendWhisperPacket)Globals::pCPythonNetworkStreamSendWhisperPacket;
+						return sendWhisper((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str(), false);
+					}
+					catch (...)
+					{
+						return false;
+					}
+					break;
+				}
+				default:
+				{
+					return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str());
+					break;
+				}
+				}
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendItemPickUpPacket(DWORD vid)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendItemPickUpPacket, vid);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendItemPickUpPacket((void*)Globals::iCPythonNetworkStreamInstance, vid);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendItemDropPacketNew(TItemPos cell, DWORD elk, DWORD count)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger3(Globals::pCPythonNetworkStreamSendItemDropPacketNew, cell.window_type, cell.cell, count);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendItemDropPacketNew((void*)Globals::iCPythonNetworkStreamInstance, cell, elk, count);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendOnClickPacket(DWORD vid)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendOnClickPacket, vid);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendOnClickPacket((void*)Globals::iCPythonNetworkStreamInstance, vid);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendShopSellPacketNew(BYTE bySlot, BYTE byCount)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger2(Globals::pCPythonNetworkStreamSendShopSellPacketNew, bySlot, byCount);
+				return true;
+			}
+			else
+			{
+				switch (Globals::Server)
+				{
+				case ServerName::METINPL:
+				{
+					typedef bool(__thiscall* SendShopSellPacketNew)(void* This, BYTE bySlot, BYTE byCount, BYTE unk);
+					SendShopSellPacketNew SendShopSell = (SendShopSellPacketNew)Globals::pCPythonNetworkStreamSendShopSellPacketNew;
+					SendShopSell((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount, 1);
+					break;
+				}
+				default:
+				{
+					return Globals::CPythonNetworkStreamSendShopSellPacketNew((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount);
+					break;
+				}
+				}
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendShopBuyPacket(BYTE bPos)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendShopBuyPacket, bPos);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendShopBuyPacket((void*)Globals::iCPythonNetworkStreamInstance, bPos);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendShopEndPacket()
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPython(Globals::pCPythonNetworkStreamSendShopEndPacket);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendShopEndPacket((void*)Globals::iCPythonNetworkStreamInstance);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendGiveItemPacket(DWORD dwTargetVID, TItemPos ItemPos, int iItemCount)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger4(Globals::pCPythonNetworkStreamSendGiveItemPacket, dwTargetVID, ItemPos.window_type, ItemPos.cell, iItemCount);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendGiveItemPacket((void*)Globals::iCPythonNetworkStreamInstance, dwTargetVID, ItemPos, iItemCount);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamSendItemMovePacket(TItemPos pos, TItemPos change_pos, BYTE num)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger5(Globals::pCPythonNetworkStreamSendItemMovePacket, pos.window_type, pos.cell, change_pos.window_type, change_pos.cell, num);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendItemMovePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, change_pos, num);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}	
+	//#################################################################################################################################
+	static void NetworkStreamConnectGameServer(UINT iChrSlot)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamConnectGameServer, iChrSlot);
+			}
+			else
+			{
+#if defined(EGORIA) || defined(SENTHIA)
+				Globals::CPythonNetworkStreamConnectGameServer((void*)Globals::iCPythonNetworkStreamInstance, iChrSlot, 0);
+#else
+				Globals::CPythonNetworkStreamConnectGameServer((void*)Globals::iCPythonNetworkStreamInstance, iChrSlot);
+#endif		
+			}
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamIsOnline()
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				return PythonExtension::GetPythonInt(Globals::pCNetworkStreamIsOnline);
+			}
+			else
+			{
+				return Globals::CNetworkStreamIsOnline((void*)Globals::iCPythonNetworkStreamInstance);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//########################################################################## b nm,                                                                                                                                                                             #######################################################
+	static DWORD NetworkStreamGetMainActorSkillGroup()
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				return PythonExtension::GetPythonInt(Globals::pCPythonNetworkStreamGetMainActorSkillGroup);
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamGetMainActorSkillGroup((void*)Globals::iCPythonNetworkStreamInstance);
+			}
+		}
+		catch (...)
+		{
+			return 0;
+		}
+	}
+	//#################################################################################################################################
+	static const char* NetworkStreamGetAccountCharacterSlotDataz(UINT iSlot, UINT eType)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				return PythonExtension::GetPythonString2(Globals::pCNetworkStreamGetAccountCharacterSlotDataz, iSlot, eType);
+			}
+			else
+			{
+				return Globals::CNetworkStreamGetAccountCharacterSlotDataz((void*)Globals::iCPythonNetworkStreamInstance, iSlot, eType);
+			}
+		}
+		catch (...)
+		{
+			return "";
+		}
+	}
+	//#################################################################################################################################
+	static bool  NetworkStreamSendCommandPacket(DWORD a1, DWORD a2, const char* a3)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonIntIntString(Globals::pCPythonNetworkStreamSendCommandPacket, a1, a2, a3);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, a1, a2, a3);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
+	static void NetworkStreamServerCommand(const char* c_szCommand)
+	{
+		try
+		{
+			return Globals::CPythonNetworkStreamServerCommand((void*)Globals::iCPythonNetworkStreamInstance, c_szCommand);
+		}
+		catch (...)
+		{
+		}
+	}
+	//#################################################################################################################################
+	static bool NetworkStreamUseSequence()
+	{
+		try
+		{
+			return *reinterpret_cast<BYTE*>(Globals::iCPythonNetworkStreamInstance + 116);
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
 	static bool NetworkStreamSendFishingPacket(int rot)
 	{
 		try
@@ -401,127 +950,6 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static void NetworkStreamSendItemUsePacket(TItemPos cell)
-	{
-		try
-		{
-			switch (Globals::Server)
-			{
-			case ServerName::BARIA:
-			{
-				typedef bool(__thiscall* SendItemUsePacket)(void* This, TItemPos pos, char unk);
-				SendItemUsePacket ItemUse = (SendItemUsePacket)Globals::pCPythonNetworkStreamSendItemUsePacket;
-				ItemUse((void*)Globals::iCPythonNetworkStreamInstance, cell, '\0');
-				break;
-			}
-			default:
-			{
-				Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
-				break;
-			}
-			}
-		}
-		catch (...)
-		{
-
-		}
-	}
-	//#################################################################################################################################
-	static void NetworkStreamSendChatPacket(const char* c_szChat, BYTE byType = CHAT_TYPE_TALKING)
-	{
-		try
-		{
-			Globals::CPythonNetworkStreamSendChatPacket((void*)Globals::iCPythonNetworkStreamInstance, c_szChat, byType);
-		}
-		catch (...)
-		{
-
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendRefinePacket(BYTE pos, BYTE type)
-	{
-		try
-		{
-			switch (Globals::Server)
-			{
-			case ServerName::AELDRA:
-			{
-				try
-				{
-					typedef bool(__thiscall* SendRefinePacket)(void* This, BYTE byPos, BYTE byType, bool unk);
-					SendRefinePacket sendRefine = (SendRefinePacket)Globals::pCPythonNetworkStreamSendRefinePacket;
-					return sendRefine((void*)Globals::iCPythonNetworkStreamInstance, pos, type, 0);
-				}
-				catch (...)
-				{
-					return false;
-				}
-				break;
-			}
-			case ServerName::CALLIOPE:
-			{
-				try
-				{
-					typedef bool(__thiscall* SendRefinePacket)(void* This, BYTE byPos, BYTE byType, BYTE unk1, BYTE unk2, BYTE unk3, BYTE unk4);
-					SendRefinePacket sendRefine = (SendRefinePacket)Globals::pCPythonNetworkStreamSendRefinePacket;
-					return sendRefine((void*)Globals::iCPythonNetworkStreamInstance, pos, type, 0, 0, 0, 0);
-				}
-				catch (...)
-				{
-					return false;
-				}
-				break;
-			}
-			default:
-			{
-				return Globals::CPythonNetworkStreamSendRefinePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, type);
-				break;
-			}
-			}
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendSendExchangeStartPacket(DWORD vid)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendExchangeStartPacket((void*)Globals::iCPythonNetworkStreamInstance, vid);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendSendExchangeItemAddPacket(TItemPos ItemPos, BYTE byDisplayPos)
-	{
-		try
-		{
-			return  Globals::CPythonNetworkStreamSendExchangeItemAddPacket((void*)Globals::iCPythonNetworkStreamInstance, ItemPos, byDisplayPos);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendSendExchangeAcceptPacket()
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendExchangeAcceptPacket((void*)Globals::iCPythonNetworkStreamInstance);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
 	static bool NetworkStreamSendSpecial(int nLen, void* pvBuf)
 	{
 		try
@@ -534,32 +962,11 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static bool NetworkStreamSendWhisperPacket(const char* name, string s_szChat)
+	static bool NetworkStreamSendScriptAnswerPacket(int iAnswer)
 	{
 		try
 		{
-			switch (Globals::Server)
-			{
-			case ServerName::AELDRA:
-			{
-				try
-				{
-					typedef bool(__thiscall* SendWhisperPacket)(void* This, const char* name, const char* c_szChat, bool unk);
-					SendWhisperPacket sendWhisper = (SendWhisperPacket)Globals::pCPythonNetworkStreamSendWhisperPacket;
-					return sendWhisper((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str(), false);
-				}
-				catch (...)
-				{
-					return false;
-				}
-				break;
-			}
-			default:
-			{
-				return Globals::CPythonNetworkStreamSendWhisperPacket((void*)Globals::iCPythonNetworkStreamInstance, name, s_szChat.c_str());
-				break;
-			}
-			}
+			return Globals::CPythonNetworkStreamSendScriptAnswerPacket((void*)Globals::iCPythonNetworkStreamInstance, iAnswer);
 		}
 		catch (...)
 		{
@@ -615,128 +1022,6 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static bool NetworkStreamSendItemPickUpPacket(DWORD vid)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendItemPickUpPacket((void*)Globals::iCPythonNetworkStreamInstance, vid);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendItemDropPacketNew(TItemPos cell, DWORD elk, DWORD count)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendItemDropPacketNew((void*)Globals::iCPythonNetworkStreamInstance, cell, elk, count);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendScriptAnswerPacket(int iAnswer)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendScriptAnswerPacket((void*)Globals::iCPythonNetworkStreamInstance, iAnswer);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendOnClickPacket(DWORD vid)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendOnClickPacket((void*)Globals::iCPythonNetworkStreamInstance, vid);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendShopSellPacketNew(BYTE bySlot, BYTE byCount)
-	{
-		try
-		{
-			switch (Globals::Server)
-			{
-				case ServerName::METINPL:
-				{
-					typedef bool(__thiscall* SendShopSellPacketNew)(void* This, BYTE bySlot, BYTE byCount, BYTE unk);
-					SendShopSellPacketNew SendShopSell = (SendShopSellPacketNew)Globals::pCPythonNetworkStreamSendShopSellPacketNew;
-					SendShopSell((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount, 1);
-					break;
-				}
-				default:
-				{
-					return Globals::CPythonNetworkStreamSendShopSellPacketNew((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount);
-					break;
-				}
-			}
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendShopBuyPacket(BYTE bPos)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendShopBuyPacket((void*)Globals::iCPythonNetworkStreamInstance, bPos);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendShopEndPacket()
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendShopEndPacket((void*)Globals::iCPythonNetworkStreamInstance);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendGiveItemPacket(DWORD dwTargetVID, TItemPos ItemPos, int iItemCount)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendGiveItemPacket((void*)Globals::iCPythonNetworkStreamInstance, dwTargetVID, ItemPos, iItemCount);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendItemMovePacket(TItemPos pos, TItemPos change_pos, BYTE num)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendItemMovePacket((void*)Globals::iCPythonNetworkStreamInstance, pos, change_pos, num);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
 	static bool NetworkStreamRecv(int len, void* pSrcBuf)
 	{
 		try
@@ -755,18 +1040,18 @@ public:
 		{
 			switch (Globals::Server)
 			{
-				case ServerName::AELDRA:
-				{
-					typedef bool(__thiscall* NetworkStreamSend)(void* This, int len, void* pDestBuf, bool sendInstant);
-					NetworkStreamSend Send = (NetworkStreamSend)Globals::pCNetworkStreamSend;
-					return Send((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf, 0);
-					break;
-				}
-				default:
-				{
-					return Globals::CNetworkStreamSend((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf);
-					break;
-				}
+			case ServerName::AELDRA:
+			{
+				typedef bool(__thiscall* NetworkStreamSend)(void* This, int len, void* pDestBuf, bool sendInstant);
+				NetworkStreamSend Send = (NetworkStreamSend)Globals::pCNetworkStreamSend;
+				return Send((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf, 0);
+				break;
+			}
+			default:
+			{
+				return Globals::CNetworkStreamSend((void*)Globals::iCPythonNetworkStreamInstance, len, pSrcBuf);
+				break;
+			}
 			}
 		}
 		catch (...)
@@ -803,23 +1088,6 @@ public:
 			return false;
 		}
 	}
-		
-	//#################################################################################################################################
-	static void NetworkStreamConnectGameServer(UINT iChrSlot)
-	{
-		try
-		{
-#if defined(EGORIA) || defined(SENTHIA)
-			Globals::CPythonNetworkStreamConnectGameServer((void*)Globals::iCPythonNetworkStreamInstance, iChrSlot, 0);
-#else
-			Globals::CPythonNetworkStreamConnectGameServer((void*)Globals::iCPythonNetworkStreamInstance, iChrSlot);
-#endif		
-		}
-		catch (...)
-		{
-
-		}
-	}
 	//#################################################################################################################################
 	static void NetworkStream__DirectEnterMode_Set(UINT charSlot)
 	{
@@ -845,74 +1113,14 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static bool NetworkStreamIsOnline()
+	static void SelectInstancePython(DWORD vid)
 	{
 		try
 		{
-			return Globals::CNetworkStreamIsOnline((void*)Globals::iCPythonNetworkStreamInstance);
+			PythonExtension::CallPythonInteger1(Globals::pCChrSelectInstance, vid);
 		}
 		catch (...)
 		{
-			return false;
-		}
-	}
-	//########################################################################## b nm,                                                                                                                                                                             #######################################################
-	static DWORD NetworkStreamGetMainActorSkillGroup()
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamGetMainActorSkillGroup((void*)Globals::iCPythonNetworkStreamInstance);
-		}
-		catch (...)
-		{
-			return 0;
-		}
-	}
-	//#################################################################################################################################
-	static void NetworkStreamServerCommand(const char* c_szCommand)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamServerCommand((void*)Globals::iCPythonNetworkStreamInstance, c_szCommand);
-		}
-		catch (...)
-		{
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamUseSequence()
-	{
-		try
-		{
-			return *reinterpret_cast<BYTE*>(Globals::iCPythonNetworkStreamInstance + 116);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static const char* NetworkStreamGetAccountCharacterSlotDataz(UINT iSlot, UINT eType)
-	{
-		try
-		{
-			return Globals::CNetworkStreamGetAccountCharacterSlotDataz((void*)Globals::iCPythonNetworkStreamInstance, iSlot, eType);
-		}
-		catch (...)
-		{
-			return "";
-		}
-	}
-	//#################################################################################################################################
-	static bool  NetworkStreamSendCommandPacket(DWORD a1, DWORD a2, const char* a3)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendCommandPacket((void*)Globals::iCPythonNetworkStreamInstance, a1, a2, a3);
-		}
-		catch (...)
-		{
-			return false;
 		}
 	}
 	//#################################################################################################################################
@@ -920,7 +1128,14 @@ public:
 	{
 		try
 		{
-			return Globals::CInstanceBase__SetAffect(instance, eAffect, isVisible);
+			if (Globals::UsePythonFunctions)
+			{
+				PythonExtension::CallPythonInteger3(Globals::pCInstanceBase__SetAffect, GetVIDByInstance(instance), eAffect, isVisible);
+			}
+			else
+			{
+				Globals::CInstanceBase__SetAffect(instance, eAffect, isVisible);
+			}
 		}
 		catch (...)
 		{
@@ -937,7 +1152,7 @@ public:
 		{
 			if (Globals::UsePythonFunctions && Globals::Server != METINPL)
 			{
-				*pPixelPosition = PythonExtension::GetPythonD3DVECTOR1(Globals::pCInstanceBaseNEW_GetPixelPosition, InstanceBaseGetVirtualNumber(instance));
+				*pPixelPosition = PythonExtension::GetPythonD3DVECTOR1(Globals::pCInstanceBaseNEW_GetPixelPosition, GetVIDByInstance(instance));
 			}
 			else
 			{
@@ -953,7 +1168,16 @@ public:
 	{
 		try
 		{
-			return Globals::CInstanceBaseNEW_MoveToDestPixelPositionDirection(instance, c_rkPPosDst);
+			if (Globals::UsePythonFunctions)
+			{
+				DWORD vid = GetVIDByInstance(instance);
+				PythonExtension::CallPythonInteger3(Globals::pCInstanceBaseNEW_MoveToDestPixelPositionDirection, vid, c_rkPPosDst.x, c_rkPPosDst.y);
+				return true;
+			}
+			else
+			{
+				return Globals::CInstanceBaseNEW_MoveToDestPixelPositionDirection(instance, c_rkPPosDst);
+			}
 		}
 		catch (...)
 		{
@@ -969,7 +1193,15 @@ public:
 		}
 		try
 		{
-			return Globals::CInstanceBaseGetInstanceType(instance);
+			if (Globals::UsePythonFunctions)
+			{
+				DWORD vid = GetVIDByInstance(instance);
+				return PythonExtension::GetPythonInteger1(Globals::pCInstanceBaseGetInstanceType, vid);
+			}
+			else
+			{
+				return Globals::CInstanceBaseGetInstanceType(instance);
+			}
 		}
 		catch (...)
 		{
@@ -977,7 +1209,7 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static int	InstanceBaseGetVirtualNumber(DWORD* instance)
+	static int InstanceBaseGetVirtualNumber(DWORD* instance)
 	{
 		if (!instance)
 		{
@@ -985,7 +1217,15 @@ public:
 		}
 		try
 		{
-			return Globals::CInstanceBaseGetInstanceVirtualNumber(instance);
+			if (Globals::UsePythonFunctions)
+			{
+				DWORD vid = GetVIDByInstance(instance);
+				return PythonExtension::GetPythonInteger1(Globals::pCInstanceBaseGetInstanceVirtualNumber, vid);
+			}
+			else
+			{
+				return Globals::CInstanceBaseGetInstanceVirtualNumber(instance);
+			}
 		}
 		catch (...)
 		{
@@ -997,7 +1237,14 @@ public:
 	{
 		try
 		{
-			return Globals::CInstanceBaseIsMountingHorse(instance);
+			if (Globals::UsePythonFunctions)
+			{
+				return PythonExtension::GetPythonInt(Globals::pCInstanceBaseIsMountingHorse);
+			}
+			else
+			{
+				return Globals::CInstanceBaseIsMountingHorse(instance);
+			}
 		}
 		catch (...)
 		{
@@ -1011,7 +1258,15 @@ public:
 		{
 			try
 			{
-				Globals::CInstanceBaseGetNameString(instance);
+				if (Globals::UsePythonFunctions)
+				{
+					DWORD vid = GetVIDByInstance(instance);
+					return PythonExtension::GetPythonString1(Globals::pCInstanceBaseGetNameString, vid);
+				}
+				else
+				{
+					Globals::CInstanceBaseGetNameString(instance);
+				}
 			}
 			catch (...)
 			{
@@ -1021,6 +1276,146 @@ public:
 		else
 		{
 			return "";
+		}
+	}
+	//#################################################################################################################################
+	static void InstanceBaseSCRIPT_SetPixelPosition(DWORD* instance, float x, float y)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				DWORD vid = GetVIDByInstance(instance);
+				SelectInstancePython(vid);
+				PythonExtension::CallPythonInteger2(Globals::pCInstanceBaseSCRIPT_SetPixelPosition, x, y);
+			}
+			else
+			{
+				DWORD address = Globals::pCInstanceBaseSCRIPT_SetPixelPosition;
+				switch (Globals::Server)
+				{
+				case ServerName::VEDNAR:
+				{
+					__asm
+					{
+						mov     eax, [address]
+						mov     ecx, instance
+						movss   xmm2, [y]
+						movss   xmm1, [x]
+						call	eax
+					}
+					break;
+				}
+				case ServerName::CALLIOPE:
+				{
+					__asm
+					{
+						mov     eax, [address]
+						mov     ecx, instance
+						movss   xmm2, [y]
+						movss   xmm1, [x]
+						call	eax
+					}
+					break;
+				}
+				default:
+				{
+					Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
+					break;
+				}
+				}
+			}
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//#################################################################################################################################
+	static const void InstanceSetRotation(DWORD* instance, float fRotation)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				DWORD vid = GetVIDByInstance(instance);
+				SelectInstancePython(vid);
+				PythonExtension::CallPythonFloat1(Globals::pCInstanceBaseSetRotation, fRotation);
+			}
+			else
+			{
+				Globals::CInstanceBaseSetRotation((void*)instance, fRotation);
+			}
+		}
+		catch (...)
+		{
+		}
+	}
+	//#################################################################################################################################
+	static float InstanceBaseGetRotation(DWORD* instance)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions)
+			{
+				DWORD vid = GetVIDByInstance(instance);
+				SelectInstancePython(vid);
+				return 360.0f - PythonExtension::GetPythonFloat(Globals::pCInstanceBaseGetRotation);
+			}
+			else
+			{
+				float rotation = 0;
+				DWORD address = Globals::pCInstanceBaseGetRotation;
+				switch (Globals::Server)
+				{
+					case ServerName::VEDNAR:
+					{
+						DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
+						__asm
+						{
+							mov     eax, [address]
+							mov     ecx, playerInstance
+							call	eax
+							movss[rotation], xmm0
+						}
+						break;
+					}
+					case ServerName::CALLIOPE:
+					{
+						DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
+						__asm
+						{
+							mov     eax, [address]
+							mov     ecx, playerInstance
+							call	eax
+							movss[rotation], xmm0
+						}
+						break;
+					}
+					default:
+					{
+						rotation = GameFunctions::InstanceBaseGetRotation(instance);
+						break;
+					}
+				}
+				return rotation;
+			}
+		}
+		catch (...)
+		{
+			return 0.0f;
+		}
+	}
+	//#################################################################################################################################
+	static const bool InstanceIsWaiting(DWORD* instance)
+	{
+		try
+		{
+			return Globals::CInstanceBaseIsWaiting((void*)instance);
+		}
+		catch (...)
+		{
+			return false;
 		}
 	}
 	//#################################################################################################################################
@@ -1037,85 +1432,6 @@ public:
 		catch (...)
 		{
 			return false;
-		}
-	}
-	//#################################################################################################################################
-	static void InstanceBaseSCRIPT_SetPixelPosition(DWORD* instance, float x, float y)
-	{
-		try
-		{
-			DWORD address = Globals::pCInstanceBaseSCRIPT_SetPixelPosition;
-			switch (Globals::Server)
-			{
-			case ServerName::VEDNAR:
-			{
-				__asm
-				{
-					mov     eax, [address]
-					mov     ecx, instance
-					movss   xmm2, [y]
-					movss   xmm1, [x]
-					call	eax
-				}
-				break;
-			}
-			case ServerName::CALLIOPE:
-			{
-				__asm
-				{
-					mov     eax, [address]
-					mov     ecx, instance
-					movss   xmm2, [y]
-					movss   xmm1, [x]
-					call	eax
-				}
-				break;
-			}
-			default:
-			{
-				Globals::CInstanceBaseSCRIPT_SetPixelPosition(instance, x, y);
-				break;
-			}
-			}
-		}
-		catch (...)
-		{
-
-		}
-	}
-	//#################################################################################################################################
-	static const bool InstanceIsWaiting(DWORD* instance)
-	{
-		try
-		{
-			return Globals::CInstanceBaseIsWaiting((void*)instance);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static const void InstanceSetRotation(DWORD* instance, float fRotation)
-	{
-		try
-		{
-			Globals::CInstanceBaseSetRotation((void*)instance, fRotation);
-		}
-		catch (...)
-		{
-		}
-	}
-	//#################################################################################################################################
-	static float InstanceBaseGetRotation(DWORD* instance)
-	{
-		try
-		{
-			return Globals::CInstanceBaseGetRotation(instance);
-		}
-		catch (...)
-		{
-			return 0.0f;
 		}
 	}
 	//#################################################################################################################################
