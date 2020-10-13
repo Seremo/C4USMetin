@@ -53,6 +53,10 @@ public:
 		{
 			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, GameFunctions::PlayerGetName());
 		}
+		if (ImGui::Button("Test name2"))
+		{
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName())));
+		}
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
 		if (ImGui::Button("Test speed DWORD")) {
 			auto t1 = std::chrono::high_resolution_clock::now();

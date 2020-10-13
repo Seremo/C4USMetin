@@ -814,7 +814,19 @@ public:
 		{
 			if (Globals::UsePythonFunctions && Globals::CythonNetDirectEnter)
 			{
-				PythonExtension::CallPythonInteger1(Globals::CythonNetDirectEnter, iChrSlot);
+				switch (Globals::Server)
+				{
+					case ServerName::METINPL:
+					{
+						PythonExtension::CallPythonInteger2(Globals::CythonNetDirectEnter, iChrSlot, 0);
+						break;
+					}
+					default:
+					{
+						PythonExtension::CallPythonInteger1(Globals::CythonNetDirectEnter, iChrSlot);
+						break;
+					}
+				}
 			}
 			else
 			{
