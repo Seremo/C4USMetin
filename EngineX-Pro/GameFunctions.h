@@ -88,9 +88,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetMainCharacterIndex)
 			{
-				return PythonExtension::GetPythonInt(Globals::pCPythonPlayerGetMainCharacterIndex);
+				return PythonExtension::GetPythonInt(Globals::CythonPlayerGetMainCharacterIndex);
 			}
 			else
 			{
@@ -107,9 +107,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetStatus)
 			{
-				return PythonExtension::GetPythonInteger1(Globals::pCPythonPlayerGetStatus, 1);
+				return PythonExtension::GetPythonInteger1(Globals::CythonPlayerGetStatus, 1);
 			}
 			else
 			{
@@ -126,9 +126,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetItemIndex)
 			{
-				return PythonExtension::GetPythonInteger2(Globals::pCPythonPlayerGetItemIndex, cell.window_type, cell.cell);
+				return PythonExtension::GetPythonInteger2(Globals::CythonPlayerGetItemIndex, cell.window_type, cell.cell);
 			}
 			else
 			{
@@ -160,9 +160,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetName)
 			{
-				return PythonExtension::GetPythonString0(Globals::pCPythonPlayerGetName);
+				return PythonExtension::GetPythonString0(Globals::CythonPlayerGetName);
 			}
 			else
 			{
@@ -179,9 +179,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetItemMetinSocket)
 			{
-				return PythonExtension::GetPythonInteger2(Globals::pCPythonPlayerGetItemMetinSocket, slot, dwMetinSocketIndex);
+				return PythonExtension::GetPythonInteger2(Globals::CythonPlayerGetItemMetinSocket, slot, dwMetinSocketIndex);
 			}
 			else
 			{
@@ -198,9 +198,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetItemMetinSocket)
 			{
-				return PythonExtension::GetPythonInteger3(Globals::pCPythonPlayerGetItemMetinSocket, cell.window_type, cell.cell, dwMetinSocketIndex);
+				return PythonExtension::GetPythonInteger3(Globals::CythonPlayerGetItemMetinSocket, cell.window_type, cell.cell, dwMetinSocketIndex);
 			}
 			else
 			{
@@ -217,9 +217,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetRace)
 			{
-				return PythonExtension::GetPythonInt(Globals::pCPythonPlayerGetRace);
+				return PythonExtension::GetPythonInt(Globals::CythonPlayerGetRace);
 			}
 			else
 			{
@@ -236,9 +236,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerSetSingleDIKKeyState)
 			{
-				PythonExtension::CallPythonInteger2(Globals::pCPythonPlayerNEW_SetSingleDIKKeyState, eDIKKey, isPress);
+				PythonExtension::CallPythonInteger2(Globals::CythonPlayerSetSingleDIKKeyState, eDIKKey, isPress);
 			}
 			else
 			{
@@ -254,9 +254,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerClickSkillSlot)
 			{
-				PythonExtension::CallPythonInteger1(Globals::pCPythonPlayerClickSkillSlot, skillIndex);
+				PythonExtension::CallPythonInteger1(Globals::CythonPlayerClickSkillSlot, skillIndex);
 			}
 			else
 			{
@@ -273,9 +273,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerIsSkillCoolTime)
 			{
-				return PythonExtension::GetPythonInteger1(Globals::pCPythonPlayerIsSkillCoolTime, skillIndex);
+				return PythonExtension::GetPythonInteger1(Globals::CythonPlayerIsSkillCoolTime, skillIndex);
 			}
 			else
 			{
@@ -292,9 +292,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerIsSkillActive)
 			{
-				return PythonExtension::GetPythonInteger1(Globals::pCPythonPlayerIsSkillActive, dwSlotIndex);
+				return PythonExtension::GetPythonInteger1(Globals::CythonPlayerIsSkillActive, dwSlotIndex);
 			}
 			else
 			{
@@ -311,9 +311,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetTargetVID)
 			{
-				return PythonExtension::GetPythonInt(Globals::pCPythonPlayerGetTargetVID);
+				return PythonExtension::GetPythonInt(Globals::CythonPlayerGetTargetVID);
 			}
 			else
 			{
@@ -330,9 +330,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerSetTarget)
 			{
-				return PythonExtension::CallPythonInteger1(Globals::pCPythonPlayerSetTarget, dwVID);
+				return PythonExtension::CallPythonInteger1(Globals::CythonPlayerSetTarget, dwVID);
 			}
 			else
 			{
@@ -349,9 +349,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerSetAttackKeyState)
 			{
-				return PythonExtension::CallPythonInteger1(Globals::pCPythonPlayerSetAttackKeyState, state);
+				return PythonExtension::CallPythonInteger1(Globals::CythonPlayerSetAttackKeyState, state);
 			}
 			else
 			{
@@ -413,9 +413,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendItemUsePacket)
 			{
-				PythonExtension::CallPythonInteger2(Globals::pCPythonNetworkStreamSendItemUsePacket, cell.window_type, cell.cell);
+				PythonExtension::CallPythonInteger2(Globals::CythonNetSendItemUsePacket, cell.window_type, cell.cell);
 			}
 			else
 			{
@@ -446,9 +446,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendChatPacket)
 			{
-				PythonExtension::CallPythonStringInt(Globals::pCPythonNetworkStreamSendChatPacket, c_szChat, byType);
+				PythonExtension::CallPythonStringInt(Globals::CythonNetSendChatPacket, c_szChat, byType);
 			}
 			else
 			{
@@ -465,9 +465,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendRefinePacket)
 			{
-				PythonExtension::CallPythonInteger2(Globals::pCPythonNetworkStreamSendRefinePacket, pos, type);
+				PythonExtension::CallPythonInteger2(Globals::CythonNetSendRefinePacket, pos, type);
 				return true;
 			}
 			else
@@ -520,9 +520,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendExchangeStartPacket)
 			{
-				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendExchangeStartPacket, vid);
+				PythonExtension::CallPythonInteger1(Globals::CythonNetSendExchangeStartPacket, vid);
 				return true;
 			}
 			else
@@ -540,9 +540,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendExchangeItemAddPacket)
 			{
-				PythonExtension::CallPythonInteger3(Globals::pCPythonNetworkStreamSendExchangeItemAddPacket, ItemPos.window_type, ItemPos.window_type, byDisplayPos);
+				PythonExtension::CallPythonInteger3(Globals::CythonNetSendExchangeItemAddPacket, ItemPos.window_type, ItemPos.window_type, byDisplayPos);
 				return true;
 			}
 			else
@@ -560,9 +560,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendExchangeAcceptPacket)
 			{
-				PythonExtension::CallPython(Globals::pCPythonNetworkStreamSendExchangeAcceptPacket);
+				PythonExtension::CallPython(Globals::CythonNetSendExchangeAcceptPacket);
 				return true;
 			}
 			else
@@ -580,9 +580,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendWhisperPacket)
 			{
-				PythonExtension::CallPythonString2(Globals::pCPythonNetworkStreamSendWhisperPacket, name, s_szChat.c_str());
+				PythonExtension::CallPythonString2(Globals::CythonNetSendWhisperPacket, name, s_szChat.c_str());
 				return true;
 			}
 			else
@@ -621,9 +621,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendItemPickUpPacket)
 			{
-				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendItemPickUpPacket, vid);
+				PythonExtension::CallPythonInteger1(Globals::CythonNetSendItemPickUpPacket, vid);
 				return true;
 			}
 			else
@@ -641,9 +641,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendItemDropPacketNew)
 			{
-				PythonExtension::CallPythonInteger3(Globals::pCPythonNetworkStreamSendItemDropPacketNew, cell.window_type, cell.cell, count);
+				PythonExtension::CallPythonInteger3(Globals::CythonNetSendItemDropPacketNew, cell.window_type, cell.cell, count);
 				return true;
 			}
 			else
@@ -661,9 +661,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendOnClickPacket)
 			{
-				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendOnClickPacket, vid);
+				PythonExtension::CallPythonInteger1(Globals::CythonNetSendOnClickPacket, vid);
 				return true;
 			}
 			else
@@ -681,9 +681,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendShopSellPacketNew)
 			{
-				PythonExtension::CallPythonInteger2(Globals::pCPythonNetworkStreamSendShopSellPacketNew, bySlot, byCount);
+				PythonExtension::CallPythonInteger2(Globals::CythonNetSendShopSellPacketNew, bySlot, byCount);
 				return true;
 			}
 			else
@@ -715,9 +715,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendShopBuyPacket)
 			{
-				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamSendShopBuyPacket, bPos);
+				PythonExtension::CallPythonInteger1(Globals::CythonNetSendShopBuyPacket, bPos);
 				return true;
 			}
 			else
@@ -735,9 +735,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendShopEndPacket)
 			{
-				PythonExtension::CallPython(Globals::pCPythonNetworkStreamSendShopEndPacket);
+				PythonExtension::CallPython(Globals::CythonNetSendShopEndPacket);
 				return true;
 			}
 			else
@@ -755,9 +755,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendGiveItemPacket)
 			{
-				PythonExtension::CallPythonInteger4(Globals::pCPythonNetworkStreamSendGiveItemPacket, dwTargetVID, ItemPos.window_type, ItemPos.cell, iItemCount);
+				PythonExtension::CallPythonInteger4(Globals::CythonNetSendGiveItemPacket, dwTargetVID, ItemPos.window_type, ItemPos.cell, iItemCount);
 				return true;
 			}
 			else
@@ -775,9 +775,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendItemMovePacket)
 			{
-				PythonExtension::CallPythonInteger5(Globals::pCPythonNetworkStreamSendItemMovePacket, pos.window_type, pos.cell, change_pos.window_type, change_pos.cell, num);
+				PythonExtension::CallPythonInteger5(Globals::CythonNetSendItemMovePacket, pos.window_type, pos.cell, change_pos.window_type, change_pos.cell, num);
 				return true;
 			}
 			else
@@ -795,9 +795,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetDirectEnter)
 			{
-				PythonExtension::CallPythonInteger1(Globals::pCPythonNetworkStreamConnectGameServer, iChrSlot);
+				PythonExtension::CallPythonInteger1(Globals::CythonNetDirectEnter, iChrSlot);
 			}
 			else
 			{
@@ -818,9 +818,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetIsConnect)
 			{
-				return PythonExtension::GetPythonInt(Globals::pCNetworkStreamIsOnline);
+				return PythonExtension::GetPythonInt(Globals::CythonNetIsConnect);
 			}
 			else
 			{
@@ -837,9 +837,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetGetMainActorSkillGroup)
 			{
-				return PythonExtension::GetPythonInt(Globals::pCPythonNetworkStreamGetMainActorSkillGroup);
+				return PythonExtension::GetPythonInt(Globals::CythonNetGetMainActorSkillGroup);
 			}
 			else
 			{
@@ -856,9 +856,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetGetAccountCharacterSlotData)
 			{
-				return PythonExtension::GetPythonString2(Globals::pCNetworkStreamGetAccountCharacterSlotDataz, iSlot, eType);
+				return PythonExtension::GetPythonString2(Globals::CythonNetGetAccountCharacterSlotData, iSlot, eType);
 			}
 			else
 			{
@@ -875,9 +875,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonNetSendCommandPacket)
 			{
-				PythonExtension::CallPythonIntIntString(Globals::pCPythonNetworkStreamSendCommandPacket, a1, a2, a3);
+				PythonExtension::CallPythonIntIntString(Globals::CythonNetSendCommandPacket, a1, a2, a3);
 				return true;
 			}
 			else
@@ -1117,7 +1117,7 @@ public:
 	{
 		try
 		{
-			PythonExtension::CallPythonInteger1(Globals::pCChrSelectInstance, vid);
+			PythonExtension::CallPythonInteger1(Globals::CythonChrSelectInstance, vid);
 		}
 		catch (...)
 		{
@@ -1128,9 +1128,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrmgrSetAffect)
 			{
-				PythonExtension::CallPythonInteger3(Globals::pCInstanceBase__SetAffect, GetVIDByInstance(instance), eAffect, isVisible);
+				PythonExtension::CallPythonInteger3(Globals::CythonChrmgrSetAffect, GetVIDByInstance(instance), eAffect, isVisible);
 			}
 			else
 			{
@@ -1168,10 +1168,10 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrMoveToDestPosition)
 			{
 				DWORD vid = GetVIDByInstance(instance);
-				PythonExtension::CallPythonInteger3(Globals::pCInstanceBaseNEW_MoveToDestPixelPositionDirection, vid, c_rkPPosDst.x, c_rkPPosDst.y);
+				PythonExtension::CallPythonInteger3(Globals::CythonChrMoveToDestPosition, vid, c_rkPPosDst.x, c_rkPPosDst.y);
 				return true;
 			}
 			else
@@ -1193,10 +1193,10 @@ public:
 		}
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrGetInstanceType)
 			{
 				DWORD vid = GetVIDByInstance(instance);
-				return PythonExtension::GetPythonInteger1(Globals::pCInstanceBaseGetInstanceType, vid);
+				return PythonExtension::GetPythonInteger1(Globals::CythonChrGetInstanceType, vid);
 			}
 			else
 			{
@@ -1217,10 +1217,10 @@ public:
 		}
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrGetVirtualNumber)
 			{
 				DWORD vid = GetVIDByInstance(instance);
-				return PythonExtension::GetPythonInteger1(Globals::pCInstanceBaseGetInstanceVirtualNumber, vid);
+				return PythonExtension::GetPythonInteger1(Globals::CythonChrGetVirtualNumber, vid);
 			}
 			else
 			{
@@ -1237,9 +1237,9 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerIsMountingHorse)
 			{
-				return PythonExtension::GetPythonInt(Globals::pCInstanceBaseIsMountingHorse);
+				return PythonExtension::GetPythonInt(Globals::CythonPlayerIsMountingHorse);
 			}
 			else
 			{
@@ -1258,10 +1258,10 @@ public:
 		{
 			try
 			{
-				if (Globals::UsePythonFunctions)
+				if (Globals::UsePythonFunctions && Globals::CythonChrGetNameByVID)
 				{
 					DWORD vid = GetVIDByInstance(instance);
-					return PythonExtension::GetPythonString1(Globals::pCInstanceBaseGetNameString, vid);
+					return PythonExtension::GetPythonString1(Globals::CythonChrGetNameByVID, vid);
 				}
 				else
 				{
@@ -1283,11 +1283,11 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrSetPixelPosition)
 			{
 				DWORD vid = GetVIDByInstance(instance);
 				SelectInstancePython(vid);
-				PythonExtension::CallPythonInteger2(Globals::pCInstanceBaseSCRIPT_SetPixelPosition, x, y);
+				PythonExtension::CallPythonInteger2(Globals::CythonChrSetPixelPosition, x, y);
 			}
 			else
 			{
@@ -1336,11 +1336,11 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrSetRotation)
 			{
 				DWORD vid = GetVIDByInstance(instance);
 				SelectInstancePython(vid);
-				PythonExtension::CallPythonFloat1(Globals::pCInstanceBaseSetRotation, fRotation);
+				PythonExtension::CallPythonFloat1(Globals::CythonChrSetRotation, fRotation);
 			}
 			else
 			{
@@ -1356,11 +1356,11 @@ public:
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions)
+			if (Globals::UsePythonFunctions && Globals::CythonChrGetRotation)
 			{
 				DWORD vid = GetVIDByInstance(instance);
 				SelectInstancePython(vid);
-				return 360.0f - PythonExtension::GetPythonFloat(Globals::pCInstanceBaseGetRotation);
+				return 360.0f - PythonExtension::GetPythonFloat(Globals::CythonChrGetRotation);
 			}
 			else
 			{
@@ -1394,7 +1394,7 @@ public:
 					}
 					default:
 					{
-						rotation = GameFunctions::InstanceBaseGetRotation(instance);
+						rotation = Globals::CInstanceBaseGetRotation(instance);
 						break;
 					}
 				}

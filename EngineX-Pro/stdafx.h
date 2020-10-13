@@ -32,6 +32,7 @@
 #include <regex>
 #include <winver.h>
 #include <codecvt>
+#include <unordered_map>
 
 #pragma comment(lib, "detours.lib")
 #include "detours.h"

@@ -2,7 +2,7 @@
 class PythonExtension
 {
 public:
-	static map<string, DWORD> ModulesMap;
+	static unordered_map<string, DWORD> ModulesMap;
 	static map< string, string> functionPythonList;
 	static const char* CheckImportNames(const char* name, PyMethodDef* methods)
 	{
@@ -286,7 +286,7 @@ public:
 	}
 };
 
-map<string, DWORD> PythonExtension::ModulesMap;
+std::unordered_map<string, DWORD> PythonExtension::ModulesMap;
 
 map< string, string> PythonExtension::functionPythonList =
 {

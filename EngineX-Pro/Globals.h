@@ -301,7 +301,53 @@ public:
 	static DWORD pCInstanceBase__GetBackgroundHeight;
 
 	//python only
-	static DWORD pCChrSelectInstance;
+	//player
+	static DWORD CythonPlayerGetStatus;
+	static DWORD CythonPlayerGetMainCharacterIndex;
+	static DWORD CythonPlayerGetItemIndex;
+	static DWORD CythonPlayerGetName;
+	static DWORD CythonPlayerGetItemMetinSocket;
+	static DWORD CythonPlayerGetRace;
+	static DWORD CythonPlayerSetSingleDIKKeyState;
+	static DWORD CythonPlayerClickSkillSlot;
+	static DWORD CythonPlayerIsSkillCoolTime;
+	static DWORD CythonPlayerIsSkillActive;
+	static DWORD CythonPlayerGetTargetVID;
+	static DWORD CythonPlayerSetTarget;
+	static DWORD CythonPlayerSetAttackKeyState;
+	static DWORD CythonPlayerIsMountingHorse;
+	//chr
+	static DWORD CythonChrSelectInstance;
+	static DWORD CythonChrGetPixelPosition;
+	static DWORD CythonChrMoveToDestPosition;
+	static DWORD CythonChrGetInstanceType;
+	static DWORD CythonChrGetVirtualNumber;
+	static DWORD CythonChrGetNameByVID;
+	static DWORD CythonChrSetPixelPosition;
+	static DWORD CythonChrSetRotation;
+	static DWORD CythonChrGetRotation;
+	static DWORD CythonChrmgrSetAffect;
+	//net
+	static DWORD CythonNetSendItemUsePacket;
+	static DWORD CythonNetSendChatPacket;
+	static DWORD CythonNetSendRefinePacket;
+	static DWORD CythonNetSendExchangeStartPacket;
+	static DWORD CythonNetSendExchangeItemAddPacket;
+	static DWORD CythonNetSendExchangeAcceptPacket;
+	static DWORD CythonNetSendWhisperPacket;
+	static DWORD CythonNetSendItemPickUpPacket;
+	static DWORD CythonNetSendItemDropPacketNew;
+	static DWORD CythonNetSendOnClickPacket;
+	static DWORD CythonNetSendShopSellPacketNew;
+	static DWORD CythonNetSendShopBuyPacket;
+	static DWORD CythonNetSendShopEndPacket;
+	static DWORD CythonNetSendGiveItemPacket;
+	static DWORD CythonNetSendItemMovePacket;
+	static DWORD CythonNetDirectEnter;
+	static DWORD CythonNetIsConnect;
+	static DWORD CythonNetGetMainActorSkillGroup;
+	static DWORD CythonNetGetAccountCharacterSlotData;
+	static DWORD CythonNetSendCommandPacket;
 public:
 	//#####################################################################################################################################
 	/*static tCNetworkStreamPeek CNetworkStreamPeek;*/
@@ -566,7 +612,55 @@ DWORD Globals::pCInstanceBaseIsWaiting = NULL;
 DWORD Globals::pCInstanceBaseSetRotation = NULL;
 DWORD Globals::pCPythonNetworkStreamSendCommandPacket = NULL;
 DWORD Globals::pCInstanceBase__GetBackgroundHeight = NULL;
-DWORD Globals::pCChrSelectInstance = NULL;
+
+//python only
+//player
+DWORD Globals::CythonPlayerGetStatus = NULL;
+DWORD Globals::CythonPlayerGetMainCharacterIndex = NULL;
+DWORD Globals::CythonPlayerGetItemIndex = NULL;
+DWORD Globals::CythonPlayerGetName = NULL;
+DWORD Globals::CythonPlayerGetItemMetinSocket = NULL;
+DWORD Globals::CythonPlayerGetRace = NULL;
+DWORD Globals::CythonPlayerSetSingleDIKKeyState = NULL;
+DWORD Globals::CythonPlayerClickSkillSlot = NULL;
+DWORD Globals::CythonPlayerIsSkillCoolTime = NULL;
+DWORD Globals::CythonPlayerIsSkillActive = NULL;
+DWORD Globals::CythonPlayerGetTargetVID = NULL;
+DWORD Globals::CythonPlayerSetTarget = NULL;
+DWORD Globals::CythonPlayerSetAttackKeyState = NULL;
+DWORD Globals::CythonPlayerIsMountingHorse = NULL;
+//chr
+DWORD Globals::CythonChrSelectInstance = NULL;
+DWORD Globals::CythonChrGetPixelPosition = NULL;
+DWORD Globals::CythonChrMoveToDestPosition = NULL;
+DWORD Globals::CythonChrGetInstanceType = NULL;
+DWORD Globals::CythonChrGetVirtualNumber = NULL;
+DWORD Globals::CythonChrGetNameByVID = NULL;
+DWORD Globals::CythonChrSetPixelPosition = NULL;
+DWORD Globals::CythonChrSetRotation = NULL;
+DWORD Globals::CythonChrGetRotation = NULL;
+DWORD Globals::CythonChrmgrSetAffect = NULL;
+//net
+DWORD Globals::CythonNetSendItemUsePacket = NULL;
+DWORD Globals::CythonNetSendChatPacket = NULL;
+DWORD Globals::CythonNetSendRefinePacket = NULL;
+DWORD Globals::CythonNetSendExchangeStartPacket = NULL;
+DWORD Globals::CythonNetSendExchangeItemAddPacket = NULL;
+DWORD Globals::CythonNetSendExchangeAcceptPacket = NULL;
+DWORD Globals::CythonNetSendWhisperPacket = NULL;
+DWORD Globals::CythonNetSendItemPickUpPacket = NULL;
+DWORD Globals::CythonNetSendItemDropPacketNew = NULL;
+DWORD Globals::CythonNetSendOnClickPacket = NULL;
+DWORD Globals::CythonNetSendShopSellPacketNew = NULL;
+DWORD Globals::CythonNetSendShopBuyPacket = NULL;
+DWORD Globals::CythonNetSendShopEndPacket = NULL;
+DWORD Globals::CythonNetSendGiveItemPacket = NULL;
+DWORD Globals::CythonNetSendItemMovePacket = NULL;
+DWORD Globals::CythonNetDirectEnter = NULL;
+DWORD Globals::CythonNetIsConnect = NULL;
+DWORD Globals::CythonNetGetMainActorSkillGroup = NULL;
+DWORD Globals::CythonNetGetAccountCharacterSlotData = NULL;
+DWORD Globals::CythonNetSendCommandPacket = NULL;
 
 Globals::tCActorInstanceTestActorCollision Globals::CActorInstanceTestActorCollision = NULL;
 Globals::tCPythonBackgroundGlobalPositionToMapInfo Globals::CBackgroundGlobalPositionToMapInfo = NULL;
@@ -1111,52 +1205,52 @@ void Globals::ReAddressingLocas()
 void Globals::ReAddressingPython()
 {
 	//player
-	pCPythonPlayerGetStatus = PythonExtension::ModulesMap["playerGetStatus"];
-	pCPythonPlayerGetMainCharacterIndex = PythonExtension::ModulesMap["playerGetMainCharacterIndex"];
-	pCPythonPlayerGetItemIndex = PythonExtension::ModulesMap["playerGetItemIndex"];
-	pCPythonPlayerGetName = PythonExtension::ModulesMap["playerGetName"];
-	pCPythonPlayerGetItemMetinSocket = PythonExtension::ModulesMap["playerGetItemMetinSocket"];
-	pCPythonPlayerGetRace = PythonExtension::ModulesMap["playerGetRace"];
-	pCPythonPlayerNEW_SetSingleDIKKeyState = PythonExtension::ModulesMap["playerSetSingleDIKKeyState"];
-	pCPythonPlayerClickSkillSlot = PythonExtension::ModulesMap["playerClickSkillSlot"];
-	pCPythonPlayerIsSkillCoolTime = PythonExtension::ModulesMap["playerIsSkillCoolTime"];
-	pCPythonPlayerIsSkillActive = PythonExtension::ModulesMap["playerIsSkillActive"];
-	pCPythonPlayerGetTargetVID = PythonExtension::ModulesMap["playerGetTargetVID"];
-	pCPythonPlayerSetTarget = PythonExtension::ModulesMap["playerSetTarget"];
-	pCPythonPlayerSetAttackKeyState = PythonExtension::ModulesMap["playerSetAttackKeyState"];
-	pCInstanceBaseIsMountingHorse = PythonExtension::ModulesMap["playerIsMountingHorse"];
+	CythonPlayerGetStatus = PythonExtension::ModulesMap["playerGetStatus"];
+	CythonPlayerGetMainCharacterIndex = PythonExtension::ModulesMap["playerGetMainCharacterIndex"];
+	CythonPlayerGetItemIndex = PythonExtension::ModulesMap["playerGetItemIndex"];
+	CythonPlayerGetName = PythonExtension::ModulesMap["playerGetName"];
+	CythonPlayerGetItemMetinSocket = PythonExtension::ModulesMap["playerGetItemMetinSocket"];
+	CythonPlayerGetRace = PythonExtension::ModulesMap["playerGetRace"];
+	CythonPlayerSetSingleDIKKeyState = PythonExtension::ModulesMap["playerSetSingleDIKKeyState"];
+	CythonPlayerClickSkillSlot = PythonExtension::ModulesMap["playerClickSkillSlot"];
+	CythonPlayerIsSkillCoolTime = PythonExtension::ModulesMap["playerIsSkillCoolTime"];
+	CythonPlayerIsSkillActive = PythonExtension::ModulesMap["playerIsSkillActive"];
+	CythonPlayerGetTargetVID = PythonExtension::ModulesMap["playerGetTargetVID"];
+	CythonPlayerSetTarget = PythonExtension::ModulesMap["playerSetTarget"];
+	CythonPlayerSetAttackKeyState = PythonExtension::ModulesMap["playerSetAttackKeyState"];
+	CythonPlayerIsMountingHorse = PythonExtension::ModulesMap["playerIsMountingHorse"];
 	//chr
-	pCChrSelectInstance = PythonExtension::ModulesMap["chrSelectInstance"];
-	pCInstanceBaseNEW_GetPixelPosition = PythonExtension::ModulesMap["chrGetPixelPosition"];
-	pCInstanceBaseNEW_MoveToDestPixelPositionDirection = PythonExtension::ModulesMap["chrMoveToDestPosition"];
-	pCInstanceBaseGetInstanceType = PythonExtension::ModulesMap["chrGetInstanceType"];
-	pCInstanceBaseGetInstanceVirtualNumber = PythonExtension::ModulesMap["chrGetVirtualNumber"];
-	pCInstanceBaseGetNameString = PythonExtension::ModulesMap["chrGetNameByVID"];
-	pCInstanceBaseSCRIPT_SetPixelPosition = PythonExtension::ModulesMap["chrSetPixelPosition"];
-	pCInstanceBaseSetRotation = PythonExtension::ModulesMap["chrSetRotation"];
-	pCInstanceBaseGetRotation = PythonExtension::ModulesMap["chrGetRotation"];
-	pCInstanceBase__SetAffect = PythonExtension::ModulesMap["chrmgrSetAffect"];
+	CythonChrSelectInstance = PythonExtension::ModulesMap["chrSelectInstance"];
+	CythonChrGetPixelPosition = PythonExtension::ModulesMap["chrGetPixelPosition"];
+	CythonChrMoveToDestPosition = PythonExtension::ModulesMap["chrMoveToDestPosition"];
+	CythonChrGetInstanceType = PythonExtension::ModulesMap["chrGetInstanceType"];
+	CythonChrGetVirtualNumber = PythonExtension::ModulesMap["chrGetVirtualNumber"];
+	CythonChrGetNameByVID = PythonExtension::ModulesMap["chrGetNameByVID"];
+	CythonChrSetPixelPosition = PythonExtension::ModulesMap["chrSetPixelPosition"];
+	CythonChrSetRotation = PythonExtension::ModulesMap["chrSetRotation"];
+	CythonChrGetRotation = PythonExtension::ModulesMap["chrGetRotation"];
+	CythonChrmgrSetAffect = PythonExtension::ModulesMap["chrmgrSetAffect"];
 	//net
-	pCPythonNetworkStreamSendItemUsePacket = PythonExtension::ModulesMap["netSendItemUsePacket"];
-	pCPythonNetworkStreamSendChatPacket = PythonExtension::ModulesMap["netSendChatPacket"];
-	pCPythonNetworkStreamSendRefinePacket = PythonExtension::ModulesMap["netSendRefinePacket"];
-	pCPythonNetworkStreamSendExchangeStartPacket = PythonExtension::ModulesMap["netSendExchangeStartPacket"];
-	pCPythonNetworkStreamSendExchangeItemAddPacket = PythonExtension::ModulesMap["netSendExchangeItemAddPacket"];
-	pCPythonNetworkStreamSendExchangeAcceptPacket = PythonExtension::ModulesMap["netSendExchangeAcceptPacket"];
-	pCPythonNetworkStreamSendWhisperPacket = PythonExtension::ModulesMap["netSendWhisperPacket"];
-	pCPythonNetworkStreamSendItemPickUpPacket = PythonExtension::ModulesMap["netSendItemPickUpPacket"];
-	pCPythonNetworkStreamSendItemDropPacketNew = PythonExtension::ModulesMap["netSendItemDropPacketNew"];
-	pCPythonNetworkStreamSendOnClickPacket = PythonExtension::ModulesMap["netOnClickPacket"];
-	pCPythonNetworkStreamSendShopSellPacketNew = PythonExtension::ModulesMap["netSendShopSellPacketNew"];
-	pCPythonNetworkStreamSendShopBuyPacket = PythonExtension::ModulesMap["netSendShopBuyPacket"];
-	pCPythonNetworkStreamSendShopEndPacket = PythonExtension::ModulesMap["netSendShopEndPacket"];
-	pCPythonNetworkStreamSendGiveItemPacket = PythonExtension::ModulesMap["netSendGiveItemPacket"];
-	pCPythonNetworkStreamSendItemMovePacket = PythonExtension::ModulesMap["netSendItemMovePacket"];
-	pCPythonNetworkStreamConnectGameServer = PythonExtension::ModulesMap["netDirectEnter"];
-	pCNetworkStreamIsOnline = PythonExtension::ModulesMap["netIsConnect"];
-	pCPythonNetworkStreamGetMainActorSkillGroup = PythonExtension::ModulesMap["netGetMainActorSkillGroup"];
-	pCNetworkStreamGetAccountCharacterSlotDataz = PythonExtension::ModulesMap["netGetAccountCharacterSlotDataString"];
-	pCPythonNetworkStreamSendCommandPacket = PythonExtension::ModulesMap["netSendCommandPacket"];
+	CythonNetSendItemUsePacket = PythonExtension::ModulesMap["netSendItemUsePacket"];
+	CythonNetSendChatPacket = PythonExtension::ModulesMap["netSendChatPacket"];
+	CythonNetSendRefinePacket = PythonExtension::ModulesMap["netSendRefinePacket"];
+	CythonNetSendExchangeStartPacket = PythonExtension::ModulesMap["netSendExchangeStartPacket"];
+	CythonNetSendExchangeItemAddPacket = PythonExtension::ModulesMap["netSendExchangeItemAddPacket"];
+	CythonNetSendExchangeAcceptPacket = PythonExtension::ModulesMap["netSendExchangeAcceptPacket"];
+	CythonNetSendWhisperPacket = PythonExtension::ModulesMap["netSendWhisperPacket"];
+	CythonNetSendItemPickUpPacket = PythonExtension::ModulesMap["netSendItemPickUpPacket"];
+	CythonNetSendItemDropPacketNew = PythonExtension::ModulesMap["netSendItemDropPacketNew"];
+	CythonNetSendOnClickPacket = PythonExtension::ModulesMap["netOnClickPacket"];
+	CythonNetSendShopSellPacketNew = PythonExtension::ModulesMap["netSendShopSellPacketNew"];
+	CythonNetSendShopBuyPacket = PythonExtension::ModulesMap["netSendShopBuyPacket"];
+	CythonNetSendShopEndPacket = PythonExtension::ModulesMap["netSendShopEndPacket"];
+	CythonNetSendGiveItemPacket = PythonExtension::ModulesMap["netSendGiveItemPacket"];
+	CythonNetSendItemMovePacket = PythonExtension::ModulesMap["netSendItemMovePacket"];
+	CythonNetDirectEnter = PythonExtension::ModulesMap["netDirectEnter"];
+	CythonNetIsConnect = PythonExtension::ModulesMap["netIsConnect"];
+	CythonNetGetMainActorSkillGroup = PythonExtension::ModulesMap["netGetMainActorSkillGroup"];
+	CythonNetGetAccountCharacterSlotData = PythonExtension::ModulesMap["netGetAccountCharacterSlotDataString"];
+	CythonNetSendCommandPacket = PythonExtension::ModulesMap["netSendCommandPacket"];
 }
 
 void Globals::ReDeclarationInstances()

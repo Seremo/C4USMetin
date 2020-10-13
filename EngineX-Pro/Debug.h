@@ -51,11 +51,22 @@ public:
 			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(PythonExtension::ModulesMap["playerGetStatus"]));
 		}
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
-		if (ImGui::Button("Test speed C++")) {
+		if (ImGui::Button("Test speed DWORD")) {
 			auto t1 = std::chrono::high_resolution_clock::now();
-			for (int i = 0; i < 1000000; i++)
+			for (int i = 0; i < 100000; i++)
 			{
-				int value = GameFunctions::PlayerGetStatus(1);
+				int value = PythonExtension::GetPythonInteger1(Globals::pCPythonPlayerGetStatus, 1);
+			}
+			auto t2 = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, "Time");
+			Logger::AddString(Logger::SNIFFER, true, Logger::WHITE, to_string(duration));
+		}
+		if (ImGui::Button("Test speed MAP")) {
+			auto t1 = std::chrono::high_resolution_clock::now();
+			for (int i = 0; i < 100000; i++)
+			{
+				int value = PythonExtension::GetPythonInteger1(PythonExtension::ModulesMap["playerGetStatus"], 1);
 			}
 			auto t2 = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
