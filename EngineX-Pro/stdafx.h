@@ -41,10 +41,18 @@ using namespace std;
 
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Wininet")
+#ifdef _DEBUG
+#define DEBUG_WAS_DEFINED
+#undef _DEBUG
+#endif
 
-#define Py_NO_DEBUG
+//#define Py_NO_DEBUG
 #include "Python.h"
 #pragma comment(lib, "python27.lib")
+#ifdef DEBUG_WAS_DEFINED
+#define _DEBUG
+#endif
+
 enum ServerName
 {
 	METINPL = 1,

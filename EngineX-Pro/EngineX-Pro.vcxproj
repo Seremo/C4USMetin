@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;C:\Python27x86\libs</LibraryPath>
-    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;C:\Python27x86\include</IncludePath>
+    <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;..\Extern\lib</LibraryPath>
+    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27</IncludePath>
     <TargetExt>.dll</TargetExt>
     <LinkIncremental />
   </PropertyGroup>
