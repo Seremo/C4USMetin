@@ -42,9 +42,9 @@ using namespace std;
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Wininet")
 
+#define Py_NO_DEBUG
 #include "Python.h"
 #pragma comment(lib, "python27.lib")
-
 enum ServerName
 {
 	METINPL = 1,

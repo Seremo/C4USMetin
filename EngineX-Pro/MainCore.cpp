@@ -24,11 +24,19 @@ void MainCore::Crack()
 bool MainCore::CheckMembers()
 {
 	string hwid = GetHardwareId();
+#ifdef DEVELOPER_MODE
+	printf(hwid.c_str());
+	printf("\n");
+#endif
 	if ( hwid == "21D7B04A-523B0BDA-3B9C1E8A-40E0655B")//ja
 	{
 		return true;
 	}
-	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")//ser
+	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")//ser debug
+	{
+		return true;
+	}
+	else if (hwid == "45B6C023-D6ADF1B7-CC688E1C-DC0B9FB6")//ser release
 	{
 		return true;
 	}
