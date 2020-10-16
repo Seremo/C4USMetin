@@ -76,7 +76,7 @@ enum ServerName
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
 
-//#define PYTHON_CUSTOM
+
 #define FISHBOT
 #define DEVELOPER_MODE
 //#define NETWORK_MODE
