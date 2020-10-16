@@ -148,4 +148,45 @@ void  MainCore::UpdateLoop()
 			itor->second.second->OnUpdate();
 		}
 	}
+	if (GetForegroundWindow() == Globals::mainHwnd)
+	{
+		if (MainForm::Hotkey(Settings::OnOffMH))
+		{
+			Settings::GLOBAL_SWITCH = !Settings::GLOBAL_SWITCH;
+			if (Settings::GLOBAL_SWITCH == true)
+			{
+				Main::Instance().OnStart();
+			}
+			else
+			{
+				Main::Instance().OnStop();
+			}
+		}
+		if (MainForm::Hotkey(Settings::RelogKey))
+		{
+			if (Globals::Server == ServerName::METINPL)
+			{
+				GameFunctions::NetworkStreamConnectGameServer(0);
+				Main::Instance().ResetSkillTimer();
+			}
+			else
+			{
+				int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
+				if (lastSlot != -1)
+				{
+					GameFunctions::NetworkStreamConnectGameServer(lastSlot);
+					Main::Instance().ResetSkillTimer();
+				}
+			}
+		}
+		if (MainForm::Hotkey(Settings::BoostKey, Settings::BoostSpeed1))
+		{
+			GameFunctionsCustom::Boost();
+		}
+
+		if (MainForm::Hotkey(Settings::HideUI))
+		{
+			MainForm::SideBarIsOpen = !MainForm::SideBarIsOpen;
+		}
+	}
 }

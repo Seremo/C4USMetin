@@ -23,7 +23,8 @@ public:
 	static void Menu();
 
 	static void SetImages();
-
+	static bool Hotkey(int vKey, int time = 500);
+	static bool HotkeyBoost(int vKey, int vKey2, int vKey3, int vKey4, int vKey5, int time = 500);
 	static DirectTexture LogoHref;
 	static DirectTexture Background;
 	static DirectTexture WindowOn;

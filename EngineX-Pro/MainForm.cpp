@@ -235,7 +235,7 @@ void MainForm::SetImages() {
 
 
 DWORD HotkeyTime;
-bool Hotkey(int vKey, int time = 500)
+bool MainForm::Hotkey(int vKey, int time)
 {
 	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && GetTickCount() - HotkeyTime > time && GetTickCount() - Settings::HotkeyTime > 1000;
 	if (isPressed)
@@ -245,7 +245,7 @@ bool Hotkey(int vKey, int time = 500)
 	return isPressed;
 }
 
-bool HotkeyBoost(int vKey, int vKey2, int vKey3, int vKey4, int vKey5, int time = 500)
+bool MainForm::HotkeyBoost(int vKey, int vKey2, int vKey3, int vKey4, int vKey5, int time)
 {
 	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && (GetAsyncKeyState(vKey2) || GetAsyncKeyState(vKey3) || GetAsyncKeyState(vKey4) || GetAsyncKeyState(vKey5)) && GetTickCount() - HotkeyTime > time&& GetTickCount() - Settings::HotkeyTime > 1000;
 	if (isPressed)

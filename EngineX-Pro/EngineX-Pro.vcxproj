@@ -120,7 +120,8 @@
       <Culture>0x0415</Culture>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>start "C:\Program Files\VMProtect\VMProtect_Con.exe"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
