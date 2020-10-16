@@ -47,7 +47,9 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>Communication</Filter>
     </ClCompile>
-    <ClCompile Include="HookCore.cpp" />
+    <ClCompile Include="HookCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">

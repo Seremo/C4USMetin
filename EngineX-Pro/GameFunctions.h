@@ -1331,18 +1331,8 @@ public:
 				switch (Globals::Server)
 				{
 				case ServerName::VEDNAR:
-				{
-					__asm
-					{
-						mov     eax, [address]
-						mov     ecx, instance
-						movss   xmm2, [y]
-						movss   xmm1, [x]
-						call	eax
-					}
-					break;
-				}
 				case ServerName::CALLIOPE:
+				case ServerName::ASENIS:
 				{
 					__asm
 					{
@@ -1405,18 +1395,8 @@ public:
 				switch (Globals::Server)
 				{
 					case ServerName::VEDNAR:
-					{
-						DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
-						__asm
-						{
-							mov     eax, [address]
-							mov     ecx, playerInstance
-							call	eax
-							movss[rotation], xmm0
-						}
-						break;
-					}
 					case ServerName::CALLIOPE:
+					case ServerName::ASENIS:
 					{
 						DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
 						__asm
@@ -1552,6 +1532,7 @@ public:
 			switch (Globals::Server)
 			{
 			case ServerName::CALLIOPE:
+			case ServerName::ASENIS:
 			{
 				DWORD* instance = PlayerNEW_GetMainActorPtr();
 				if (instance)

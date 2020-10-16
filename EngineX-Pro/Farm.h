@@ -106,7 +106,7 @@ public:
 					targetVID = 0;
 					/*targetInstance = NULL;*/
 				}
-				if (targetVID &&( GameFunctions::InstanceBaseIsDead(targetInstance) || !GameFunctionsCustom::MapHaveInstance(targetInstance)))
+				if (targetVID &&( GameFunctions::InstanceBaseIsDead(targetInstance) || !GameFunctionsCustom::IsMapHaveInstance(targetInstance)))
 				{
 					targetVID = 0;
 					targetInstance = NULL;

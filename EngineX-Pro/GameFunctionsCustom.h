@@ -1264,9 +1264,7 @@ public:
 				angle = 330;
 			}
 		}
-		/*angle += 180;*/
-		/*int index = ((r %= 360) < 0 ? r + 360 : r) / 45;*/
-		/*GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));*/
+	
 		GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), angle);
 	}
 	//#################################################################################################################################
@@ -1306,9 +1304,9 @@ public:
 			}
 		}
 		
-		/*angle += 180;*/
+		
 		GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), angle);
-		/*GameFunctionsCustom::SetDirection(GetDirectionFromDegree(angle));*/
+		
 	}
 
 	static bool NetworkStreamSendAttackPacket(UINT uMotAttack, DWORD dwVIDVictim)
@@ -1408,7 +1406,7 @@ public:
 		rGlobalY -= BaseY;
 	}
 	//#################################################################################################################################
-	static DWORD MapHaveInstance(DWORD* instanceContain)
+	static DWORD IsMapHaveInstance(DWORD* instanceContain)
 	{
 		map<DWORD, DWORD*> playersList = GetObjectList(OBJECT_ALL);
 		for (map<DWORD, DWORD*>::iterator itor = playersList.begin(); itor != playersList.end(); itor++)

@@ -350,37 +350,37 @@ public:
 					}		
 				}
 				D3DVECTOR playerPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-				float Distance = MiscExtension::CountDistanceTwoPoints(playerPosition.x, playerPosition.y, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
+				float distance = MiscExtension::CountDistanceTwoPoints(playerPosition.x, playerPosition.y, groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y);
 				switch (Settings::ITEM_PICKUP_TYPE)
 				{
 				case 0://normal
-					if (Distance < 300)
+					if (distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						continue;
+						return;
 					}
 					break;
 				case 1://range
-					if (Distance < 300)
+					if (distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						continue;
+						return;
 					}
-					else if (Distance > 300 && Distance < Settings::ITEM_PICKUP_DISTANCE)
+					else if (distance > 300 && distance < Settings::ITEM_PICKUP_DISTANCE)
 					{
-						vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z });
+						vector< D3DVECTOR> steps = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z });
 						int i = 0;
-						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+						for (vector< D3DVECTOR>::iterator it = steps.begin(); it != steps.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						gf = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
-						for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+						steps = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
+						for (vector< D3DVECTOR>::iterator it = steps.begin(); it != steps.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
-						continue;
+						return;
 					}
 					break;
 				}
