@@ -79,8 +79,8 @@ void MainCore::Initialize()
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{
-		//MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
-		//exit(0);
+		MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
+		exit(0);
 	}
 #endif
 #ifdef NETWORK_MODE
