@@ -83,7 +83,7 @@ void MainCore::NetworkThread()
 ///##################################################################################################################
 void MainCore::Initialize()
 {	
-
+	/*MessageBox(NULL, "BP", "BP", 0);*/
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{

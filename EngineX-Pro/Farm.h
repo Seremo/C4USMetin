@@ -110,9 +110,9 @@ public:
 				{
 					targetVID = 0;
 					targetInstance = NULL;
-					DynamicTimer::CheckAutoSet("DropDelay", 8000);
+					DynamicTimer::CheckAutoSet("DropDelay", Settings::FARM_DROP_WAIT_DELAY);
 				}
-				if (DynamicTimer::IsActive("DropDelay", 8000))
+				if (DynamicTimer::IsActive("DropDelay", Settings::FARM_DROP_WAIT_DELAY))
 				{
 					return;
 				}
@@ -262,7 +262,10 @@ public:
 		ImGui::Checkbox("Boss", &Settings::FARM_BOSS_ENABLE); ImGui::SameLine();
 		ImGui::Checkbox("Metin", &Settings::FARM_METIN_ENABLE); ImGui::SameLine();
 
-		ImGui::Checkbox("Mine", &Settings::FARM_MINE_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Mine", &Settings::FARM_MINE_ENABLE); /*ImGui::SameLine();*/
+
+		ImGui::InputFloatMinMax("Drop Wait Delay (s)", &Settings::FARM_DROP_WAIT_DELAY, 0, 100, 0.100, 1);
+		
 		/*ImGui::Checkbox("Plant", &Settings::FARM_PLANT_ENABLE);*/
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

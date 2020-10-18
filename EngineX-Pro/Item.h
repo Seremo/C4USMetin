@@ -204,7 +204,7 @@ public:
 		static float ITEM_SLOT_RANDOM_MAX_TIME;
 
 		ImGui::BeginChild("SlotsBorder", ImVec2(225, 445), true);
-		ImGui::Checkbox("Random +/- (ms)  ", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
+		ImGui::Checkbox("Random +/- (s.ms)  ", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
 		ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0, 100, 0.100, 1);
 		ImGui::InputFloatMinMax("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME, 0, 100, 0.100, 1);
 		ImGui::Separator();
@@ -357,14 +357,29 @@ public:
 					if (distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						return;
+						if (Settings::ITEM_PICKUP_TIME == 0)
+						{
+							continue;
+						}
+						else
+						{
+							return;
+						}
+						
 					}
 					break;
 				case 1://range
 					if (distance < 300)
 					{
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						return;
+						if (Settings::ITEM_PICKUP_TIME == 0)
+						{
+							continue;
+						}
+						else
+						{
+							return;
+						}
 					}
 					else if (distance > 300 && distance < Settings::ITEM_PICKUP_DISTANCE)
 					{
@@ -380,7 +395,14 @@ public:
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
-						return;
+						if (Settings::ITEM_PICKUP_TIME == 0)
+						{
+							continue;
+						}
+						else
+						{
+							return;
+						}
 					}
 					break;
 				}

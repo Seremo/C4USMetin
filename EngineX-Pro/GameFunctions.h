@@ -59,7 +59,7 @@ public:
 			return false;
 		}
 	}
-	static void SelectItem(DWORD vnum)
+	static void ItemSelectItem(DWORD vnum)
 	{
 		try
 		{
@@ -1129,13 +1129,29 @@ public:
 	{
 		try
 		{
-			return Globals::CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg);
+			switch (Globals::Server)
+			{
+			case ServerName::ASENIS:
+			{
+				typedef bool(__thiscall* tCPythonNetworkStreamSendCharacterStatePacket)(void* This, const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg, int unk);
+				tCPythonNetworkStreamSendCharacterStatePacket CPythonNetworkStreamSendCharacterStatePacket = (tCPythonNetworkStreamSendCharacterStatePacket)Globals::pCPythonNetworkStreamSendCharacterStatePacket;
+				return CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg, 0);
+				break;
+			}
+			default:
+			{
+				return Globals::CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg);
+				break;
+			}
+			}
+
 		}
 		catch (...)
 		{
 			return false;
 		}
 	}
+	
 	//#################################################################################################################################
 	static void NetworkStream__DirectEnterMode_Set(UINT charSlot)
 	{

@@ -575,12 +575,9 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 	}
 
 #ifdef FISHBOT
-	if (iType == CHAT_TYPE_NOTICE || iType == CHAT_TYPE_INFO)
-	{
-		Fish::Instance().ParseMessage(c_szChat);
-	}
+	Fish::Instance().ParseMessage(c_szChat);
 #endif
-//#ifdef DEVELOPER_MODE
+#ifdef DEVELOPER_MODE
 //	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
 //		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
 //		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
@@ -589,7 +586,8 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 //		outfile.open("nicki.txt", std::ios_base::app);
 //		outfile << Text3;
 //	}
-//#endif
+	Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);
+#endif
 
 	nCPythonChatAppendChat(This, iType, c_szChat);
 }

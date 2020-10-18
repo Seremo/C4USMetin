@@ -383,6 +383,7 @@ public:
 
 
 	static int	FARM_DISTANCE;
+	static float	FARM_DROP_WAIT_DELAY;
 	static int	FARM_MOVE_TYPE;
 	static int	LevelBotAttackType;
 	static float LevelBotCoordsX[250];
@@ -683,6 +684,14 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(25,  make_pair(ServerName::MEDIUMMT2,"CH5")), make_pair(14005, "51.77.56.238") },
 	{ make_pair(26,  make_pair(ServerName::MEDIUMMT2,"CH6")), make_pair(14006, "51.77.56.238") },
 
+
+	{ make_pair(27,  make_pair(ServerName::ASENIS,"CH1")), make_pair(51102, "51.77.52.117") },
+	{ make_pair(28,  make_pair(ServerName::ASENIS,"CH2")), make_pair(51202, "51.77.52.117") },
+	{ make_pair(29,  make_pair(ServerName::ASENIS,"CH3")), make_pair(51302, "51.77.52.117") },
+	{ make_pair(30,  make_pair(ServerName::ASENIS,"CH4")), make_pair(51402, "51.77.52.117") },
+	{ make_pair(31,  make_pair(ServerName::ASENIS,"CH5")), make_pair(51502, "51.77.52.117") },
+	{ make_pair(32,  make_pair(ServerName::ASENIS,"CH6")), make_pair(51602, "51.77.52.117") },
+
 };
 
 
@@ -889,17 +898,17 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 	// { 54, make_pair("użyj spacji 4", 4) },
 	// { 55, make_pair("użyj spacji 5", 5) },
 
-	// { 56, make_pair("Aby wycićgnąć Rybę wciśnij: 1", 1) },
-	// { 57, make_pair("Aby wycićgnąć Rybę wciśnij: 2", 2) },
-	// { 58, make_pair("Aby wycićgnąć Rybę wciśnij: 3", 3) },
-	// { 59, make_pair("Aby wycićgnąć Rybę wciśnij: 4", 4) },
-	// { 60, make_pair("Aby wycićgnąć Rybę wciśnij: 5", 5) },
+	 { 56, make_pair("nij: 1", 1) },
+	 { 57, make_pair("nij: 2", 2) },
+	 { 58, make_pair("nij: 3", 3) },
+	 { 59, make_pair("nij: 4", 4) },
+	 { 60, make_pair("nij: 5", 5) },
 
-	// { 61, make_pair("Aby wycićgnąć Rybę wciśnij: J", 1) },
-	// { 62, make_pair("Aby wycićgnąć Rybę wciśnij: D", 2) },
-	// { 63, make_pair("Aby wycićgnąć Rybę wciśnij: T", 3) },
-	// { 64, make_pair("Aby wycićgnąć Rybę wciśnij: C", 4) },
-	// { 65, make_pair("Aby wycićgnąć Rybę wciśnij: P", 5) },
+	 { 61, make_pair("nij: J", 1) },
+	 { 62, make_pair("nij: D", 2) },
+	 { 63, make_pair("nij: T", 3) },
+	 { 64, make_pair("nij: C", 4) },
+	 { 65, make_pair("nij: P", 5) },
 
 
 	//{ 66, make_pair("hohfcthbhy.sub", 1) },
@@ -958,7 +967,19 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 	 { 97, make_pair("nij 2x spacj", 2) },
 	 { 98, make_pair("nij 3x spacj", 3) },
 	 { 99, make_pair("nij 4x spacj", 4) },
-	 { 10, make_pair("nij 5x spacj", 5) },
+	 { 100, make_pair("nij 5x spacj", 5) },
+
+
+
+	 { 101, make_pair("nij 1x spacj", 1) },
+	 { 102, make_pair("nij 2x spacj", 2) },
+	 { 103, make_pair("nij 3x spacj", 3) },
+	 { 104, make_pair("nij 4x spacj", 4) },
+	 { 105, make_pair("nij 5x spacj", 5) },
+
+
+
+
  };
 
 bool Settings::DropBotEnable = false;
@@ -972,6 +993,9 @@ bool Settings::FARM_MINE_ENABLE = false;
 bool Settings::FARM_PLANT_ENABLE = false;
 
 int Settings::FARM_DISTANCE = 3000;
+
+float Settings::FARM_DROP_WAIT_DELAY = 7;
+
 int Settings::FARM_MOVE_TYPE = 0;
 int Settings::LevelBotAttackType = 0;
 float Settings::LevelBotCoordsX[250] = { 0 };
@@ -1098,8 +1122,8 @@ float Settings::BUFF_SKILL_3_TIME = 11;
 int Settings::FishBotSuccesPercentValue = 0;
 int Settings::FishBotCastTimeMinValue = 150;
 int Settings::FishBotCastTimeMaxValue = 250;
-int Settings::FishBotRoundTimeMinValue = 8000;
-int Settings::FishBotRoundTimeMaxValue = 9000;
+int Settings::FishBotRoundTimeMinValue = 9000;
+int Settings::FishBotRoundTimeMaxValue = 10000;
 int  Settings::FishBotEmergencyRunTimeValue = 40500;
 bool Settings::FISHBOT_DETECT_PLAYER = false;
 

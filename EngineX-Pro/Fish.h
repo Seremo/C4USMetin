@@ -90,8 +90,9 @@ public:
 						{
 							Cast();
 						}
-						action--;
 						Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("CLICK %d AFTER %d (ms)", action, clickTime).c_str());
+						action--;
+						
 						lastTimeBotCast = GetTickCount();
 						if (action == 0)
 						{
@@ -597,7 +598,7 @@ public:
 				if (MessageCount == TrueMessage)
 				{
 					action = atoi(message + 21);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 					MessageCount = 0;
 					TrueMessage = 0;
 				}
@@ -608,7 +609,7 @@ public:
 				if (MessageCount == TrueMessage)
 				{
 					action = atoi(message + 24);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 					MessageCount = 0;
 					TrueMessage = 0;
 				}
@@ -619,7 +620,7 @@ public:
 				if (MessageCount == TrueMessage)
 				{
 					action = atoi(message + 24);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 					MessageCount = 0;
 					TrueMessage = 0;
 				}
@@ -630,7 +631,7 @@ public:
 				if (MessageCount == TrueMessage)
 				{
 					action = atoi(message + 24);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 					MessageCount = 0;
 					TrueMessage = 0;
 				}
@@ -641,7 +642,7 @@ public:
 				if (MessageCount == TrueMessage)
 				{
 					action = atoi(message + 24);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 					MessageCount = 0;
 					TrueMessage = 0;
 				}
@@ -656,7 +657,7 @@ public:
 				{
 
 					action = itor->second.second;
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
 				}
 			}
 

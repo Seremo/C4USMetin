@@ -41,6 +41,7 @@ using namespace std;
 
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Wininet")
+
 #ifdef _DEBUG
 #define DEBUG_WAS_DEFINED
 #undef _DEBUG
@@ -81,9 +82,9 @@ enum ServerName
 #define FISHBOT
 #define DEVELOPER_MODE
 //#define NETWORK_MODE
-#define PYTHON_FUNCTIONS
 
-#define DLL_VERSION "0.0.62 Beta"
+
+#define DLL_VERSION "0.0.70 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
