@@ -69,6 +69,7 @@ enum ServerName
 	ORIGINS,
 	CALLIOPE,
 	ASENIS,
+	CLASSIC
 };
 
 
@@ -84,7 +85,7 @@ enum ServerName
 //#define NETWORK_MODE
 
 
-#define DLL_VERSION "0.0.70 Beta"
+#define DLL_VERSION "0.0.71 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -144,8 +145,8 @@ enum ServerName
 #include "ProtectExtension.h"
 #include "PatternScan.h"
 #include "PatternScan2.h"
-
-//#include "json.hpp"
+//
+//#include "Json.h"
 #include "Settings.h"
 #include "Hotkey.h"
 #include "Device.h"

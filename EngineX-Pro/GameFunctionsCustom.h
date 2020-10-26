@@ -1357,7 +1357,7 @@ public:
 			kPacketAtk.bType = uMotAttack;
 			kPacketAtk.dwVictimVID = dwVIDVictim;
 
-			if (Globals::Server == ServerName::ORIGINS)
+			if (Globals::Server == ServerName::ORIGINS || Globals::Server == ServerName::CLASSIC )
 			{
 				if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
 				{

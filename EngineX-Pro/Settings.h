@@ -692,6 +692,12 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(31,  make_pair(ServerName::ASENIS,"CH5")), make_pair(51502, "51.77.52.117") },
 	{ make_pair(32,  make_pair(ServerName::ASENIS,"CH6")), make_pair(51602, "51.77.52.117") },
 
+	{ make_pair(33,  make_pair(ServerName::CLASSIC,"CH1")), make_pair(13001, "51.77.56.238") },
+	{ make_pair(34,  make_pair(ServerName::CLASSIC,"CH2")), make_pair(13002, "51.77.56.238") },
+	{ make_pair(35,  make_pair(ServerName::CLASSIC,"CH3")), make_pair(13003, "51.77.56.238") },
+	{ make_pair(36,  make_pair(ServerName::CLASSIC,"CH4")), make_pair(13004, "51.77.56.238") },
+	{ make_pair(37,  make_pair(ServerName::CLASSIC,"CH5")), make_pair(13005, "51.77.56.238") },
+	{ make_pair(38,  make_pair(ServerName::CLASSIC,"CH6")), make_pair(13006, "51.77.56.238") },
 };
 
 
@@ -978,7 +984,12 @@ map< pair<DWORD, bool>, pair<DWORD, string>> Settings::FISHBOT_SELL_LIST =
 	 { 105, make_pair("nij 5x spacj", 5) },
 
 
-
+	  { 106, make_pair("nawalaj w te spacje 1 razy", 1) },
+	 { 107, make_pair("nawalaj w te spacje 2 razy", 2) },
+	 { 108, make_pair("nawalaj w te spacje 3 razy", 3) },
+	 { 109, make_pair("nawalaj w te spacje 4 razy", 4) },
+	 { 110, make_pair("nawalaj w te spacje 5 razy", 5) },
+	 
 
  };
 

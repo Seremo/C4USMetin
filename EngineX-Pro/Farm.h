@@ -264,7 +264,7 @@ public:
 
 		ImGui::Checkbox("Mine", &Settings::FARM_MINE_ENABLE); /*ImGui::SameLine();*/
 
-		ImGui::InputFloatMinMax("Drop Wait Delay (s)", &Settings::FARM_DROP_WAIT_DELAY, 0, 100, 0.100, 1);
+		ImGui::InputFloat("Drop Wait Delay (s)", &Settings::FARM_DROP_WAIT_DELAY, 0.100, 1);
 		
 		/*ImGui::Checkbox("Plant", &Settings::FARM_PLANT_ENABLE);*/
 		ImGui::EndChild();

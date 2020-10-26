@@ -205,8 +205,12 @@ public:
 
 		ImGui::BeginChild("SlotsBorder", ImVec2(225, 445), true);
 		ImGui::Checkbox("Random +/- (s.ms)  ", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
-		ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0, 100, 0.100, 1);
-		ImGui::InputFloatMinMax("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME, 0, 100, 0.100, 1);
+	/*	ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0, 100, 0.100, 1);
+		ImGui::InputFloatMinMax("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME, 0, 100, 0.100, 1);*/
+
+
+		ImGui::InputFloat("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME,  0.100, 1);
+		ImGui::InputFloat("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME,  0.100, 1);
 		ImGui::Separator();
 		ImGui::Text("Slots(s.ms)");
 		ImGui::Checkbox("3  ", &Settings::ITEM_SLOT_ENABLE_3); ImGui::SameLine();

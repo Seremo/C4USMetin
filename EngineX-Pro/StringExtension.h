@@ -317,7 +317,15 @@ public:
 	//	return szAnsi;
 	//}
 
+#if _MSC_PLATFORM_TOOLSET
+	std::string to_utf8(const std::u16string& s)
+	{
+		std::wstring_convert<std::codecvt_utf8<int16_t>, int16_t> convert;
+		auto p = reinterpret_cast<const int16_t*>(s.data());
+		return convert.to_bytes(p, p + s.size());
+	}
 
+#else
 	static std::string to_utf8(const std::string& str, const std::locale& loc = std::locale{}) {
 		using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
 		std::u32string wstr(str.size(), '\0');
@@ -332,5 +340,6 @@ public:
 		std::use_facet<std::ctype<char32_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', &result[0]);
 		return result;
 	}
+#endif
 };
 

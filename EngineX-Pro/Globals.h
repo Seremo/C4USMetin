@@ -466,7 +466,7 @@ public:
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-ServerName Globals::Server = ServerName::ASENIS;
+ServerName Globals::Server = ServerName::CLASSIC;
 bool Globals::UsePythonFunctions = false;
 bool Globals::PythonCustom = false;
 map<DWORD, TCItemData*> Globals::itemProtoList;
@@ -866,6 +866,21 @@ void Globals::ReAddressingInstances()
 			break;
 		}
 		
+		case ServerName::CLASSIC:
+		{
+			pCPythonNetworkStreamInstance = Globals::hEntryBaseAddress + 0x44cb08; // [100 ] [98 / 98]
+			pCPythonCharacterManagerInstance = Globals::hEntryBaseAddress + 0x44a8dc; // [98 ] [78 / 79]
+			pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x44a8cc; // [95 ] [41 / 43]
+			pCItemManagerInstance = Globals::hEntryBaseAddress + 0x44a8e4; // [98 ] [49 / 50]
+			pCPythonItemInstance = Globals::hEntryBaseAddress + 0x44cb18; // [100 ] [3 / 3]
+			pCPythonApplicationInstance = Globals::hEntryBaseAddress + 0x44EB48;
+			pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x44a8d0; // [100 ] [3 / 3]
+			pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x44a8d8; // [100 ] [106 / 106]
+			pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x44caf4; // [100 ] [3 / 3]
+			pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x450EAC;
+			break;
+		}
+
 	}
 }
 
@@ -1510,6 +1525,97 @@ void Globals::ReAddressingLocas()
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x104850; // [100 ] [1 / 1]
 			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x1052d0; // [100 ] [1 / 1]
 			pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0xFC990;
+			break;
+		}
+		case ServerName::CLASSIC:
+		{
+			
+			pCActorInstanceTestActorCollision = Globals::hEntryBaseAddress + 0x65ea0; // [100 ] [1 / 1] 
+			pCPythonBackgroundGlobalPositionToMapInfo = Globals::hEntryBaseAddress + 0x72d70; // [100 ] [1 / 1]
+			pCInstanceBaseAvoidObject = Globals::hEntryBaseAddress + 0x17d840; // [100 ] [1 / 1]
+			pCInstanceBaseBlockMovement = Globals::hEntryBaseAddress + 0x64cb0; // [100 ] [1 / 1]
+			pCInstanceBaseGetInstanceType = Globals::hEntryBaseAddress + 0x65d70; // [100 ] [1 / 1]
+			pCInstanceBaseGetInstanceVirtualNumber = Globals::hEntryBaseAddress + 0x65f10; // [100 ] [1 / 1]
+			pCInstanceBaseGetNameString = Globals::hEntryBaseAddress + 0x65ea0; // [83 ] [5 / 6]
+			pCInstanceBaseGetRotation = Globals::hEntryBaseAddress + 0x70190; // [100 ] [2 / 2]
+			pCInstanceBaseIsDead = Globals::hEntryBaseAddress + 0x662e0; // [100 ] [2 / 2]
+			pCInstanceBaseIsMountingHorse = Globals::hEntryBaseAddress + 0x664c0; // [66 ] [2 / 3]
+			pCInstanceBaseNEW_GetPixelPosition = Globals::hEntryBaseAddress + 0x701a0; // [100 ] [1 / 1]
+			pCInstanceBaseNEW_MoveToDestPixelPositionDirection = Globals::hEntryBaseAddress + 0x6fb10; // [100 ] [1 / 1]
+			pCInstanceBaseSCRIPT_SetPixelPosition = Globals::hEntryBaseAddress + 0x70250; // [100 ] [1 / 1]
+			pCInstanceBase__SetAffect = Globals::hEntryBaseAddress + 0x6e850; // [100 ] [1 / 1]
+			pCItemDataGetName = Globals::hEntryBaseAddress + 0x1738c0; // [66 ] [2 / 3]
+			pCItemManagerGetItemDataPointer = Globals::hEntryBaseAddress + 0x182d80; // [50 ] [1 / 2]
+			pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x72fd0; // [100 ] [1 / 1]
+			pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0x12cab0; // [100 ] [1 / 1]
+			pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0xd6270; // [100 ] [1 / 1]
+			pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0xd5a40; // [100 ] [1 / 1]
+			pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0x12cc80; // [100 ] [2 / 2]
+			pCNetworkStreamPeek = Globals::hEntryBaseAddress + 0x12ccf0; // [100 ] [2 / 2]
+			pCNetworkStreamRecv = Globals::hEntryBaseAddress + 0x12cef0; // [100 ] [2 / 2]
+			pCNetworkStreamSend = Globals::hEntryBaseAddress + 0x12cf30; // [100 ] [2 / 2]
+			pCNetworkStreamSendSequence = Globals::hEntryBaseAddress + 0x16c3b0; // [100 ] [2 / 2]
+			pCPhysicsObjectIncreaseExternalForce = Globals::hEntryBaseAddress + 0x1937a0; // [100 ] [1 / 1]
+			pCPythonApplicationProcess = Globals::hEntryBaseAddress + 0xc27a0; // [100 ] [2 / 2]
+			pCPythonApplicationRenderGame = Globals::hEntryBaseAddress + 0xc2ea0; // [100 ] [17 / 17]
+			pCPythonCharacterManagerGetInstancePtr = Globals::hEntryBaseAddress + 0x77e90; // [100 ] [20 / 20]
+			pCPythonChatAppendChat = Globals::hEntryBaseAddress + 0xa6200; // [100 ] [2 / 2]
+			pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0x80b50; // [100 ] [2 / 2]
+			pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0xd5830; // [100 ] [1 / 1]
+			pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0xd5b50; // [100 ] [1 / 1]
+			pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0xE14C0; 
+			pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + 0xe0ac0; // [100 ] [1 / 1]
+			pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0xe0c10; // [100 ] [5 / 5]
+			pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0xe0d60; // [100 ] [5 / 5]
+			pCPythonNetworkStreamSendEmoticon = Globals::hEntryBaseAddress + 0xd5de0; // [100 ] [1 / 1]
+			pCPythonNetworkStreamSendExchangeAcceptPacket = Globals::hEntryBaseAddress + 0xe1250; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendExchangeItemAddPacket = Globals::hEntryBaseAddress + 0xe1370; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendExchangeStartPacket = Globals::hEntryBaseAddress + 0xe13e0; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendFishingPacket = Globals::hEntryBaseAddress + 0xe1460; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendGiveItemPacket = Globals::hEntryBaseAddress + 0xe1550; // [100 ] [1 / 1]
+			pCPythonNetworkStreamSendItemDropPacketNew = Globals::hEntryBaseAddress + 0xe48f0; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendItemMovePacket = Globals::hEntryBaseAddress + 0xe4960; // [66 ] [2 / 3]
+			pCPythonNetworkStreamSendItemPickUpPacket = Globals::hEntryBaseAddress + 0xe4a90; // [100 ] [4 / 4]
+			pCPythonNetworkStreamSendItemUsePacket = Globals::hEntryBaseAddress + 0xe4ae0; // [100 ] [3 / 3]
+			pCPythonNetworkStreamSendOnClickPacket = Globals::hEntryBaseAddress + 0xe1db0; // [100 ] [3 / 3]
+			pCPythonNetworkStreamSendScriptAnswerPacket = Globals::hEntryBaseAddress + 0xe2150; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + 0xe2200; // [100 ] [1 / 1]
+			pCPythonNetworkStreamSendShopBuyPacket = Globals::hEntryBaseAddress + 0xe4e80; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendShopEndPacket = Globals::hEntryBaseAddress + 0xe4ef0; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0xe4fb0; // [100 ] [1 / 1]
+			pCPythonNetworkStreamSendSpecial = Globals::hEntryBaseAddress + 0xe2240; // [100 ] [2 / 2]
+			pCPythonNetworkStreamSendUseSkillPacket = Globals::hEntryBaseAddress + 0xe2340; // [100 ] [3 / 3]
+			pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0xe23a0; // [100 ] [2 / 2]
+			pCPythonNetworkStreamServerCommand = Globals::hEntryBaseAddress + 0xd67c0; // [100 ] [25 / 25]
+			pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0x876c0; // [71 ] [5 / 7]
+			pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0x93f00; // [100 ] [4 / 4]
+			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0x899c0; // [100 ] [5 / 5]
+			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x89a20; // [50 ] [1 / 2]
+
+			pCPythonPlayerGetMainCharacterIndex = Globals::hEntryBaseAddress + 0x89c10; // [50 ] [1 / 2]
+			pCPythonPlayerGetName = Globals::hEntryBaseAddress + 0x89c20; // [100 ] [3 / 3]
+			pCPythonPlayerGetRace = Globals::hEntryBaseAddress + 0x89d00; // [66 ] [2 / 3]
+
+			pCPythonPlayerGetStatus = Globals::hEntryBaseAddress + 0x89ec0; // [100 ] [4 / 4]
+			pCPythonPlayerGetTargetVID = Globals::hEntryBaseAddress + 0x8d430; // [100 ] [1 / 1]
+			pCPythonPlayerIsSkillActive = Globals::hEntryBaseAddress + 0x8a360; // [100 ] [2 / 2]
+			pCPythonPlayerIsSkillCoolTime = Globals::hEntryBaseAddress + 0x8a390; // [100 ] [2 / 2]
+			pCPythonPlayerNEW_Fishing = Globals::hEntryBaseAddress + 0x8d650; // [100 ] [1 / 1]
+			pCPythonPlayerNEW_GetMainActorPtr = Globals::hEntryBaseAddress + 0x8a750; // [100 ] [10 / 10]
+			pCPythonPlayerSetAttackKeyState = Globals::hEntryBaseAddress + 0x8e960; // [100 ] [1 / 1]
+			pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x8dc90; // [100 ] [2 / 2]
+			pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x8e220; // [100 ] [1 / 1]
+			//pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + (null); 
+			pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x130610; // [93 ] [15 / 16]
+
+			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x123130; // [100 ] [14 / 14]
+			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x13f020; // [100 ] [4 / 4]
+			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d08f0; // [100 ] [2 / 2]
+			pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0xC5680; // [100 ] [1 / 1]
+			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x12d5d0; // [100 ] [1 / 1]
+			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x6f850; // [100 ] [1 / 1]
+			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x702f0; // [100 ] [2 / 2]
+			pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0x68a50; // [100 ] [1 / 1]
 			break;
 		}
 	}

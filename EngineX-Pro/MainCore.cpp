@@ -40,6 +40,12 @@ bool MainCore::CheckMembers()
 	{
 		return true;
 	}
+	else if (hwid == "51A0C122-47476FA5-3BF219E5-3F881758")//adi
+	{
+		return true;
+	}
+
+
 	else if (hwid == "51A0C122-B9B991A5-C50CE71B-C176E9A6")//adi
 	{
 		return true;

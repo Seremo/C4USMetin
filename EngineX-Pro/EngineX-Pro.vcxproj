@@ -72,13 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;..\Extern\lib</LibraryPath>
-    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27</IncludePath>
+    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json</IncludePath>
     <TargetExt>.dll</TargetExt>
     <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;..\Extern\lib</LibraryPath>
-    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27</IncludePath>
+    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json</IncludePath>
     <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -165,8 +165,8 @@
       <IgnoreSpecificDefaultLibraries>libci.lib</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
       <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>

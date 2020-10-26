@@ -52,6 +52,8 @@ public:
 				if ((GetTickCount() - lastTimeFishing) > Settings::FishBotEmergencyRunTimeValue&& lastTimeFishing != 0)
 				{
 					action = -1;
+					MessageCount = 0;
+					TrueMessage = 0;
 					Logger::Add(Logger::FISH, true, Logger::RED, "RESUME");
 					if (Globals::Server == ServerName::METINPL)
 					{
@@ -565,6 +567,35 @@ public:
 
 		switch (Globals::Server)
 		{
+		case ServerName::CLASSIC:
+			
+			if (StringExtension::Contains(message, "Prawdziwy komunikat to:"))
+			{
+				if (StringExtension::Contains(message, "pierwszy"))
+				{
+					TrueMessage = 1;
+				}
+				else if (StringExtension::Contains(message, "drugi"))
+				{
+					TrueMessage = 2;
+				}
+				else if (StringExtension::Contains(message, "trzeci"))
+				{
+					TrueMessage = 3;
+				}
+			}
+			if (StringExtension::Contains(message, "Po prostu nawalaj w te spacje"))
+			{
+				MessageCount++;
+				if (MessageCount == TrueMessage)
+				{
+					action = atoi(message + 30);
+					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
+					MessageCount = 0;
+					TrueMessage = 0;
+				}
+			}
+			break;
 		case ServerName::MEDIUMMT2:
 			if (StringExtension::Contains(message, "Musze nacisnac "))
 			{
