@@ -15966,13 +15966,13 @@ class serializer
                             {
                                 if (codepoint <= 0xFFFF)
                                 {
-                                    (std::snprintf)(string_buffer.data() + bytes, 7, "\\u%04x",
+                                    (snprintf)(string_buffer.data() + bytes, 7, "\\u%04x",
                                                     static_cast<std::uint16_t>(codepoint));
                                     bytes += 6;
                                 }
                                 else
                                 {
-                                    (std::snprintf)(string_buffer.data() + bytes, 13, "\\u%04x\\u%04x",
+                                    (snprintf)(string_buffer.data() + bytes, 13, "\\u%04x\\u%04x",
                                                     static_cast<std::uint16_t>(0xD7C0u + (codepoint >> 10u)),
                                                     static_cast<std::uint16_t>(0xDC00u + (codepoint & 0x3FFu)));
                                     bytes += 12;
@@ -16010,7 +16010,7 @@ class serializer
                         case error_handler_t::strict:
                         {
                             std::string sn(3, '\0');
-                            (std::snprintf)(&sn[0], sn.size(), "%.2X", byte);
+                            (snprintf)(&sn[0], sn.size(), "%.2X", byte);
                             JSON_THROW(type_error::create(316, "invalid UTF-8 byte at index " + std::to_string(i) + ": 0x" + sn));
                         }
 
@@ -16104,7 +16104,7 @@ class serializer
                 case error_handler_t::strict:
                 {
                     std::string sn(3, '\0');
-                    (std::snprintf)(&sn[0], sn.size(), "%.2X", static_cast<std::uint8_t>(s.back()));
+                    (snprintf)(&sn[0], sn.size(), "%.2X", static_cast<std::uint8_t>(s.back()));
                     JSON_THROW(type_error::create(316, "incomplete UTF-8 string; last byte: 0x" + sn));
                 }
 

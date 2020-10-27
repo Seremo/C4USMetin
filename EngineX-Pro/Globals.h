@@ -8,7 +8,7 @@ public:
 	//######################################################################################################################################
 	static ServerName Server;
 	static bool UsePythonFunctions;
-	static bool PythonCustom;
+	
 	static map<DWORD, TCItemData*> itemProtoList;
 	static map<DWORD, const char*> itemProtoNames;
 	static map<DWORD, TGroundItemInstance*> groundItemList;
@@ -18,6 +18,9 @@ public:
 	static HWND mainHwnd;
 	
 	static vector<D3DVECTOR> farmCoords;
+
+
+	static PyObject* m_apoPhaseWndGame;
 	//###############################   PLAYER
 
 	typedef int (*tPyRun_SimpleStringFlags)(const char* command, int flags);
@@ -468,7 +471,7 @@ public:
 
 ServerName Globals::Server = ServerName::CLASSIC;
 bool Globals::UsePythonFunctions = false;
-bool Globals::PythonCustom = false;
+
 map<DWORD, TCItemData*> Globals::itemProtoList;
 map<DWORD, TGroundItemInstance*> Globals::groundItemList;
 map<DWORD, const char*>  Globals::itemProtoNames;
@@ -482,7 +485,7 @@ vector<D3DVECTOR> Globals::farmCoords;
 
 
 
-
+PyObject* Globals::m_apoPhaseWndGame = NULL;
 
 
 
@@ -1547,7 +1550,7 @@ void Globals::ReAddressingLocas()
 			pCItemDataGetName = Globals::hEntryBaseAddress + 0x1738c0; // [66 ] [2 / 3]
 			pCItemManagerGetItemDataPointer = Globals::hEntryBaseAddress + 0x182d80; // [50 ] [1 / 2]
 			pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x72fd0; // [100 ] [1 / 1]
-			pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0x12cab0; // [100 ] [1 / 1]
+			pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0x12CB60; // [100 ] [1 / 1]
 			pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0xd6270; // [100 ] [1 / 1]
 			pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0xd5a40; // [100 ] [1 / 1]
 			pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0x12cc80; // [100 ] [2 / 2]
@@ -1605,7 +1608,7 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerSetAttackKeyState = Globals::hEntryBaseAddress + 0x8e960; // [100 ] [1 / 1]
 			pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x8dc90; // [100 ] [2 / 2]
 			pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x8e220; // [100 ] [1 / 1]
-			//pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + (null); 
+			pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x8E270;
 			pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x130610; // [93 ] [15 / 16]
 
 			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x123130; // [100 ] [14 / 14]
@@ -1688,6 +1691,7 @@ void Globals::ReDeclarationInstances()
 			Globals::PyString_AsString = (tPyString_AsString)PatternScan::FindPattern("55 8B EC 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 75 ? 8B 45 ? 50 E8 ? ? ? ? 83 C4 ? EB ? 8B 45");
 			Globals::PyTuple_GetItem = (tPyTuple_GetItem)PatternScan::FindPattern("55 8B EC 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 75 ? 6A ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 33 C0");
 			Globals::PyInt_AsLong = (tPyInt_AsLong)PatternScan::FindPattern("55 8B EC 83 EC ? 83 7D ? ? 74 ? 8B 45 ? 8B 48 ? 8B 51 ? 81 E2 ? ? ? ? 74 ? 8B 45 ? 8B 40 ? E9 ? ? ? ? 83 7D ? ? 74 ? 8B 4D ? 8B 51 ? 8B 42 ? 89 45");
+			Globals::Py_BuildValue = (tPy_BuildValue)PatternScan::FindPattern("");
 			break;
 		}
 		}

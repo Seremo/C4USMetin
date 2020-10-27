@@ -19,7 +19,7 @@ private:
 	DWORD lastMiniMHMoveSpeed = 0;
 	DWORD lastMiniMHAttackSpeed = 0;
 
-
+	DWORD hotkeyTime = 0;
 
 	DWORD lastTimeStonesArrowShow = 0;
 
@@ -153,7 +153,7 @@ public:
 
 	void OnStart()
 	{
-		Settings::GLOBAL_SWITCH = true;
+		Settings::GLOBAL_SWITCH_ENABLE = true;
 		playerUsingHorse = GameFunctionsCustom::PlayerIsMountingHorse();
 		lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
 
@@ -161,7 +161,7 @@ public:
 
 	void OnStop()
 	{
-		Settings::GLOBAL_SWITCH = false;
+		Settings::GLOBAL_SWITCH_ENABLE = false;
 		GameFunctions::PlayerSetAttackKeyState(false);
 		autoReviveNeedWait = false;
 		playerUsingHorse = false;
@@ -178,7 +178,7 @@ public:
 		{
 			SetJobRaceTextures(0, 0);
 		}
-		if (Settings::GLOBAL_SWITCH)
+		if (Settings::GLOBAL_SWITCH_ENABLE)
 		{
 			if (GameFunctionsCustom::PlayerIsInstance())
 			{
@@ -195,14 +195,14 @@ public:
 				{
 					return;
 				}
-				if ((GetTickCount() - lastTimeBackToPosition) > 1200 && GameFunctionsCustom::PlayerGetDistance(lastPosition) > 200 && !playerUsingHorse && Settings::MiniMHAttackEnable)
+				if ((GetTickCount() - lastTimeBackToPosition) > 1200 && GameFunctionsCustom::PlayerGetDistance(lastPosition) > 200 && !playerUsingHorse && Settings::MAIN_ATTACK_ENABLE)
 				{
 					GameFunctionsCustom::LookAtDestPixelPosition(lastPosition);
 					GameFunctionsCustom::PlayerMoveToDestPixelPositionDirection(lastPosition);
 
 					lastTimeBackToPosition = GetTickCount();
 				}
-				if (Settings::MiniMHAttackStopAttackNoMobDistance)
+				if (Settings::MAIN_MOB_DETECT_ENABLE)
 				{
 					canAttack = IsAttackMobDistance();
 				}
@@ -222,7 +222,7 @@ public:
 
 				Skill();
 				WaitHack();
-				if (Settings::MiniMHAttackEnable)
+				if (Settings::MAIN_ATTACK_ENABLE)
 				{
 					GameFunctions::PlayerSetAttackKeyState(canAttack);
 				}
@@ -245,11 +245,11 @@ public:
 
 	void OnRender()
 	{
-		if (Settings::renderwh)
+		if (Settings::MAIN_WH_RENDER_ENABLE)
 		{
 			D3DVECTOR mainPos;
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &mainPos);
-			CRender::Circle3D(mainPos.x, mainPos.y, Settings::MiniMHWaitHackDistanceValue, 60.0f, Settings::renderwh_color);
+			CRender::Circle3D(mainPos.x, mainPos.y, Settings::MAIN_WH_DISTANCE_VALUE, 60.0f, Settings::MAIN_WH_RENDER_COLOR);
 		}
 	}
 
@@ -259,25 +259,25 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("MHUsager", ImVec2(645, 110), true);
-		ImGui::Checkbox("HP Potion           ", &Settings::MiniMHUseRedPotion); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MiniMHUseRedPotionSpeed, 1, 1000); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % HP", &Settings::MiniMHUseRedPotionValue, 1, 100);
+		ImGui::Checkbox("HP Potion           ", &Settings::MAIN_RED_POTION_ENABLE); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % HP", &Settings::MAIN_RED_POTION_PERCENTAGE_VALUE, 1, 100);
 
 
-		ImGui::Checkbox("MP Potion           ", &Settings::MiniMHUseBluePotion); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MiniMHUseRedPotionSpeed, 1, 1000); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % MP", &Settings::MiniMHUseBluePotionValue, 1, 100);
+		ImGui::Checkbox("MP Potion           ", &Settings::MAIN_BLUE_POTION_ENABLE); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % MP", &Settings::MAIN_BLUE_POTION_PERCENTAGE_VALUE, 1, 100);
 
 
-		ImGui::Checkbox("Auto Revive        ", &Settings::MiniMHAutoRevive); ImGui::SameLine();
-		ImGui::SliderInt("Resume Attack After HP %", &Settings::MiniMHAutoReviveHpPercentValue, 1, 100);
+		ImGui::Checkbox("Auto Revive        ", &Settings::MAIN_AUTO_REVIVE_ENABLE); ImGui::SameLine();
+		ImGui::SliderInt("Resume Attack After HP %", &Settings::MAIN_AUTO_REVIVE_PERCENTAGE_VALUE, 1, 100);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();/* ImGui::SameLine();*/
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 
 		ImGui::BeginChild("AtakBorder", ImVec2(645, 80), true);
-		if (ImGui::Checkbox("Auto Attack   ", &Settings::MiniMHAttackEnable))
+		if (ImGui::Checkbox("Auto Attack    ", &Settings::MAIN_ATTACK_ENABLE))
 		{
 			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
 
@@ -289,16 +289,16 @@ public:
 		ImGui::SameLine();
 
 
-		ImGui::Checkbox("Mob Detect         ", &Settings::MiniMHAttackStopAttackNoMobDistance);
+		ImGui::Checkbox("Mob Detect         ", &Settings::MAIN_MOB_DETECT_ENABLE);
 
 		ImGui::SameLine();
-		ImGui::Checkbox("Rotation", &Settings::MiniMHRotation);
+		ImGui::Checkbox("Rotation", &Settings::MAIN_ROTATION_ENABLE);
 		ImGui::SameLine();
-		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MiniMHRotationValue, 1, 100);
+		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MAIN_ROTATION_SPEED_VALUE, 1, 100);
 
 
 
-		if (ImGui::Checkbox("Wallhack Mob", &Settings::MainWallHackMob)) {
+		if (ImGui::Checkbox("Wallhack Mob", &Settings::MAIN_WALL_MOB_ENABLE)) {
 			//if (Settings::MainWallHackMob)
 			//{
 			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision, 0xC2, 1);
@@ -312,58 +312,58 @@ public:
 			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x2, 0xEC, 1);
 			//}
 		}ImGui::SameLine();
-		ImGui::Checkbox("Wallhack Object", &Settings::MainWallHackObject); ImGui::SameLine();
-		ImGui::Checkbox("Wallhack Terrain", &Settings::MainWallHackTerrain); ImGui::SameLine();
+		ImGui::Checkbox("Wallhack Object", &Settings::MAIN_WALL_OBJECT_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Wallhack Terrain", &Settings::MAIN_WALL_TERRAIN_ENABLE); ImGui::SameLine();
 
 
-		ImGui::Checkbox("Enemy AntiFly", &Settings::MiniMHNOK); ImGui::SameLine();
-		ImGui::Checkbox("Player AntiFly", &Settings::MiniMHNOP);
+		ImGui::Checkbox("Enemy AntiFly", &Settings::MAIN_NOK_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Player AntiFly", &Settings::MAIN_NOP_ENABLE);
 		ImGui::EndChild();
 		ImGui::PopStyleVar(); /*ImGui::SameLine();*/
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("SkillsBorder", ImVec2(645, 75), true);
-		ImGui::IconButton2(&Settings::MAIN_SKILL_1, "Skill 1", texture_Skill_0, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_1_ENABLE, "Skill 1", texture_Skill_0, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_2, "Skill 2", texture_Skill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_2_ENABLE, "Skill 2", texture_Skill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_3, "Skill 3", texture_Skill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_3_ENABLE, "Skill 3", texture_Skill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_4, "Skill 4", texture_Skill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_4_ENABLE, "Skill 4", texture_Skill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_5, "Skill 5", texture_Skill_4, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_5_ENABLE, "Skill 5", texture_Skill_4, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_6, "Skill 6", texture_Skill_5, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_6_ENABLE, "Skill 6", texture_Skill_5, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("WHBorder", ImVec2(315, 230), true);
-		ImGui::Checkbox("WaitHack", &Settings::MiniMHWaitHackEnable); ImGui::SameLine();
-		ImGui::ColorEdit4("##RenderWH", (float*)&Settings::renderwh_color, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-		ImGui::Checkbox("Render WH", &Settings::renderwh);
+		ImGui::Checkbox("WaitHack", &Settings::MAIN_WH_ENABLE); ImGui::SameLine();
+		ImGui::ColorEdit4("##RenderWH", (float*)&Settings::MAIN_WH_RENDER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+		ImGui::Checkbox("Render WH", &Settings::MAIN_WH_RENDER_ENABLE);
 
-		ImGui::Checkbox("Detect Player", &Settings::MiniMHWaitHackDetect);
+		ImGui::Checkbox("Detect Player", &Settings::MAIN_WH_DETECT_PLAYER_ENABLE);
 
-		ImGui::RadioButton("Standard", &Settings::MiniMHWaitHackOneTarget, 0);
+		ImGui::RadioButton("Standard", &Settings::MAIN_WH_ATTACK_TYPE, 0);
 		ImGui::SameLine();
-		ImGui::RadioButton("Target", &Settings::MiniMHWaitHackOneTarget, 1);
+		ImGui::RadioButton("Target", &Settings::MAIN_WH_ATTACK_TYPE, 1);
 #ifdef DEVELOPER_MODE
 		ImGui::SameLine();
-		ImGui::RadioButton("Standard+", &Settings::MiniMHWaitHackOneTarget, 2);
+		ImGui::RadioButton("Standard+", &Settings::MAIN_WH_TYPE, 2);
 #endif
-		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MiniMHWaitHackTime, 5, 100);
-		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE); ImGui::SameLine();
-		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MiniMHWaitHackDistanceValue, 100, 1000);
-		ImGui::RadioButton("Sword", &Settings::MiniMHWaitHackType, 0); ImGui::SameLine();
-		ImGui::RadioButton("Bow", &Settings::MiniMHWaitHackType, 1);
+		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MAIN_WH_TIME, 5, 100);
+		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE_ENABLE); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MAIN_WH_DISTANCE_VALUE, 100, 1000);
+		ImGui::RadioButton("Sword", &Settings::MAIN_WH_TYPE, 0); ImGui::SameLine();
+		ImGui::RadioButton("Bow", &Settings::MAIN_WH_TYPE, 1); ImGui::SameLine();
 
 #ifdef DEVELOPER_MODE
-		ImGui::RadioButton("Skill", &Settings::MiniMHWaitHackType, 2);
-		ImGui::InputInt("Skill Number", &Settings::MiniMHSkillNumber, 1, 111);
-		ImGui::InputInt("Skill Time", &Settings::MiniMHWaitHackSkillDelay, 1, 10);
+		ImGui::RadioButton("Skill", &Settings::MAIN_WH_TYPE, 2);
+		ImGui::InputInt("Skill Number", &Settings::MAIN_WH_SKILL_VALUE, 1, 111); ImGui::SameLine();
+		ImGui::InputInt("Skill Time", &Settings::MAIN_WH_SKILL_COOLDOWN_TIME, 1, 10);
 #endif	
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -375,7 +375,7 @@ public:
 		ImGui::BeginChild("OtherBorder", ImVec2(315, 230), true);
 
 
-		ImGui::Checkbox("Detect Stones", &Settings::MainInfoStonesViewportShow);
+		ImGui::Checkbox("Detect Stones", &Settings::MAIN_STONE_DETECT_ENABLE);
 
 		switch (Globals::Server)
 		{
@@ -384,12 +384,12 @@ public:
 			break;
 		}
 
-		ImGui::Hotkey(Settings::HotkeyTime, "Boost         ", &Settings::BoostKey);
-		ImGui::Hotkey(Settings::HotkeyTime, "Relog         ", &Settings::RelogKey);
-		ImGui::Hotkey(Settings::HotkeyTime, "MH Switch", &Settings::OnOffMH);
-		ImGui::Hotkey(Settings::HotkeyTime, "Hide UI      ", &Settings::HideUI);
+		ImGui::Hotkey(hotkeyTime, "Boost         ", &Settings::MAIN_BOOST_KEY);
+		ImGui::Hotkey(hotkeyTime, "Relog         ", &Settings::MAIN_RELOG_KEY);
+		ImGui::Hotkey(hotkeyTime, "MH Switch", &Settings::MAIN_GLOBAL_SWITCH_KEY);
+		ImGui::Hotkey(hotkeyTime, "Hide UI      ", &Settings::MAIN_HIDE_UI_KEY);
 
-		ImGui::PushItemWidth(100); ImGui::InputInt("Boost Distance", &Settings::BoostSpeed3, 5, 100);
+		ImGui::PushItemWidth(100); ImGui::InputInt("Boost Distance", &Settings::MAIN_BOOST_SPEED, 5, 100);
 		ImGui::InputInt("Channel Changer Port +/-", &Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET, 1, 1);
 
 
@@ -400,7 +400,7 @@ public:
 private:
 	bool Revive()
 	{
-		if (!Settings::MiniMHAutoRevive)
+		if (!Settings::MAIN_AUTO_REVIVE_ENABLE)
 		{
 			autoReviveNeedWait = false;
 			return false;
@@ -416,11 +416,11 @@ private:
 			return true;
 		}
 
-		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHAutoReviveHpPercentValue && autoReviveNeedWait)
+		else if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MAIN_AUTO_REVIVE_PERCENTAGE_VALUE && autoReviveNeedWait)
 		{
 			return true;
 		}
-		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MiniMHAutoReviveHpPercentValue&& autoReviveNeedWait)
+		else if (GameFunctionsCustom::GetHpProcentageStatus() > Settings::MAIN_AUTO_REVIVE_PERCENTAGE_VALUE&& autoReviveNeedWait)
 		{
 			if (playerUsingHorse)
 			{
@@ -465,7 +465,7 @@ private:
 	void Skill()
 	{
 
-		if (Settings::MAIN_SKILL_1)
+		if (Settings::MAIN_SKILL_1_ENABLE)
 		{
 			if (!GameFunctions::PlayerIsSkillActive(1) && !GameFunctions::PlayerIsSkillCoolTime(1))
 			{
@@ -480,7 +480,7 @@ private:
 			}
 
 		}
-		if (Settings::MAIN_SKILL_2)
+		if (Settings::MAIN_SKILL_2_ENABLE)
 		{
 			if (!GameFunctions::PlayerIsSkillActive(2) && !GameFunctions::PlayerIsSkillCoolTime(2))
 			{
@@ -495,7 +495,7 @@ private:
 			}
 
 		}
-		if (Settings::MAIN_SKILL_3)
+		if (Settings::MAIN_SKILL_3_ENABLE)
 		{
 			if (!GameFunctions::PlayerIsSkillActive(3) && !GameFunctions::PlayerIsSkillCoolTime(3))
 			{
@@ -510,7 +510,7 @@ private:
 			}
 
 		}
-		if (Settings::MAIN_SKILL_4)
+		if (Settings::MAIN_SKILL_4_ENABLE)
 		{
 			if (!GameFunctions::PlayerIsSkillActive(4) && !GameFunctions::PlayerIsSkillCoolTime(4))
 			{
@@ -525,7 +525,7 @@ private:
 			}
 
 		}
-		if (Settings::MAIN_SKILL_5)
+		if (Settings::MAIN_SKILL_5_ENABLE)
 		{
 			if (!GameFunctions::PlayerIsSkillActive(5) && !GameFunctions::PlayerIsSkillCoolTime(5))
 			{
@@ -540,7 +540,7 @@ private:
 			}
 
 		}
-		if (Settings::MAIN_SKILL_6)
+		if (Settings::MAIN_SKILL_6_ENABLE)
 		{
 			if (!GameFunctions::PlayerIsSkillActive(6) && !GameFunctions::PlayerIsSkillCoolTime(6))
 			{
@@ -564,28 +564,44 @@ private:
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 		D3DVECTOR newPosition;
 #ifdef DEVELOPER_MODE
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MiniMHWaitHackDistanceValue);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MAIN_WH_DISTANCE_VALUE);
 #else
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
 #endif
 
 
-		for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
-			DWORD* pTargetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
+		
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-			if (Settings::MAIN_WAITHACK_RANGE)
+			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
+				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
+				int i = 0;
+				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
+				{
+					
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+					
+					i++;
+				}
 			}
-			//GameFunctions::NetworkStreamSendAttackPacket(0, vid);
+			
 			GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 
-			if (Settings::MAIN_WAITHACK_RANGE)
+			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
+				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
+				int i = 0;
+				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
+				{
+					
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+					
+					i++;
+				}
 			}
 		}
 	}
@@ -593,13 +609,13 @@ private:
 	void BowWH()
 	{
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
-		for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
+		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
 			GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-			/*GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 35, 133, 0);*/
+			
 		}
 		if (objectList.size())
 		{
@@ -618,55 +634,47 @@ private:
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
 		if (objectList.size() > 0)
 		{
-			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+			for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 			{
 				DWORD vid = itor->first;
 
-				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
+				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000)
 				{
-					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
+					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
 					Main::lastWaitHackSkillDelay = GetTickCount();
 				}
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-				if (Settings::MAIN_WAITHACK_RANGE)
+				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
+					vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
 					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
 					{
-						bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
-						if (!InDistance)
-						{
-							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-						}
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						i++;
 					}
 				}
 				GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-				if (Settings::MAIN_WAITHACK_RANGE)
+				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
+					GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
+					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
 					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
 					{
-						bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
-						if (!InDistance)
-						{
-							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-						}
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						i++;
 					}
 				}
 
 			}
-			if (!Settings::MAIN_WAITHACK_RANGE)
+			if (!Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
-				GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+				GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
 			}
 		}
 	}
@@ -675,56 +683,51 @@ private:
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MiniMHWaitHackDistanceValue);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
 		if (objectList.size() > 0)
 		{
-			for (auto itor = objectList.begin(); itor != objectList.end(); itor++)
+			for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 			{
 				DWORD vid = itor->first;
 				DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
-				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MiniMHWaitHackSkillDelay * 1000)
+				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000)
 				{
-					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
+					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
 					Main::lastWaitHackSkillDelay = GetTickCount();
 				}
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
-				if (Settings::MAIN_WAITHACK_RANGE)
+
+				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, oldPosition, newPosition);
+					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
 					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-					{
-						bool InDistance = MathExtension::PointInCircle(oldPosition, newPosition, 800);
-						if (!InDistance)
-						{
-							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-						}
+					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+					{				
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						i++;
 					}
 				}
 				if (type == TYPE_ENEMY && !GameFunctionsCustom::InstanceIsBoss(itor->second))
 				{
 					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-					GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+					GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
 				}
-				else {
-					for (int i = 0; i < 50; i++) {
+				else 
+				{
+					for (int i = 0; i < 50; i++) 
+					{
 						GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ 0,0,0 });
-						GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+						GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
 					}
 				}
-				if (Settings::MAIN_WAITHACK_RANGE)
+				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1500, newPosition, oldPosition);
+					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
 					int i = 0;
-					for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
 					{
-						bool InDistance = MathExtension::PointInCircle(newPosition, oldPosition, 800);
-						if (!InDistance)
-						{
-							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-						}
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						i++;
 					}
 				}
@@ -740,20 +743,19 @@ private:
 		{
 			D3DVECTOR oldPosition;
 			D3DVECTOR newPosition;
-			DWORD* pTargetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
-			DWORD* pCharInstance = GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetMainCharacterIndex());
-			GameFunctions::InstanceBaseNEW_GetPixelPosition(pTargetInstance, &newPosition);
-			if (pTargetInstance != 0 && pCharInstance != 0)
+			DWORD* targetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
+			DWORD* charInstance = GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetMainCharacterIndex());
+			GameFunctions::InstanceBaseNEW_GetPixelPosition(targetInstance, &newPosition);
+			if (targetInstance != 0 && charInstance != 0)
 			{
-				if (Settings::MAIN_WAITHACK_RANGE)
+				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
 					GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 				}
 
-				switch (Settings::MiniMHWaitHackType)
+				switch (Settings::MAIN_WH_TYPE)
 				{
 				case 0:
-					/*GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);*/
 					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
 					break;
 				case 1:
@@ -763,19 +765,19 @@ private:
 
 #ifdef DEVELOPER_MODE
 				case 2:
-					if ((GetTickCount() - Main::lastWaitHackSkillDelay) > (Settings::MiniMHWaitHackSkillDelay * 1000))
+					if ((GetTickCount() - Main::lastWaitHackSkillDelay) > (Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000))
 					{
-						GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MiniMHSkillNumber, vid);
+						GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
 						Main::lastWaitHackSkillDelay = GetTickCount();
 					}
 					for (int i = 0; i < 50; i++) {
 						GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ 0,0,0 });
-						GameFunctions::NetworkStreamSendShootPacket(Settings::MiniMHSkillNumber);
+						GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
 					}
 					break;
 #endif
 				}
-				if (Settings::MAIN_WAITHACK_RANGE)
+				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
 					GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
 				}
@@ -787,20 +789,20 @@ private:
 
 	void WaitHack()
 	{
-		if (((GetTickCount() - lastWaitHackEnable) > Settings::MiniMHWaitHackTime) && Settings::MiniMHWaitHackEnable)
+		if (((GetTickCount() - lastWaitHackEnable) > Settings::MAIN_WH_TIME) && Settings::MAIN_WH_ENABLE)
 		{
 
-			if (Settings::MiniMHWaitHackDetect && GameFunctionsCustom::DetectPlayer(Settings::DETECT_PLAYER_WHITE_LIST_NAMES))
+			if (Settings::MAIN_WH_DETECT_PLAYER_ENABLE && GameFunctionsCustom::DetectPlayer(Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST))
 			{
 				return;
 			}
-			if (Settings::MiniMHWaitHackOneTarget == 1)
+			if (Settings::MAIN_WH_ATTACK_TYPE == 1)
 			{
 				Target();
 			}
-			else if(Settings::MiniMHWaitHackOneTarget == 0)
+			else if(Settings::MAIN_WH_ATTACK_TYPE == 0)
 			{
-				switch (Settings::MiniMHWaitHackType)
+				switch (Settings::MAIN_WH_TYPE)
 				{
 				case 0:
 					SwordWH();
@@ -816,7 +818,7 @@ private:
 				}
 			}
 #ifdef DEVELOPER_MODE
-			else if (Settings::MiniMHWaitHackOneTarget == 2)
+			else if (Settings::MAIN_WH_TYPE == 2)
 			{
 				SkillWHx50();
 			}
@@ -830,7 +832,7 @@ private:
 	void Other()
 	{
 
-		if (Settings::MiniMHNOP)
+		if (Settings::MAIN_NOP_ENABLE)
 		{
 			switch (Globals::Server)
 			{
@@ -839,11 +841,7 @@ private:
 					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 40, true);
 					break;
 				}
-				case ServerName::ORIGINS:
-				{
-					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 16, true);
-					break;
-				}
+			
 				default:
 				{
 					GameFunctions::InstanceBase__SetAffect(GameFunctions::PlayerNEW_GetMainActorPtr(), 16, true);
@@ -852,12 +850,12 @@ private:
 			}		
 		}
 
-		if (((GetTickCount() - lastMiniMHRotation) > (MiscExtension::RandomInt(500, 8000))) && Settings::MiniMHRotation)
+		if (((GetTickCount() - lastMiniMHRotation) > (MiscExtension::RandomInt(500, 8000))) && Settings::MAIN_ROTATION_ENABLE)
 		{
-			if (MiscExtension::RandomInt(0, 100) < Settings::MiniMHRotationValue)
+			if (MiscExtension::RandomInt(0, 100) < Settings::MAIN_ROTATION_SPEED_VALUE)
 			{
 
-				/*GameFunctionsCustom::SetDirection((MiscExtension::Random(0, 7)));*/
+				
 				GameFunctions::InstanceSetRotation(GameFunctions::PlayerNEW_GetMainActorPtr(), MiscExtension::RandomInt(0, 360));
 
 
@@ -865,7 +863,7 @@ private:
 			}
 			lastMiniMHRotation = GetTickCount();
 		}
-		if ((GetTickCount() - lastTimeStonesArrowShow) > 4000 && Settings::MainInfoStonesViewportShow)
+		if ((GetTickCount() - lastTimeStonesArrowShow) > 4000 && Settings::MAIN_STONE_DETECT_ENABLE)
 		{
 			DWORD vid = GameFunctionsCustom::GetCloseObject(OBJECT_STONE);
 			if (vid > 0)
@@ -880,7 +878,8 @@ private:
 	}
 
 
-	void MPPotion() {
+	void MPPotion() 
+	{
 		int slot = GameFunctionsCustom::FindItemSlotInInventory(27004);
 		if (slot != -1)
 		{
@@ -917,22 +916,22 @@ private:
 	}
 	void Potions()
 	{
-		if (Settings::MiniMHUseRedPotion)
+		if (Settings::MAIN_RED_POTION_ENABLE)
 		{
-			if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MiniMHUseRedPotionValue)
+			if (GameFunctionsCustom::GetHpProcentageStatus() < Settings::MAIN_RED_POTION_PERCENTAGE_VALUE)
 			{
-				if (DynamicTimer::CheckAutoSet("HPPotion", Settings::MiniMHUseRedPotionSpeed))
+				if (DynamicTimer::CheckAutoSet("HPPotion", Settings::MAIN_RED_POTION_SPEED_VALUE))
 				{
 					HPPotion();
 				}
 
 			}
 		}
-		if (Settings::MiniMHUseBluePotion)
+		if (Settings::MAIN_BLUE_POTION_ENABLE)
 		{
-			if (GameFunctionsCustom::GetMpProcentageStatus() < Settings::MiniMHUseBluePotionValue)
+			if (GameFunctionsCustom::GetMpProcentageStatus() < Settings::MAIN_BLUE_POTION_PERCENTAGE_VALUE)
 			{
-				if (DynamicTimer::CheckAutoSet("MPPotion", Settings::MiniMHUseBluePotionSpeed))
+				if (DynamicTimer::CheckAutoSet("MPPotion", Settings::MAIN_BLUE_POTION_SPEED_VALUE))
 				{
 					MPPotion();
 				}

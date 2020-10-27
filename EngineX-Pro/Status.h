@@ -35,7 +35,7 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("StatusBorder", ImVec2(645, 430), true);
-		ImGui::Checkbox("Status Enable", &Settings::StatusEnable); 
+		ImGui::Checkbox("Status Enable", &Settings::STATUS_ENABLE); 
 		
 		
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),"Player Name");
@@ -90,7 +90,7 @@ public:
 	{
 
 
-		if (Settings::StatusEnable)
+		if (Settings::STATUS_ENABLE)
 		{
 
 			if (!GameFunctionsCustom::PlayerIsInstance() || (GetTickCount() - lastTimeCheckStatus) < 1000)

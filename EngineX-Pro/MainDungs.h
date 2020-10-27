@@ -137,7 +137,7 @@ public:
 			D3DVECTOR{37062, 43013, 0}, D3DVECTOR{37278, 41144, 0}, D3DVECTOR{38680, 40317, 0},
 			D3DVECTOR{40442, 39705, 0}
 		};
-		Settings::DUNGEON_BOT = true;
+		Settings::DUNGEON_BOT_ENABLE = true;
 		Logger::Add(Logger::MAIN, true, Logger::WHITE, GameFunctionsCustom::GetMapName().c_str());
 		switch (Settings::DUNGEON_TYPE) {
 		case DungeonType::DT:
@@ -154,7 +154,7 @@ public:
 
 	void OnStop()
 	{
-		Settings::DUNGEON_BOT = false;
+		Settings::DUNGEON_BOT_ENABLE = false;
 		Floor2Step = 0;
 		Floor5Step = 0;
 
@@ -511,7 +511,7 @@ public:
 
 	void OnUpdate()
 	{
-		if (Settings::DUNGEON_BOT) 
+		if (Settings::DUNGEON_BOT_ENABLE) 
 		{
 			if (GameFunctionsCustom::PlayerIsInstance()) {
 				switch (Settings::DUNGEON_TYPE) {
@@ -540,8 +540,8 @@ public:
 		ImGui::BeginChild("DungBot", ImVec2(645, 210), true);
 		std::string PhaseText = "Phase:" + to_string(Phase);
 		ImGui::Text(PhaseText.c_str());
-		if (ImGui::Checkbox("On/Off", &Settings::DUNGEON_BOT)) {
-			if (Settings::DUNGEON_BOT == true)
+		if (ImGui::Checkbox("On/Off", &Settings::DUNGEON_BOT_ENABLE)) {
+			if (Settings::DUNGEON_BOT_ENABLE == true)
 			{
 				OnStart();
 			}

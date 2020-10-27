@@ -12,8 +12,8 @@ public:
 	bool isNeedRoundTimeCast = false;
 	DWORD  lastTimeBotCast = 0;
 	DWORD  lastTimeBotRoundTime = 0;
-	int TrueMessage = 0;
-	int MessageCount = 0;
+	int trueMessage = 0;
+	int messageCount = 0;
 	D3DVECTOR standingPosition;
 	void OnStart()
 	{
@@ -25,10 +25,9 @@ public:
 		Logger::Add(Logger::FISH, true, Logger::GREEN, "START");
 
 		standingPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %f %f", (standingPosition.x / 100), (standingPosition.y / 100)).c_str());
+		Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("POSITION %d %d", (int)(standingPosition.x / 100), (int)(standingPosition.y / 100)).c_str());
 		NewCast();
-		TrueMessage = 0;
-		MessageCount = 0;
+	
 
 	}
 	void OnStop()
@@ -47,13 +46,13 @@ public:
 
 		if (isEnable)
 		{
-			if (Settings::FishBotEmergencyRunTime)
+			if (Settings::FISH_EMERGENCY_RUN_TIME_ENABLE)
 			{
-				if ((GetTickCount() - lastTimeFishing) > Settings::FishBotEmergencyRunTimeValue&& lastTimeFishing != 0)
+				if ((GetTickCount() - lastTimeFishing) > Settings::FISH_EMERGENCY_RUN_TIME_VALUE&& lastTimeFishing != 0)
 				{
 					action = -1;
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 					Logger::Add(Logger::FISH, true, Logger::RED, "RESUME");
 					if (Globals::Server == ServerName::METINPL)
 					{
@@ -65,10 +64,10 @@ public:
 			}
 			if (action > 0 && action < 7)
 			{
-				if (Settings::FishBotSuccesPercent)
+				if (Settings::FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE)
 				{
 					int loseRandom = MiscExtension::RandomInt(1, 100);
-					if (loseRandom <= Settings::FishBotSuccesPercentValue)
+					if (loseRandom <= Settings::FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE)
 					{
 						Logger::Add(Logger::FISH, true, Logger::WHITE, "RANDOM FALSE");
 						action += 1;
@@ -79,9 +78,9 @@ public:
 
 					}
 				}
-				if (Settings::FishBotCastTime)
+				if (Settings::FISH_CAST_TIME_ENABLE)
 				{
-					int clickTime = MiscExtension::RandomInt(Settings::FishBotCastTimeMinValue, Settings::FishBotCastTimeMaxValue);
+					int clickTime = MiscExtension::RandomInt(Settings::FISH_CAST_TIME_MIN_VALUE, Settings::FISH_CAST_TIME_MAX_VALUE);
 					if ((GetTickCount() - lastTimeBotCast) > clickTime)
 					{
 						if (Globals::Server == ServerName::METINPL)
@@ -124,9 +123,9 @@ public:
 			}
 			else
 			{
-				if (Settings::FishBotRoundTime)
+				if (Settings::FISH_ROUND_TIME_ENABLE)
 				{
-					int waitTime = MiscExtension::RandomInt(Settings::FishBotRoundTimeMinValue, Settings::FishBotRoundTimeMaxValue);
+					int waitTime = MiscExtension::RandomInt(Settings::FISH_ROUND_TIME_MIN_VALUE, Settings::FISH_ROUND_TIME_MAX_VALUE);
 					if ((GetTickCount() - lastTimeBotRoundTime) > waitTime && isNeedRoundTimeCast)
 					{
 
@@ -169,22 +168,22 @@ public:
 		ImGui::BeginChild("RandomizerBorder", ImVec2(400, 200), true);
 
 		//Przyciski
-		ImGui::Checkbox("Stop - Position Changed", &Settings::FishBotStopIfPositionChanged); 	ImGui::SameLine();
-		ImGui::Checkbox("Stop - Equipment Full", &Settings::FishBotStopIfInventoryFull);
+		ImGui::Checkbox("Stop - Position Changed", &Settings::FISH_STOP_IF_POSITION_CHANGED_ENABLE); 	ImGui::SameLine();
+		ImGui::Checkbox("Stop - Equipment Full", &Settings::FISH_STOP_IF_INVENTORY_FULL_ENABLE);
 		/*ImGui::Text("Randomizer(1000=1sekunda)");*/
 		ImGui::Columns(2, "randomizer", false);  // 3-ways, no border
-		ImGui::Checkbox("Random Falsa %", &Settings::FishBotSuccesPercent);
-		ImGui::SliderInt("%", &Settings::FishBotSuccesPercentValue, 0, 100);
-		ImGui::Checkbox("Random Click Time", &Settings::FishBotCastTime);
-		ImGui::InputInt("##randclick", &Settings::FishBotCastTimeMinValue, 100, 1000);
-		ImGui::InputInt("##randclick2", &Settings::FishBotCastTimeMaxValue, 100, 1000);
+		ImGui::Checkbox("Random Falsa %", &Settings::FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE);
+		ImGui::SliderInt("%", &Settings::FISH_SUCCESS_PERCENTAGE_VALUE, 0, 100);
+		ImGui::Checkbox("Random Click Time", &Settings::FISH_CAST_TIME_ENABLE);
+		ImGui::InputInt("##randclick", &Settings::FISH_CAST_TIME_MIN_VALUE, 100, 1000);
+		ImGui::InputInt("##randclick2", &Settings::FISH_CAST_TIME_MAX_VALUE, 100, 1000);
 		ImGui::NextColumn();
-		ImGui::Checkbox("Detect Player", &Settings::FISHBOT_DETECT_PLAYER);
-		ImGui::Checkbox("Emergency Resume", &Settings::FishBotEmergencyRunTime);
-		ImGui::InputInt("##emergencytimeout", &Settings::FishBotEmergencyRunTimeValue, 100, 1000);
-		ImGui::Checkbox("Random End Times", &Settings::FishBotRoundTime);
-		ImGui::InputInt("##randtour", &Settings::FishBotRoundTimeMinValue, 100, 1000);
-		ImGui::InputInt("##randtour2", &Settings::FishBotRoundTimeMaxValue, 100, 1000);
+		ImGui::Checkbox("Detect Player", &Settings::FISH_DETECT_PLAYER_ENABLE);
+		ImGui::Checkbox("Emergency Resume", &Settings::FISH_EMERGENCY_RUN_TIME_ENABLE);
+		ImGui::InputInt("##emergencytimeout", &Settings::FISH_EMERGENCY_RUN_TIME_VALUE, 100, 1000);
+		ImGui::Checkbox("Random End Times", &Settings::FISH_ROUND_TIME_ENABLE);
+		ImGui::InputInt("##randtour", &Settings::FISH_ROUND_TIME_MIN_VALUE, 100, 1000);
+		ImGui::InputInt("##randtour2", &Settings::FISH_ROUND_TIME_MAX_VALUE, 100, 1000);
 		ImGui::EndChild();
 		ImGui::PopStyleVar(); ImGui::SameLine();
 		//Przynety
@@ -192,9 +191,9 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("BaitBorder", ImVec2(235, 200), true);
 		ImGui::Text("Bait Type Use");
-		ImGui::Checkbox("1 slot", &Settings::FishBotUseFirstSlot);
+		ImGui::Checkbox("1 slot", &Settings::FISH_USE_FIRST_SLOT_ENABLE);
 
-		for (map< pair<DWORD, bool>, pair<DWORD, string>> ::iterator itor = Settings::FISHBOT_BAIT_LIST.begin(); itor != Settings::FISHBOT_BAIT_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>> ::iterator itor = Settings::FISH_BAIT_LIST.begin(); itor != Settings::FISH_BAIT_LIST.end(); itor++)
 		{
 
 			ImGui::Checkbox(itor->second.second.c_str(), (bool*)&itor->first.second);
@@ -202,21 +201,21 @@ public:
 
 		}
 #ifdef DEVELOPER_MODE
-		ImGui::Checkbox("Buy Bait", &Settings::FISHBOT_BUY_BAIT);
-		ImGui::InputInt("Count", &Settings::FISHBOT_BUY_BAIT_SHOP_COUNT);
-		ImGui::InputInt("Slot", &Settings::FISHBOT_BUY_BAIT_SHOP_SLOT);
-		ImGui::InputInt("Roration", &Settings::FISHBOT_CAST_ROTATION);
-		ImGui::Checkbox("Teleport", &Settings::FISHBOT_SHOP_CAST_TELEPORT);
+		ImGui::Checkbox("Buy Bait", &Settings::FISH_BUY_BAIT_ENABLE);
+		ImGui::InputInt("Count", &Settings::FISH_BUY_BAIT_SHOP_COUNT);
+		ImGui::InputInt("Slot", &Settings::FISH_BUY_BAIT_SHOP_SLOT);
+		ImGui::InputInt("Roration", &Settings::FISH_CAST_ROTATION);
+		ImGui::Checkbox("Teleport", &Settings::FISH_SHOP_CAST_TELEPORT_ENABLE);
 		if (ImGui::Button("Add Shop Pos"))
 		{
-			Settings::FISHBOT_SHOP_TELEPORT_CORDS = GameFunctionsCustom::PlayerGetPixelPosition();
+			Settings::FISH_SHOP_TELEPORT_CORDS = GameFunctionsCustom::PlayerGetPixelPosition();
 		}
-		ImGui::SameLine(); ImGui::Text((to_string(DWORD(Settings::FISHBOT_SHOP_TELEPORT_CORDS.x / 100)) + " " + to_string(DWORD(Settings::FISHBOT_SHOP_TELEPORT_CORDS.y / 100))).c_str());
+		ImGui::SameLine(); ImGui::Text((to_string(DWORD(Settings::FISH_SHOP_TELEPORT_CORDS.x / 100)) + " " + to_string(DWORD(Settings::FISH_SHOP_TELEPORT_CORDS.y / 100))).c_str());
 		if (ImGui::Button("Add Cast Pos"))
 		{
-			Settings::FISHBOT_CAST_TELEPORT_CORDS = GameFunctionsCustom::PlayerGetPixelPosition();
+			Settings::FISH_CAST_TELEPORT_CORDS = GameFunctionsCustom::PlayerGetPixelPosition();
 		}
-		ImGui::SameLine(); ImGui::Text((to_string(DWORD(Settings::FISHBOT_CAST_TELEPORT_CORDS.x / 100)) + " " + to_string(DWORD(Settings::FISHBOT_CAST_TELEPORT_CORDS.y / 100))).c_str());
+		ImGui::SameLine(); ImGui::Text((to_string(DWORD(Settings::FISH_CAST_TELEPORT_CORDS.x / 100)) + " " + to_string(DWORD(Settings::FISH_CAST_TELEPORT_CORDS.y / 100))).c_str());
 #endif
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -226,12 +225,12 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("KillBorder", ImVec2(635, 290), true);
-		ImGui::Checkbox("Kill Fish", &Settings::FISHBOT_KILL_FISH);
+		ImGui::Checkbox("Kill Fish", &Settings::FISH_KILL_FISH_ENABLE);
 		ImGui::Columns(3, "KillColumns", false);
 
 		ImGui::Separator();
 
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISHBOT_KILL_FISH_LIST.begin(); itor != Settings::FISHBOT_KILL_FISH_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_KILL_FISH_LIST.begin(); itor != Settings::FISH_KILL_FISH_LIST.end(); itor++)
 		{
 			ImGui::Checkbox(itor->second.second.c_str(), (bool*)&itor->first.second);
 			ImGui::NextColumn();
@@ -244,10 +243,10 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DropBorder", ImVec2(635, 190), true);
-		ImGui::Checkbox("Drop Trash", &Settings::FISHBOT_DROP_TRASH);
+		ImGui::Checkbox("Drop Trash", &Settings::FISH_DROP_TRASH_ENABLE);
 		ImGui::Separator();
 		ImGui::Columns(3, "DropColumns", false);
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISHBOT_DROP_LIST.begin(); itor != Settings::FISHBOT_DROP_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_DROP_LIST.begin(); itor != Settings::FISH_DROP_LIST.end(); itor++)
 		{
 			ImGui::Checkbox(itor->second.second.c_str(), (bool*)&itor->first.second);
 			ImGui::NextColumn();
@@ -259,11 +258,11 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("SellBorder", ImVec2(635, 190), true);
-		ImGui::PushItemWidth(150); ImGui::Checkbox("Sell Trash", &Settings::FISHBOT_SELL_TRASH); ImGui::SameLine();
-		ImGui::InputInt("After % EQ Filled", &Settings::FISHBOT_SELL_TRASH_AFTER_PERCENTAGE, 5, 100);
+		ImGui::PushItemWidth(150); ImGui::Checkbox("Sell Trash", &Settings::FISH_SELL_TRASH_ENABLE); ImGui::SameLine();
+		ImGui::InputInt("After % EQ Filled", &Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE, 5, 100);
 		ImGui::Separator();
 		ImGui::Columns(3, "SellColumns", false);
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISHBOT_SELL_LIST.begin(); itor != Settings::FISHBOT_SELL_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_SELL_LIST.begin(); itor != Settings::FISH_SELL_LIST.end(); itor++)
 		{
 			ImGui::Checkbox(itor->second.second.c_str(), (bool*)&itor->first.second);
 			ImGui::NextColumn();
@@ -300,14 +299,14 @@ public:
 
 	void CheckPosition()
 	{
-		if (Settings::FishBotStopIfPositionChanged)
+		if (Settings::FISH_STOP_IF_POSITION_CHANGED_ENABLE)
 		{
 
 			D3DVECTOR currentPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-			if (standingPosition.x != currentPosition.x || standingPosition.y != currentPosition.y)
+			if ((int)standingPosition.x != (int)currentPosition.x || (int)standingPosition.y != (int)currentPosition.y)
 			{
 				Logger::Add(Logger::FISH, true, Logger::RED, "DIFFRENT POSITION ABORT!");
-				Settings::FishBotEnable = false;;
+				Settings::FISH_ENABLE = false;;
 				isEnable = false;
 				return;
 			}
@@ -323,7 +322,7 @@ public:
 			return;
 		}
 		CheckPosition();
-		if (Settings::FishBotStopIfInventoryFull)
+		if (Settings::FISH_STOP_IF_INVENTORY_FULL_ENABLE)
 		{
 			//if (GameFunctionsCustom::InventoryEquippedPercentage() > 80)
 			//{
@@ -334,15 +333,15 @@ public:
 			//}
 		}
 #if defined(DEVELOPER_MODE)
-		if (Settings::FISHBOT_SHOP_CAST_TELEPORT)
+		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
 		{
-			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1800, standingPosition, Settings::FISHBOT_CAST_TELEPORT_CORDS);
+			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1800, standingPosition, Settings::FISH_CAST_TELEPORT_CORDS);
 			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 			}
-			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
-			gf = MiscExtension::DivideTwoPointsByDistance(1800, Settings::FISHBOT_CAST_TELEPORT_CORDS, standingPosition);
+			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISH_CAST_ROTATION);
+			gf = MiscExtension::DivideTwoPointsByDistance(1800, Settings::FISH_CAST_TELEPORT_CORDS, standingPosition);
 			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
 			{
 				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
@@ -362,7 +361,7 @@ public:
 		else
 		{
 
-			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
+			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISH_CAST_ROTATION);
 			//GameFunctions::PlayerSetAttackKeyState(true);
 			/*GameFunctions::PythonPlayerNEW_Fishing();*/
 		}
@@ -374,9 +373,9 @@ public:
 
 	void Cast2()
 	{
-		if (Settings::FISHBOT_DETECT_PLAYER)
+		if (Settings::FISH_DETECT_PLAYER_ENABLE)
 		{
-			if (GameFunctionsCustom::DetectPlayer(Settings::DETECT_PLAYER_WHITE_LIST_NAMES))
+			if (GameFunctionsCustom::DetectPlayer(Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST))
 			{
 
 				Logger::Add(Logger::FISH, true, Logger::RED, "DETECT PLAYER WAIT TO RESUME");
@@ -389,12 +388,12 @@ public:
 			return;
 		}
 		CheckPosition();
-		if (Settings::FishBotStopIfInventoryFull)
+		if (Settings::FISH_STOP_IF_INVENTORY_FULL_ENABLE)
 		{
 			if (GameFunctionsCustom::IsFullInventory())
 			{
 				Logger::Add(Logger::FISH, true, Logger::WHITE, "EQUPMENT FULL ABORT!");
-				Settings::FishBotEnable = false;
+				Settings::FISH_ENABLE = false;
 				isEnable = false;
 			}
 		}
@@ -408,30 +407,30 @@ public:
 		{
 			return;
 		}
-		if (Settings::FISHBOT_DETECT_PLAYER)
+		if (Settings::FISH_DETECT_PLAYER_ENABLE)
 		{
-			if (GameFunctionsCustom::DetectPlayer(Settings::DETECT_PLAYER_WHITE_LIST_NAMES))
+			if (GameFunctionsCustom::DetectPlayer(Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST))
 			{
 
 				Logger::Add(Logger::FISH, true, Logger::WHITE, "DETECT PLAYER WAIT TO RESUME");
 				return;
 			}
 		}
-		if (Settings::FISHBOT_SELL_TRASH && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISHBOT_SELL_TRASH_AFTER_PERCENTAGE)
+		if (Settings::FISH_SELL_TRASH_ENABLE && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE)
 		{
 			SellItems();
 		}
-		if (Settings::FISHBOT_DROP_TRASH)
+		if (Settings::FISH_DROP_TRASH_ENABLE)
 		{
 			DropItems();
 		}
-		if (Settings::FISHBOT_KILL_FISH)
+		if (Settings::FISH_KILL_FISH_ENABLE)
 		{
 			KillFishes();
 		}
 		if (!UseBait())
 		{
-			if (Settings::FISHBOT_BUY_BAIT)
+			if (Settings::FISH_BUY_BAIT_ENABLE)
 			{
 				BuyBait();
 				if (!UseBait())
@@ -456,9 +455,9 @@ public:
 		}
 		GameFunctions::NetworkStreamSendOnClickPacket(fishermanVid);
 		GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
-		for (int i = 0; i < Settings::FISHBOT_BUY_BAIT_SHOP_COUNT; i++)
+		for (int i = 0; i < Settings::FISH_BUY_BAIT_SHOP_COUNT; i++)
 		{
-			GameFunctions::NetworkStreamSendShopBuyPacket(Settings::FISHBOT_BUY_BAIT_SHOP_SLOT - 1);
+			GameFunctions::NetworkStreamSendShopBuyPacket(Settings::FISH_BUY_BAIT_SHOP_SLOT - 1);
 		}
 		GameFunctions::NetworkStreamSendShopEndPacket();
 		return true;
@@ -474,7 +473,7 @@ public:
 		}
 		GameFunctions::NetworkStreamSendOnClickPacket(fishermanVid);
 		GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISHBOT_SELL_LIST.begin(); itor != Settings::FISHBOT_SELL_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_SELL_LIST.begin(); itor != Settings::FISH_SELL_LIST.end(); itor++)
 		{
 			if (itor->first.second)
 			{
@@ -495,7 +494,7 @@ public:
 
 	void DropItems()
 	{
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISHBOT_DROP_LIST.begin(); itor != Settings::FISHBOT_DROP_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_DROP_LIST.begin(); itor != Settings::FISH_DROP_LIST.end(); itor++)
 		{
 			if (itor->first.second)
 			{
@@ -514,7 +513,7 @@ public:
 	void KillFishes()
 	{
 		int i = 1;
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISHBOT_KILL_FISH_LIST.begin(); itor != Settings::FISHBOT_KILL_FISH_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_KILL_FISH_LIST.begin(); itor != Settings::FISH_KILL_FISH_LIST.end(); itor++)
 		{
 			if (itor->first.second)
 			{
@@ -532,7 +531,7 @@ public:
 
 	bool UseBait()
 	{
-		for (map< pair<DWORD, bool>, pair<DWORD, string>> ::iterator itor = Settings::FISHBOT_BAIT_LIST.begin(); itor != Settings::FISHBOT_BAIT_LIST.end(); itor++)
+		for (map< pair<DWORD, bool>, pair<DWORD, string>> ::iterator itor = Settings::FISH_BAIT_LIST.begin(); itor != Settings::FISH_BAIT_LIST.end(); itor++)
 		{
 			if (itor->first.second)
 			{
@@ -549,7 +548,7 @@ public:
 				}
 			}
 		}
-		if (Settings::FishBotUseFirstSlot)
+		if (Settings::FISH_USE_FIRST_SLOT_ENABLE)
 		{
 			Logger::Add(Logger::FISH, true, Logger::WHITE, "BAIT 1 SLOT");
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, 0));
@@ -571,28 +570,34 @@ public:
 			
 			if (StringExtension::Contains(message, "Prawdziwy komunikat to:"))
 			{
+				messageCount = 0;
+				trueMessage = 0;
 				if (StringExtension::Contains(message, "pierwszy"))
 				{
-					TrueMessage = 1;
+					trueMessage = 1;
+					
 				}
 				else if (StringExtension::Contains(message, "drugi"))
 				{
-					TrueMessage = 2;
+					trueMessage = 2;
 				}
 				else if (StringExtension::Contains(message, "trzeci"))
 				{
-					TrueMessage = 3;
+					trueMessage = 3;
 				}
+				
+				
 			}
 			if (StringExtension::Contains(message, "Po prostu nawalaj w te spacje"))
 			{
-				MessageCount++;
-				if (MessageCount == TrueMessage)
+				
+				messageCount++;
+				if (messageCount == trueMessage)
 				{
 					action = atoi(message + 30);
 					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 				}
 			}
 			break;
@@ -612,75 +617,75 @@ public:
 			{
 				if (StringExtension::Contains(message, "pierwszy"))
 				{
-					TrueMessage = 1;
+					trueMessage = 1;
 				}
 				else if (StringExtension::Contains(message, "drugi"))
 				{
-					TrueMessage = 2;
+					trueMessage = 2;
 				}
 				else if (StringExtension::Contains(message, "trzeci"))
 				{
-					TrueMessage = 3;
+					trueMessage = 3;
 				}
 			}
 			if (StringExtension::Contains(message, "W tej chwili kliknij "))
 			{
-				MessageCount++;
-				if (MessageCount == TrueMessage)
+				messageCount++;
+				if (messageCount == trueMessage)
 				{
 					action = atoi(message + 21);
 					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 				}
 			}
 			if (StringExtension::Contains(message, "Wybierz przycisk spacja "))
 			{
-				MessageCount++;
-				if (MessageCount == TrueMessage)
+				messageCount++;
+				if (messageCount == trueMessage)
 				{
 					action = atoi(message + 24);
 					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 				}
 			}
 			if (StringExtension::Contains(message, "Kliknij w spacje"))
 			{
-				MessageCount++;
-				if (MessageCount == TrueMessage)
+				messageCount++;
+				if (messageCount == trueMessage)
 				{
 					action = atoi(message + 24);
 					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 				}
 			}
 			if (StringExtension::Contains(message, "Czyzby rybka brala"))
 			{
-				MessageCount++;
-				if (MessageCount == TrueMessage)
+				messageCount++;
+				if (messageCount == trueMessage)
 				{
 					action = atoi(message + 24);
 					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 				}
 			}
 			if (StringExtension::Contains(message, "Masz refleks"))
 			{
-				MessageCount++;
-				if (MessageCount == TrueMessage)
+				messageCount++;
+				if (messageCount == trueMessage)
 				{
 					action = atoi(message + 24);
 					Logger::Add(Logger::FISH, true, Logger::GREEN, StringExtension::StringFormat("REQUEST CLICK COUNT %d", action).c_str());
-					MessageCount = 0;
-					TrueMessage = 0;
+					messageCount = 0;
+					trueMessage = 0;
 				}
 			}
 			break;
 		default:
-			for (map< DWORD, pair<string, DWORD>>::iterator itor = Settings::FISHBOT_COMMAND_LIST.begin(); itor != Settings::FISHBOT_COMMAND_LIST.end(); itor++)
+			for (map< DWORD, pair<string, DWORD>>::iterator itor = Settings::FISH_COMMAND_LIST.begin(); itor != Settings::FISH_COMMAND_LIST.end(); itor++)
 			{
 				string messageASCI = StringExtension::UTF8ToANSI((char*)itor->second.first.c_str());
 

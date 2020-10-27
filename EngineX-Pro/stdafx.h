@@ -33,7 +33,7 @@
 #include <winver.h>
 #include <codecvt>
 #include <unordered_map>
-
+#include <filesystem>
 #pragma comment(lib, "detours.lib")
 #include "detours.h"
 using namespace std;
@@ -85,7 +85,7 @@ enum ServerName
 //#define NETWORK_MODE
 
 
-#define DLL_VERSION "0.0.71 Beta"
+#define DLL_VERSION "0.0.75 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -146,7 +146,10 @@ enum ServerName
 #include "PatternScan.h"
 #include "PatternScan2.h"
 //
-//#include "Json.h"
+
+//#include "JsonThor.h"
+//#include "SerUtil.h"
+#include "Json.h"
 #include "Settings.h"
 #include "Hotkey.h"
 #include "Device.h"

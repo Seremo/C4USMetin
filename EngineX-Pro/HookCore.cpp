@@ -4,7 +4,7 @@
 //##################################################################################################################################################
 void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX)
 {
-	if (!Settings::ProtectionDisableRender)
+	if (!Settings::PROTECTION_DISABLE_RENDER_ENABLE)
 	{
 		Device::pDevice->GetTransform(D3DTS_WORLD, &CRender::WorldStateCopy);
 		nCPythonApplicationRenderGame(This);
@@ -25,7 +25,7 @@ void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX)
 bool _fastcall Hooks::NewCActorInstanceTestActorCollision(void* This, void* EDX, DWORD* rVictim)
 {
 
-	if (Settings::MainWallHackMob )
+	if (Settings::MAIN_WALL_MOB_ENABLE )
 	{
 		return false;
 	}
@@ -39,7 +39,7 @@ bool _fastcall Hooks::NewCActorInstanceTestActorCollision(void* This, void* EDX,
 bool _fastcall Hooks::NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* c_rkBGObj)
 {
 
-	if (Settings::MainWallHackObject)
+	if (Settings::MAIN_WALL_OBJECT_ENABLE)
 	{
 		return false;
 	}
@@ -55,7 +55,7 @@ bool _fastcall Hooks::NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* 
 void _fastcall Hooks::NewCInstanceBaseBlockMovement(void* This, void* EDX)
 {
 
-	if (Settings::MainWallHackTerrain)
+	if (Settings::MAIN_WALL_TERRAIN_ENABLE)
 	{
 		return;
 	}
@@ -93,6 +93,14 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 	{
 		
 	}
+
+	if (StringExtension::Equals(c_szFunc, "RefreshStatus"))
+	{
+		if (Globals::m_apoPhaseWndGame == NULL)
+		{
+			Globals::m_apoPhaseWndGame = poClass;
+		}
+	}
 	/*	if (StringExtension::Equals(c_szFunc, "SetLoadingPhase") && Settings::ProtectionShowWisperLogs)
 		{
 			return true;
@@ -117,30 +125,30 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 		const char* line = Globals::PyString_AsString(Globals::PyTuple_GetItem(poArgs, 2));
 
 
-		if (Settings::ProtectionShowWisperLogs)
+		if (Settings::PROTECTION_SHOW_WHISPER_LOGS_ENABLE)
 		{
 
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, line);
 			
 		}
-		if (Settings::ProtectionShowWisperBalloon)
+		if (Settings::PROTECTION_SHOW_WHISPER_BALLOON_ENABLE)
 		{
 
 			string title = StringExtension::StringFormat("Whisper[%s]", GameFunctionsCustom::PlayerGetName());
 			MiscExtension::UpdateBalloon(Globals::mainHwnd, title.c_str(), line, NULL);
 		}
 
-		if (Settings::ProtectionPlayWisperBeep)
+		if (Settings::PROTECTION_PLAY_WHISPER_BEEP_ENABLE)
 		{
 			CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MiscExtension::PlayAlerSound, NULL, NULL, NULL);
 
 		}
-		if (Settings::ProtectionRestoreWisperWindow)
+		if (Settings::PROTECTION_RESTORE_WISPER_WINDOW_ENABLE)
 		{
 
 			ShowWindow(Globals::mainHwnd, SW_RESTORE);
 		}
-		if (Settings::ProtectionFlashWisperIcon)
+		if (Settings::PROTECTION_FLASH_WHISPER_ICON_ENABLE)
 		{
 			FLASHWINFO fi;
 			fi.cbSize = sizeof(FLASHWINFO);
@@ -255,7 +263,7 @@ bool _fastcall Hooks::NewCPythonEventManagerRegisterEventSetFromString(void* Thi
 //##################################################################################################
 void _fastcall Hooks::NewCPhysicsObjectIncreaseExternalForce(void* This, void* EDX, const D3DVECTOR& c_rvBasePosition, float fForce)
 {
-	if (!Settings::MiniMHNOK)
+	if (!Settings::MAIN_NOK_ENABLE)
 	{
 
 		nCPhysicsObjectIncreaseExternalForce(This, c_rvBasePosition, fForce);
@@ -356,7 +364,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 		}
 		break;
 	case ServerName::METINPL:
-		if (header == 42 && len >= sizeof(TPacketGCFishing) && Settings::FishBotEnable)
+		if (header == 42 && len >= sizeof(TPacketGCFishing) && Settings::FISH_ENABLE)
 		{
 			TPacketGCFishing packetGCFishing;
 			memcpy(&packetGCFishing, destBuf, sizeof(TPacketGCFishing));
@@ -543,17 +551,17 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 {
 	if (iType == CHAT_TYPE_TALKING)
 	{
-		if (Settings::ProtectionShowTalkBalloon)
+		if (Settings::PROTECTION_SHOW_TALK_BALLOON_ENABLE)
 		{
 			string title = StringExtension::StringFormat("Normal[%s]", GameFunctionsCustom::PlayerGetName());
 			MiscExtension::UpdateBalloon(Globals::mainHwnd, title.c_str(), c_szChat, NULL);
 		}
-		if (Settings::ProtectionPlayTalkBeep)
+		if (Settings::PROTECTION_PLAY_TALK_BEEP_ENABLE)
 		{
 			CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MiscExtension::PlayAlerSound, NULL, NULL, NULL);
 		}
 
-		if (Settings::ProtectionFlashTalkIcon)
+		if (Settings::PROTECTION_FLASH_TALK_ICON_ENABLE)
 		{
 			FLASHWINFO fi;
 			fi.cbSize = sizeof(FLASHWINFO);
@@ -566,7 +574,7 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 
 		}
 
-		if (Settings::ProtectionShowTalkLogs)
+		if (Settings::PROTECTION_SHOW_TALK_LOGS_ENABLE)
 		{
 			Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);
 			
@@ -582,11 +590,9 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 //		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
 //		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
 //		string Text3 = Text2 + "\n";
-//		std::ofstream outfile;
-//		outfile.open("nicki.txt", std::ios_base::app);
-//		outfile << Text3;
+//		
 //	}
-	Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);
+	/*Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);*/
 #endif
 
 	nCPythonChatAppendChat(This, iType, c_szChat);

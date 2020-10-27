@@ -151,7 +151,7 @@ public:
 			{
 				if(DynamicTimer::CheckAutoSet("Skill", 500))
 				{
-					if (Settings::BUFF_SKILL_1)
+					if (Settings::BUFF_SKILL_1_ENABLE)
 					{
 						if (DynamicTimer::Check("BuffBotSkill1Time", Settings::BUFF_SKILL_1_TIME * 100))
 						{
@@ -196,7 +196,7 @@ public:
 					}
 
 
-					if (Settings::BUFF_SKILL_2)
+					if (Settings::BUFF_SKILL_2_ENABLE)
 					{
 						if (DynamicTimer::Check("BuffBotSkill2Time", Settings::BUFF_SKILL_2_TIME * 100))
 						{
@@ -241,7 +241,7 @@ public:
 					}
 
 
-					if (Settings::BUFF_SKILL_3)
+					if (Settings::BUFF_SKILL_3_ENABLE)
 					{
 						if (DynamicTimer::Check("BuffBotSkill3Time", Settings::BUFF_SKILL_3_TIME * 100))
 						{
@@ -301,13 +301,13 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("BuffSkillsBorder", ImVec2(645, 430), true);
 		ImGui::Checkbox("Buff Enable", &Settings::BUFF_ENABLE);
-		ImGui::IconButton2(&Settings::BUFF_SKILL_1, "Skill 1", textureSkill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::BUFF_SKILL_1_ENABLE, "Skill 1", textureSkill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
 		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 1 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
-		ImGui::IconButton2(&Settings::BUFF_SKILL_2, "Skill 2", textureSkill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::BUFF_SKILL_2_ENABLE, "Skill 2", textureSkill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
 		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 2 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
-		ImGui::IconButton2(&Settings::BUFF_SKILL_3, "Skill 3", textureSkill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::BUFF_SKILL_3_ENABLE, "Skill 3", textureSkill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
 		ImGui::SameLine();
 		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 3 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 

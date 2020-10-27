@@ -1538,6 +1538,10 @@ public:
 			return NULL;
 		}
 	}
+	static bool PyCallClassMemberFunc(PyObject* poClass, const char* c_szFunc, PyObject* poArgs)
+	{
+		return Globals::PyCallClassMemberFunc(poClass, c_szFunc, poArgs);
+	}
 	//#################################################################################################################################
 	static float GetBackgroundHeight(float x, float y)
 	{

@@ -102,12 +102,14 @@ public:
 		int size = ((int)fmt.size()) * 2 + 50;   // Use a rubric appropriate for your code
 		std::string str;
 		va_list ap;
-		while (1) {     // Maximum two passes on a POSIX system...
+		while (1) 
+		{     // Maximum two passes on a POSIX system...
 			str.resize(size);
 			va_start(ap, fmt);
 			int n = vsnprintf((char*)str.data(), size, fmt.c_str(), ap);
 			va_end(ap);
-			if (n > -1 && n < size) {  // Everything worked
+			if (n > -1 && n < size) 
+			{  // Everything worked
 				str.resize(n);
 				return str;
 			}
@@ -317,23 +319,41 @@ public:
 	//	return szAnsi;
 	//}
 
-#if _MSC_PLATFORM_TOOLSET
-	std::string to_utf8(const std::u16string& s)
+#if 1
+	static std::string ASCIIToUTF8(const std::string& str, const std::locale& loc = std::locale{}) 
 	{
-		std::wstring_convert<std::codecvt_utf8<int16_t>, int16_t> convert;
-		auto p = reinterpret_cast<const int16_t*>(s.data());
-		return convert.to_bytes(p, p + s.size());
+		using wcvt = std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t>;
+		std::u32string wstr(str.size(), U'\0');
+		std::use_facet<std::ctype<char32_t>>(loc).widen(str.data(), str.data() + str.size(), &wstr[0]);
+		return wcvt{}.to_bytes(
+			reinterpret_cast<const int32_t*>(wstr.data()),
+			reinterpret_cast<const int32_t*>(wstr.data() + wstr.size())
+		);
+	}
+
+	static std::string UTF8ToASCII(const std::string& str, const std::locale& loc = std::locale{}) 
+	{
+		using wcvt = std::wstring_convert<std::codecvt_utf8<int32_t>, int32_t>;
+		auto wstr = wcvt{}.from_bytes(str);
+		std::string result(wstr.size(), '0');
+		std::use_facet<std::ctype<char32_t>>(loc).narrow(
+			reinterpret_cast<const char32_t*>(wstr.data()),
+			reinterpret_cast<const char32_t*>(wstr.data() + wstr.size()),
+			'?', &result[0]);
+		return result;
 	}
 
 #else
-	static std::string to_utf8(const std::string& str, const std::locale& loc = std::locale{}) {
+	static std::string ASCIIToUTF8(const std::string& str, const std::locale& loc = std::locale{}) 
+	{
 		using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
 		std::u32string wstr(str.size(), '\0');
 		std::use_facet<std::ctype<char32_t>>(loc).widen(str.data(), str.data() + str.size(), &wstr[0]);
 		return wcvt{}.to_bytes(wstr.data(), wstr.data() + wstr.size());
 	}
 
-	static std::string UTF8_To_ASCII(const std::string& str, const std::locale& loc = std::locale{}) {
+	static std::string UTF8ToASCII(const std::string& str, const std::locale& loc = std::locale{}) 
+	{
 		using wcvt = std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t>;
 		auto wstr = wcvt{}.from_bytes(str);
 		std::string result(wstr.size(), '0');

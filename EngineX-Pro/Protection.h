@@ -20,19 +20,19 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("ProtectionBorder", ImVec2(655, 310), true);;
-		ImGui::Checkbox("ON/OFF Render Scene", &Settings::ProtectionDisableRender);
-		ImGui::Checkbox("ON/OFF Update Scene", &Settings::ProtectionDisableUpdate);
-		ImGui::Checkbox("Whisper Logs", &Settings::ProtectionShowWisperLogs);
-		ImGui::Checkbox("Whisper Balloon", &Settings::ProtectionShowWisperBalloon);
-		ImGui::Checkbox("Whisper Beep", &Settings::ProtectionPlayWisperBeep);
-		ImGui::Checkbox("Whisper Restore Window", &Settings::ProtectionRestoreWisperWindow);
-		ImGui::Checkbox("Whisper Window Flash", &Settings::ProtectionFlashWisperIcon);
+		ImGui::Checkbox("ON/OFF Render Scene", &Settings::PROTECTION_DISABLE_RENDER_ENABLE);
+		ImGui::Checkbox("ON/OFF Update Scene", &Settings::PROTECTION_DISABLE_UPDATE_ENABLE);
+		ImGui::Checkbox("Whisper Logs", &Settings::PROTECTION_SHOW_WHISPER_LOGS_ENABLE);
+		ImGui::Checkbox("Whisper Balloon", &Settings::PROTECTION_SHOW_WHISPER_BALLOON_ENABLE);
+		ImGui::Checkbox("Whisper Beep", &Settings::PROTECTION_PLAY_WHISPER_BEEP_ENABLE);
+		ImGui::Checkbox("Whisper Restore Window", &Settings::PROTECTION_RESTORE_WISPER_WINDOW_ENABLE);
+		ImGui::Checkbox("Whisper Window Flash", &Settings::PROTECTION_FLASH_WHISPER_ICON_ENABLE);
 
 
-		ImGui::Checkbox("Normal Logs", &Settings::ProtectionShowTalkLogs);
-		ImGui::Checkbox("Normal Balloon", &Settings::ProtectionShowTalkBalloon);
-		ImGui::Checkbox("Normal Beep", &Settings::ProtectionPlayTalkBeep);
-		ImGui::Checkbox("Normal Window Flash", &Settings::ProtectionFlashTalkIcon);
+		ImGui::Checkbox("Normal Logs", &Settings::PROTECTION_SHOW_TALK_LOGS_ENABLE);
+		ImGui::Checkbox("Normal Balloon", &Settings::PROTECTION_SHOW_TALK_BALLOON_ENABLE);
+		ImGui::Checkbox("Normal Beep", &Settings::PROTECTION_PLAY_TALK_BEEP_ENABLE);
+		ImGui::Checkbox("Normal Window Flash", &Settings::PROTECTION_FLASH_TALK_ICON_ENABLE);
 		
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -46,7 +46,7 @@ public:
 	{
 		if (Globals::Server == ServerName::METINPL)
 		{
-			if (Settings::ProtectionAutoLogin && DynamicTimer::CheckAutoSet("AutoLogin", 5000))
+			if (Settings::PROTECTION_AUTO_LOGIN_ENABLE && DynamicTimer::CheckAutoSet("AutoLogin", 5000))
 			{
 				if (GameFunctionsCustom::PlayerDirectEnter())
 				{
@@ -56,7 +56,7 @@ public:
 		}
 		else 
 		{
-			if (DynamicTimer::CheckAutoSet("AutoLogin", 3000) && Settings::ProtectionAutoLogin)
+			if (DynamicTimer::CheckAutoSet("AutoLogin", 3000) && Settings::PROTECTION_AUTO_LOGIN_ENABLE)
 			{
 				if (GameFunctionsCustom::PlayerDirectEnter())
 				{

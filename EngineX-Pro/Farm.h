@@ -64,7 +64,7 @@ public:
 
 	void OnUpdate()
 	{
-		if (Settings::GLOBAL_SWITCH && Settings::FARM_ENABLE && GameFunctionsCustom::PlayerIsInstance())
+		if (Settings::GLOBAL_SWITCH_ENABLE && Settings::FARM_ENABLE && GameFunctionsCustom::PlayerIsInstance())
 		{
 			if (GameFunctions::InstanceBaseIsDead(GameFunctions::PlayerNEW_GetMainActorPtr()))
 			{
@@ -106,13 +106,13 @@ public:
 					targetVID = 0;
 					/*targetInstance = NULL;*/
 				}
-				if (targetVID &&( GameFunctions::InstanceBaseIsDead(targetInstance) || !GameFunctionsCustom::IsMapHaveInstance(targetInstance)))
+				if (targetVID && (GameFunctions::InstanceBaseGetInstanceType(targetInstance ) != TYPE_ENEMY)&&( GameFunctions::InstanceBaseIsDead(targetInstance) || !GameFunctionsCustom::IsMapHaveInstance(targetInstance)))
 				{
 					targetVID = 0;
 					targetInstance = NULL;
-					DynamicTimer::CheckAutoSet("DropDelay", Settings::FARM_DROP_WAIT_DELAY);
+					DynamicTimer::CheckAutoSet("DropDelay", Settings::FARM_DROP_WAIT_DELAY * 1000);
 				}
-				if (DynamicTimer::IsActive("DropDelay", Settings::FARM_DROP_WAIT_DELAY))
+				if (DynamicTimer::IsActive("DropDelay", Settings::FARM_DROP_WAIT_DELAY * 1000))
 				{
 					return;
 				}
@@ -213,21 +213,20 @@ public:
 			if (ItorNext == Farm::Instance().cordsMaps.end())
 				break;
 
-			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
+			vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
 			int i = 0;
-			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+			for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
 			{
 				auto itNext = it;
 				itNext++;
-				if (itNext == gf.end())
+				if (itNext == distanceSteps.end())
 					break;
 				float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 5.0f;
 				float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 5.0f;
 				D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
 				D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
-				CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::waypoint_color);
-				//CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos1.x, LinePos1.y, LinePos1.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(255, 0, 0, 50));
-				//CRender::RenderBox(Device::ms_lpCylinderMesh, LinePos2.x, LinePos2.y, LinePos2.z, 10.0f, D3DFILL_SOLID, D3DCOLOR_RGBA(0, 255, 0, 50));
+				CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::RADAR_WAYPOINT_COLOR);
+				
 				i++;
 			}
 		}
@@ -250,8 +249,8 @@ public:
 				OnStop();
 			}
 		} ImGui::SameLine();
-		ImGui::ColorEdit4("##RendeFarm", (float*)&Settings::waypoint_color, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-		ImGui::Checkbox("Render Path", &Settings::renderfarmbot);
+		ImGui::ColorEdit4("##RendeFarm", (float*)&Settings::RADAR_WAYPOINT_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+		ImGui::Checkbox("Render Path", &Settings::FARM_RENDER_PATH_ENABLE);
 		ImGui::Text("Move Type      "); ImGui::SameLine();
 		ImGui::RadioButton("Move", &Settings::FARM_MOVE_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Teleport", &Settings::FARM_MOVE_TYPE, 1);

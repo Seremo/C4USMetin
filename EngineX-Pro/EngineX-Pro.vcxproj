@@ -23,19 +23,19 @@
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <RootNamespace>ImGuiWin32</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>EngineX</ProjectName>
+    <ProjectName>EngineX 2.0</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;..\Extern\lib</LibraryPath>
-    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json</IncludePath>
+    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json;..\Extern\include\ThorsSerializer</IncludePath>
     <TargetExt>.dll</TargetExt>
     <LinkIncremental />
   </PropertyGroup>

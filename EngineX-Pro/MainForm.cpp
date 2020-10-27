@@ -237,7 +237,7 @@ void MainForm::SetImages() {
 DWORD HotkeyTime;
 bool MainForm::Hotkey(int vKey, int time)
 {
-	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && GetTickCount() - HotkeyTime > time && GetTickCount() - Settings::HotkeyTime > 1000;
+	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && GetTickCount() - HotkeyTime > time && GetTickCount() - HotkeyTime > 1000;
 	if (isPressed)
 	{
 		HotkeyTime = GetTickCount();
@@ -245,19 +245,11 @@ bool MainForm::Hotkey(int vKey, int time)
 	return isPressed;
 }
 
-bool MainForm::HotkeyBoost(int vKey, int vKey2, int vKey3, int vKey4, int vKey5, int time)
-{
-	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && (GetAsyncKeyState(vKey2) || GetAsyncKeyState(vKey3) || GetAsyncKeyState(vKey4) || GetAsyncKeyState(vKey5)) && GetTickCount() - HotkeyTime > time&& GetTickCount() - Settings::HotkeyTime > 1000;
-	if (isPressed)
-	{
-		HotkeyTime = GetTickCount();
-	}
-	return isPressed;
-}
+
 
 bool GetKeyPressedTwice(int vKey, int vKey2, int time = 300)
 {
-	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && GetAsyncKeyState(vKey2) & 0x8000 && GetTickCount() - HotkeyTime > time && GetTickCount() - Settings::HotkeyTime > 1000;
+	bool isPressed = GetAsyncKeyState(vKey) & 0x8000 && GetAsyncKeyState(vKey2) & 0x8000 && GetTickCount() - HotkeyTime > time && GetTickCount() - HotkeyTime > 1000;
 	if (isPressed)
 	{
 		HotkeyTime = GetTickCount();
@@ -461,8 +453,8 @@ void MainForm::ShowRadar()
 		D3DVECTOR pos;
 		float x, y;
 		ImVec2 midRadar = ImVec2(bgPos.x + (bgSize.x / 2), bgPos.y + (bgSize.y / 2));
-		float mapSizeX = 25600 / -Settings::radar_zoom;
-		float mapSizeY = 25600 / Settings::radar_zoom;
+		float mapSizeX = 25600 / -Settings::RADAR_ZOOM;
+		float mapSizeY = 25600 / Settings::RADAR_ZOOM;
 		//MAPA
 		LONG GlobalX = charpos.x;
 		LONG GlobalY = charpos.y;
@@ -529,7 +521,7 @@ void MainForm::ShowRadar()
 		rotateVector(pos3.x, pos3.y, fov, x, y);
 		ImGui::GetWindowDrawList()->AddTriangleFilled(pos1, pos2, pos3, ImGui::ColorConvertFloat4ToU32(ImColor(210, 105, 30)));
 		ImGui::GetWindowDrawList()->AddTriangle(pos1, pos2, pos3, ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
-		float radius = (Settings::MiniMHWaitHackDistanceValue / mapSizeY) * bgSize.x;
+		float radius = (Settings::MAIN_WH_DISTANCE_VALUE / mapSizeY) * bgSize.x;
 		ImGui::GetWindowDrawList()->AddCircle(ImVec2(x, y), radius, 0xFFFFFFFF, 50);
 		if (ImGui::IsWindowHovered())
 		{
@@ -564,7 +556,7 @@ void MainForm::ShowRadar()
 			}
 		}
 		//FarmBot Points
-		if (Settings::waypoint_show) 
+		if (Settings::RADAR_WAYPOINT_SHOW_ENABLE) 
 		{
 			for (auto itor = Farm::Instance().cordsMaps.begin(); itor != Farm::Instance().cordsMaps.end(); itor++)
 			{
@@ -580,7 +572,7 @@ void MainForm::ShowRadar()
 				float LineY2 = midRadar.y + (LinePos2.y / mapSizeY) * bgSize.y;
 				rotateVectorX(LineX1, LineY1, DEG2RAD(180.0f), midRadar.x, midRadar.y);
 				rotateVectorX(LineX2, LineY2, DEG2RAD(180.0f), midRadar.x, midRadar.y);
-				ImGui::GetWindowDrawList()->AddLine(ImVec2(LineX1, LineY1), ImVec2(LineX2, LineY2), ImGui::ColorConvertFloat4ToU32(Settings::waypoint_color));
+				ImGui::GetWindowDrawList()->AddLine(ImVec2(LineX1, LineY1), ImVec2(LineX2, LineY2), ImGui::ColorConvertFloat4ToU32(Settings::RADAR_WAYPOINT_COLOR));
 			}
 		}
 		// Players positions
@@ -602,18 +594,18 @@ void MainForm::ShowRadar()
 			if (objectType == 0) {
 				ImVec2 start;
 				ImVec2 end;
-				if (Settings::boss_show && GameFunctionsCustom::InstanceIsBoss(instance)) 
+				if (Settings::RADAR_BOSS_SHOW_ENABLE && GameFunctionsCustom::InstanceIsBoss(instance)) 
 				{
 					start = ImVec2(x - 6, y - 6);
 
 					end = ImVec2(x + 6, y + 6);
-					color = ImGui::ColorConvertFloat4ToU32(Settings::boss_color);
+					color = ImGui::ColorConvertFloat4ToU32(Settings::RADAR_BOSS_COLOR);
 				}
-				else if (Settings::monster_show)
+				else if (Settings::RADAR_MONSTER_SHOW_ENABLE)
 				{
 					start = ImVec2(x - 2, y - 2);
 					end = ImVec2(x + 2, y + 2);
-					color = ImGui::ColorConvertFloat4ToU32(Settings::monster_color);
+					color = ImGui::ColorConvertFloat4ToU32(Settings::RADAR_MONSTER_COLOR);
 				}
 
 				ImGui::GetWindowDrawList()->AddRectFilled(start, end, color, 1.0f);
@@ -621,32 +613,32 @@ void MainForm::ShowRadar()
 			}
 			else if (objectType == 1) 
 			{
-				if (GameFunctionsCustom::InstanceIsResource(GameFunctions::InstanceBaseGetVirtualNumber(instance)) && Settings::mining_show)
+				if (GameFunctionsCustom::InstanceIsResource(GameFunctions::InstanceBaseGetVirtualNumber(instance)) && Settings::RADAR_MINING_SHOW_ENABLE)
 				{
-					color = ImGui::ColorConvertFloat4ToU32(Settings::mining_color);
+					color = ImGui::ColorConvertFloat4ToU32(Settings::RADAR_MINE_COLOR);
 					ImVec2 start = ImVec2(x - 4, y - 4);
 					ImVec2 end = ImVec2(x + 4, y + 4);
 					ImGui::GetWindowDrawList()->AddRectFilled(start, end, color, 1.0f);
 					ImGui::GetWindowDrawList()->AddRect(ImVec2(start.x - 1, start.y - 1), ImVec2(end.x + 1, end.y + 1), ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
 				}
-				else if (Settings::npc_show) 
+				else if (Settings::RADAR_NPC_SHOW_ENABLE) 
 				{
-					color = ImGui::ColorConvertFloat4ToU32(Settings::npc_color);
+					color = ImGui::ColorConvertFloat4ToU32(Settings::RADAR_NPC_COLOR);
 					ImVec2 start = ImVec2(x - 2, y - 2);
 					ImVec2 end = ImVec2(x + 2, y + 2);
 					ImGui::GetWindowDrawList()->AddRectFilled(start, end, color, 1.0f);
 					ImGui::GetWindowDrawList()->AddRect(ImVec2(start.x - 1, start.y - 1), ImVec2(end.x + 1, end.y + 1), ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
 				}
 			}
-			else if (objectType == 2 && Settings::metin_show) 
+			else if (objectType == 2 && Settings::RADAR_STONE_SHOW_ENABLE) 
 			{
-				color = ImGui::ColorConvertFloat4ToU32(Settings::metin_color);
+				color = ImGui::ColorConvertFloat4ToU32(Settings::RADAR_STONE_COLOR);
 				ImVec2 start = ImVec2(x - 4, y - 4);
 				ImVec2 end = ImVec2(x + 4, y + 4);
 				ImGui::GetWindowDrawList()->AddRectFilled(start, end, color, 1.0f);
 				ImGui::GetWindowDrawList()->AddRect(ImVec2(start.x - 1, start.y - 1), ImVec2(end.x + 1, end.y + 1), ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
 			}
-			else if (objectType == 3 && Settings::metin_show)
+			else if (objectType == 3 && Settings::RADAR_STONE_SHOW_ENABLE)
 			{
 				color = ImGui::ColorConvertFloat4ToU32(ImColor(102, 0, 102));
 				ImVec2 start = ImVec2(x - 7, y - 7);
@@ -654,9 +646,9 @@ void MainForm::ShowRadar()
 				ImGui::GetWindowDrawList()->AddRectFilled(start, end, color, 1.0f);
 				ImGui::GetWindowDrawList()->AddRect(ImVec2(start.x - 1, start.y - 1), ImVec2(end.x + 1, end.y + 1), ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
 			}
-			else if (objectType == 6 && Settings::pc_show) 
+			else if (objectType == 6 && Settings::RADAR_PLAYER_SHOW_ENABLE) 
 			{
-				color = ImGui::ColorConvertFloat4ToU32(Settings::pc_color);
+				color = ImGui::ColorConvertFloat4ToU32(Settings::RADAR_PLAYER_COLOR);
 				ImVec2 start = ImVec2(x - 3, y - 3);
 				ImVec2 end = ImVec2(x + 3, y + 3);
 				ImGui::GetWindowDrawList()->AddRectFilled(start, end, color, 1.0f);
@@ -666,15 +658,15 @@ void MainForm::ShowRadar()
 	}
 	if (ImGui::Button(" + ")) 
 	{
-		Settings::radar_zoom *= 2.0f;
-		if (Settings::radar_zoom >= 4.0f)
-			Settings::radar_zoom = 4.0f;
+		Settings::RADAR_ZOOM *= 2.0f;
+		if (Settings::RADAR_ZOOM >= 4.0f)
+			Settings::RADAR_ZOOM = 4.0f;
 	} ImGui::SameLine();
 	if (ImGui::Button(" - "))
 	{
-		Settings::radar_zoom *= 0.5f;
-		if (Settings::radar_zoom <= 0.5f)
-			Settings::radar_zoom = 0.5f;
+		Settings::RADAR_ZOOM *= 0.5f;
+		if (Settings::RADAR_ZOOM <= 0.5f)
+			Settings::RADAR_ZOOM = 0.5f;
 	}
 	ImGui::End();
 }
@@ -708,10 +700,10 @@ void MainForm::Menu() {
 	//
 	if (GetForegroundWindow() == Globals::mainHwnd)
 	{
-		if (Hotkey(Settings::OnOffMH))
+		if (Hotkey(Settings::MAIN_GLOBAL_SWITCH_KEY))
 		{
-			Settings::GLOBAL_SWITCH = !Settings::GLOBAL_SWITCH;
-			if (Settings::GLOBAL_SWITCH == true)
+			Settings::GLOBAL_SWITCH_ENABLE = !Settings::GLOBAL_SWITCH_ENABLE;
+			if (Settings::GLOBAL_SWITCH_ENABLE == true)
 			{
 				Main::Instance().OnStart();
 			}
@@ -720,32 +712,10 @@ void MainForm::Menu() {
 				Main::Instance().OnStop();
 			}
 		}
-		if (Hotkey(Settings::RelogKey))
-		{
-			if (Globals::Server == ServerName::METINPL)
-			{
-				GameFunctions::NetworkStreamConnectGameServer(0);
-				Main::Instance().ResetSkillTimer();
-			}
-			else
-			{
-				int lastSlot = GameFunctionsCustom::GetCharSlotByName(GameFunctions::PlayerGetName());
-				if (lastSlot != -1)
-				{
-					GameFunctions::NetworkStreamConnectGameServer(lastSlot);
-					Main::Instance().ResetSkillTimer();
-				}
-			}	
-		}										
-		if (Hotkey(Settings::BoostKey, Settings::BoostSpeed1))
-		{
-			GameFunctionsCustom::Boost();
-		}
+								
+		
 
-		if (Hotkey(Settings::HideUI))
-		{
-			SideBarIsOpen = !SideBarIsOpen;
-		}
+		
 	}
 	if (SideBarIsOpen)
 	{
@@ -770,9 +740,9 @@ void MainForm::Menu() {
 				ImGui::TextColored(FrameColor, FrameRate);
 				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", WindowOn, WindowOff, ImVec2(20, 20));
 				ImGui::IconButton(&m_radarIsActive, "Radar Window", RadarOn, RadarOff, ImVec2(20, 20));
-				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH, "MultiHack Switch", MHOn, MHOff, ImVec2(20, 20))) 
+				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH_ENABLE, "MultiHack Switch", MHOn, MHOff, ImVec2(20, 20))) 
 				{
-					if (Settings::GLOBAL_SWITCH == true) 
+					if (Settings::GLOBAL_SWITCH_ENABLE == true) 
 					{
 						Main::Instance().OnStart();
 					}
@@ -781,12 +751,12 @@ void MainForm::Menu() {
 						Main::Instance().OnStop();
 					}
 				}
-				ImGui::IconButton(&Settings::ProtectionAutoLogin, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
+				ImGui::IconButton(&Settings::PROTECTION_AUTO_LOGIN_ENABLE, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
 
 #ifdef FISHBOT
-				if (ImGui::IconButton(&Settings::FishBotEnable, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
+				if (ImGui::IconButton(&Settings::FISH_ENABLE, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
 				{
-					if (Settings::FishBotEnable) 
+					if (Settings::FISH_ENABLE) 
 					{
 						Fish::Instance().OnStart();
 					}
@@ -804,7 +774,7 @@ void MainForm::Menu() {
 				{
 					if (Globals::Server == ServerName::METINPL)
 					{
-						for (map< pair<DWORD, pair<string, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST.begin(); itor != Settings::SERVER_INFO_LIST.end(); itor++)
+						for (map< pair<DWORD, pair<string, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST_GLOBAL.begin(); itor != Settings::SERVER_INFO_LIST_GLOBAL.end(); itor++)
 						{
 							const char* serverName = (const char*)(GetStr(Globals::iCPythonNetworkStreamInstance + 0x7A70));
 							if (StringExtension::Contains(serverName, itor->first.second.first.c_str()))
@@ -819,7 +789,7 @@ void MainForm::Menu() {
 					}
 					else
 					{
-						for (map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST2.begin(); itor != Settings::SERVER_INFO_LIST2.end(); itor++)
+						for (map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>::iterator itor = Settings::SERVER_INFO_LIST.begin(); itor != Settings::SERVER_INFO_LIST.end(); itor++)
 						{
 							if (itor->first.second.first == Globals::Server)
 							{
@@ -1083,11 +1053,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			io.MouseWheel += GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? +1.0f : -1.0f;
 			if (MainForm::IsRadarHovered)
 			{
-				Settings::radar_zoom *= GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? 2.0f : 0.5f;
-				if (Settings::radar_zoom >= 4.0f)
-					Settings::radar_zoom = 4.0f;
-				if (Settings::radar_zoom <= 0.5f)
-					Settings::radar_zoom = 0.5f;
+				Settings::RADAR_ZOOM *= GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? 2.0f : 0.5f;
+				if (Settings::RADAR_ZOOM >= 4.0f)
+					Settings::RADAR_ZOOM = 4.0f;
+				if (Settings::RADAR_ZOOM <= 0.5f)
+					Settings::RADAR_ZOOM = 0.5f;
 			}
 			break;
 			

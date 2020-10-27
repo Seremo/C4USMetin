@@ -44,8 +44,6 @@ bool MainCore::CheckMembers()
 	{
 		return true;
 	}
-
-
 	else if (hwid == "51A0C122-B9B991A5-C50CE71B-C176E9A6")//adi
 	{
 		return true;
@@ -127,15 +125,15 @@ void MainCore::Initialize()
 	MainCore::Crack();
 	if (Globals::Server == ServerName::METINPL)
 	{
-		Settings::FISHBOT_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));
-		Settings::FISHBOT_KILL_FISH_LIST.insert(make_pair(make_pair(22, true), make_pair(27824, "Weżoglów")));
-		Settings::FISHBOT_KILL_FISH_LIST.insert(make_pair(make_pair(23, true), make_pair(27825, "Skaber")));
-		Settings::FISHBOT_KILL_FISH_LIST.insert(make_pair(make_pair(24, true), make_pair(27826, "Krab Królewski")));
-		Settings::FISHBOT_KILL_FISH_LIST.insert(make_pair(make_pair(25, true), make_pair(27827, "Rak Niebiański")));
-		Settings::FISHBOT_DROP_LIST.insert(make_pair(make_pair(42, true), make_pair(27854, "Martwy Weżoglów")));
-		Settings::FISHBOT_DROP_LIST.insert(make_pair(make_pair(43, true), make_pair(27855, "Martwy Skaber")));
-		Settings::FISHBOT_DROP_LIST.insert(make_pair(make_pair(44, true), make_pair(27856, "Martwy Krab Królewski")));
-		Settings::FISHBOT_DROP_LIST.insert(make_pair(make_pair(45, true), make_pair(27857, "Martwy Rak Niebiański")));
+		Settings::FISH_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));
+		Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(22, true), make_pair(27824, "Weżoglów")));
+		Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(23, true), make_pair(27825, "Skaber")));
+		Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(24, true), make_pair(27826, "Krab Królewski")));
+		Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(25, true), make_pair(27827, "Rak Niebiański")));
+		Settings::FISH_DROP_LIST.insert(make_pair(make_pair(42, true), make_pair(27854, "Martwy Weżoglów")));
+		Settings::FISH_DROP_LIST.insert(make_pair(make_pair(43, true), make_pair(27855, "Martwy Skaber")));
+		Settings::FISH_DROP_LIST.insert(make_pair(make_pair(44, true), make_pair(27856, "Martwy Krab Królewski")));
+		Settings::FISH_DROP_LIST.insert(make_pair(make_pair(45, true), make_pair(27857, "Martwy Rak Niebiański")));
 		Settings::INVENTORY_PAGE_COUNT = 2;
 	}
 	Hooks::Initialize();
@@ -146,7 +144,7 @@ void MainCore::Initialize()
 #ifdef _DEBUG
 	title += "Debug";
 #else
-	title += "Relase";
+	title += "Relase \n(Free - If you paid u have been scammed) ";
 #endif
 	title += " ";
 	MiscExtension::ShowBalloon(Globals::mainHwnd, "EngineX", title.c_str(), NULL);
@@ -164,10 +162,10 @@ void  MainCore::UpdateLoop()
 	}
 	if (GetForegroundWindow() == Globals::mainHwnd)
 	{
-		if (MainForm::Hotkey(Settings::OnOffMH))
+		if (MainForm::Hotkey(Settings::MAIN_GLOBAL_SWITCH_KEY))
 		{
-			Settings::GLOBAL_SWITCH = !Settings::GLOBAL_SWITCH;
-			if (Settings::GLOBAL_SWITCH == true)
+			Settings::GLOBAL_SWITCH_ENABLE = !Settings::GLOBAL_SWITCH_ENABLE;
+			if (Settings::GLOBAL_SWITCH_ENABLE == true)
 			{
 				Main::Instance().OnStart();
 			}
@@ -176,7 +174,7 @@ void  MainCore::UpdateLoop()
 				Main::Instance().OnStop();
 			}
 		}
-		if (MainForm::Hotkey(Settings::RelogKey))
+		if (MainForm::Hotkey(Settings::MAIN_RELOG_KEY))
 		{
 			if (Globals::Server == ServerName::METINPL)
 			{
@@ -193,12 +191,12 @@ void  MainCore::UpdateLoop()
 				}
 			}
 		}
-		if (MainForm::Hotkey(Settings::BoostKey, Settings::BoostSpeed1))
+		if (MainForm::Hotkey(Settings::MAIN_BOOST_KEY, 14))
 		{
 			GameFunctionsCustom::Boost();
 		}
 
-		if (MainForm::Hotkey(Settings::HideUI))
+		if (MainForm::Hotkey(Settings::MAIN_HIDE_UI_KEY))
 		{
 			MainForm::SideBarIsOpen = !MainForm::SideBarIsOpen;
 		}

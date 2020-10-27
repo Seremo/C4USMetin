@@ -343,7 +343,7 @@ public:
 			if (vnum == GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i)))
 			{
 
-				if (((double)(GameFunctions::PlayerGetItemMetinSocket(i, 0) / 100)) < Settings::FishBotKillTillSizeValue)
+				if (((double)(GameFunctions::PlayerGetItemMetinSocket(i, 0) / 100)) < Settings::FISH_KILL_TILL_SIZE_VALUE)
 				{
 					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, i));
 				}
@@ -938,15 +938,15 @@ public:
 			float rotation = 0;
 			rotation = GameFunctionsCustom::PlayerGetCameraRotation();
 
-			int xx = Settings::BoostSpeed3 * sin(rotation * 0.017453);
-			int yy = Settings::BoostSpeed3 * cos(rotation * 0.017453);
+			int xx = Settings::MAIN_BOOST_SPEED * sin(rotation * 0.017453);
+			int yy = Settings::MAIN_BOOST_SPEED * cos(rotation * 0.017453);
 			int x = Position.x;
 			int y = Position.y;
 			newPosition.x = x + xx;
 			newPosition.y = y - yy;
 
 			GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(pCharInstance, newPosition.x, newPosition.y);
-			if (BoostCount >= Settings::BoostSpeed2)
+			if (BoostCount >= 1)
 			{
 				BoostCount = 0;
 				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, rotation, 1, 0);
