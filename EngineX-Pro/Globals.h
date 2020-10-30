@@ -469,7 +469,7 @@ public:
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-ServerName Globals::Server = ServerName::CLASSIC;
+ServerName Globals::Server = ServerName::METINPL;
 bool Globals::UsePythonFunctions = false;
 
 map<DWORD, TCItemData*> Globals::itemProtoList;

@@ -352,7 +352,7 @@ public:
 		ImGui::RadioButton("Target", &Settings::MAIN_WH_ATTACK_TYPE, 1);
 #ifdef DEVELOPER_MODE
 		ImGui::SameLine();
-		ImGui::RadioButton("Standard+", &Settings::MAIN_WH_TYPE, 2);
+		ImGui::RadioButton("Standard+", &Settings::MAIN_WH_ATTACK_TYPE, 2);
 #endif
 		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MAIN_WH_TIME, 5, 100);
 		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE_ENABLE); ImGui::SameLine();
