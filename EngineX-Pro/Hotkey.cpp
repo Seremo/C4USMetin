@@ -531,14 +531,105 @@ bool ImGui::IconButton2(bool* state, const char* tooltip, ImTextureID texture, I
 
 bool ImGui::InputFloatMinMax(const char* label, float* v, float Min, float Max, float step, float step_fast, const char* format, ImGuiInputTextFlags flags)
 {
-	float value = *v;
-	if (*v > Max) {
-		value = Max;
+	flags |= ImGuiInputTextFlags_CharsScientific;
+	void* p_data = (void*)v;
+	void* p_step = (void*)(step > 0.0f ? &step : NULL);
+	void* p_step_fast = (void*)(step_fast > 0.0f ? &step_fast : NULL);
+	ImGuiDataType data_type = ImGuiDataType_Float;
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	ImGuiStyle& style = g.Style;
+
+	if (format == NULL)
+		format = DataTypeGetInfo(data_type)->PrintFmt;
+
+	char buf[64];
+	DataTypeFormatString(buf, IM_ARRAYSIZE(buf), data_type, p_data, format);
+
+	bool value_changed = false;
+	if ((flags & (ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsScientific)) == 0)
+		flags |= ImGuiInputTextFlags_CharsDecimal;
+	flags |= ImGuiInputTextFlags_AutoSelectAll;
+	flags |= ImGuiInputTextFlags_NoMarkEdited;  // We call MarkItemEdited() ourselve by comparing the actual data rather than the string.
+
+	if (p_step != NULL)
+	{
+		const float button_size = GetFrameHeight();
+
+		BeginGroup(); // The only purpose of the group here is to allow the caller to query item data e.g. IsItemActive()
+		PushID(label);
+		SetNextItemWidth(ImMax(1.0f, CalcItemWidth() - (button_size + style.ItemInnerSpacing.x) * 2));
+
+		if (InputText("", buf, IM_ARRAYSIZE(buf), flags))
+		{
+			float final_value;
+			sscanf(buf, "%f", &final_value);
+			printf("%f \n", final_value);
+			if (final_value >= Min && final_value <= Max)
+			{
+				value_changed = DataTypeApplyOpFromText(buf, g.InputTextState.InitialTextA.Data, data_type, p_data, format);
+			}
+		}
+
+		// Step buttons
+		const ImVec2 backup_frame_padding = style.FramePadding;
+		style.FramePadding.x = style.FramePadding.y;
+		ImGuiButtonFlags button_flags = ImGuiButtonFlags_Repeat | ImGuiButtonFlags_DontClosePopups;
+		if (flags & ImGuiInputTextFlags_ReadOnly)
+			button_flags |= ImGuiButtonFlags_Disabled;
+		SameLine(0, style.ItemInnerSpacing.x);
+		void* final_step = g.IO.KeyCtrl && p_step_fast ? p_step_fast : p_step;
+		if (ButtonEx("-", ImVec2(button_size, button_size), button_flags))
+		{
+			float final_value = *(float*)v - *(float*)final_step;
+			if (final_value >= Min && final_value <= Max)
+			{
+				DataTypeApplyOp(data_type, '-', p_data, p_data, final_step);
+				value_changed = true;
+			}
+		}
+		SameLine(0, style.ItemInnerSpacing.x);
+		if (ButtonEx("+", ImVec2(button_size, button_size), button_flags))
+		{
+			float final_value = *(float*)v + *(float*)final_step;
+			if (final_value >= Min && final_value <= Max)
+			{
+				DataTypeApplyOp(data_type, '+', p_data, p_data, final_step);
+				value_changed = true;
+			}
+		}
+
+		const char* label_end = FindRenderedTextEnd(label);
+		if (label != label_end)
+		{
+			SameLine(0, style.ItemInnerSpacing.x);
+			TextEx(label, label_end);
+		}
+		style.FramePadding = backup_frame_padding;
+
+		PopID();
+		EndGroup();
 	}
-	else if (*v < Min) {
-		value = Min;
+	else
+	{
+		if (InputText(label, buf, IM_ARRAYSIZE(buf), flags))
+		{
+			float final_value;
+			sscanf(buf, "%f", &final_value);
+			printf("%f \n", final_value);
+			if (final_value >= Min && final_value <= Max)
+			{
+				value_changed = DataTypeApplyOpFromText(buf, g.InputTextState.InitialTextA.Data, data_type, p_data, format);
+			}
+		}
 	}
-	return ImGui::InputFloat(label, &value, step, step_fast, format, flags);
+	if (value_changed)
+		MarkItemEdited(window->DC.LastItemId);
+
+	return value_changed;
 }
 
 bool ImGui::Hotkey( DWORD& hotKeyTime,const char* label, int* k, const ImVec2& size_arg)
