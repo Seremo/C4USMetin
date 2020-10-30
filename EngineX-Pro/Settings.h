@@ -11,12 +11,14 @@ public:
 	{
 		string buffer = "";
 		FileExtension::Read(folderPath  + name + ".json", buffer);
-		nlohmann::json j;
+		
 		if (buffer == "")
 		{
 			return;
 		}
-		j.parse(buffer);
+		nlohmann::json j = nlohmann::json::parse(buffer);
+
+		/*j.parse(buffer);*/
 		j.at("PROTECTION_DETECT_PLAYER_WHITE_LIST").get_to(PROTECTION_DETECT_PLAYER_WHITE_LIST);
 		j.at("FISH_KILL_FISH_LIST").get_to(FISH_KILL_FISH_LIST);
 		j.at("FISH_BAIT_LIST").get_to(FISH_BAIT_LIST);
@@ -350,7 +352,7 @@ public:
 			{ "RADAR_PLAYER_SHOW_ENABLE", RADAR_PLAYER_SHOW_ENABLE },
 			{ "RADAR_WAYPOINT_SHOW_ENABLE", RADAR_WAYPOINT_SHOW_ENABLE }
 		};
-		string dump = j.dump();
+		string dump = j.dump(4);
 		if (FileExtension::CreateDirectoryPath(folderPath.c_str()))
 		{
 			FileExtension::Write(folderPath + name + ".json", dump);
