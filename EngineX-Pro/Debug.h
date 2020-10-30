@@ -101,14 +101,14 @@ public:
 		if (ImGui::Button("TEST 6"))
 		{
 
-			Settings::Load("Settings", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+			FileExtension::GetDirectoryFiles("C:\\Users\\Alex\\Desktop\\AdressSkaner\\Win32\\Debug", ""   /*format "exe"*/);
 
 
 		}
 		if (ImGui::Button("TEST 7"))
 		{
 
-			Settings::Save( "Settings",FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+			FileExtension::GetDirectoryFiles("C:\\Users\\Alex\\Desktop\\AdressSkaner\\Win32\\Debug", "dll"   /*format "exe"*/);
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

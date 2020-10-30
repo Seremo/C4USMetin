@@ -115,7 +115,7 @@ void MainCore::Initialize()
 		}
 	}
 	ConsoleOutput("[+] Application detected.");
-//	Settings::Load("Settings", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+	//Settings::Load("Settings", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 	Globals::ReAddressingLocas();
 	Globals::ReDeclarationLocals();
 	if (Globals::UsePythonFunctions)

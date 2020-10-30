@@ -129,5 +129,50 @@ public:
 			FindClose(hFind);
 		}
 	}
+	static string GetExtensionFilePath(string path)
+	{
+		
+		std::string::size_type idx;
+		idx = path.rfind('.');
+		if (idx != std::string::npos)
+		{
+			std::string extension = path.substr(idx + 1);
+			return extension;
+		}
+		else
+		{
+			return "";
+		}
+	}
+	static vector<string> GetDirectoryFiles(string folderPath ,string selectedExtension  =""   /*format "exe"*/)
+	{
+
+		vector<string> names;
+		string search_path = folderPath + "/*.*";
+		WIN32_FIND_DATA fd;
+		HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+		if (hFind != INVALID_HANDLE_VALUE)
+		{
+			do
+			{
+
+				if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+				{
+					if (selectedExtension != "" && GetExtensionFilePath(fd.cFileName) != selectedExtension)
+					{
+
+					}
+					else
+					{
+						names.push_back(fd.cFileName);
+					}
+					
+				}
+			} while (::FindNextFile(hFind, &fd));
+			::FindClose(hFind);
+		}
+		return names;
+
+	}
 };
 

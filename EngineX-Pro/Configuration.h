@@ -2,6 +2,9 @@
 class Configuration :public IAbstractModuleBase, public Singleton<Configuration>
 {
 private:
+	
+	string newFileName = string(900, '\0');;
+
 public:
 
 	string str0 ="";
@@ -34,9 +37,10 @@ public:
 		{
 			Settings::Load("Settings",FileExtension::GetAppDataDirectory()+"\\EngineX\\");
 		}
-		
+		ImGui::InputText("Save Configuration Name", &newFileName[0], newFileName.size());
 		if (ImGui::Button("Save Settings"))
 		{
+			
 			Settings::Save("Settings",FileExtension::GetAppDataDirectory() + "\\EngineX\\" );
 		}
 
