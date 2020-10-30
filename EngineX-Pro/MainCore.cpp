@@ -87,7 +87,7 @@ void MainCore::NetworkThread()
 ///##################################################################################################################
 void MainCore::Initialize()
 {	
-	/*MessageBox(NULL, "BP", "BP", 0);*/
+	/*MessageBox(NULL, "Dev BP", "BP", 0);*/
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
 	if (!MainCore::CheckMembers())
 	{
@@ -115,6 +115,7 @@ void MainCore::Initialize()
 		}
 	}
 	ConsoleOutput("[+] Application detected.");
+//	Settings::Load("Settings", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 	Globals::ReAddressingLocas();
 	Globals::ReDeclarationLocals();
 	if (Globals::UsePythonFunctions)

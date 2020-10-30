@@ -12,8 +12,11 @@ public:
 		string buffer = "";
 		FileExtension::Read(folderPath  + name + ".json", buffer);
 		nlohmann::json j;
-
-		j.parse("");
+		if (buffer == "")
+		{
+			return;
+		}
+		j.parse(buffer);
 		j.at("PROTECTION_DETECT_PLAYER_WHITE_LIST").get_to(PROTECTION_DETECT_PLAYER_WHITE_LIST);
 		j.at("FISH_KILL_FISH_LIST").get_to(FISH_KILL_FISH_LIST);
 		j.at("FISH_BAIT_LIST").get_to(FISH_BAIT_LIST);
@@ -39,7 +42,7 @@ public:
 		j.at("MAIN_WALL_TERRAIN_ENABLE").get_to(MAIN_WALL_TERRAIN_ENABLE);
 		j.at("MAIN_WH_ENABLE").get_to(MAIN_WH_ENABLE);
 		j.at("MAIN_WH_DISTANCE_VALUE").get_to(MAIN_WH_DISTANCE_VALUE);
-		j.at("MAIN_WH_TYPE").get_to(MAIN_WH_TYPE);
+		j.at("MAIN_WH_TYPE").get_to(MAIN_WH_WEAPON_TYPE);
 		j.at("MAIN_WAITHACK_RANGE_ENABLE").get_to(MAIN_WAITHACK_RANGE_ENABLE);
 		j.at("MAIN_WH_SKILL_COOLDOWN_TIME").get_to(MAIN_WH_SKILL_COOLDOWN_TIME);
 		j.at("MAIN_WH_TIME").get_to(MAIN_WH_TIME);
@@ -181,8 +184,6 @@ public:
 
 	static void Save(string name, string folderPath)
 	{
-		
-			
 		nlohmann::json j = nlohmann::json
 		{
 			{"PROTECTION_DETECT_PLAYER_WHITE_LIST", PROTECTION_DETECT_PLAYER_WHITE_LIST},
@@ -210,7 +211,7 @@ public:
 			{ "MAIN_WALL_TERRAIN_ENABLE", MAIN_WALL_TERRAIN_ENABLE },
 			{ "MAIN_WH_ENABLE", MAIN_WH_ENABLE },
 			{ "MAIN_WH_DISTANCE_VALUE", MAIN_WH_DISTANCE_VALUE },
-			{ "MAIN_WH_TYPE", MAIN_WH_TYPE },
+			{ "MAIN_WH_TYPE", MAIN_WH_WEAPON_TYPE },
 			{ "MAIN_WAITHACK_RANGE_ENABLE", MAIN_WAITHACK_RANGE_ENABLE },
 			{ "MAIN_WH_SKILL_COOLDOWN_TIME", MAIN_WH_SKILL_COOLDOWN_TIME },
 			{ "MAIN_WH_TIME", MAIN_WH_TIME },
@@ -392,7 +393,7 @@ public:
 	static bool			MAIN_WALL_TERRAIN_ENABLE;
 	static bool			MAIN_WH_ENABLE;
 	static int			MAIN_WH_DISTANCE_VALUE;
-	static int			MAIN_WH_TYPE;
+	static int			MAIN_WH_WEAPON_TYPE;
 	static bool			MAIN_WAITHACK_RANGE_ENABLE;
 	static int			MAIN_WH_SKILL_COOLDOWN_TIME;
 	static int			MAIN_WH_TIME;
@@ -579,8 +580,8 @@ public:
 	static bool			DUNGEON_BOT_ENABLE;
 	static int			DUNGEON_TYPE;
 
-	static DWORD INVENTORY_PAGE_SIZE;
-	static DWORD INVENTORY_PAGE_COUNT;
+	static DWORD		INVENTORY_PAGE_SIZE;
+	static DWORD		INVENTORY_PAGE_COUNT;
 	
 	
 };
@@ -673,7 +674,11 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(37,  make_pair(ServerName::CLASSIC,"CH5")), make_pair(13005, "51.77.56.238") },
 	{ make_pair(38,  make_pair(ServerName::CLASSIC,"CH6")), make_pair(13006, "51.77.56.238") },
 };
-vector<string>												Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST;
+vector<string>												Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST =
+{
+	{""}
+};
+
 map< pair<DWORD, bool>, pair<DWORD, string>>				Settings::FISH_KILL_FISH_LIST =
 {
 	{ make_pair(0, false), make_pair(27987, "Małż") },
@@ -949,7 +954,7 @@ map< DWORD, pair<string, bool>>								Settings::ITEM_PICKUP_SELECTED_LIST;
  bool		Settings::MAIN_SKILL_6_ENABLE = false;
  bool		Settings::MAIN_WH_ENABLE = false;
  int		Settings::MAIN_WH_DISTANCE_VALUE = 3000;
- int		Settings::MAIN_WH_TYPE = 0;
+ int		Settings::MAIN_WH_WEAPON_TYPE = 0;
  int		Settings::MAIN_WH_SKILL_COOLDOWN_TIME = 25;
  bool		Settings::MAIN_WAITHACK_RANGE_ENABLE = false;
  int		Settings::MAIN_WH_TIME = 50;

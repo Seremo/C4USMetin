@@ -76,7 +76,7 @@ public:
 
 
 		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
-		ImGui::Text("ID First Slot Item  "); ImGui::SameLine();
+		ImGui::Text("ID First Slot Item  "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 
 
 
@@ -101,7 +101,7 @@ public:
 		if (ImGui::Button("TEST 6"))
 		{
 
-
+			Settings::Load("Settings", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 
 
 		}

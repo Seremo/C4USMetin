@@ -352,16 +352,16 @@ public:
 		ImGui::RadioButton("Target", &Settings::MAIN_WH_ATTACK_TYPE, 1);
 #ifdef DEVELOPER_MODE
 		ImGui::SameLine();
-		ImGui::RadioButton("Standard+", &Settings::MAIN_WH_TYPE, 2);
+		ImGui::RadioButton("Standard+", &Settings::MAIN_WH_ATTACK_TYPE, 2);
 #endif
 		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MAIN_WH_TIME, 5, 100);
 		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE_ENABLE); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MAIN_WH_DISTANCE_VALUE, 100, 1000);
-		ImGui::RadioButton("Sword", &Settings::MAIN_WH_TYPE, 0); ImGui::SameLine();
-		ImGui::RadioButton("Bow", &Settings::MAIN_WH_TYPE, 1); ImGui::SameLine();
+		ImGui::RadioButton("Sword", &Settings::MAIN_WH_WEAPON_TYPE, 0); ImGui::SameLine();
+		ImGui::RadioButton("Bow", &Settings::MAIN_WH_WEAPON_TYPE, 1); ImGui::SameLine();
 
 #ifdef DEVELOPER_MODE
-		ImGui::RadioButton("Skill", &Settings::MAIN_WH_TYPE, 2);
+		ImGui::RadioButton("Skill", &Settings::MAIN_WH_WEAPON_TYPE, 2);
 		ImGui::InputInt("Skill Number", &Settings::MAIN_WH_SKILL_VALUE, 1, 111); ImGui::SameLine();
 		ImGui::InputInt("Skill Time", &Settings::MAIN_WH_SKILL_COOLDOWN_TIME, 1, 10);
 #endif	
@@ -753,7 +753,7 @@ private:
 					GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
 				}
 
-				switch (Settings::MAIN_WH_TYPE)
+				switch (Settings::MAIN_WH_WEAPON_TYPE)
 				{
 				case 0:
 					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
@@ -802,7 +802,7 @@ private:
 			}
 			else if(Settings::MAIN_WH_ATTACK_TYPE == 0)
 			{
-				switch (Settings::MAIN_WH_TYPE)
+				switch (Settings::MAIN_WH_WEAPON_TYPE)
 				{
 				case 0:
 					SwordWH();
@@ -818,7 +818,7 @@ private:
 				}
 			}
 #ifdef DEVELOPER_MODE
-			else if (Settings::MAIN_WH_TYPE == 2)
+			else if (Settings::MAIN_WH_WEAPON_TYPE == 2)
 			{
 				SkillWHx50();
 			}
