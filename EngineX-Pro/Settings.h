@@ -1,6 +1,9 @@
 #pragma once
 
-
+namespace ns {
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(D3DVECTOR, x, y, z)
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ImVec4, x, y, z, w)
+}
 
 class Settings
 {
@@ -17,7 +20,6 @@ public:
 			return;
 		}
 		nlohmann::json j = nlohmann::json::parse(buffer);
-
 		/*j.parse(buffer);*/
 		j.at("PROTECTION_DETECT_PLAYER_WHITE_LIST").get_to(PROTECTION_DETECT_PLAYER_WHITE_LIST);
 		j.at("FISH_KILL_FISH_LIST").get_to(FISH_KILL_FISH_LIST);
@@ -182,6 +184,19 @@ public:
 		j.at("RADAR_STONE_SHOW_ENABLE").get_to(RADAR_STONE_SHOW_ENABLE);
 		j.at("RADAR_PLAYER_SHOW_ENABLE").get_to(RADAR_PLAYER_SHOW_ENABLE);
 		j.at("RADAR_WAYPOINT_SHOW_ENABLE").get_to(RADAR_WAYPOINT_SHOW_ENABLE);
+		ns::from_json(j.at("MAIN_WH_RENDER_COLOR"), MAIN_WH_RENDER_COLOR);
+		ns::from_json(j.at("FISH_SHOP_TELEPORT_CORDS"), FISH_SHOP_TELEPORT_CORDS);
+		ns::from_json(j.at("FISH_CAST_TELEPORT_CORDS"), FISH_CAST_TELEPORT_CORDS);
+		ns::from_json(j.at("SPAM_NORMAL_COLOR"), SPAM_NORMAL_COLOR);
+		ns::from_json(j.at("SPAM_WHISPER_COLOR"), SPAM_WHISPER_COLOR);
+		ns::from_json(j.at("SPAM_SHOUT_COLOR"), SPAM_SHOUT_COLOR);
+		ns::from_json(j.at("RADAR_MONSTER_COLOR"), RADAR_MONSTER_COLOR);
+		ns::from_json(j.at("RADAR_BOSS_COLOR"), RADAR_BOSS_COLOR);
+		ns::from_json(j.at("RADAR_NPC_COLOR"), RADAR_NPC_COLOR);
+		ns::from_json(j.at("RADAR_MINE_COLOR"), RADAR_MINE_COLOR);
+		ns::from_json(j.at("RADAR_STONE_COLOR"), RADAR_STONE_COLOR);
+		ns::from_json(j.at("RADAR_PLAYER_COLOR"), RADAR_PLAYER_COLOR);
+		ns::from_json(j.at("RADAR_WAYPOINT_COLOR"), RADAR_WAYPOINT_COLOR);
 	}
 
 	static void Save(string name, string folderPath)
@@ -350,8 +365,21 @@ public:
 			{ "RADAR_MINING_SHOW_ENABLE", RADAR_MINING_SHOW_ENABLE },
 			{ "RADAR_STONE_SHOW_ENABLE", RADAR_STONE_SHOW_ENABLE },
 			{ "RADAR_PLAYER_SHOW_ENABLE", RADAR_PLAYER_SHOW_ENABLE },
-			{ "RADAR_WAYPOINT_SHOW_ENABLE", RADAR_WAYPOINT_SHOW_ENABLE }
+			{ "RADAR_WAYPOINT_SHOW_ENABLE", RADAR_WAYPOINT_SHOW_ENABLE },
 		};
+		ns::to_json(j["MAIN_WH_RENDER_COLOR"], MAIN_WH_RENDER_COLOR);
+		ns::to_json(j["FISH_SHOP_TELEPORT_CORDS"], FISH_SHOP_TELEPORT_CORDS);
+		ns::to_json(j["FISH_CAST_TELEPORT_CORDS"], FISH_CAST_TELEPORT_CORDS);
+		ns::to_json(j["SPAM_NORMAL_COLOR"], SPAM_NORMAL_COLOR);
+		ns::to_json(j["SPAM_WHISPER_COLOR"], SPAM_WHISPER_COLOR);
+		ns::to_json(j["SPAM_SHOUT_COLOR"], SPAM_SHOUT_COLOR);
+		ns::to_json(j["RADAR_MONSTER_COLOR"], RADAR_MONSTER_COLOR);
+		ns::to_json(j["RADAR_BOSS_COLOR"], RADAR_BOSS_COLOR);
+		ns::to_json(j["RADAR_NPC_COLOR"], RADAR_NPC_COLOR);
+		ns::to_json(j["RADAR_MINE_COLOR"], RADAR_MINE_COLOR);
+		ns::to_json(j["RADAR_STONE_COLOR"], RADAR_STONE_COLOR);
+		ns::to_json(j["RADAR_PLAYER_COLOR"], RADAR_PLAYER_COLOR);
+		ns::to_json(j["RADAR_WAYPOINT_COLOR"], RADAR_WAYPOINT_COLOR);
 		string dump = j.dump(4);
 		if (FileExtension::CreateDirectoryPath(folderPath.c_str()))
 		{
