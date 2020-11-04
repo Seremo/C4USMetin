@@ -45,11 +45,11 @@ public:
 		ImGui::BeginChild("ConfBorder", ImVec2(645, 250), true);
 		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "mc"   /*format "exe"*/);
 		ImGui::PushItemWidth(200);
-		if (ImGui::ListBox("##Configs", &currentIndex, configs))
+		if (ImGui::ListBox("Configs", &currentIndex, configs))
 		{
 			newFileName = configs[currentIndex];
 		}
-		ImGui::InputText("##FileName", &newFileName);
+		ImGui::InputText("##FileName", &newFileName, ImGuiInputTextFlags_EnterReturnsTrue);
 		if (ImGui::Button("Load Settings"))
 		{
 			Settings::Load(newFileName,FileExtension::GetAppDataDirectory()+"\\EngineX\\");
