@@ -12,7 +12,16 @@ public:
 	string str0 ="";
 	void OnStart()
 	{
-
+		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "mc"   /*format "exe"*/);
+		for (auto const& value : configs)
+		{
+			if (value == "Default.mc")
+			{
+				Settings::Load("Default.mc", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+				return;
+			}
+		}
+		Settings::Save("Default.mc", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 	}
 
 	void OnStop()
@@ -35,23 +44,23 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("ConfBorder", ImVec2(645, 250), true);
 		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "mc"   /*format "exe"*/);
-		
-		ImGui::ListBox("Configs", &currentIndex, configs);
-		
-		
+		ImGui::PushItemWidth(200);
+		if (ImGui::ListBox("##Configs", &currentIndex, configs))
+		{
+			newFileName = configs[currentIndex];
+		}
+		ImGui::InputText("##FileName", &newFileName[0], newFileName.size());
+
 		if (ImGui::Button("Load Settings"))
 		{
-			Settings::Load("Settings",FileExtension::GetAppDataDirectory()+"\\EngineX\\");
+			Settings::Load(newFileName,FileExtension::GetAppDataDirectory()+"\\EngineX\\");
 		}
-		ImGui::InputText("Save Configuration Name", &newFileName[0], newFileName.size());
+		ImGui::SameLine();
 		if (ImGui::Button("Save Settings"))
 		{
 			
-			Settings::Save("Settings",FileExtension::GetAppDataDirectory() + "\\EngineX\\" );
+			Settings::Save(newFileName,FileExtension::GetAppDataDirectory() + "\\EngineX\\" );
 		}
-
-		
-
 
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

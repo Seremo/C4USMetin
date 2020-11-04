@@ -13,7 +13,7 @@ public:
 	static void Load(string name, string folderPath)
 	{
 		string buffer = "";
-		FileExtension::Read(folderPath  + name + ".json", buffer);
+		FileExtension::Read(folderPath  + name, buffer);
 		
 		if (buffer == "")
 		{
@@ -384,7 +384,7 @@ public:
 		string dump = j.dump(4);
 		if (FileExtension::CreateDirectoryPath(folderPath.c_str()))
 		{
-			FileExtension::Write(folderPath + name + ".json", dump);
+			FileExtension::Write(folderPath + name, dump);
 		}
 		
 	}
