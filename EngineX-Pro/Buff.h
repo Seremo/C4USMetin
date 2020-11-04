@@ -132,6 +132,8 @@ public:
 
 	virtual void OnUpdate()
 	{
+		/*if(GameFunctionsCustom::PlayerIsInstance())
+		{ }*/
 		SetJobRaceTextures(GameFunctions::NetworkStreamGetMainActorSkillGroup(), GameFunctions::PlayerGetRace());
 		if (Settings::BUFF_ENABLE)
 		{

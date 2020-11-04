@@ -256,6 +256,7 @@
     <ClInclude Include="PythonExtension.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ProcessExtension.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

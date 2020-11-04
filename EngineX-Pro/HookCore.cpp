@@ -168,95 +168,128 @@ bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_sz
 
 
 
-bool _fastcall Hooks::NewCPythonEventManagerRegisterEventSetFromString(void* This, void* EDX, const string& strScript)
+int _fastcall Hooks::NewCPythonEventManagerRegisterEventSetFromString(void* This, void* EDX, const string& strScript)
 {
 	const char* str_base = strScript.c_str();
 	/*MainForm::LogSniffer(0, (str_base));
 	MainForm::LogSniffer(0, "\n");*/
 	switch (Globals::Server)
 	{
-	case ServerName::SAMIAS2:
-		if (StringExtension::Contains(strScript.c_str(), "Kontrola obecności"))
-		{
-			if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '1'"))
+
+		case ServerName::METINPL:
 			{
-				if (StringExtension::Contains(strScript.c_str(), "1;1"))
+				if (Settings::FISH_ENABLE)
 				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+					if (StringExtension::Contains(strScript.c_str(), "[QUESTION 1;Uszlachetnienie|2;"))
+					{
+						cout << "Passed" << endl;
+						return -1;
+					}
+					if (StringExtension::Contains(strScript.c_str(), "[COLOR256 r;255|g;230|b;186]Rybak:[COLOR256 r;196|g;196|b;196][ENTER]Czy chcesz"))
+					{
+						cout << "Passed" << endl;
+						return -1;
+					}
+					if (StringExtension::Contains(strScript.c_str(), "Ryba[ENTER]niemrawo szarpie na haczyku. Co chcesz z n"))
+					{
+						cout << "Pokroic huja" << endl;
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+						return -1;
+					}
+					if (StringExtension::Contains(strScript.c_str(), "[COLOR256 r;255|g;230|b;186]Rybak:[COLOR256 r;196|g;196|b;196][ENTER]Hej, uda"))
+					{
+						cout << "Passed" << endl;
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+						return -1;
+					}
+					cout << strScript << endl;
 				}
-				if (StringExtension::Contains(strScript.c_str(), "2;1"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "3;1"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "4;1"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
-				}
+					
+				
 			}
-			if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '2'"))
+			break;
+		case ServerName::SAMIAS2:
+			if (StringExtension::Contains(strScript.c_str(), "Kontrola obecności"))
 			{
-				if (StringExtension::Contains(strScript.c_str(), "1;2"))
+				if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '1'"))
 				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+					if (StringExtension::Contains(strScript.c_str(), "1;1"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "2;1"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "3;1"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "4;1"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
+					}
 				}
-				if (StringExtension::Contains(strScript.c_str(), "2;2"))
+				if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '2'"))
 				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
+					if (StringExtension::Contains(strScript.c_str(), "1;2"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "2;2"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "3;2"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "4;2"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
+					}
 				}
-				if (StringExtension::Contains(strScript.c_str(), "3;2"))
+				if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '3'"))
 				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
+					if (StringExtension::Contains(strScript.c_str(), "1;3"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "2;3"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "3;3"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "4;3"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
+					}
 				}
-				if (StringExtension::Contains(strScript.c_str(), "4;2"))
+				if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '4'"))
 				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
+					if (StringExtension::Contains(strScript.c_str(), "1;4"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "2;4"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "3;4"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
+					}
+					if (StringExtension::Contains(strScript.c_str(), "4;4"))
+					{
+						GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
+					}
 				}
+				return -1;
 			}
-			if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '3'"))
-			{
-				if (StringExtension::Contains(strScript.c_str(), "1;3"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "2;3"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "3;3"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "4;3"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
-				}
-			}
-			if (StringExtension::Contains(strScript.c_str(), "Wybierz cyfrę '4'"))
-			{
-				if (StringExtension::Contains(strScript.c_str(), "1;4"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "2;4"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(2);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "3;4"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(3);
-				}
-				if (StringExtension::Contains(strScript.c_str(), "4;4"))
-				{
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(4);
-				}
-			}
-			return -1;
-		}
-		break;
+			break;
 	}
 	return nCPythonEventManagerRegisterEventSetFromString(This, strScript);
 }
@@ -704,7 +737,7 @@ void Hooks::Initialize()
 		//nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 		//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 		break;
-	case ServerName::ORIGINS:
+	case ServerName::ORIGINS2:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
 		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
@@ -718,7 +751,7 @@ void Hooks::Initialize()
 		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 		nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 		break;
-	case ServerName::CALLIOPE:
+	case ServerName::CALLIOPE2:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
 		/*nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);*/
 		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
@@ -787,6 +820,7 @@ void Hooks::Initialize()
 		nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 		//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+		nCPythonEventManagerRegisterEventSetFromString = (Globals::tCPythonEventManagerRegisterEventSetFromString)DetourFunction((PBYTE)Globals::CPythonEventManagerRegisterEventSetFromString, (PBYTE)NewCPythonEventManagerRegisterEventSetFromString);
 		break;
 	case ServerName::ASENIS:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
@@ -828,6 +862,21 @@ void Hooks::Initialize()
 		nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
 		nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
 		/*nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);*/
+		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+		nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+
+		break;
+	case ServerName::VALIUM:
+		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
+		nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);
+		nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+		nCPythonApplicationOnUIRender = (Globals::tCPythonApplicationOnUIRender)DetourFunction((PBYTE)Globals::CPythonApplicationOnUIRender, (PBYTE)NewCPythonApplicationOnUIRender);
+		nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+		nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+		nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+		nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+		nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+		nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 		nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 

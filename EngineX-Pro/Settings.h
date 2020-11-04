@@ -396,7 +396,7 @@ public:
 	static map< pair<DWORD, bool>, pair<DWORD, string>>					FISH_BAIT_LIST;
 	static map< pair<DWORD, bool>, pair<DWORD, string>>					FISH_DROP_LIST;
 	static map< pair<DWORD, bool>, pair<DWORD, string>>					FISH_SELL_LIST;
-
+	static map< DWORD, pair<DWORD, DWORD>>								FISH_ROD_REFINE_POINTS;
 	static map<DWORD, pair<string, DWORD>>								FISH_COMMAND_LIST;
 	static map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> SERVER_INFO_LIST_GLOBAL;
 	static map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>	SERVER_INFO_LIST;
@@ -734,6 +734,30 @@ map< pair<DWORD, bool>, pair<DWORD, string>>				Settings::FISH_KILL_FISH_LIST =
 	{ make_pair(19, true), make_pair(27821, "Shiri")},
 	{ make_pair(20, true), make_pair(27822, "Lustrzany Karp")},
 	{ make_pair(21, true), make_pair(27823, "Złoty Karał")},
+};
+
+map<DWORD, pair<DWORD, DWORD>>				Settings::FISH_ROD_REFINE_POINTS =
+{
+	{27400, make_pair(1, 10)},
+	{27410, make_pair(2, 20)},
+	{27420, make_pair(3, 40)},
+	{27430, make_pair(4, 80)},
+	{27440, make_pair(5, 120)},
+	{27450, make_pair(6, 140)},
+	{27460, make_pair(7, 160)},
+	{27470, make_pair(8, 180)},
+	{27480, make_pair(9, 200)},
+	{27490, make_pair(10, 220)},
+	{27510, make_pair(11, 240)},
+	{27520, make_pair(12, 260)},
+	{27530, make_pair(13, 280)},
+	{27540, make_pair(14, 300)},
+	{27550, make_pair(15, 320)},
+	{27560, make_pair(16, 340)},
+	{27570, make_pair(17, 360)},
+	{27580, make_pair(18, 380)},
+	{27590, make_pair(19, 400)},
+	{27600, make_pair(20, 420)},
 };
 //##########################################################################################
 map< pair<DWORD, bool>, pair<DWORD, string>>				Settings::FISH_BAIT_LIST =

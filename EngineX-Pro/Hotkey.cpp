@@ -1,5 +1,28 @@
 
 #include "Hotkey.h"
+
+
+
+bool ImGui::Combo(const char* label, int* currIndex, std::vector<std::string>& values)
+{
+	if (values.empty())
+	{
+		return false;
+	}
+	return ImGui::Combo(label, currIndex, vector_getter, static_cast<void*>(&values), values.size());
+}
+
+bool ImGui::ListBox(const char* label, int* currIndex, std::vector<std::string>& values)
+{
+	if (values.empty())
+	{
+		return false;
+	}
+	return ImGui::ListBox(label, currIndex, ImGui::vector_getter, static_cast<void*>(&values), values.size());
+}
+
+
+
 const char* const KeyNames[] = {
 	"Unknown",
 	"LBUTTON",

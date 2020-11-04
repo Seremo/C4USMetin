@@ -164,7 +164,7 @@ public:
 					}
 					else
 					{
-						names.push_back(fd.cFileName);
+						names.push_back(StringExtension::ASCIIToUTF8(fd.cFileName));
 					}
 					
 				}

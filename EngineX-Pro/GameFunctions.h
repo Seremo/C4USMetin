@@ -27,7 +27,7 @@ public:
 				m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 44) + 4));
 				break;
 			}
-			case ServerName::CALLIOPE:
+			case ServerName::CALLIOPE2:
 			{
 				m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 36) + 4));
 				break;
@@ -505,7 +505,7 @@ public:
 					}
 					break;
 				}
-				case ServerName::CALLIOPE:
+				case ServerName::CALLIOPE2:
 				{
 					try
 					{
@@ -1347,7 +1347,7 @@ public:
 				switch (Globals::Server)
 				{
 				case ServerName::VEDNAR:
-				case ServerName::CALLIOPE:
+				case ServerName::CALLIOPE2:
 				case ServerName::ASENIS:
 				{
 					__asm
@@ -1386,7 +1386,27 @@ public:
 			}
 			else
 			{
-				Globals::CInstanceBaseSetRotation((void*)instance, fRotation);
+				DWORD address = Globals::pCInstanceBaseSetRotation;
+				switch (Globals::Server)
+				{
+					case ServerName::CALLIOPE2:
+						{
+							DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
+							__asm
+							{
+								mov     eax, [address]
+								mov     ecx, instance
+								movss   xmm1, [fRotation]
+								call	eax
+							}
+							break;
+						}
+					default:
+						{
+							Globals::CInstanceBaseSetRotation((void*)instance, fRotation);
+							break;
+						}
+				}
 			}
 		}
 		catch (...)
@@ -1411,7 +1431,7 @@ public:
 				switch (Globals::Server)
 				{
 					case ServerName::VEDNAR:
-					case ServerName::CALLIOPE:
+					case ServerName::CALLIOPE2:
 					case ServerName::ASENIS:
 					{
 						DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
@@ -1551,7 +1571,7 @@ public:
 			float height = 0;
 			switch (Globals::Server)
 			{
-			case ServerName::CALLIOPE:
+			case ServerName::CALLIOPE2:
 			case ServerName::ASENIS:
 			{
 				DWORD* instance = PlayerNEW_GetMainActorPtr();

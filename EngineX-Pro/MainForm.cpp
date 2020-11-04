@@ -729,9 +729,9 @@ void MainForm::Menu() {
 		{
 			static float f = 0.0f;
 			static int counter = 0;
-//#ifdef DEVELOPER_MODE
-//			ImGui::ShowDemoWindow();
-//#endif
+#ifdef DEVELOPER_MODE
+			/*ImGui::ShowDemoWindow();*/
+#endif
 			ImGui::SetNextWindowBgAlpha(0.0f);
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
 			ImGui::Begin("Buttons", &SideBarIsOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNavInputs);

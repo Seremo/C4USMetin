@@ -46,7 +46,7 @@ public:
 	{
 		if (Globals::Server == ServerName::METINPL)
 		{
-			if (Settings::PROTECTION_AUTO_LOGIN_ENABLE && DynamicTimer::CheckAutoSet("AutoLogin", 5000))
+			if (Settings::PROTECTION_AUTO_LOGIN_ENABLE && DynamicTimer::CheckAutoSet("AutoLogin", 7000))
 			{
 				if (GameFunctionsCustom::PlayerDirectEnter())
 				{

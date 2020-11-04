@@ -30,8 +30,20 @@
 #pragma comment(lib, "d3dx8.lib")
 #endif
 
-namespace ImGui {
-	bool Hotkey(DWORD& hotKeyTime,const char * label, int * k, const ImVec2 & size_arg = ImVec2(0, 0)  );
+namespace ImGui
+{
+	static auto vector_getter = [](void* vec, int idx, const char** out_text)
+	{
+		auto& vector = *static_cast<std::vector<std::string>*>(vec);
+		if (idx < 0 || idx >= static_cast<int>(vector.size()))
+		{
+			return false;
+		}
+		*out_text = vector.at(idx).c_str();
+		return true;
+	};
+
+	bool Hotkey(DWORD& hotKeyTime, const char* label, int* k, const ImVec2& size_arg = ImVec2(0, 0));
 	bool IconButton(bool* state, const char* tooltip, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size);
 	bool IconButton2(bool* state, const char* tooltip, ImTextureID texture, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size);
 	bool InputFloatMinMax(const char* label, float* v, float Min, float Max, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", ImGuiInputTextFlags flags = 0);
@@ -40,4 +52,8 @@ namespace ImGui {
 	void DrawImagePos(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& pos, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void ImageAuto(DirectTexture user_texture_id, float scale = 1.0f, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
-}
+
+
+	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values);
+	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values);
+};

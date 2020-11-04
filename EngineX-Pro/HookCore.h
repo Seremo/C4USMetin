@@ -30,7 +30,7 @@ public:
 	static bool _fastcall Hooks::NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* c_rkBGObj);
 	static void _fastcall Hooks::NewCInstanceBaseBlockMovement(void* This, void* EDX);
 	static bool __cdecl Hooks::NewPyCallClassMemberFunc(PyObject* poClass, const char* c_szFunc, PyObject* poArgs);
-	static bool _fastcall NewCPythonEventManagerRegisterEventSetFromString(void* This, void* EDX, const string& strScript);
+	static int _fastcall NewCPythonEventManagerRegisterEventSetFromString(void* This, void* EDX, const string& strScript);
 	static void _fastcall NewCPhysicsObjectIncreaseExternalForce(void* This, void* EDX, const D3DVECTOR& c_rvBasePosition, float fForce);
 	//bool _fastcall NewCNetworkStreamPeek(void* This, void* EDX, int len, void* pDestBuf);
 	static bool _fastcall NewCNetworkStreamCheckPacket(void* This, void* EDX, BYTE* header);

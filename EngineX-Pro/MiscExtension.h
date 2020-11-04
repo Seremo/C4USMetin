@@ -52,6 +52,12 @@ public:
 	//	GetWindowText(hwnd, wnd_title, sizeof(wnd_title));
 	//	return wnd_title;
 	//}
+	
+	static void OpenWebiste(string site)
+	{
+		/*ShellExecute(0, 0, site.c_str(), 0, 0, SW_SHOW);*/
+		system(("start "+ site).c_str());
+	}
 
 	static void PlayAlerSound()
 	{

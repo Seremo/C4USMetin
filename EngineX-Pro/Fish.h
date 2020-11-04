@@ -333,6 +333,8 @@ public:
 			//}
 		}
 #if defined(DEVELOPER_MODE)
+	
+		
 		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
 		{
 			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1800, standingPosition, Settings::FISH_CAST_TELEPORT_CORDS);
@@ -416,6 +418,14 @@ public:
 				return;
 			}
 		}
+#ifdef DEVELOPER_MODE
+		if (DynamicTimer::CheckAutoSet("RefineRod", 10000))
+		{
+			RefineRod();
+		}
+#endif // DEVELOPER_MODE
+
+
 		if (Settings::FISH_SELL_TRASH_ENABLE && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE)
 		{
 			SellItems();
@@ -444,7 +454,59 @@ public:
 		Cast();
 	}
 
+	bool RefineRod()
+	{
+		bool isNeedEquipRod = false;
+		if (GameFunctionsCustom::PlayerIsRodEquipped())
+		{
+			if (GameFunctionsCustom::PlayerCanRefineRod()&&GameFunctions::PlayerGetItemMetinSocket(TItemPos(EQUIPMENT, 4), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4))].second)
+			{
+				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(EQUIPMENT, 4));
+				isNeedEquipRod = true;
+			}
+			else
+			{
+				
+			}
+		}
+		vector<DWORD> rodsList = GameFunctionsCustom::FindItemSlotsInInventory(27400, 27590);
+		for (vector<DWORD>::iterator it = rodsList.begin(); it != rodsList.end(); ++it)
+		{
 
+
+			if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(INVENTORY, *it), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, *it))].second)
+			{
+				DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
+				if (fishermanVid)
+				{
+					GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, *it), 1);
+					GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+				}
+			}
+
+		}
+		if (isNeedEquipRod)
+		{
+
+			vector<DWORD> rodsList = GameFunctionsCustom::FindItemSlotsInInventory(27400, 27590);
+			for (vector<DWORD>::iterator it = rodsList.begin(); it != rodsList.end(); ++it)
+			{
+
+				if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(INVENTORY, *it), 0) < Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, *it))].second)
+				{
+					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, *it));
+					return true;
+				}
+			}
+			if (rodsList.size() > 0)
+			{
+				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, rodsList[0]));
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
 	bool BuyBait()
 	{
 		DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);

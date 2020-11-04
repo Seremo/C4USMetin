@@ -1,6 +1,6 @@
 #include <winsock2.h>
 #define _WINSOCK2API_
-
+#define _CRTDBG_MAP_ALLOC
 #include <Windows.h>
 #include <io.h>
 #include <stdio.h>
@@ -66,8 +66,8 @@ enum ServerName
 	SG2,
 	VEDNAR,
 	AELDRA,
-	ORIGINS,
-	CALLIOPE,
+	ORIGINS2,
+	CALLIOPE2,
 	ASENIS,
 	CLASSIC
 };
@@ -85,7 +85,7 @@ enum ServerName
 //#define NETWORK_MODE
 
 
-#define DLL_VERSION "0.0.75 Beta"
+#define DLL_VERSION "0.0.81 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -138,17 +138,18 @@ enum ServerName
 #include "PythonExtension.h"
 #include "MiscExtension.h"
 #include "CryptExtension.h"
-#include "FileExtension.h"
+
 #include "MathExtension.h"
 #include "MemoryExtension.h"
 #include "StringExtension.h"
+#include "FileExtension.h"
 #include "ProtectExtension.h"
+#include "ProcessExtension.h"
 #include "PatternScan.h"
 #include "PatternScan2.h"
 //
 
-//#include "JsonThor.h"
-//#include "SerUtil.h"
+
 #include "Json.h"
 #include "Settings.h"
 #include "Hotkey.h"

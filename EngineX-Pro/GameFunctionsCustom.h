@@ -166,7 +166,7 @@ public:
 				GameFunctions::NetworkStreamSendCommandPacket(5, 1, "");
 				break;
 			}
-			case ServerName::ORIGINS:
+			case ServerName::ORIGINS2:
 			{
 				GameFunctions::NetworkStreamSendChatPacket("/zhcedqrmoacnwtkr", CHAT_TYPE_TALKING);
 				break;
@@ -192,9 +192,36 @@ public:
 		}
 	}
 	//#################################################################################################################################
+	static bool PlayerCanRefineRod()
+	{
+		if ( GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4)) == 27600)
+		{
+
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 	static bool PlayerIsRodEquipped()
 	{
-		return true;
+
+		if (GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4)) == 27400 || GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4)) == 27600)
+		{
+			
+			return true;
+		}
+		else if (GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4)) > 27400 && GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4)) < 27600)
+		{
+			return true;
+		}
+		
+		else
+		{
+			return false;
+		}
+
 	}
 	//#################################################################################################################################
 	static bool PlayerIsPickAxeEquipped()
@@ -357,8 +384,23 @@ public:
 		vector<DWORD> slots;
 		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT); i++)
 		{
-			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
-			if (vnum == current_vnum)
+			int currentVnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
+			if (vnum == currentVnum)
+			{
+				slots.push_back(i);
+			}
+
+		}
+		return slots;
+	}
+	//#################################################################################################################################
+	static vector<DWORD> FindItemSlotsInInventory(DWORD vnumFrom, DWORD vnumTo)
+	{
+		vector<DWORD> slots;
+		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT); i++)
+		{
+			int currentVnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
+			if (currentVnum > vnumFrom - 1 && currentVnum < vnumTo + 1)
 			{
 				slots.push_back(i);
 			}
@@ -645,7 +687,7 @@ public:
 					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 44) + 4));
 					break;
 				}
-				case ServerName::CALLIOPE:
+				case ServerName::CALLIOPE2:
 				{
 					m_kAliveInstMap = *(TCharacterInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonCharacterManagerInstance + 36) + 4));
 					break;
@@ -1031,7 +1073,7 @@ public:
 			case ServerName::SAMIAS2:
 				bRank = (*(BYTE*)(mob_info + 128));
 				break;
-			case ServerName::CALLIOPE:
+			case ServerName::CALLIOPE2:
 				bRank = (*(BYTE*)(mob_info + 55));
 				break;
 			default:
@@ -1347,7 +1389,7 @@ public:
 			case ServerName::METINPL:
 				kPacketAtk.header = 0x52;
 				break;
-			case ServerName::CALLIOPE:
+			case ServerName::CALLIOPE2:
 				kPacketAtk.header = -112;
 				break;
 			default:
@@ -1357,7 +1399,7 @@ public:
 			kPacketAtk.bType = uMotAttack;
 			kPacketAtk.dwVictimVID = dwVIDVictim;
 
-			if (Globals::Server == ServerName::ORIGINS || Globals::Server == ServerName::CLASSIC )
+			if (Globals::Server == ServerName::ORIGINS2 || Globals::Server == ServerName::CLASSIC )
 			{
 				if (!GameFunctions::NetworkStreamSendSpecial(sizeof(kPacketAtk), &kPacketAtk))
 				{
