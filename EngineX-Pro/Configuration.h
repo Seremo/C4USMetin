@@ -49,7 +49,7 @@ public:
 		{
 			newFileName = configs[currentIndex];
 		}
-		ImGui::InputText("##FileName", &newFileName, ImGuiInputTextFlags_EnterReturnsTrue);
+		ImGui::InputText("##FileName", &newFileName);
 		if (ImGui::Button("Load Settings"))
 		{
 			Settings::Load(newFileName,FileExtension::GetAppDataDirectory()+"\\EngineX\\");
