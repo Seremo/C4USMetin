@@ -50,6 +50,9 @@
     <ClCompile Include="HookCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_stdlib.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">
@@ -257,6 +260,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="ProcessExtension.h" />
+    <ClInclude Include="ImGui\imgui_stdlib.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

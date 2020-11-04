@@ -4,7 +4,7 @@ class Configuration :public IAbstractModuleBase, public Singleton<Configuration>
 private:
 	/*vector<string> configs;*/
 	int configSelected  = 0;
-	string newFileName = string(15, '\0');
+	string newFileName;
 	int currentIndex = 0;
 
 public:
@@ -49,8 +49,7 @@ public:
 		{
 			newFileName = configs[currentIndex];
 		}
-		ImGui::InputText("##FileName", &newFileName[0], newFileName.size());
-
+		ImGui::InputText("##FileName", &newFileName);
 		if (ImGui::Button("Load Settings"))
 		{
 			Settings::Load(newFileName,FileExtension::GetAppDataDirectory()+"\\EngineX\\");

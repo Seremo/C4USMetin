@@ -224,6 +224,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_stdlib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -247,6 +250,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DelayActions.h" />
     <ClInclude Include="HookIAT.h" />
+    <ClInclude Include="ImGui\imgui_stdlib.h" />
     <ClInclude Include="MainDungs.h" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="Device.h" />

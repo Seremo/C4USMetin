@@ -241,23 +241,28 @@ bool ImGui::Selectable2(const char* label, bool selected, ImGuiSelectableFlags f
 	ItemSize(size, 0.0f);
 
 	// Fill horizontal space.
-	ImVec2 window_padding = window->WindowPadding;
-	float max_x = (flags & ImGuiSelectableFlags_SpanAllColumns) ? GetWindowContentRegionMax().x : GetContentRegionMax().x;
-	float w_draw = ImMax(label_size.x, window->Pos.x + max_x - window_padding.x - pos.x);
-	ImVec2 size_draw((size_arg.x != 0 && !(flags & ImGuiSelectableFlags_DrawFillAvailWidth)) ? size_arg.x : w_draw, size_arg.y != 0.0f ? size_arg.y : size.y);
-	ImRect bb(pos, pos + size_draw);
-	if (size_arg.x == 0.0f || (flags & ImGuiSelectableFlags_DrawFillAvailWidth))
-		bb.Max.x += window_padding.x;
+	const float min_x = (flags & ImGuiSelectableFlags_SpanAllColumns) != 0 ? window->ParentWorkRect.Min.x : pos.x;
+	const float max_x = (flags & ImGuiSelectableFlags_SpanAllColumns) != 0 ? window->ParentWorkRect.Max.x : window->WorkRect.Max.x;
+	if (size_arg.x == 0.0f || (flags & ImGuiSelectableFlags_SpanAvailWidth))
+		size.x = ImMax(label_size.x, max_x - min_x);
 
-	// Selectables are tightly packed together so we extend the box to cover spacing between selectable.
-	const float spacing_x = style.ItemSpacing.x;
-	const float spacing_y = style.ItemSpacing.y;
-	const float spacing_L = IM_FLOOR(spacing_x * 0.50f);
-	const float spacing_U = IM_FLOOR(spacing_y * 0.50f);
-	bb.Min.x -= spacing_L;
-	bb.Min.y -= spacing_U;
-	bb.Max.x += (spacing_x - spacing_L);
-	bb.Max.y += (spacing_y - spacing_U);
+	// Text stays at the submission position, but bounding box may be extended on both sides
+	const ImVec2 text_min = pos;
+	const ImVec2 text_max(min_x + size.x, pos.y + size.y);
+
+	// Selectables are meant to be tightly packed together with no click-gap, so we extend their box to cover spacing between selectable.
+	ImRect bb(min_x, pos.y, text_max.x, text_max.y);
+	if ((flags & ImGuiSelectableFlags_NoPadWithHalfSpacing) == 0)
+	{
+		const float spacing_x = style.ItemSpacing.x;
+		const float spacing_y = style.ItemSpacing.y;
+		const float spacing_L = IM_FLOOR(spacing_x * 0.50f);
+		const float spacing_U = IM_FLOOR(spacing_y * 0.50f);
+		bb.Min.x -= spacing_L;
+		bb.Min.y -= spacing_U;
+		bb.Max.x += (spacing_x - spacing_L);
+		bb.Max.y += (spacing_y - spacing_U);
+	}
 
 	bool item_add;
 	if (flags & ImGuiSelectableFlags_Disabled)
@@ -281,8 +286,8 @@ bool ImGui::Selectable2(const char* label, bool selected, ImGuiSelectableFlags f
 	// We use NoHoldingActiveID on menus so user can click and _hold_ on a menu then drag to browse child entries
 	ImGuiButtonFlags button_flags = 0;
 	//if (flags & ImGuiSelectableFlags_NoHoldingActiveID) button_flags |= ImGuiButtonFlags_NoHoldingActiveID;
-	if (flags & ImGuiSelectableFlags_PressedOnClick) button_flags |= ImGuiButtonFlags_PressedOnClick;
-	if (flags & ImGuiSelectableFlags_PressedOnRelease) button_flags |= ImGuiButtonFlags_PressedOnRelease;
+	if (flags & ImGuiSelectableFlags_SelectOnClick) { button_flags |= ImGuiButtonFlags_PressedOnClick; }
+	if (flags & ImGuiSelectableFlags_SelectOnRelease) { button_flags |= ImGuiButtonFlags_PressedOnRelease; }
 	if (flags & ImGuiSelectableFlags_Disabled) button_flags |= ImGuiButtonFlags_Disabled;
 	if (flags & ImGuiSelectableFlags_AllowDoubleClick) button_flags |= ImGuiButtonFlags_PressedOnClickRelease | ImGuiButtonFlags_PressedOnDoubleClick;
 	if (flags & ImGuiSelectableFlags_AllowItemOverlap) button_flags |= ImGuiButtonFlags_AllowItemOverlap;
