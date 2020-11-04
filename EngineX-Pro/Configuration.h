@@ -4,7 +4,7 @@ class Configuration :public IAbstractModuleBase, public Singleton<Configuration>
 private:
 	/*vector<string> configs;*/
 	int configSelected  = 0;
-	string newFileName = string(900, '\0');;
+	string newFileName = string(15, '\0');
 	int currentIndex = 0;
 
 public:
@@ -57,11 +57,17 @@ public:
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Save Settings"))
-		{
-			
+		{		
 			Settings::Save(newFileName,FileExtension::GetAppDataDirectory() + "\\EngineX\\" );
 		}
-
+		ImGui::SameLine();
+		if (ImGui::Button("Remove Settings"))
+		{
+			if (newFileName != "Default.mc")
+			{
+				Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+			}
+		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}

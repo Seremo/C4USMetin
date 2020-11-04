@@ -34,8 +34,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 #endif
 				_set_se_translator(ErrorTranslator);
 #ifdef DEVELOPER_MODE
-				/*AllocConsole();
-				freopen("CONOUT$", "w", stdout);*/
+				AllocConsole();
+				freopen("CONOUT$", "w", stdout);
 #else
 				MiscExtension::OpenWebiste("http://www.cheats4us.pl");
 #endif

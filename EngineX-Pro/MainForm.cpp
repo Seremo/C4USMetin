@@ -1007,7 +1007,7 @@ void MainForm::Initialize()
 	oWndProc = (WNDPROC)SetWindowLongPtr(Globals::mainHwnd, GWL_WNDPROC, (LONG)WndProc);
 
 	
-	
+	Configuration::Instance().OnStart();
 	IsInitialized = true;
 }
 

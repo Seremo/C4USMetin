@@ -389,7 +389,11 @@ public:
 		
 	}
 
-
+	static void Remove(string name, string folderPath)
+	{
+		string path = folderPath + name;
+		remove(path.c_str());
+	}
 
 	static vector<string>												PROTECTION_DETECT_PLAYER_WHITE_LIST;
 	static map< pair<DWORD, bool>, pair<DWORD, string>>					FISH_KILL_FISH_LIST;
