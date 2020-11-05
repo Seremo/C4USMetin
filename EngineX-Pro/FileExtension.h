@@ -164,7 +164,8 @@ public:
 					}
 					else
 					{
-						names.push_back(StringExtension::ASCIIToUTF8(fd.cFileName));
+						string name = StringExtension::ReplaceString(fd.cFileName, "." + selectedExtension, "");
+						names.push_back(StringExtension::ASCIIToUTF8(name));
 					}
 					
 				}

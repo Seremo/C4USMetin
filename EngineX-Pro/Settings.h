@@ -13,7 +13,7 @@ public:
 	static void Load(string name, string folderPath)
 	{
 		string buffer = "";
-		FileExtension::Read(folderPath  + name, buffer);
+		FileExtension::Read(folderPath  + name + ".mc", buffer);
 		
 		if (buffer == "")
 		{
@@ -384,14 +384,15 @@ public:
 		string dump = j.dump(4);
 		if (FileExtension::CreateDirectoryPath(folderPath.c_str()))
 		{
-			FileExtension::Write(folderPath + name, dump);
+			string filePath = folderPath + name + ".mc";
+			FileExtension::Write(filePath, dump);
 		}
 		
 	}
 
 	static void Remove(string name, string folderPath)
 	{
-		string path = folderPath + name;
+		string path = folderPath + name + ".mc";
 		remove(path.c_str());
 	}
 

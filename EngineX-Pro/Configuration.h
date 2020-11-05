@@ -15,13 +15,13 @@ public:
 		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "mc"   /*format "exe"*/);
 		for (auto const& value : configs)
 		{
-			if (value == "Default.mc")
+			if (value == "Default")
 			{
-				Settings::Load("Default.mc", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+				Settings::Load("Default", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 				return;
 			}
 		}
-		Settings::Save("Default.mc", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+		Settings::Save("Default", FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 	}
 
 	void OnStop()
@@ -62,7 +62,7 @@ public:
 		ImGui::SameLine();
 		if (ImGui::Button("Remove Settings"))
 		{
-			if (newFileName != "Default.mc")
+			if (newFileName != "Default")
 			{
 				Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
 			}
