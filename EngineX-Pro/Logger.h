@@ -2,12 +2,11 @@
 class Logger
 {
 public:
-	enum
+	enum LogType
 	{
 		MAIN,
 		FISH,
-		SNIFFER,
-		
+		SNIFFER,	
 	};
 
 	enum
@@ -42,10 +41,17 @@ public:
 	public:	
 		LogWindow()
 		{
-			logLines.push_back(std::make_shared < LogLine>());
+			logLinesMain.push_back(std::make_shared < LogLine>());
+			logLinesFish.push_back(std::make_shared < LogLine>());
+			logLinesSniffer.push_back(std::make_shared < LogLine>());
 		}
-		vector< std::shared_ptr<LogLine>> logLines;
+
+		vector< std::shared_ptr<LogLine>> logLinesMain;
+		vector< std::shared_ptr<LogLine>> logLinesFish;
+		vector< std::shared_ptr<LogLine>> logLinesSniffer;
+
 		bool                ScrollToBottom;
+		LogType CurrentLogs;
 	
 		ImVec4	GetColor(int color)
 		{
@@ -63,24 +69,35 @@ public:
 			case WHITE:
 				return ImColor(255, 255, 255, 255);
 				break;
-
 			case YELLOW:
 				return ImColor(255, 255, 0, 255);
 				break;
 			case PINK:
 				return ImColor(255, 0, 255, 255);
+				break;	
+			}
+		}
+
+		void Clear()
+		{
+			switch (CurrentLogs)
+			{
+			case LogType::MAIN:
+				logLinesMain.clear();
+				logLinesMain.push_back(std::make_shared < LogLine>());
 				break;
-			
+			case LogType::FISH:
+				logLinesFish.clear();
+				logLinesFish.push_back(std::make_shared < LogLine>());
+				break;
+			case LogType::SNIFFER:
+				logLinesSniffer.clear();
+				logLinesSniffer.push_back(std::make_shared < LogLine>());
 				break;
 			}
 		}
-		void Clear()
-		{
-			logLines.clear();
-			logLines.push_back(std::make_shared < LogLine>());
-		}
 
-		void Log(bool isNewLine, int color, const char* fmt, ...)
+		void Log(LogType type, bool isNewLine, int color, const char* fmt, ...)
 		{
 			va_list args;
 
@@ -88,36 +105,57 @@ public:
 			string  log = StringExtension::StringFormat(fmt, args);
 			va_end(args);
 
-			logLines[logLines.size()-1]->colors.push_back(GetColor(color));
-			logLines[logLines.size() - 1]->text.push_back(log);
-			if (isNewLine)
+			switch (type)
 			{
-				logLines.push_back(std::make_shared < LogLine>());
+			case LogType::MAIN:
+				logLinesMain[logLinesMain.size() - 1]->colors.push_back(GetColor(color));
+				logLinesMain[logLinesMain.size() - 1]->text.push_back(log);
+				if (isNewLine)
+				{
+					logLinesMain.push_back(std::make_shared < LogLine>());
+				}
+				break;
+			case LogType::FISH:
+				logLinesFish[logLinesFish.size() - 1]->colors.push_back(GetColor(color));
+				logLinesFish[logLinesFish.size() - 1]->text.push_back(log);
+				if (isNewLine)
+				{
+					logLinesFish.push_back(std::make_shared < LogLine>());
+				}
+				break;
+			case LogType::SNIFFER:
+				logLinesSniffer[logLinesSniffer.size() - 1]->colors.push_back(GetColor(color));
+				logLinesSniffer[logLinesSniffer.size() - 1]->text.push_back(log);
+				if (isNewLine)
+				{
+					logLinesSniffer.push_back(std::make_shared < LogLine>());
+				}
+				break;
 			}
-			else
-			{
-				
-			}
-
 			/*va_list args;
 			va_start(args, fmt);
 			Buf.appendfv(fmt, args);
 			va_end(args);*/
-
-
-
-			
 			ScrollToBottom = true;
 		}
-		void Draw(const char* title, bool* isOpen = NULL)
+
+		void Draw(bool* isOpen = NULL)
 		{
-			ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
-			if (!ImGui::Begin(title, isOpen))
+			ImGui::SetNextWindowSize(ImVec2(500, 400));
+			if (!ImGui::Begin("Log Window", isOpen))
 			{
 				ImGui::End();
 				return;
 			}
-			if (ImGui::Button("Clear")) Clear();
+			ImGui::RadioButton("Main", (int*)&CurrentLogs, LogType::MAIN); ImGui::SameLine();
+			ImGui::RadioButton("Fish", (int*)&CurrentLogs, LogType::FISH); ImGui::SameLine();
+#ifdef DEVELOPER_MODE
+			ImGui::RadioButton("Sniffer", (int*)&CurrentLogs, LogType::SNIFFER);
+#endif
+			if (ImGui::Button("Clear"))
+			{
+				Clear();
+			}
 			ImGui::SameLine();
 			bool copy = ImGui::Button("Copy");
 			ImGui::SameLine();
@@ -129,7 +167,24 @@ public:
 				ImGui::LogToClipboard();
 			}
 
-			for (std::vector< std::shared_ptr< LogLine>>::iterator it = logLines.begin(); it != logLines.end(); ++it)
+			std::vector< std::shared_ptr< LogLine>>::iterator begin;
+			std::vector< std::shared_ptr< LogLine>>::iterator end;
+			switch (CurrentLogs)
+			{
+			case LogType::MAIN:
+				begin = logLinesMain.begin();
+				end = logLinesMain.end();
+				break;
+			case LogType::FISH:
+				begin = logLinesFish.begin();
+				end = logLinesFish.end();
+				break;
+			case LogType::SNIFFER:
+				begin = logLinesSniffer.begin();
+				end = logLinesSniffer.end();
+				break;
+			}
+			for (std::vector< std::shared_ptr< LogLine>>::iterator it = begin; it != end; ++it)
 			{
 				for (int i = 0; i < it->get()->text.size(); i++)
 				{
@@ -155,19 +210,8 @@ public:
 		}
 	};
 private:
-	static LogWindow snifferLogWindow;
-
 	static LogWindow mainLogWindow;
-
-	static LogWindow fishLogWindow;
-
-	static const char* snifferLogWindowTitle;
-	static const char* mainLogWindowTitle;
-	static const char* fishLogWindowTitle;
-
-	static bool isSnifferLogWindowOpen;
 	static bool  isMainLogWindowOpen;
-	static bool  isFishLogWindowOpen;
 	public:
 	
 	static void AddString(int window, bool isNewLine, int color, string format, ...)
@@ -187,52 +231,25 @@ private:
 		switch (window)
 		{
 		case MAIN:
-			mainLogWindow.Log(isNewLine, color, format, args);
-			
+			mainLogWindow.Log(LogType::MAIN, isNewLine, color, format, args);
 			break;
 		case FISH:
-			fishLogWindow.Log(isNewLine, color, format, args);
-			
+			mainLogWindow.Log(LogType::FISH, isNewLine, color, format, args);
 			break;
 		case SNIFFER:
-			snifferLogWindow.Log(isNewLine, color, format/*, args*/);
-			
+			mainLogWindow.Log(LogType::SNIFFER, isNewLine, color, format/*, args*/);
 			break;
-		}
-		
+		}	
 
 		va_end(args);
 	}
 	
-	static void Draw(int window)
+	static void Draw()
 	{
-		
-		switch (window)
-		{
-		case MAIN:
-			mainLogWindow.Draw(mainLogWindowTitle, &isMainLogWindowOpen);
-			break;
-		case FISH:
-			fishLogWindow.Draw(fishLogWindowTitle, &isSnifferLogWindowOpen);
-			break;
-		case SNIFFER:
-			snifferLogWindow.Draw(snifferLogWindowTitle, &isFishLogWindowOpen);
-			break;
-		}
+		mainLogWindow.Draw(&isMainLogWindowOpen);
 	}
-
-	
-
 };
 
-const char* Logger::snifferLogWindowTitle = "Sniffer";
-const char* Logger::mainLogWindowTitle = "Main";
-const char* Logger::fishLogWindowTitle = "Fish";
-
-bool Logger::isSnifferLogWindowOpen = true;
 bool  Logger::isMainLogWindowOpen = true;
-bool  Logger::isFishLogWindowOpen = true;
 
-Logger::LogWindow Logger::snifferLogWindow;
 Logger::LogWindow Logger::mainLogWindow;
-Logger::LogWindow Logger::fishLogWindow;

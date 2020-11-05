@@ -160,9 +160,6 @@ public:
 
 	void OnMenu()
 	{
-		Logger::Draw(Logger::FISH);
-
-
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("RandomizerBorder", ImVec2(400, 200), true);

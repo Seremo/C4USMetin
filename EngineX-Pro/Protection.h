@@ -16,7 +16,6 @@ public:
 	}
 	void OnMenu()
 	{
-		Logger::Draw(Logger::MAIN);
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("ProtectionBorder", ImVec2(655, 310), true);;

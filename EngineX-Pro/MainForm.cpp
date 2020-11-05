@@ -143,6 +143,7 @@ HCURSOR hCurs;
 HWND GameHWND = nullptr;
 WNDPROC oWndProc = nullptr;
 bool CheatWindowOpen = false;
+bool LogWindowOpen = false;
 
 void MainForm::SetImages() {
 	LogoHref = ImageLoad(IDB_PNG1);
@@ -730,7 +731,7 @@ void MainForm::Menu() {
 			static float f = 0.0f;
 			static int counter = 0;
 #ifdef DEVELOPER_MODE
-			/*ImGui::ShowDemoWindow();*/
+			ImGui::ShowDemoWindow();
 #endif
 			ImGui::SetNextWindowBgAlpha(0.0f);
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
@@ -739,6 +740,7 @@ void MainForm::Menu() {
 				ImGui::TextColored(ImColor(MiscExtension::RandomInt(0,255), MiscExtension::RandomInt(0, 255), MiscExtension::RandomInt(0, 255), 255), "C4US.PL");
 				ImGui::TextColored(FrameColor, FrameRate);
 				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", WindowOn, WindowOff, ImVec2(20, 20));
+				ImGui::IconButton(&LogWindowOpen, "Log Window", WindowOn, WindowOff, ImVec2(20, 20));
 				ImGui::IconButton(&m_radarIsActive, "Radar Window", RadarOn, RadarOff, ImVec2(20, 20));
 				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH_ENABLE, "MultiHack Switch", MHOn, MHOff, ImVec2(20, 20))) 
 				{
@@ -830,8 +832,12 @@ void MainForm::Menu() {
 				}
 			}
 			ImGui::End();
-			if(CheatWindowOpen){
-
+			if (LogWindowOpen)
+			{
+				Logger::Draw();
+			}
+			if(CheatWindowOpen)
+			{
 				ImGui::SetNextWindowBgAlpha(0.90f);
 				ImGui::SetNextWindowSize(ImVec2(800, 500));
 				ImGui::Begin("##Window", &CheatWindowOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs);
@@ -847,12 +853,6 @@ void MainForm::Menu() {
 					//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 					//ImGui::Image(LogoHref, ImVec2(30, 30));
 					//ImGui::SameLine();
-					
-	#ifdef DEVELOPER_MODE
-				
-
-					Logger::Draw(Logger::SNIFFER);
-	#endif				
 					ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 					ImGui::BeginGroup();
 					ImGui::Dummy(ImVec2(10.0f, 10.0f));
