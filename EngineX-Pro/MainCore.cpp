@@ -14,6 +14,11 @@ void MainCore::Crack()
 		//	MemoryExtension::MemSet(addr1, 0x90, 16);
 		//	break;
 		//}
+		case ServerName::METINPL:
+		{
+			MemoryExtension::MemSet(Globals::iCPythonNetworkStreamInstance + 31409, 0x0, 1);
+			break;
+		}
 		default:
 		{
 			break;
@@ -114,6 +119,7 @@ void MainCore::Initialize()
 			Sleep(1000);
 		}
 	}
+	MainCore::Crack();
 	ConsoleOutput("[+] Application detected.");
 	Globals::ReAddressingLocas();
 	Globals::ReDeclarationLocals();
@@ -122,7 +128,6 @@ void MainCore::Initialize()
 		Globals::ReAddressingPython();
 	}
 	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
-	MainCore::Crack();
 	if (Globals::Server == ServerName::METINPL)
 	{
 		Settings::FISH_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));
