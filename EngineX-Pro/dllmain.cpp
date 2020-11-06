@@ -28,7 +28,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		
 		case DLL_PROCESS_ATTACH:
 			{
-				//MessageBox(NULL, "Dev BP", "BP", 0);
+				/*MessageBox(NULL, "Dev BP", "BP", 0);*/
 #ifdef _DEBUG
 				_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif

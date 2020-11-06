@@ -81,11 +81,11 @@ enum ServerName
 
 
 #define FISHBOT
-#define DEVELOPER_MODE
+//#define DEVELOPER_MODE
 //#define NETWORK_MODE
 
 
-#define DLL_VERSION "0.0.81 Beta"
+#define DLL_VERSION "0.0.82 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
