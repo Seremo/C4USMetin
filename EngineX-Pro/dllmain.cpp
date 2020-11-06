@@ -37,7 +37,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				AllocConsole();
 				freopen("CONOUT$", "w", stdout);
 #else
-				MiscExtension::OpenWebiste("http://www.cheats4us.pl");
+				//MiscExtension::OpenWebiste("http://www.cheats4us.pl");
 #endif
 				Security::Initialize();
 				Globals::hModule = hModule;
