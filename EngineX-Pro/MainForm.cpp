@@ -735,11 +735,11 @@ void MainForm::Menu() {
 #endif
 			if (StartPopup)
 			{
-				ImGui::OpenPopup("##U3RhcnRQb3B1cA");
-				if (ImGui::BeginPopupModal("##U3RhcnRQb3B1cA", &StartPopup, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
+				ImGui::OpenPopup("WARNING");
+				if (ImGui::BeginPopupModal("WARNING", &StartPopup, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
 				{
 					ImGui::Text("The only owner of this cheat is C4US.PL!");
-					ImGui::Text("It is 100% free, if you paid u have been scammed.");
+					ImGui::Text("It is 100%% free, if you paid u have been scammed.");
 					ImGui::NewLine();
 					ImGui::Text("If you downloaded the cheat from an unknown source, scan your computer!");
 					ImGui::Text("We recommend you to create an account on C4US.PL, because it will allow you to use our work in the future.");
