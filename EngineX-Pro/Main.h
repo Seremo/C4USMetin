@@ -593,7 +593,7 @@ private:
 
 			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
-				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
+				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
 				int i = 0;
 				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
 				{
