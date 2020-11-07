@@ -24,7 +24,7 @@ public:
 
 	static Globals::tCPythonApplicationOnUIRender nCPythonApplicationOnUIRender;
 	static Globals::tCInputKeyboardUpdateKeyboard nCInputKeyboardUpdateKeyboard;
-
+	static Globals::tCPythonNetworkStreamSendCommandPacket nCSendCommandPacket;
 	static void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX);
 	static bool _fastcall Hooks::NewCActorInstanceTestActorCollision(void* This, void* EDX, DWORD* rVictim);
 	static bool _fastcall Hooks::NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* c_rkBGObj);
@@ -48,6 +48,7 @@ public:
 	static bool _fastcall Hooks::NewCPythonApplicationProcess(void* This, void* EDX);
 	static void _fastcall Hooks::NewCPythonApplicationOnUIRender(void* This, void* EDX);
 	static void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX);
+	static bool _fastcall Hooks::NewNetworkStreamSendCommandPacket(void* This, void* EDX, DWORD a1, DWORD a2, const char* a3);
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	static void Hooks::Initialize();
 
@@ -73,4 +74,5 @@ Globals::tCPythonApplicationProcess Hooks::nCPythonApplicationProcess = NULL;
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
 Globals::tCPythonApplicationOnUIRender Hooks::nCPythonApplicationOnUIRender = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NULL;
+Globals::tCPythonNetworkStreamSendCommandPacket Hooks::nCSendCommandPacket = NULL;
 

@@ -662,6 +662,114 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(31,  make_pair("Tigerghost","CH4")), make_pair(12400, "79.110.92.127") },
 	{ make_pair(32,  make_pair("Tigerghost","CH5")), make_pair(12500, "79.110.92.207") },
 	{ make_pair(33,  make_pair("Tigerghost","CH6")), make_pair(12600, "79.110.92.127") },
+
+		{ make_pair(34,  make_pair("Polska","CH1")), make_pair(12101, "79.110.92.116") },
+	{ make_pair(35,  make_pair("Polska","CH2")), make_pair(12201, "79.110.92.117") },
+	{ make_pair(36,  make_pair("Polska","CH3")), make_pair(12301, "79.110.92.116") },
+	{ make_pair(37,  make_pair("Polska","CH4")), make_pair(12401, "79.110.92.117") },
+	{ make_pair(38,  make_pair("Polska","CH5")), make_pair(12501, "79.110.92.116") },
+	{ make_pair(39,  make_pair("Polska","CH6")), make_pair(12601, "79.110.92.117") },
+	{ make_pair(40,  make_pair("Polska","CH7")), make_pair(12701, "79.110.92.172") },
+	{ make_pair(41,  make_pair("Polska","CH8")), make_pair(12801, "79.110.92.172") },
+	{ make_pair(42,  make_pair("Polska","CH9")), make_pair(12901, "79.110.92.172") },
+
+
+
+
+	{ make_pair(43,  make_pair("Romania","CH1")), make_pair(12100, "79.110.92.75") },
+	{ make_pair(44,  make_pair("Romania","CH2")), make_pair(12200, "79.110.92.199") },
+	{ make_pair(45,  make_pair("Romania","CH3")), make_pair(12300, "79.110.92.75") },
+	{ make_pair(46,  make_pair("Romania","CH4")), make_pair(12400, "79.110.92.199") },
+	{ make_pair(47,  make_pair("Romania","CH5")), make_pair(12500, "79.110.92.75") },
+	{ make_pair(48,  make_pair("Romania","CH6")), make_pair(12600, "79.110.92.199") },
+	{ make_pair(49,  make_pair("Romania","CH7")), make_pair(12700, "79.110.92.26") },
+	{ make_pair(50,  make_pair("Romania","CH8")), make_pair(12800, "79.110.92.26") },
+	{ make_pair(51,  make_pair("Romania","CH9")), make_pair(12900, "79.110.92.26") },
+
+
+
+
+	{ make_pair(52,  make_pair("Germania","CH1")), make_pair(12100, "79.110.92.188") },
+	{ make_pair(53,  make_pair("Germania","CH2")), make_pair(12200, "79.110.92.133") },
+	{ make_pair(54,  make_pair("Germania","CH3")), make_pair(12300, "79.110.92.188") },
+	{ make_pair(55,  make_pair("Germania","CH4")), make_pair(12400, "79.110.92.133") },
+	{ make_pair(56,  make_pair("Germania","CH5")), make_pair(12500, "79.110.92.188") },
+	{ make_pair(57,  make_pair("Germania","CH6")), make_pair(12600, "79.110.92.133") },
+	{ make_pair(58,  make_pair("Germania","CH7")), make_pair(12700, "79.110.92.131") },
+	{ make_pair(59,  make_pair("Germania","CH8")), make_pair(12800, "79.110.92.131") },
+	{ make_pair(60,  make_pair("Germania","CH9")), make_pair(12900, "79.110.92.131") },
+
+
+
+
+	{ make_pair(61,  make_pair("Turkiye","CH1")), make_pair(12100, "79.110.92.24") },
+	{ make_pair(62,  make_pair("Turkiye","CH2")), make_pair(12200, "79.110.92.135") },
+	{ make_pair(63,  make_pair("Turkiye","CH3")), make_pair(12300, "79.110.92.24") },
+	{ make_pair(64,  make_pair("Turkiye","CH4")), make_pair(12400, "79.110.92.135") },
+	{ make_pair(65,  make_pair("Turkiye","CH5")), make_pair(12500, "79.110.92.24") },
+	{ make_pair(66,  make_pair("Turkiye","CH6")), make_pair(12600, "79.110.92.135") },
+	{ make_pair(67,  make_pair("Turkiye","CH7")), make_pair(12700, "79.110.92.214") },
+	{ make_pair(68,  make_pair("Turkiye","CH8")), make_pair(12800, "79.110.92.214") },
+	{ make_pair(69,  make_pair("Turkiye","CH9")), make_pair(12900, "79.110.92.214") },
+
+
+
+
+	{ make_pair(70,  make_pair("Italy","CH1")), make_pair(12101, "79.110.92.128") },
+	{ make_pair(71,  make_pair("Italy","CH2")), make_pair(12201, "79.110.92.129") },
+	{ make_pair(72,  make_pair("Italy","CH3")), make_pair(12301, "79.110.92.128") },
+	{ make_pair(73,  make_pair("Italy","CH4")), make_pair(12401, "79.110.92.129") },
+	{ make_pair(74,  make_pair("Italy","CH5")), make_pair(12501, "79.110.92.128") },
+	{ make_pair(75,  make_pair("Italy","CH6")), make_pair(12601, "79.110.92.129") },
+	{ make_pair(76,  make_pair("Italy","CH7")), make_pair(12701, "79.110.92.88") },
+	{ make_pair(77,  make_pair("Italy","CH8")), make_pair(12801, "79.110.92.88") },
+	{ make_pair(78,  make_pair("Italy","CH9")), make_pair(12901, "79.110.92.88") },
+
+
+
+
+	{ make_pair(79,  make_pair("Azrael","CH1")), make_pair(12100, "79.110.92.191") },
+	{ make_pair(80,  make_pair("Azrael","CH2")), make_pair(12200, "79.110.92.132") },
+	{ make_pair(81,  make_pair("Azrael","CH3")), make_pair(12300, "79.110.92.191") },
+	{ make_pair(82,  make_pair("Azrael","CH4")), make_pair(12400, "79.110.92.132") },
+	{ make_pair(83,  make_pair("Azrael","CH5")), make_pair(12500, "79.110.92.191") },
+	{ make_pair(84,  make_pair("Azrael","CH6")), make_pair(12600, "79.110.92.132") },
+	{ make_pair(85,  make_pair("Azrael","CH7")), make_pair(12700, "79.110.92.123") },
+	{ make_pair(86,  make_pair("Azrael","CH8")), make_pair(12800, "79.110.92.123") },
+	{ make_pair(87,  make_pair("Azrael","CH9")), make_pair(12900, "79.110.92.123") },
+
+
+
+
+	{ make_pair(88,  make_pair("Sodalitas","CH1")), make_pair(12100, "79.110.92.182") },
+	{ make_pair(89,  make_pair("Sodalitas","CH2")), make_pair(12200, "79.110.92.183") },
+	{ make_pair(90,  make_pair("Sodalitas","CH3")), make_pair(12300, "79.110.92.184") },
+	{ make_pair(91,  make_pair("Sodalitas","CH4")), make_pair(12400, "79.110.92.182") },
+	{ make_pair(92,  make_pair("Sodalitas","CH5")), make_pair(12500, "79.110.92.183") },
+	{ make_pair(93,  make_pair("Sodalitas","CH6")), make_pair(12600, "79.110.92.184") },
+	{ make_pair(94,  make_pair("Sodalitas","CH7")), make_pair(12700, "79.110.92.182") },
+	{ make_pair(95,  make_pair("Sodalitas","CH8")), make_pair(12800, "79.110.92.183") },
+	{ make_pair(96,  make_pair("Sodalitas","CH9")), make_pair(12900, "79.110.92.184") },
+
+
+
+
+	{ make_pair(97,  make_pair("Europe","CH1")), make_pair(12100, "79.110.92.136") },
+	{ make_pair(98,  make_pair("Europe","CH2")), make_pair(12200, "79.110.92.224") },
+	{ make_pair(99,  make_pair("Europe","CH3")), make_pair(12300, "79.110.92.136") },
+	{ make_pair(100,  make_pair("Europe","CH4")), make_pair(12400, "79.110.92.224") },
+	{ make_pair(101,  make_pair("Europe","CH5")), make_pair(12500, "79.110.92.136") },
+
+
+
+
+	{ make_pair(102,  make_pair("Anima","CH1")), make_pair(12100, "79.110.92.179") },
+	{ make_pair(103,  make_pair("Anima","CH2")), make_pair(12200, "79.110.92.180") },
+	{ make_pair(104,  make_pair("Anima","CH3")), make_pair(12300, "79.110.92.179") },
+	{ make_pair(105,  make_pair("Anima","CH4")), make_pair(12400, "79.110.92.180") },
+	{ make_pair(106,  make_pair("Anima","CH5")), make_pair(12500, "79.110.92.179") },
+	{ make_pair(107,  make_pair("Anima","CH6")), make_pair(12600, "79.110.92.180") },
+	{ make_pair(108,  make_pair("Anima","CH7")), make_pair(12700, "79.110.92.89") },
 };
 map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INFO_LIST =
 {
