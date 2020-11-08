@@ -1021,7 +1021,7 @@ void Globals::ReAddressingLocas()
 				pCInstanceBaseGetInstanceVirtualNumber = Globals::hEntryBaseAddress + 0x59a10; // [100 ] [1 / 1]
 				pCInstanceBaseGetNameString = Globals::hEntryBaseAddress + 0x58f30; // [100 ] [1 / 1]
 				pCInstanceBaseGetRotation = Globals::hEntryBaseAddress + 0x734c0; // [100 ] [1 / 1]
-				pCInstanceBaseIsDead = Globals::hEntryBaseAddress + 0x56b50; // [100 ] [1 / 1]
+				pCInstanceBaseIsDead = Globals::hEntryBaseAddress + 0x56B30; // [100 ] [1 / 1]
 				pCInstanceBaseIsMountingHorse = Globals::hEntryBaseAddress + 0x56620; // [100 ] [1 / 1]
 				pCInstanceBaseNEW_GetPixelPosition = Globals::hEntryBaseAddress + 0x733b0; // [100 ] [1 / 1]
 				pCInstanceBaseNEW_MoveToDestPixelPositionDirection = Globals::hEntryBaseAddress + 0x72f00; // [100 ] [1 / 1]

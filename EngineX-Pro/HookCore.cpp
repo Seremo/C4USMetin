@@ -718,6 +718,13 @@ void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX)
 	nCInputKeyboardUpdateKeyboard(This);
 }
 
+bool _fastcall Hooks::NewNetworkStreamSendCommandPacket(void* This, void* EDX, DWORD a1, DWORD a2, const char* a3)
+{
+	printf("Command: %d, %d, %s\n", a1, a2, a3);
+	return nCSendCommandPacket(This, a1, a2, a3);
+}
+
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void Hooks::Initialize()
 {
@@ -821,6 +828,7 @@ void Hooks::Initialize()
 		//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 		nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 		nCPythonEventManagerRegisterEventSetFromString = (Globals::tCPythonEventManagerRegisterEventSetFromString)DetourFunction((PBYTE)Globals::CPythonEventManagerRegisterEventSetFromString, (PBYTE)NewCPythonEventManagerRegisterEventSetFromString);
+		nCSendCommandPacket = (Globals::tCPythonNetworkStreamSendCommandPacket)DetourFunction((PBYTE)Globals::CPythonNetworkStreamSendCommandPacket, (PBYTE)NewNetworkStreamSendCommandPacket);
 		break;
 	case ServerName::ASENIS:
 		nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);
