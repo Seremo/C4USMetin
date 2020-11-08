@@ -8,6 +8,32 @@ namespace ns {
 class Settings
 {
 public:
+	static void LoadItemFilter(string name, string folderPath)
+	{
+		string buffer = "";
+		FileExtension::Read(folderPath + name + ".ic", buffer);
+		if (buffer == "")
+		{
+			return;
+		}
+		nlohmann::json j = nlohmann::json::parse(buffer);
+		j.at("ITEM_FILTER").get_to(ITEM_PICKUP_SELECTED_LIST);
+	}
+
+	static void SaveItemFilter(string name, string folderPath)
+	{
+		nlohmann::json j = nlohmann::json
+		{
+			{"ITEM_FILTER", ITEM_PICKUP_SELECTED_LIST},
+		};
+		string dump = j.dump(4);
+		if (FileExtension::CreateDirectoryPath(folderPath.c_str()))
+		{
+			string filePath = folderPath + name + ".ic";
+			FileExtension::Write(filePath, dump);
+		}
+	}
+
 	static void LoadFarm(string name, string folderPath)
 	{
 		string buffer = "";

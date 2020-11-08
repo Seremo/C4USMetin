@@ -12,6 +12,8 @@ private:
 	string filterItemLine=  string(60, 0x00);;
 	string filterItemLineLast = string(60, 0x00);;
 
+	string newFileName;
+	int currentIndex = 0;
 
 	DWORD itemPickupFilteredListSelected = 0;
 	DWORD itemPickupSelectedListSelected = 0;
@@ -29,20 +31,6 @@ public:
 	{
 	}
 
-	void Rozdzielacz(int vnum)
-	{
-		int index = GameFunctionsCustom::FindItemSlotInInventory(vnum);
-		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * 4); i++)
-		{
-			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
-			if (current_vnum == 0)
-			{
-				GameFunctions::NetworkStreamSendItemMovePacket(TItemPos(INVENTORY, index), TItemPos(INVENTORY, i), 1);
-			}
-
-		}
-	}
-
 	void OnMenu()
 	{
 		/*if (!Globals::itemProtoList.size())
@@ -56,17 +44,40 @@ public:
 		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("PickupBorder", ImVec2(420, 420), true);
-		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); 
-		ImGui::SliderInt("Pickup Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000);
-		ImGui::PushItemWidth(100); ImGui::InputInt("Pickup Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000);
+		ImGui::BeginChild("PickupBorder", ImVec2(420, 440), true);
+		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); ImGui::SameLine();
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
-		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1); 
+		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1);
+		ImGui::PushItemWidth(150); ImGui::SliderInt("Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputInt("Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000);
+		ImGui::Separator();
+		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "ic"   /*format "exe"*/);
+		ImGui::PushItemWidth(200);
+		if (ImGui::Combo("Items", &currentIndex, configs))
+		{
+			newFileName = configs[currentIndex];
+		}
+		ImGui::InputText("##FileName", &newFileName);
+		if (ImGui::Button("Load Item List"))
+		{
+			Settings::LoadItemFilter(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Save Item List"))
+		{
+			Settings::SaveItemFilter(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Remove Item List"))
+		{
+			Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "ic");
+		}
+		ImGui::Separator();
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER_ENABLE); ImGui::SameLine();
 		ImGui::InputText("Search", &filterItemLine[0], filterItemLine.size());
 		ImGui::Separator();
 		ImGui::Columns(2, "PickupList", false);
-		ImGui::BeginChild("ItemProtoList", ImVec2(190, 255), true);
+		ImGui::BeginChild("ItemProtoList", ImVec2(190, 195), true);
 		if (strlen(&filterItemLine[0]) >= 2)
 		{
 			if (filterItemLine != filterItemLineLast)
@@ -122,7 +133,7 @@ public:
 		}	
 		ImGui::EndChild();
 		ImGui::NextColumn();
-		ImGui::BeginChild("ItemProtoListFiltered", ImVec2(190, 255), true);
+		ImGui::BeginChild("ItemProtoListFiltered", ImVec2(190, 195), true);
 		for (map< DWORD, pair<string, bool>>::iterator itor = Settings::ITEM_PICKUP_SELECTED_LIST.begin(); itor != Settings::ITEM_PICKUP_SELECTED_LIST.end(); itor++)
 		{
 			if (ImGui::Selectable(itor->second.first.c_str(), itor->second.second))

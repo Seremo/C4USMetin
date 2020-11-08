@@ -291,10 +291,7 @@ public:
 		ImGui::SameLine();
 		if (ImGui::Button("Remove Paths"))
 		{
-			if (newFileName != "Default")
-			{
-				Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "fc");
-			}
+			Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "fc");
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

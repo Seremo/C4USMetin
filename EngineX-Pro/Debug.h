@@ -30,6 +30,21 @@ public:
 	{
 	}
 
+
+	void Rozdzielacz(int vnum)
+	{
+		int index = GameFunctionsCustom::FindItemSlotInInventory(vnum);
+		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * 4); i++)
+		{
+			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
+			if (current_vnum == 0)
+			{
+				GameFunctions::NetworkStreamSendItemMovePacket(TItemPos(INVENTORY, index), TItemPos(INVENTORY, i), 1);
+			}
+
+		}
+	}
+
 	void OnMenu()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
