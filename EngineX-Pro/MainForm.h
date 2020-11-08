@@ -39,6 +39,9 @@ public:
 	static DirectTexture FishbotOff;
 	static DirectTexture ExitGameIcon;
 	static DirectTexture ChannelChangerIcon;
+	static DirectTexture LogOn;
+	static DirectTexture LogOff;
+
 
 	static DirectTexture ninja_a_0;
 	static DirectTexture ninja_a_1;

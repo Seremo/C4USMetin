@@ -16,6 +16,9 @@
 #define IDB_PNG12                        922
 #define IDB_PNG13                        923
 #define IDB_PNG14                        924
+
+#define IDB_PNG15                        910
+#define IDB_PNG16                        909
 #define IDB_SPLASH						925
 
 

@@ -69,6 +69,9 @@ DirectTexture MainForm::FishbotOff;
 DirectTexture MainForm::ExitGameIcon;
 DirectTexture MainForm::ChannelChangerIcon;
 
+DirectTexture MainForm::LogOn;
+DirectTexture MainForm::LogOff;
+
 bool MainForm::IsRadarHovered = false;
 
 DirectTexture MainForm::ninja_a_0;
@@ -160,6 +163,10 @@ void MainForm::SetImages() {
 	MHOff = ImageLoad(IDB_PNG12);
 	ExitGameIcon = ImageLoad(IDB_PNG13);
 	ChannelChangerIcon = ImageLoad(IDB_PNG14);
+
+	LogOn = ImageLoad(IDB_PNG15);
+	LogOff = ImageLoad(IDB_PNG16);
+
 
 	ninja_a_0 = ImageLoad(NINJA_A_0);
 	ninja_a_1 = ImageLoad(NINJA_A_1);
@@ -770,7 +777,7 @@ void MainForm::Menu() {
 				ImGui::TextColored(ImColor(MiscExtension::RandomInt(0,255), MiscExtension::RandomInt(0, 255), MiscExtension::RandomInt(0, 255), 255), "C4US.PL");
 				ImGui::TextColored(FrameColor, FrameRate);
 				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", WindowOn, WindowOff, ImVec2(20, 20));
-				ImGui::IconButton(&LogWindowOpen, "Log Window", WindowOn, WindowOff, ImVec2(20, 20));
+				ImGui::IconButton(&LogWindowOpen, "Log Window", LogOn, LogOff, ImVec2(20, 20));
 				ImGui::IconButton(&m_radarIsActive, "Radar Window", RadarOn, RadarOff, ImVec2(20, 20));
 				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH_ENABLE, "MultiHack Switch", MHOn, MHOff, ImVec2(20, 20))) 
 				{

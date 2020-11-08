@@ -67,6 +67,10 @@ IDB_PNG11                RCDATA                    "Resources\\mh_on.png"
 IDB_PNG12                RCDATA                    "Resources\\mh_off.png"
 IDB_PNG13                RCDATA                    "Resources\\exit.png"
 IDB_PNG14                RCDATA                    "Resources\\channel.png"
+
+
+IDB_PNG15                RCDATA                    "Resources\\log_on.png"
+IDB_PNG16                RCDATA                    "Resources\\log_off.png"
 IDB_SPLASH               RCDATA                    "Resources\\splash.png"
 
 
