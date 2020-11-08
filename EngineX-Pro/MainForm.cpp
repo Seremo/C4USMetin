@@ -893,7 +893,7 @@ void MainForm::Menu() {
 					ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 					ImGui::BeginGroup();
 					ImGui::Dummy(ImVec2(10.0f, 10.0f));
-					ImGui::Dummy(ImVec2(20.0f, 0.0f)); ImGui::SameLine(); ImGui::Image(LogoHref, ImVec2(30, 30)); ImGui::Dummy(ImVec2(10.0f, 10.0f));
+					ImGui::Dummy(ImVec2(0.0f, 0.0f)); ImGui::SameLine(); ImGui::Image(LogoHref, ImVec2(80, 56)); ImGui::Dummy(ImVec2(10.0f, 10.0f));
 						
 					for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 					{

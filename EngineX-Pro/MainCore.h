@@ -30,9 +30,9 @@ map < pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  Ma
 	{ make_pair(10, "Protection"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Protection()))},
 //	{ make_pair(11, "AutoTalk"), make_pair(false, shared_ptr<IAbstractModuleBase >(new AutoTalk()))},
 	{ make_pair(12, "Radar"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Radar()))},
-	
-#ifdef DEVELOPER_MODE
 	{ make_pair(13, "Configuration"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Configuration()))},
+#ifdef DEVELOPER_MODE
+	
 	{ make_pair(14, "Debug"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Debug()))},
 	{ make_pair(15, "PacketSniffer"), make_pair(true, shared_ptr<IAbstractModuleBase >(new PacketSniffer()))},
 	{ make_pair(16, "Dungeons"), make_pair(true, shared_ptr<IAbstractModuleBase >(new MainDungs()))},
