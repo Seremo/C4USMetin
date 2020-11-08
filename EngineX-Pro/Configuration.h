@@ -64,7 +64,7 @@ public:
 		{
 			if (newFileName != "Default")
 			{
-				Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+				Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "mc");
 			}
 		}
 		ImGui::EndChild();

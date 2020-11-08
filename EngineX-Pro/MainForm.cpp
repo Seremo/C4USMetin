@@ -516,8 +516,8 @@ void MainForm::ShowRadar()
 			}
 		}
 		//MAPA
-		ImGui::GetWindowDrawList()->AddLine(ImVec2(midRadar.x - bgSize.x / 2.f, midRadar.y), ImVec2(midRadar.x + bgSize.x / 2.f, midRadar.y), ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
-		ImGui::GetWindowDrawList()->AddLine(ImVec2(midRadar.x, midRadar.y - bgSize.y / 2.f), ImVec2(midRadar.x, midRadar.y + bgSize.y / 2.f), ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
+		ImGui::GetWindowDrawList()->AddLine(ImVec2(midRadar.x - bgSize.x / 2.f, midRadar.y), ImVec2(midRadar.x + bgSize.x / 2.f, midRadar.y), ImGui::ColorConvertFloat4ToU32(ImColor(0, 0, 0, 64)));
+		ImGui::GetWindowDrawList()->AddLine(ImVec2(midRadar.x, midRadar.y - bgSize.y / 2.f), ImVec2(midRadar.x, midRadar.y + bgSize.y / 2.f), ImGui::ColorConvertFloat4ToU32(ImColor(0, 0, 0, 64)));
 		x = midRadar.x;
 		y = midRadar.y;
 		ImVec2 pos1 = ImVec2(x, y - 12);
@@ -527,10 +527,15 @@ void MainForm::ShowRadar()
 		rotateVector(pos1.x, pos1.y, fov, x, y);
 		rotateVector(pos2.x, pos2.y, fov, x, y);
 		rotateVector(pos3.x, pos3.y, fov, x, y);
-		ImGui::GetWindowDrawList()->AddTriangleFilled(pos1, pos2, pos3, ImGui::ColorConvertFloat4ToU32(ImColor(210, 105, 30)));
-		ImGui::GetWindowDrawList()->AddTriangle(pos1, pos2, pos3, ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 0, 64)));
+		//Wait Hack Distance
 		float radius = (Settings::MAIN_WH_DISTANCE_VALUE / mapSizeY) * bgSize.x;
-		ImGui::GetWindowDrawList()->AddCircle(ImVec2(x, y), radius, 0xFFFFFFFF, 50);
+		ImVec4 col = Settings::MAIN_WH_RENDER_COLOR;
+		col.w = 0.35f;
+		ImGui::GetWindowDrawList()->AddCircleFilled(ImVec2(x, y), radius, ImGui::ColorConvertFloat4ToU32(col), 50);
+		ImGui::GetWindowDrawList()->AddCircle(ImVec2(x, y), radius, ImGui::ColorConvertFloat4ToU32(ImColor(0, 0, 0, 255)), 50);
+		//Player Triangle
+		ImGui::GetWindowDrawList()->AddTriangleFilled(pos1, pos2, pos3, ImGui::ColorConvertFloat4ToU32(ImColor(210, 105, 30)));
+		ImGui::GetWindowDrawList()->AddTriangle(pos1, pos2, pos3, ImGui::ColorConvertFloat4ToU32(ImColor(0, 0, 0, 255)));
 		if (ImGui::IsWindowHovered())
 		{
 			if (GetForegroundWindow() == Globals::mainHwnd)
@@ -566,11 +571,11 @@ void MainForm::ShowRadar()
 		//FarmBot Points
 		if (Settings::RADAR_WAYPOINT_SHOW_ENABLE) 
 		{
-			for (auto itor = Farm::Instance().cordsMaps.begin(); itor != Farm::Instance().cordsMaps.end(); itor++)
+			for (auto itor = Settings::cordsMaps.begin(); itor != Settings::cordsMaps.end(); itor++)
 			{
 				auto ItorNext = itor;
 				ItorNext++;
-				if (ItorNext == Farm::Instance().cordsMaps.end())
+				if (ItorNext == Settings::cordsMaps.end())
 					break;
 				D3DVECTOR LinePos1 = { itor->x - charpos.x, itor->y - charpos.y, itor->z - charpos.z };
 				D3DVECTOR LinePos2 = { ItorNext->x - charpos.x, ItorNext->y - charpos.y, ItorNext->z - charpos.z };
@@ -584,7 +589,7 @@ void MainForm::ShowRadar()
 			}
 		}
 		// Players positions
-		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(0, 0, 255, 255));
+		ImU32 color = ImGui::ColorConvertFloat4ToU32(ImColor(0, 0, 255, 255));
 		int r, g, b;
 		auto m_kAliveInstMap = GameFunctionsCustom::GetObjectList(OBJECT_ALL);
 		//auto m_kAliveInstMap = map<DWORD, DWORD*>();

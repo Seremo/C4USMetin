@@ -8,7 +8,47 @@ namespace ns {
 class Settings
 {
 public:
+	static void LoadFarm(string name, string folderPath)
+	{
+		string buffer = "";
+		FileExtension::Read(folderPath + name + ".fc", buffer);
+		if (buffer == "")
+		{
+			return;
+		}
+		nlohmann::json j = nlohmann::json::parse(buffer);
+		std::vector<float> vec_x, vec_y, vec_z;
+		j.at("FARMBOT_PATH.x").get_to(vec_x);
+		j.at("FARMBOT_PATH.y").get_to(vec_y);
+		j.at("FARMBOT_PATH.z").get_to(vec_z);
+		cordsMaps.clear();
+		for (int i = 0; i < vec_x.size(); i++)
+		{
+			D3DVECTOR position{ vec_x[i], vec_y[i], vec_z[i]};
+			cordsMaps.push_back(position);
+		}
+	}
 
+	static void SaveFarm(string name, string folderPath)
+	{
+		nlohmann::json j = nlohmann::json{};
+		std::vector<float> vec_x, vec_y, vec_z;
+		for (int i = 0; i < cordsMaps.size(); i++)
+		{
+			vec_x.push_back(cordsMaps[i].x);
+			vec_y.push_back(cordsMaps[i].y);
+			vec_z.push_back(cordsMaps[i].z);
+		}
+		j["FARMBOT_PATH.x"] = vec_x;
+		j["FARMBOT_PATH.y"] = vec_y;
+		j["FARMBOT_PATH.z"] = vec_z;
+		string dump = j.dump(4);
+		if (FileExtension::CreateDirectoryPath(folderPath.c_str()))
+		{
+			string filePath = folderPath + name + ".fc";
+			FileExtension::Write(filePath, dump);
+		}
+	}
 
 	static void Load(string name, string folderPath)
 	{
@@ -386,13 +426,12 @@ public:
 		{
 			string filePath = folderPath + name + ".mc";
 			FileExtension::Write(filePath, dump);
-		}
-		
+		}	
 	}
 
-	static void Remove(string name, string folderPath)
+	static void Remove(string name, string folderPath, string extension)
 	{
-		string path = folderPath + name + ".mc";
+		string path = folderPath + name + "." + extension;
 		remove(path.c_str());
 	}
 
@@ -406,7 +445,7 @@ public:
 	static map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> SERVER_INFO_LIST_GLOBAL;
 	static map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>>	SERVER_INFO_LIST;
 	static map< DWORD, pair<string, bool>>								ITEM_PICKUP_SELECTED_LIST;
-;
+	static vector<D3DVECTOR> cordsMaps;
 
 	//#################        MAIN
 
@@ -1091,6 +1130,8 @@ map<DWORD, pair<string, DWORD>>								Settings::FISH_COMMAND_LIST
 	 { 110, make_pair("nawalaj w te spacje 5 razy", 5) },
  };
 map< DWORD, pair<string, bool>>								Settings::ITEM_PICKUP_SELECTED_LIST;
+
+vector<D3DVECTOR> Settings::cordsMaps;
 //#################        MAIN
 
  bool		Settings::MAIN_STONE_DETECT_ENABLE = false;

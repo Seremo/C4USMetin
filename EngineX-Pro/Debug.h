@@ -119,7 +119,24 @@ public:
 			/*int slot = GameFunctionsCustom::FindItemSlotInInventory(27420);*/
 			GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, 0), 1);
 		}
-
+#ifdef DEVELOPER_MODE
+		if (ImGui::Button("Rozdziel raka!"))
+		{
+			Rozdzielacz(27887);
+		}
+		if (ImGui::Button("Rozdziel Biala Perla!"))
+		{
+			Rozdzielacz(27992);
+		}
+		if (ImGui::Button("Rozdziel Niebieska Perla!"))
+		{
+			Rozdzielacz(27993);
+		}
+		if (ImGui::Button("Rozdziel Czerwona Perla!"))
+		{
+			Rozdzielacz(27994);
+		}
+#endif
 		if (ImGui::Button("TEST 8"))
 		{
 			if (GameFunctionsCustom::PlayerIsRodEquipped())

@@ -57,24 +57,6 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("PickupBorder", ImVec2(420, 420), true);
-#ifdef DEVELOPER_MODE
-		if (ImGui::Button("Rozdziel raka!"))
-		{
-			Rozdzielacz(27887);
-		}
-		if (ImGui::Button("Rozdziel Biala Perla!"))
-		{
-			Rozdzielacz(27992);
-		}
-		if (ImGui::Button("Rozdziel Niebieska Perla!"))
-		{
-			Rozdzielacz(27993);
-		}
-		if (ImGui::Button("Rozdziel Czerwona Perla!"))
-		{
-			Rozdzielacz(27994);
-		}
-#endif
 		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); 
 		ImGui::SliderInt("Pickup Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000);
 		ImGui::PushItemWidth(100); ImGui::InputInt("Pickup Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000);
