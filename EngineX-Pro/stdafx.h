@@ -93,7 +93,7 @@ enum ServerName
 #pragma comment(lib, "python27.lib")
 #endif
 
-#define DLL_VERSION "0.0.95 Beta"
+#define DLL_VERSION "0.0.96 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"

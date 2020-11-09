@@ -469,7 +469,7 @@ public:
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-ServerName Globals::Server = ServerName::DEVERIA;
+ServerName Globals::Server = ServerName::METINPL;
 bool Globals::UsePythonFunctions = false;
 
 map<DWORD, TCItemData*> Globals::itemProtoList;
@@ -1096,7 +1096,7 @@ void Globals::ReAddressingLocas()
 				pCPythonNetworkStreamSendExchangeAcceptPacket = Globals::hEntryBaseAddress + 0x1fdf80; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendExchangeItemAddPacket = Globals::hEntryBaseAddress + 0x1fdec0; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendExchangeStartPacket = Globals::hEntryBaseAddress + 0x1fdd50; // [100 ] [2 / 2]
-				pCPythonNetworkStreamSendFishingPacket = Globals::hEntryBaseAddress + 0x1070E0; 
+				pCPythonNetworkStreamSendFishingPacket = Globals::hEntryBaseAddress + 0x203E00;
 				pCPythonNetworkStreamSendGiveItemPacket = Globals::hEntryBaseAddress + 0x203EE0; 
 				pCPythonNetworkStreamSendItemDropPacketNew = Globals::hEntryBaseAddress + 0x21f640; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendItemMovePacket = Globals::hEntryBaseAddress + 0x21f870; // [100 ] [1 / 1]
@@ -1123,7 +1123,7 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerGetTargetVID = Globals::hEntryBaseAddress + 0x1063d0; // [100 ] [1 / 1]
 				pCPythonPlayerIsSkillActive = Globals::hEntryBaseAddress + 0xf17a0; // [100 ] [1 / 1]
 				pCPythonPlayerIsSkillCoolTime = Globals::hEntryBaseAddress + 0xf1770; // [100 ] [1 / 1]
-				pCPythonPlayerNEW_Fishing = Globals::hEntryBaseAddress + 0x1070e0; // [100 ] [1 / 1]
+				pCPythonPlayerNEW_Fishing = Globals::hEntryBaseAddress + 0x1070E0; // [100 ] [1 / 1]
 				pCPythonPlayerNEW_GetMainActorPtr = Globals::hEntryBaseAddress + 0xee6c0; // [100 ] [1 / 1]
 				pCPythonPlayerSetAttackKeyState = Globals::hEntryBaseAddress + 0x108000; // [100 ] [1 / 1]
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x106430; // [100 ] [1 / 1]
@@ -1139,6 +1139,8 @@ void Globals::ReAddressingLocas()
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x733e0; // [100 ] [1 / 1]
 				pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0x550a0; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + 0x20F8D0;
+
+				pCPythonNetworkStreamSendFishingQuitPacket = Globals::hEntryBaseAddress + 0x203E70; // [100 ] [1 / 1]
 				break;
 			}
 		case ServerName::ORIGINS2:
