@@ -88,6 +88,7 @@ public:
 
 	static PyObject* _cdecl NewPy_InitModule4(const char* name, PyMethodDef* methods, const char* doc, PyObject* self, int apiver)
 	{
+#if defined(PYTHON_ENABLE)
 		string import_name = PythonExtension::CheckImportNames(name, methods);
 		if (import_name != "zipimport")
 		{
@@ -104,6 +105,7 @@ public:
 				}
 			}
 		}
+#endif
 		return nPy_InitModule4(name, methods, doc, self, apiver);
 	}
 

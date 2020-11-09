@@ -6,6 +6,7 @@ public:
 	static map< string, string> functionPythonList;
 	static const char* CheckImportNames(const char* name, PyMethodDef* methods)
 	{
+#if defined(PYTHON_ENABLE)
 		if (methods == NULL)
 		{
 			return name;
@@ -35,6 +36,7 @@ public:
 				}
 			}
 		}
+#endif
 		return name;
 	}
 
@@ -42,24 +44,30 @@ public:
 
 	static bool PyTuple_GetFloat(PyObject* poItem, int pos, float* ret)
 	{
+#if defined(PYTHON_ENABLE)
 		if (!poItem)
 			return false;
 
 		*ret = float(PyFloat_AsDouble(poItem));
 		return true;
+#endif
 	}
 
 	static bool PyTuple_GetInteger(PyObject* poItem, int pos, int* ret)
 	{
+#if defined(PYTHON_ENABLE)
 		if (!poItem)
 			return false;
 
 		*ret = PyLong_AsLong(poItem);
+
+#endif
 		return true;
 	}
 
 	static bool PyTuple_GetString(PyObject* poItem, int pos, const char** ret)
 	{
+#if defined(PYTHON_ENABLE)
 		if (!poItem)
 			return false;
 
@@ -67,32 +75,39 @@ public:
 			return false;
 
 		*ret = PyString_AsString(poItem);
+#endif
 		return true;
 	}
 
 	static int GetPythonInt(DWORD addr)
 	{
 		int result;
+#if defined(PYTHON_ENABLE)
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, NULL);
+		ret->ob_type->tp_dealloc(ret);
 		result = PyInt_AsLong(ret);
 		Py_DECREF(ret);
+#endif
 		return result;
 	}
 
 	static float GetPythonFloat(DWORD addr)
 	{
 		float result;
+#if defined(PYTHON_ENABLE)
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, NULL);
 		PyTuple_GetFloat(ret, 0, &result);
 		Py_DECREF(ret);
+#endif
 		return result;
 	}
 
 	static const char* GetPythonString0(DWORD addr)
 	{
 		const char* result;
+#if defined(PYTHON_ENABLE)
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, NULL);
 		if (!PyTuple_GetString(ret, 0, &result))
@@ -100,12 +115,14 @@ public:
 			result = "";
 		}
 		Py_DECREF(ret);
+#endif
 		return result;
 	}
 
 	static const char* GetPythonString1(DWORD addr, int arg1)
 	{
 		const char* result;
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(1);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
@@ -116,12 +133,14 @@ public:
 		}
 		Py_DECREF(ret);
 		Py_DECREF(args);
+#endif
 		return result;
 	}
 
 	static const char* GetPythonString2(DWORD addr, int arg1, int arg2)
 	{
 		const char* result;
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(2);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -133,12 +152,14 @@ public:
 		}
 		Py_DECREF(ret);
 		Py_DECREF(args);
+#endif
 		return result;
 	}
 
 	static int GetPythonInteger1(DWORD addr, int arg1)
 	{
 		int result;
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(1);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
@@ -146,12 +167,14 @@ public:
 		result = PyInt_AsLong(ret);
 		Py_DECREF(ret);
 		Py_DECREF(args);
+#endif
 		return result;
 	}
 
 	static int GetPythonInteger2(DWORD addr, int arg1, int arg2)
 	{
 		int result;
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(2);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -160,12 +183,14 @@ public:
 		result = PyInt_AsLong(ret);
 		Py_DECREF(ret);
 		Py_DECREF(args);
+#endif
 		return result;
 	}
 
 	static int GetPythonInteger3(DWORD addr, int arg1, int arg2, int arg3)
 	{
 		int result;
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(3);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -175,12 +200,14 @@ public:
 		result = PyInt_AsLong(ret);
 		Py_DECREF(ret);
 		Py_DECREF(args);
+#endif
 		return result;
 	}
 
 	static D3DVECTOR GetPythonD3DVECTOR1(DWORD addr, int arg1)
 	{
 		D3DVECTOR result;
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(1);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
@@ -190,6 +217,7 @@ public:
 		PyTuple_GetFloat(ret, 2, &result.z);
 		Py_DECREF(ret);
 		Py_DECREF(args);
+#endif
 		return result;
 	}
 
@@ -201,54 +229,65 @@ public:
 
 	static void CallPythonFloat1(DWORD addr, float arg1)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(1);
 		PyTuple_SetItem(args, 0, PyFloat_FromDouble(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonString2(DWORD addr, const char* arg1, const char* arg2)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(2);
 		PyTuple_SetItem(args, 0, PyString_FromString(arg1));
 		PyTuple_SetItem(args, 1, PyString_FromString(arg2));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonStringInt(DWORD addr, const char* arg1, int arg2)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(2);
 		PyTuple_SetItem(args, 0, PyString_FromString(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonInteger1(DWORD addr, int arg1)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(1);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonInteger2(DWORD addr, int arg1, int arg2)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(2);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonInteger3(DWORD addr, int arg1, int arg2, int arg3)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(3);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -256,10 +295,12 @@ public:
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonInteger4(DWORD addr, int arg1, int arg2, int arg3, int arg4)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(4);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -268,10 +309,12 @@ public:
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonInteger5(DWORD addr, int arg1, int arg2, int arg3, int arg4, int arg5)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(5);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -281,10 +324,12 @@ public:
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 
 	static void CallPythonIntIntString(DWORD addr, int arg1, int arg2, const char* arg3)
 	{
+#if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(3);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PyTuple_SetItem(args, 1, PyInt_FromLong(arg2));
@@ -292,6 +337,7 @@ public:
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		func(NULL, args);
 		Py_DECREF(args);
+#endif
 	}
 };
 

@@ -165,7 +165,7 @@ public:
 #ifdef DEVELOPER_MODE					
 						if (Globals::m_apoPhaseWndGame != NULL)
 						{
-							DelayActions::Append((Settings::SPAM_WHISPER_TIME* targetNumber),&GameFunctions::PyCallClassMemberFunc,Globals::m_apoPhaseWndGame, "OnRecvWhisper", Py_BuildValue("(iss)", 0, name, StringExtension::UTF8ToASCII(text).c_str()));
+							DelayActions::Append((Settings::SPAM_WHISPER_TIME* targetNumber),&GameFunctions::PyCallClassMemberFunc,Globals::m_apoPhaseWndGame, "OnRecvWhisper", Globals::Py_BuildValue("(iss)", 0, name, StringExtension::UTF8ToASCII(text).c_str()));
 						}
 #endif					
 						

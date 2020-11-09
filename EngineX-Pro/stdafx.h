@@ -47,9 +47,6 @@ using namespace std;
 #undef _DEBUG
 #endif
 
-//#define Py_NO_DEBUG
-#include "Python.h"
-#pragma comment(lib, "python27.lib")
 #include "VMProtectSDK.h"
 #define DecryptS VMProtectDecryptStringA
 #ifdef DEBUG_WAS_DEFINED
@@ -89,6 +86,12 @@ enum ServerName
 #define DEVELOPER_MODE
 //#define NETWORK_MODE
 
+//#define PYTHON_ENABLE
+
+#if defined(PYTHON_ENABLE)
+#include "Python.h"
+#pragma comment(lib, "python27.lib")
+#endif
 
 #define DLL_VERSION "0.0.95 Beta"
 
@@ -122,8 +125,9 @@ enum ServerName
 
 
 
-//typedef unsigned long       PyObject;
-//typedef int                 Py_ssize_t;
+typedef unsigned long       PyObject;
+typedef unsigned long       PyMethodDef;
+typedef int                 Py_ssize_t;
 
 #include "DynamicTimer.h"
 
