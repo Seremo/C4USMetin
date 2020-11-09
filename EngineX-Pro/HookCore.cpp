@@ -625,7 +625,7 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 //		string Text3 = Text2 + "\n";
 //		
 //	}
-	/*Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);*/
+	Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);
 #endif
 
 	nCPythonChatAppendChat(This, iType, c_szChat);

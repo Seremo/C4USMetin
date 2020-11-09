@@ -739,8 +739,8 @@ void MainForm::Menu() {
 			static float f = 0.0f;
 			static int counter = 0;
 #if defined(DEVELOPER_MODE) && defined(_DEBUG)
-			ImGui::ShowDemoWindow();
-#endif
+			/*ImGui::ShowDemoWindow();*/
+#else
 			if (StartPopup)
 			{
 				ImGui::OpenPopup("WARNING");
@@ -771,6 +771,7 @@ void MainForm::Menu() {
 					ImGui::EndPopup();
 				}
 			}
+#endif
 			ImGui::SetNextWindowBgAlpha(0.0f);
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
 			ImGui::Begin("Buttons", &SideBarIsOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoNavInputs);

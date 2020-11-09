@@ -882,6 +882,15 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(36,  make_pair(ServerName::CLASSIC,"CH4")), make_pair(13004, "51.77.56.238") },
 	{ make_pair(37,  make_pair(ServerName::CLASSIC,"CH5")), make_pair(13005, "51.77.56.238") },
 	{ make_pair(38,  make_pair(ServerName::CLASSIC,"CH6")), make_pair(13006, "51.77.56.238") },
+
+
+
+	{ make_pair(39,  make_pair(ServerName::DEVERIA,"CH1")), make_pair(17010, "87.98.237.48") },
+	{ make_pair(40,  make_pair(ServerName::DEVERIA,"CH2")), make_pair(17020, "87.98.237.48") },
+	{ make_pair(41,  make_pair(ServerName::DEVERIA,"CH3")), make_pair(17030, "87.98.237.48") },
+	{ make_pair(42,  make_pair(ServerName::DEVERIA,"CH4")), make_pair(17040, "87.98.237.48") },
+	{ make_pair(43,  make_pair(ServerName::DEVERIA,"CH5")), make_pair(17050, "87.98.237.48") },
+	
 };
 vector<string>												Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST =
 {
@@ -1154,6 +1163,13 @@ map<DWORD, pair<string, DWORD>>								Settings::FISH_COMMAND_LIST
 	 { 108, make_pair("nawalaj w te spacje 3 razy", 3) },
 	 { 109, make_pair("nawalaj w te spacje 4 razy", 4) },
 	 { 110, make_pair("nawalaj w te spacje 5 razy", 5) },
+
+
+	 { 111, make_pair("|cFF68BB411x|h|r aby", 1) },
+	 { 112, make_pair("|cFF68BB412x|h|r aby", 2) },
+	 { 113, make_pair("|cFF68BB413x|h|r aby", 3) },
+	 { 114, make_pair("|cFF68BB414x|h|r aby", 4) },
+	 { 115, make_pair("|cFF68BB415x|h|r aby", 5) },
  };
 map< DWORD, pair<string, bool>>								Settings::ITEM_PICKUP_SELECTED_LIST;
 
