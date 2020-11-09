@@ -1843,13 +1843,14 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xb8390; // [100 ] [1 / 1]
 				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x7b870; // [100 ] [1 / 1]
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x150a10; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1604F0; // [100 ] [1 / 1]
+				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x16EC50; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d8b10; // [100 ] [1 / 1]
 				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x74000; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x156640; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x6aca0; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x6b110; // [100 ] [1 / 1]
 				pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0x5ef80; // [100 ] [1 / 1]
+				pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0x78a20; // [100 ] [1 / 1]
 				break;
 			}
 		case ServerName::DRAGON:
