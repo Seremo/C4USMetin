@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Document Version="2">
-    <Protection InputFileName="Release/EngineX.dll" Options="985032">
+    <Protection InputFileName="" Options="985032">
         <Messages />
         <Folders />
         <Procedures>
