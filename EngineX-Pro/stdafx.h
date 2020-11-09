@@ -83,8 +83,8 @@ enum ServerName
 //#define VERSION_PREMIUM
 
 
-//#define FISHBOT
-//#define DEVELOPER_MODE
+#define FISHBOT
+#define DEVELOPER_MODE
 //#define NETWORK_MODE
 
 //#define PYTHON_ENABLE

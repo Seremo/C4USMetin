@@ -469,7 +469,7 @@ public:
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-ServerName Globals::Server = ServerName::DRAGON2;
+ServerName Globals::Server = ServerName::METINPL;
 bool Globals::UsePythonFunctions = false;
 
 map<DWORD, TCItemData*> Globals::itemProtoList;
@@ -1118,10 +1118,10 @@ void Globals::ReAddressingLocas()
 				pCPythonNetworkStreamSendItemUsePacket = Globals::hEntryBaseAddress + 0x21f3d0; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendOnClickPacket = Globals::hEntryBaseAddress + 0x1fb340; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendScriptAnswerPacket = Globals::hEntryBaseAddress + 0x1fe330; // [100 ] [1 / 1]
-				pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + 0x1ff3e0; // [100 ] [1 / 1]
+				pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + 0x1ff3e0; // [100 ] [1 / 1
 				pCPythonNetworkStreamSendShopBuyPacket = Globals::hEntryBaseAddress + 0x21f1d0; // [100 ] [1 / 1] 
 				pCPythonNetworkStreamSendShopEndPacket = Globals::hEntryBaseAddress + 0x21f150; // [100 ] [1 / 1]
-				pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0x1EF6F0; 
+				pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0x21F2B0;
 				pCPythonNetworkStreamSendSpecial = Globals::hEntryBaseAddress + 0x1ff010; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendUseSkillPacket = Globals::hEntryBaseAddress + 0x1f9120; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0x1FAB70; 
