@@ -738,7 +738,7 @@ void MainForm::Menu() {
 		{
 			static float f = 0.0f;
 			static int counter = 0;
-#ifdef DEVELOPER_MODE
+#if defined(DEVELOPER_MODE) && defined(_DEBUG)
 			ImGui::ShowDemoWindow();
 #endif
 			if (StartPopup)
