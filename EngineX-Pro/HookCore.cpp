@@ -614,7 +614,7 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 		}
 		
 	}
-
+	printf("%s \n", c_szChat);
 #ifdef FISHBOT
 	Fish::Instance().ParseMessage(c_szChat);
 #endif

@@ -50,6 +50,8 @@ using namespace std;
 //#define Py_NO_DEBUG
 #include "Python.h"
 #pragma comment(lib, "python27.lib")
+#include "VMProtectSDK.h"
+#define DecryptS VMProtectDecryptStringA
 #ifdef DEBUG_WAS_DEFINED
 #define _DEBUG
 #endif

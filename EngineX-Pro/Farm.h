@@ -206,28 +206,30 @@ public:
 
 	void OnRender()
 	{
-		for (auto itor = Settings::cordsMaps.begin(); itor != Settings::cordsMaps.end(); itor++)
+		if (Settings::FARM_RENDER_PATH_ENABLE)
 		{
-			auto ItorNext = itor;
-			ItorNext++;
-			if (ItorNext == Settings::cordsMaps.end())
-				break;
-
-			vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
-			int i = 0;
-			for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+			for (auto itor = Settings::cordsMaps.begin(); itor != Settings::cordsMaps.end(); itor++)
 			{
-				auto itNext = it;
-				itNext++;
-				if (itNext == distanceSteps.end())
+				auto ItorNext = itor;
+				ItorNext++;
+				if (ItorNext == Settings::cordsMaps.end())
 					break;
-				float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 5.0f;
-				float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 5.0f;
-				D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
-				D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
-				CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::RADAR_WAYPOINT_COLOR);
-				
-				i++;
+
+				vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
+				int i = 0;
+				for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+				{
+					auto itNext = it;
+					itNext++;
+					if (itNext == distanceSteps.end())
+						break;
+					float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 5.0f;
+					float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 5.0f;
+					D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
+					D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
+					CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::RADAR_WAYPOINT_COLOR);
+					i++;
+				}
 			}
 		}
 	}

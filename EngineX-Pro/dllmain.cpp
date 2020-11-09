@@ -54,7 +54,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				}
 				//CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::NetworkThread, NULL, NULL, NULL);
 #endif
-		//CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);
+				//CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);
 				HANDLE hThreadInit = ProcessExtension::CreateThreadSafe((LPTHREAD_START_ROUTINE)&MainCore::Initialize, hModule);
 				if (hThreadInit)
 				{

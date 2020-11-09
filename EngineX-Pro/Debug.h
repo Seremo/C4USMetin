@@ -45,6 +45,9 @@ public:
 		}
 	}
 
+	string  whisperTextName = string(500, '\0');
+	string  whisperTextMessage = string(500, '\0');
+
 	void OnMenu()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -54,6 +57,12 @@ public:
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
 
 
+		ImGui::InputText("Name", &whisperTextName[0], whisperTextName.size());
+		ImGui::InputText("Text", &whisperTextMessage[0], whisperTextMessage.size());
+		if(ImGui::Button("Send Whisper"))
+		{
+			GameFunctions::NetworkStreamSendWhisperPacket(whisperTextName.c_str(), StringExtension::UTF8ToASCII(whisperTextMessage));
+		}
 
 
 		if (ImGui::InputInt("Recv Limit Game Phase", &recv_limit))
