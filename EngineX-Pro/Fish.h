@@ -470,7 +470,6 @@ public:
 		for (vector<DWORD>::iterator it = rodsList.begin(); it != rodsList.end(); ++it)
 		{
 
-
 			if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(INVENTORY, *it), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, *it))].second)
 			{
 				DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
@@ -480,11 +479,9 @@ public:
 					GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
 				}
 			}
-
 		}
 		if (isNeedEquipRod)
 		{
-
 			vector<DWORD> rodsList = GameFunctionsCustom::FindItemSlotsInInventory(27400, 27590);
 			for (vector<DWORD>::iterator it = rodsList.begin(); it != rodsList.end(); ++it)
 			{
