@@ -1131,18 +1131,35 @@ public:
 		{
 			switch (Globals::Server)
 			{
-			case ServerName::ASENIS:
-			{
-				typedef bool(__thiscall* tCPythonNetworkStreamSendCharacterStatePacket)(void* This, const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg, int unk);
-				tCPythonNetworkStreamSendCharacterStatePacket CPythonNetworkStreamSendCharacterStatePacket = (tCPythonNetworkStreamSendCharacterStatePacket)Globals::pCPythonNetworkStreamSendCharacterStatePacket;
-				return CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg, 0);
-				break;
-			}
-			default:
-			{
-				return Globals::CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg);
-				break;
-			}
+				/*case ServerName::DEVERIA:*/
+				case ServerName::ASENIS:
+					{
+						typedef bool(__thiscall* tCPythonNetworkStreamSendCharacterStatePacket)(void* This, const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg, int unk);
+						tCPythonNetworkStreamSendCharacterStatePacket CPythonNetworkStreamSendCharacterStatePacket = (tCPythonNetworkStreamSendCharacterStatePacket)Globals::pCPythonNetworkStreamSendCharacterStatePacket;
+						return CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg, 0);
+						break;
+					}
+				case ServerName::DEVERIA:
+					{
+						DWORD address = Globals::pCPythonNetworkStreamSendCharacterStatePacket;
+						DWORD* instance = (DWORD*)Globals::iCPythonNetworkStreamInstance;
+						__asm
+						{
+							mov     eax, [address]
+							mov     ecx, instance
+							push [uArg]
+							push [eFunc]
+							push[fDstRot]
+							movss   xmm2, [c_rkPPosDst]
+							call	eax
+						}
+						break;
+					}
+				default:
+					{
+						return Globals::CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg);
+						break;
+					}
 			}
 
 		}
@@ -1346,6 +1363,8 @@ public:
 				DWORD address = Globals::pCInstanceBaseSCRIPT_SetPixelPosition;
 				switch (Globals::Server)
 				{
+				case ServerName::DRAGON:
+				case ServerName::DEVERIA:
 				case ServerName::VEDNAR:
 				case ServerName::CALLIOPE2:
 				case ServerName::ASENIS:
@@ -1389,6 +1408,7 @@ public:
 				DWORD address = Globals::pCInstanceBaseSetRotation;
 				switch (Globals::Server)
 				{
+					case ServerName::DRAGON:
 					case ServerName::CALLIOPE2:
 						{
 							DWORD playerInstance = (DWORD)GameFunctions::PlayerNEW_GetMainActorPtr();
@@ -1430,6 +1450,8 @@ public:
 				DWORD address = Globals::pCInstanceBaseGetRotation;
 				switch (Globals::Server)
 				{
+					case ServerName::DRAGON:
+					case ServerName::DEVERIA:
 					case ServerName::VEDNAR:
 					case ServerName::CALLIOPE2:
 					case ServerName::ASENIS:
@@ -1571,6 +1593,8 @@ public:
 			float height = 0;
 			switch (Globals::Server)
 			{
+			case ServerName::DRAGON:
+			case ServerName::DEVERIA:
 			case ServerName::CALLIOPE2:
 			case ServerName::ASENIS:
 			{

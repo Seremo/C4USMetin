@@ -69,7 +69,10 @@ enum ServerName
 	ORIGINS2,
 	CALLIOPE2,
 	ASENIS,
-	CLASSIC
+	CLASSIC,
+	DEVERIA,
+	DRAGON,
+	NEVILLA
 };
 
 
@@ -85,7 +88,7 @@ enum ServerName
 //#define NETWORK_MODE
 
 
-#define DLL_VERSION "0.0.82 Beta"
+#define DLL_VERSION "0.0.95 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"

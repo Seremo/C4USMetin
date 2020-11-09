@@ -663,7 +663,7 @@ map< pair<DWORD, pair<string, string>>, pair<DWORD, string>> Settings::SERVER_IN
 	{ make_pair(32,  make_pair("Tigerghost","CH5")), make_pair(12500, "79.110.92.207") },
 	{ make_pair(33,  make_pair("Tigerghost","CH6")), make_pair(12600, "79.110.92.127") },
 
-		{ make_pair(34,  make_pair("Polska","CH1")), make_pair(12101, "79.110.92.116") },
+	{ make_pair(34,  make_pair("Polska","CH1")), make_pair(12101, "79.110.92.116") },
 	{ make_pair(35,  make_pair("Polska","CH2")), make_pair(12201, "79.110.92.117") },
 	{ make_pair(36,  make_pair("Polska","CH3")), make_pair(12301, "79.110.92.116") },
 	{ make_pair(37,  make_pair("Polska","CH4")), make_pair(12401, "79.110.92.117") },
