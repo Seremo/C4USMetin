@@ -72,13 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;..\Extern\lib</LibraryPath>
-    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json;..\Extern\include\ThorsSerializer</IncludePath>
+    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json;..\Extern\include\ThorsSerializer;..\Extern\include\</IncludePath>
     <TargetExt>.dll</TargetExt>
     <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(LibraryPath);..\Microsoft DirectX SDK 8\Lib\x86;..\Extern\lib</LibraryPath>
-    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json</IncludePath>
+    <IncludePath>$(IncludePath);..\Microsoft DirectX SDK 8\Include;..\Extern\include\Python27;..\Extern\include\Json;..\Extern\include\</IncludePath>
     <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

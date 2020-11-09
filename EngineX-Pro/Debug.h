@@ -30,6 +30,24 @@ public:
 	{
 	}
 
+
+	void Rozdzielacz(int vnum)
+	{
+		int index = GameFunctionsCustom::FindItemSlotInInventory(vnum);
+		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * 4); i++)
+		{
+			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
+			if (current_vnum == 0)
+			{
+				GameFunctions::NetworkStreamSendItemMovePacket(TItemPos(INVENTORY, index), TItemPos(INVENTORY, i), 1);
+			}
+
+		}
+	}
+
+	string  whisperTextName = string(500, '\0');
+	string  whisperTextMessage = string(500, '\0');
+
 	void OnMenu()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -39,6 +57,12 @@ public:
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
 
 
+		ImGui::InputText("Name", &whisperTextName[0], whisperTextName.size());
+		ImGui::InputText("Text", &whisperTextMessage[0], whisperTextMessage.size());
+		if(ImGui::Button("Send Whisper"))
+		{
+			GameFunctions::NetworkStreamSendWhisperPacket(whisperTextName.c_str(), StringExtension::UTF8ToASCII(whisperTextMessage));
+		}
 
 
 		if (ImGui::InputInt("Recv Limit Game Phase", &recv_limit))
@@ -119,7 +143,24 @@ public:
 			/*int slot = GameFunctionsCustom::FindItemSlotInInventory(27420);*/
 			GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, 0), 1);
 		}
-
+#ifdef DEVELOPER_MODE
+		if (ImGui::Button("Rozdziel raka!"))
+		{
+			Rozdzielacz(27887);
+		}
+		if (ImGui::Button("Rozdziel Biala Perla!"))
+		{
+			Rozdzielacz(27992);
+		}
+		if (ImGui::Button("Rozdziel Niebieska Perla!"))
+		{
+			Rozdzielacz(27993);
+		}
+		if (ImGui::Button("Rozdziel Czerwona Perla!"))
+		{
+			Rozdzielacz(27994);
+		}
+#endif
 		if (ImGui::Button("TEST 8"))
 		{
 			if (GameFunctionsCustom::PlayerIsRodEquipped())

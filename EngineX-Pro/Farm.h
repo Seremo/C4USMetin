@@ -7,9 +7,9 @@ public:
 	DWORD targetVID = 0;
 	DWORD * targetInstance = NULL;
 	int MoveStep;
-	vector<D3DVECTOR> cordsMaps;
 	int BoostCount = 0;
-	
+	string newFileName;
+	int currentIndex = 0;
 
 	void TeleportToDestination(D3DVECTOR pos) {
 		int Count = 0;
@@ -32,8 +32,8 @@ public:
 		int ClosestIndex = 0;
 		D3DVECTOR mainPosition;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &mainPosition);
-		DWORD LowestDistance = MiscExtension::CountDistanceTwoPoints(mainPosition.x, mainPosition.y, cordsMaps.begin()->x, cordsMaps.begin()->y);
-		for (vector<D3DVECTOR>::iterator itor = cordsMaps.begin(); itor != cordsMaps.end(); itor++)
+		DWORD LowestDistance = MiscExtension::CountDistanceTwoPoints(mainPosition.x, mainPosition.y, Settings::cordsMaps.begin()->x, Settings::cordsMaps.begin()->y);
+		for (vector<D3DVECTOR>::iterator itor = Settings::cordsMaps.begin(); itor != Settings::cordsMaps.end(); itor++)
 		{
 
 			float Distance = MiscExtension::CountDistanceTwoPoints(mainPosition.x, mainPosition.y, itor->x, itor->y);
@@ -48,9 +48,9 @@ public:
 
 	void OnStart()
 	{
-		if (cordsMaps.size() <= 0)
+		if (Settings::cordsMaps.size() <= 0)
 		{
-			cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
+			Settings::cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
 		}
 		CheckClosestCoord();
 	}
@@ -71,7 +71,7 @@ public:
 				return;
 			}
 				
-			int CordsLength = cordsMaps.size();
+			int CordsLength = Settings::cordsMaps.size();
 			if (CordsLength > 0)
 			{
 				map<DWORD, DWORD*> mobList;
@@ -173,7 +173,7 @@ public:
 				}
 				else
 				{
-					bool isInCircle = MathExtension::PointInCircle(playerPosition, cordsMaps[MoveStep], 300);
+					bool isInCircle = MathExtension::PointInCircle(playerPosition, Settings::cordsMaps[MoveStep], 300);
 					if (isInCircle)
 					{
 						MoveStep ++;
@@ -181,53 +181,55 @@ public:
 
 					if (MoveStep == CordsLength)
 					{
-						reverse(cordsMaps.begin(), cordsMaps.end());
+						reverse(Settings::cordsMaps.begin(), Settings::cordsMaps.end());
 						MoveStep = 0;
 					}
 					if (CordsLength >= 2 && !isInCircle)
 					{
 						if (Settings::FARM_MOVE_TYPE == 1)
 						{
-							TeleportToDestination(cordsMaps[MoveStep]);
+							TeleportToDestination(Settings::cordsMaps[MoveStep]);
 						}
 						else 
 						{
-							GameFunctionsCustom::PlayerMoveToDestPixelPositionDirection(cordsMaps[MoveStep]);
+							GameFunctionsCustom::PlayerMoveToDestPixelPositionDirection(Settings::cordsMaps[MoveStep]);
 						}
 					}
 				}
 			}
 			else 
 			{
-				cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
+			Settings::cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
 			}
 		}
 	}
 
 	void OnRender()
 	{
-		for (auto itor = Farm::Instance().cordsMaps.begin(); itor != Farm::Instance().cordsMaps.end(); itor++)
+		if (Settings::FARM_RENDER_PATH_ENABLE)
 		{
-			auto ItorNext = itor;
-			ItorNext++;
-			if (ItorNext == Farm::Instance().cordsMaps.end())
-				break;
-
-			vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
-			int i = 0;
-			for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+			for (auto itor = Settings::cordsMaps.begin(); itor != Settings::cordsMaps.end(); itor++)
 			{
-				auto itNext = it;
-				itNext++;
-				if (itNext == distanceSteps.end())
+				auto ItorNext = itor;
+				ItorNext++;
+				if (ItorNext == Settings::cordsMaps.end())
 					break;
-				float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 5.0f;
-				float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 5.0f;
-				D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
-				D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
-				CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::RADAR_WAYPOINT_COLOR);
-				
-				i++;
+
+				vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(100, *itor, *ItorNext);
+				int i = 0;
+				for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+				{
+					auto itNext = it;
+					itNext++;
+					if (itNext == distanceSteps.end())
+						break;
+					float z1 = GameFunctions::GetBackgroundHeight(it->x, it->y) + 5.0f;
+					float z2 = GameFunctions::GetBackgroundHeight(itNext->x, itNext->y) + 5.0f;
+					D3DVECTOR LinePos1 = { it->x, -it->y, z1 };
+					D3DVECTOR LinePos2 = { itNext->x, -itNext->y, z2 };
+					CRender::Line3D(LinePos1.x, LinePos1.y, LinePos1.z, LinePos2.x, LinePos2.y, LinePos2.z, Settings::RADAR_WAYPOINT_COLOR);
+					i++;
+				}
 			}
 		}
 	}
@@ -237,7 +239,7 @@ public:
 		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("FarmBotBorder", ImVec2(655, 160), true);
+		ImGui::BeginChild("FarmBotBorder", ImVec2(645, 160), true);
 		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE)) 
 		{
 			if (Settings::FARM_ENABLE == true)
@@ -271,20 +273,47 @@ public:
 		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("CordsBorder", ImVec2(655, 210), true);
+		ImGui::BeginChild("FarmConfBorder", ImVec2(645, 120), true);
+		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "fc"   /*format "exe"*/);
+		ImGui::PushItemWidth(200);
+		if (ImGui::Combo("Paths", &currentIndex, configs))
+		{
+			newFileName = configs[currentIndex];
+		}
+		ImGui::InputText("##FileName", &newFileName);
+		if (ImGui::Button("Load Paths"))
+		{
+			Settings::LoadFarm(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Save Paths"))
+		{
+			Settings::SaveFarm(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Remove Paths"))
+		{
+			Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "fc");
+		}
+		ImGui::EndChild();
+		ImGui::PopStyleVar();
+
+		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+		ImGui::SetNextWindowBgAlpha(0.75f);
+		ImGui::BeginChild("CordsBorder", ImVec2(645, 150), true);
 		if (ImGui::Button("Add Position")) 
 		{
-			cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
+			Settings::cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Delete All Position")) 
 		{
-			cordsMaps.clear();
+			Settings::cordsMaps.clear();
 		}
 		ImGui::Separator();
-		if (cordsMaps.size() > 0)
+		if (Settings::cordsMaps.size() > 0)
 		{
-			for (auto item : cordsMaps)
+			for (auto item : Settings::cordsMaps)
 			{
 				bool is_selected = true;
 				std::string& item_name = "[ X:" + to_string((DWORD)(item.x /100)) + "],[ Y:" + to_string((DWORD)(item.y / 100)) + "]";

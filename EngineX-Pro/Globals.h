@@ -469,7 +469,9 @@ public:
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-ServerName Globals::Server = ServerName::NEVILLA;
+
+ServerName Globals::Server = ServerName::CLASSIC;
+
 bool Globals::UsePythonFunctions = false;
 
 map<DWORD, TCItemData*> Globals::itemProtoList;
