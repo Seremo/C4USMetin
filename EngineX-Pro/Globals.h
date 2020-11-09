@@ -1843,7 +1843,7 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xb8390; // [100 ] [1 / 1]
 				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x7b870; // [100 ] [1 / 1]
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x150a10; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x16ec50; // [100 ] [1 / 1]
+				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1604F0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d8b10; // [100 ] [1 / 1]
 				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x74000; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x156640; // [100 ] [1 / 1]
