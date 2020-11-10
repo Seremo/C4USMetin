@@ -416,8 +416,14 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 #ifdef DEVELOPER_MODE
 	if (len > 1)
 	{
-		
-		PacketSniffer::Instance().ProcessRecvPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+		try 
+		{
+			PacketSniffer::Instance().ProcessRecvPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+		}
+		catch (...)
+		{
+			printf("Packet parse Error!\n");
+		}
 	}
 #endif
 	return ret;
@@ -509,7 +515,14 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	bool ret = nCNetworkStreamSend(This, len, pDestBuf);
 	BYTE* destBuf = (BYTE*)pDestBuf;
 #ifdef DEVELOPER_MODE
-	PacketSniffer::Instance().ProcessSendPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+	try
+	{
+		PacketSniffer::Instance().ProcessSendPacket(len, pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
+	}
+	catch (...)
+	{
+		printf("Packet parse Error!\n");
+	}
 #endif
 	return ret;
 }
