@@ -2055,7 +2055,7 @@ void Globals::ReAddressingLocas()
 			}
 	}
 	
-}
+}  
 
 void Globals::ReAddressingPython()
 {
