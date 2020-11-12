@@ -201,8 +201,8 @@ public:
 		ImGui::Checkbox("Buy Bait", &Settings::FISH_BUY_BAIT_ENABLE);
 		ImGui::InputInt("Count", &Settings::FISH_BUY_BAIT_SHOP_COUNT);
 		ImGui::InputInt("Slot", &Settings::FISH_BUY_BAIT_SHOP_SLOT);
-		ImGui::InputInt("Roration", &Settings::FISH_CAST_ROTATION);
 		ImGui::Checkbox("Teleport", &Settings::FISH_SHOP_CAST_TELEPORT_ENABLE);
+		ImGui::InputInt("Teleport Step", &Settings::FISH_TELEPORT_STEP_RANGE);
 		if (ImGui::Button("Add Shop Pos"))
 		{
 			Settings::FISH_SHOP_TELEPORT_CORDS = GameFunctionsCustom::PlayerGetPixelPosition();
@@ -329,41 +329,8 @@ public:
 			   // isEnable = false;*/
 			//}
 		}
-#if defined(DEVELOPER_MODE)
-	
-		
-		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
-		{
-			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(1800, standingPosition, Settings::FISH_CAST_TELEPORT_CORDS);
-			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-			}
-			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISH_CAST_ROTATION);
-			gf = MiscExtension::DivideTwoPointsByDistance(1800, Settings::FISH_CAST_TELEPORT_CORDS, standingPosition);
-			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-			}
-			//if (DWORD(MiscExtension::CountDistanceTwoPoints(standingPosition.x, standingPosition.y, Settings::FISHBOT_CAST_TELEPORT_CORDS.x, Settings::FISHBOT_CAST_TELEPORT_CORDS.y) <= 2000))
-			//{
-			//	GameFunctions::NetworkStreamSendCharacterStatePacket(Settings::FISHBOT_CAST_TELEPORT_CORDS, 0, 0, 0);
-			//	GameFunctions::NetworkStreamSendFishingPacket(Settings::FISHBOT_CAST_ROTATION);
-			//	GameFunctions::NetworkStreamSendCharacterStatePacket(standingPosition, 0, 0, 0);
-			//}
-			//else
-			//{
-			//	Logger::Add(Logger::FISH, true, Logger::RED, "TP DISTANCE MORE THAN 2000");
-			//}
-
-		}
-		else
-		{
-
-			GameFunctions::NetworkStreamSendFishingPacket(Settings::FISH_CAST_ROTATION);
-			//GameFunctions::PlayerSetAttackKeyState(true);
-			/*GameFunctions::PythonPlayerNEW_Fishing();*/
-		}
+#if defined(DEVELOPER_MODE)		
+		GameFunctions::NetworkStreamSendFishingPacket(GameFunctionsCustom::PlayerGetRotation());
 #else
 		GameFunctions::PythonPlayerNEW_Fishing();
 #endif
@@ -420,9 +387,15 @@ public:
 		{
 			RefineRod();
 		}
-#endif // DEVELOPER_MODE
-
-
+		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
+		{
+			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(Settings::FISH_TELEPORT_STEP_RANGE, standingPosition, Settings::FISH_CAST_TELEPORT_CORDS);
+			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+			{
+				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+			}
+		}
+#endif
 		if (Settings::FISH_SELL_TRASH_ENABLE && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE)
 		{
 			SellItems();
@@ -442,13 +415,22 @@ public:
 				BuyBait();
 				if (!UseBait())
 				{
-					/*Settings::FishBotEnable = false;*/
 					Logger::Add(Logger::FISH, true, Logger::WHITE, "NO BAITS ABORT!");
 					return;
 				}
 			}
 		}
 		Cast();
+#ifdef DEVELOPER_MODE
+		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
+		{
+			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(Settings::FISH_TELEPORT_STEP_RANGE, Settings::FISH_CAST_TELEPORT_CORDS, standingPosition);
+			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+			{
+				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+			}
+		}
+#endif
 	}
 
 	bool RefineRod()

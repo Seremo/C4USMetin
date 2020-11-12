@@ -17,7 +17,10 @@ public:
 			return;
 		}
 		nlohmann::json j = nlohmann::json::parse(buffer);
-		j.at("ITEM_FILTER").get_to(ITEM_PICKUP_SELECTED_LIST);
+		if (j.find("ITEM_FILTER") != j.end())
+		{
+			j.at("ITEM_FILTER").get_to(ITEM_PICKUP_SELECTED_LIST);
+		}
 	}
 
 	static void SaveItemFilter(string name, string folderPath)
@@ -44,9 +47,18 @@ public:
 		}
 		nlohmann::json j = nlohmann::json::parse(buffer);
 		std::vector<float> vec_x, vec_y, vec_z;
-		j.at("FARMBOT_PATH.x").get_to(vec_x);
-		j.at("FARMBOT_PATH.y").get_to(vec_y);
-		j.at("FARMBOT_PATH.z").get_to(vec_z);
+		if (j.find("FARMBOT_PATH.x") != j.end())
+		{
+			j.at("FARMBOT_PATH.x").get_to(vec_x);
+		}
+		if (j.find("FARMBOT_PATH.y") != j.end())
+		{
+			j.at("FARMBOT_PATH.y").get_to(vec_y);
+		}
+		if (j.find("FARMBOT_PATH.z") != j.end())
+		{
+			j.at("FARMBOT_PATH.z").get_to(vec_z);
+		}
 		cordsMaps.clear();
 		for (int i = 0; i < vec_x.size(); i++)
 		{
@@ -87,182 +99,706 @@ public:
 		}
 		nlohmann::json j = nlohmann::json::parse(buffer);
 		/*j.parse(buffer);*/
-		j.at("PROTECTION_DETECT_PLAYER_WHITE_LIST").get_to(PROTECTION_DETECT_PLAYER_WHITE_LIST);
-		j.at("FISH_KILL_FISH_LIST").get_to(FISH_KILL_FISH_LIST);
-		j.at("FISH_BAIT_LIST").get_to(FISH_BAIT_LIST);
-		j.at("FISH_DROP_LIST").get_to(FISH_DROP_LIST);
-		j.at("FISH_SELL_LIST").get_to(FISH_SELL_LIST);
-		j.at("ITEM_PICKUP_SELECTED_LIST").get_to(ITEM_PICKUP_SELECTED_LIST);
-		j.at("MAIN_STONE_DETECT_ENABLE").get_to(MAIN_STONE_DETECT_ENABLE);
-		j.at("MAIN_MOBBER_ENABLE").get_to(MAIN_MOBBER_ENABLE);
-		j.at("MAIN_ATTACK_ENABLE").get_to(MAIN_ATTACK_ENABLE);
-		j.at("MAIN_ROTATION_ENABLE").get_to(MAIN_ROTATION_ENABLE);
-		j.at("MAIN_ROTATION_SPEED_VALUE").get_to(MAIN_ROTATION_SPEED_VALUE);
-		j.at("MAIN_SKILL_ENABLE").get_to(MAIN_SKILL_ENABLE);
-		j.at("MAIN_SKILL_1_ENABLE").get_to(MAIN_SKILL_1_ENABLE);
-		j.at("MAIN_SKILL_2_ENABLE").get_to(MAIN_SKILL_2_ENABLE);
-		j.at("MAIN_SKILL_3_ENABLE").get_to(MAIN_SKILL_3_ENABLE);
-		j.at("MAIN_SKILL_4_ENABLE").get_to(MAIN_SKILL_4_ENABLE);
-		j.at("MAIN_SKILL_5_ENABLE").get_to(MAIN_SKILL_5_ENABLE);
-		j.at("MAIN_SKILL_6_ENABLE").get_to(MAIN_SKILL_6_ENABLE);
-		j.at("MAIN_NOK_ENABLE").get_to(MAIN_NOK_ENABLE);
-		j.at("MAIN_NOP_ENABLE").get_to(MAIN_NOP_ENABLE);
-		j.at("MAIN_WALL_MOB_ENABLE").get_to(MAIN_WALL_MOB_ENABLE);
-		j.at("MAIN_WALL_OBJECT_ENABLE").get_to(MAIN_WALL_OBJECT_ENABLE);
-		j.at("MAIN_WALL_TERRAIN_ENABLE").get_to(MAIN_WALL_TERRAIN_ENABLE);
-		j.at("MAIN_WH_ENABLE").get_to(MAIN_WH_ENABLE);
-		j.at("MAIN_WH_DISTANCE_VALUE").get_to(MAIN_WH_DISTANCE_VALUE);
-		j.at("MAIN_WH_TYPE").get_to(MAIN_WH_WEAPON_TYPE);
-		j.at("MAIN_WAITHACK_RANGE_ENABLE").get_to(MAIN_WAITHACK_RANGE_ENABLE);
-		j.at("MAIN_WH_SKILL_COOLDOWN_TIME").get_to(MAIN_WH_SKILL_COOLDOWN_TIME);
-		j.at("MAIN_WH_TIME").get_to(MAIN_WH_TIME);
-		j.at("MAIN_WH_ATTACK_TYPE").get_to(MAIN_WH_ATTACK_TYPE);
-		j.at("MAIN_WH_RENDER_ENABLE").get_to(MAIN_WH_RENDER_ENABLE);
-		j.at("MAIN_WH_SKILL_VALUE").get_to(MAIN_WH_SKILL_VALUE);
-		j.at("MAIN_MOB_DETECT_ENABLE").get_to(MAIN_MOB_DETECT_ENABLE);
-		j.at("MAIN_RED_POTION_ENABLE").get_to(MAIN_RED_POTION_ENABLE);
-		j.at("MAIN_RED_POTION_PERCENTAGE_VALUE").get_to(MAIN_RED_POTION_PERCENTAGE_VALUE);
-		j.at("MAIN_RED_POTION_SPEED_VALUE").get_to(MAIN_RED_POTION_SPEED_VALUE);
-		j.at("MAIN_BLUE_POTION_ENABLE").get_to(MAIN_BLUE_POTION_ENABLE);
-		j.at("MAIN_BLUE_POTION_PERCENTAGE_VALUE").get_to(MAIN_BLUE_POTION_PERCENTAGE_VALUE);
-		j.at("MAIN_BLUE_POTION_SPEED_VALUE").get_to(MAIN_BLUE_POTION_SPEED_VALUE);
-		j.at("MAIN_AUTO_REVIVE_ENABLE").get_to(MAIN_AUTO_REVIVE_ENABLE);
-		j.at("MAIN_AUTO_REVIVE_PERCENTAGE_VALUE").get_to(MAIN_AUTO_REVIVE_PERCENTAGE_VALUE);
-		j.at("MAIN_CHANNEL_CHANGER_PORT_OFFSET").get_to(MAIN_CHANNEL_CHANGER_PORT_OFFSET);
-		j.at("MAIN_BOOST_KEY").get_to(MAIN_BOOST_KEY);
-		j.at("MAIN_RELOG_KEY").get_to(MAIN_RELOG_KEY);
-		j.at("MAIN_GLOBAL_SWITCH_KEY").get_to(MAIN_GLOBAL_SWITCH_KEY);
-		j.at("MAIN_HIDE_UI_KEY").get_to(MAIN_HIDE_UI_KEY);
-		j.at("MAIN_BOOST_SPEED").get_to(MAIN_BOOST_SPEED);
-		j.at("MAIN_WH_DETECT_PLAYER_ENABLE").get_to(MAIN_WH_DETECT_PLAYER_ENABLE);
-		j.at("ITEM_SLOT_RANDOM_ENABLE").get_to(ITEM_SLOT_RANDOM_ENABLE);
-		j.at("ITEM_SLOT_3_ENABLE").get_to(ITEM_SLOT_3_ENABLE);
-		j.at("ITEM_SLOT_4_ENABLE").get_to(ITEM_SLOT_4_ENABLE);
-		j.at("ITEM_SLOT_5_ENABLE").get_to(ITEM_SLOT_5_ENABLE);
-		j.at("ITEM_SLOT_6_ENABLE").get_to(ITEM_SLOT_6_ENABLE);
-		j.at("ITEM_SLOT_7_ENABLE").get_to(ITEM_SLOT_7_ENABLE);
-		j.at("ITEM_SLOT_8_ENABLE").get_to(ITEM_SLOT_8_ENABLE);
-		j.at("ITEM_SLOT_9_ENABLE").get_to(ITEM_SLOT_9_ENABLE);
-		j.at("ITEM_SLOT_10_ENABLE").get_to(ITEM_SLOT_10_ENABLE);
-		j.at("ITEM_SLOT_11_ENABLE").get_to(ITEM_SLOT_11_ENABLE);
-		j.at("ITEM_SLOT_12_ENABLE").get_to(ITEM_SLOT_12_ENABLE);
-		j.at("ITEM_SLOT_13_ENABLE").get_to(ITEM_SLOT_13_ENABLE);
-		j.at("ITEM_SLOT_14_ENABLE").get_to(ITEM_SLOT_14_ENABLE);
-		j.at("ITEM_SLOT_15_ENABLE").get_to(ITEM_SLOT_15_ENABLE);
-		j.at("ITEM_SLOT_16_ENABLE").get_to(ITEM_SLOT_16_ENABLE);
-		j.at("ITEM_SLOT_RANDOM_MIN_TIME").get_to(ITEM_SLOT_RANDOM_MIN_TIME);
-		j.at("ITEM_SLOT_RANDOM_MAX_TIME").get_to(ITEM_SLOT_RANDOM_MAX_TIME);
-		j.at("ITEM_SLOT_3_TIME").get_to(ITEM_SLOT_3_TIME);
-		j.at("ITEM_SLOT_4_TIME").get_to(ITEM_SLOT_4_TIME);
-		j.at("ITEM_SLOT_5_TIME").get_to(ITEM_SLOT_5_TIME);
-		j.at("ITEM_SLOT_6_TIME").get_to(ITEM_SLOT_6_TIME);
-		j.at("ITEM_SLOT_7_TIME").get_to(ITEM_SLOT_7_TIME);
-		j.at("ITEM_SLOT_8_TIME").get_to(ITEM_SLOT_8_TIME);
-		j.at("ITEM_SLOT_9_TIME").get_to(ITEM_SLOT_9_TIME);
-		j.at("ITEM_SLOT_10_TIME").get_to(ITEM_SLOT_10_TIME);
-		j.at("ITEM_SLOT_11_TIME").get_to(ITEM_SLOT_11_TIME);
-		j.at("ITEM_SLOT_12_TIME").get_to(ITEM_SLOT_12_TIME);
-		j.at("ITEM_SLOT_13_TIME").get_to(ITEM_SLOT_13_TIME);
-		j.at("ITEM_SLOT_14_TIME").get_to(ITEM_SLOT_14_TIME);
-		j.at("ITEM_SLOT_15_TIME").get_to(ITEM_SLOT_15_TIME);
-		j.at("ITEM_SLOT_16_TIME").get_to(ITEM_SLOT_16_TIME);
-		j.at("ITEM_PICKUP_ENABLE").get_to(ITEM_PICKUP_ENABLE);
-		j.at("ITEM_PICKUP_FILTER_ENABLE").get_to(ITEM_PICKUP_FILTER_ENABLE);
-		j.at("ITEM_PICKUP_DISTANCE").get_to(ITEM_PICKUP_DISTANCE);
-		j.at("ITEM_PICKUP_TIME").get_to(ITEM_PICKUP_TIME);
-		j.at("ITEM_PICKUP_TYPE").get_to(ITEM_PICKUP_TYPE);
-		j.at("FISH_ENABLE").get_to(FISH_ENABLE);
-		j.at("FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE").get_to(FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE);
-		j.at("FISH_CAST_TIME_MIN_VALUE").get_to(FISH_CAST_TIME_MIN_VALUE);
-		j.at("FISH_CAST_TIME_MAX_VALUE").get_to(FISH_CAST_TIME_MAX_VALUE);
-		j.at("FISH_ROUND_TIME_MIN_VALUE").get_to(FISH_ROUND_TIME_MIN_VALUE);
-		j.at("FISH_ROUND_TIME_MAX_VALUE").get_to(FISH_ROUND_TIME_MAX_VALUE);
-		j.at("FISH_EMERGENCY_RUN_TIME_VALUE").get_to(FISH_EMERGENCY_RUN_TIME_VALUE);
-		j.at("FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE").get_to(FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE);
-		j.at("FISH_CAST_TIME_ENABLE").get_to(FISH_CAST_TIME_ENABLE);
-		j.at("FISH_ROUND_TIME_ENABLE").get_to(FISH_ROUND_TIME_ENABLE);
-		j.at("FISH_EMERGENCY_RUN_TIME_ENABLE").get_to(FISH_EMERGENCY_RUN_TIME_ENABLE);
-		j.at("FISH_DETECT_PLAYER_ENABLE").get_to(FISH_DETECT_PLAYER_ENABLE);
-		j.at("FISH_KILL_TILL_SIZE_ENABLE").get_to(FISH_KILL_TILL_SIZE_ENABLE);
-		j.at("FISH_KILL_TILL_SIZE_VALUE").get_to(FISH_KILL_TILL_SIZE_VALUE);
-		j.at("FISH_USE_FIRST_SLOT_ENABLE").get_to(FISH_USE_FIRST_SLOT_ENABLE);
-		j.at("FISH_KILL_FISH_ENABLE").get_to(FISH_KILL_FISH_ENABLE);
-		j.at("FISH_SELL_TRASH_ENABLE").get_to(FISH_SELL_TRASH_ENABLE);
-		j.at("FISH_SELL_TRASH_AFTER_PERCENTAGE").get_to(FISH_SELL_TRASH_AFTER_PERCENTAGE);
-		j.at("FISH_DROP_TRASH_ENABLE").get_to(FISH_DROP_TRASH_ENABLE);
-		j.at("FISH_BUY_BAIT_ENABLE").get_to(FISH_BUY_BAIT_ENABLE);
-		j.at("FISH_BUY_BAIT_SHOP_SLOT").get_to(FISH_BUY_BAIT_SHOP_SLOT);
-		j.at("FISH_BUY_BAIT_SHOP_COUNT").get_to(FISH_BUY_BAIT_SHOP_COUNT);
-		j.at("FISH_SHOP_CAST_TELEPORT_ENABLE").get_to(FISH_SHOP_CAST_TELEPORT_ENABLE);
-		j.at("FISH_CAST_ROTATION").get_to(FISH_CAST_ROTATION);
-		j.at("FISH_STOP_IF_POSITION_CHANGED_ENABLE").get_to(FISH_STOP_IF_POSITION_CHANGED_ENABLE);
-		j.at("FISH_STOP_IF_INVENTORY_FULL_ENABLE").get_to(FISH_STOP_IF_INVENTORY_FULL_ENABLE);
-		j.at("FARM_ENABLE").get_to(FARM_ENABLE);
-		j.at("FARM_MOB_ENABLE").get_to(FARM_MOB_ENABLE);
-		j.at("FARM_BOSS_ENABLE").get_to(FARM_BOSS_ENABLE);
-		j.at("FARM_METIN_ENABLE").get_to(FARM_METIN_ENABLE);
-		j.at("FARM_MINE_ENABLE").get_to(FARM_MINE_ENABLE);
-		j.at("FARM_PLANT_ENABLE").get_to(FARM_PLANT_ENABLE);
-		j.at("FARM_DISTANCE").get_to(FARM_DISTANCE);
-		j.at("FARM_DROP_WAIT_DELAY").get_to(FARM_DROP_WAIT_DELAY);
-		j.at("FARM_MOVE_TYPE").get_to(FARM_MOVE_TYPE);
-		j.at("FARM_RENDER_PATH_ENABLE").get_to(FARM_RENDER_PATH_ENABLE);
-		j.at("SPAM_NORMAL_ENABLE").get_to(SPAM_NORMAL_ENABLE);
-		j.at("SPAM_SHOUT_ENABLE").get_to(SPAM_SHOUT_ENABLE);
-		j.at("SPAM_WISPER_ENABLE").get_to(SPAM_WISPER_ENABLE);
-		j.at("SPAM_NORMAL_TIME").get_to(SPAM_NORMAL_TIME);
-		j.at("SPAM_WHISPER_TIME").get_to(SPAM_WHISPER_TIME);
-		j.at("SPAM_SHOUT_TIME").get_to(SPAM_SHOUT_TIME);
-		j.at("SPAM_NORMAL_COLOR_ENABLE").get_to(SPAM_NORMAL_COLOR_ENABLE);
-		j.at("SPAM_WHISPER_COLOR_ENABLE").get_to(SPAM_WHISPER_COLOR_ENABLE);
-		j.at("SPAM_SHOUT_COLOR_ENABLE").get_to(SPAM_SHOUT_COLOR_ENABLE);
-		j.at("SPAM_NORMAL_RAINBOW_COLOR_ENABLE").get_to(SPAM_NORMAL_RAINBOW_COLOR_ENABLE);
-		j.at("SPAM_WHISPER_RAINBOW_COLOR_ENABLE").get_to(SPAM_WHISPER_RAINBOW_COLOR_ENABLE);
-		j.at("SPAM_SHOUT_RAINBOW_COLOR_ENABLE").get_to(SPAM_SHOUT_RAINBOW_COLOR_ENABLE);
-		j.at("REFINE_UPGRADE_TYPE").get_to(REFINE_UPGRADE_TYPE);
-		j.at("REFINE_UPGRADE_COUNT").get_to(REFINE_UPGRADE_COUNT);
-		j.at("REFINE_ITEM_SLOT").get_to(REFINE_ITEM_SLOT);
-		j.at("BUFF_ENABLE").get_to(BUFF_ENABLE);
-		j.at("BUFF_SKILL_1_ENABLE").get_to(BUFF_SKILL_1_ENABLE);
-		j.at("BUFF_SKILL_2_ENABLE").get_to(BUFF_SKILL_2_ENABLE);
-		j.at("BUFF_SKILL_3_ENABLE").get_to(BUFF_SKILL_3_ENABLE);
-		j.at("BUFF_SKILL_1_TIME").get_to(BUFF_SKILL_1_TIME);
-		j.at("BUFF_SKILL_2_TIME").get_to(BUFF_SKILL_2_TIME);
-		j.at("BUFF_SKILL_3_TIME").get_to(BUFF_SKILL_3_TIME);
-		j.at("STATUS_ENABLE").get_to(STATUS_ENABLE);
-		j.at("PROTECTION_SHOW_WHISPER_LOGS_ENABLE").get_to(PROTECTION_SHOW_WHISPER_LOGS_ENABLE);
-		j.at("PROTECTION_SHOW_WHISPER_BALLOON_ENABLE").get_to(PROTECTION_SHOW_WHISPER_BALLOON_ENABLE);
-		j.at("PROTECTION_SHOW_TALK_BALLOON_ENABLE").get_to(PROTECTION_SHOW_TALK_BALLOON_ENABLE);
-		j.at("PROTECTION_PLAY_WHISPER_BEEP_ENABLE").get_to(PROTECTION_PLAY_WHISPER_BEEP_ENABLE);
-		j.at("PROTECTION_PLAY_TALK_BEEP_ENABLE").get_to(PROTECTION_PLAY_TALK_BEEP_ENABLE);
-		j.at("PROTECTION_FLASH_TALK_ICON_ENABLE").get_to(PROTECTION_FLASH_TALK_ICON_ENABLE);
-		j.at("PROTECTION_SHOW_TALK_LOGS_ENABLE").get_to(PROTECTION_SHOW_TALK_LOGS_ENABLE);
-		j.at("PROTECTION_RESTORE_WISPER_WINDOW_ENABLE").get_to(PROTECTION_RESTORE_WISPER_WINDOW_ENABLE);
-		j.at("PROTECTION_FLASH_WHISPER_ICON_ENABLE").get_to(PROTECTION_FLASH_WHISPER_ICON_ENABLE);
-		j.at("PROTECTION_DISABLE_RENDER_ENABLE").get_to(PROTECTION_DISABLE_RENDER_ENABLE);
-		j.at("PROTECTION_DISABLE_UPDATE_ENABLE").get_to(PROTECTION_DISABLE_UPDATE_ENABLE);
-		j.at("PROTECTION_DISABLE_RENDER_FRAMES_ENABLE").get_to(PROTECTION_DISABLE_RENDER_FRAMES_ENABLE);
-		j.at("PROTECTION_AUTO_LOGIN_ENABLE").get_to(PROTECTION_AUTO_LOGIN_ENABLE);
-		j.at("RADAR_MONSTER_SHOW_ENABLE").get_to(RADAR_MONSTER_SHOW_ENABLE);
-		j.at("RADAR_BOSS_SHOW_ENABLE").get_to(RADAR_BOSS_SHOW_ENABLE);
-		j.at("RADAR_NPC_SHOW_ENABLE").get_to(RADAR_NPC_SHOW_ENABLE);
-		j.at("RADAR_MINING_SHOW_ENABLE").get_to(RADAR_MINING_SHOW_ENABLE);
-		j.at("RADAR_STONE_SHOW_ENABLE").get_to(RADAR_STONE_SHOW_ENABLE);
-		j.at("RADAR_PLAYER_SHOW_ENABLE").get_to(RADAR_PLAYER_SHOW_ENABLE);
-		j.at("RADAR_WAYPOINT_SHOW_ENABLE").get_to(RADAR_WAYPOINT_SHOW_ENABLE);
-		ns::from_json(j.at("MAIN_WH_RENDER_COLOR"), MAIN_WH_RENDER_COLOR);
-		ns::from_json(j.at("FISH_SHOP_TELEPORT_CORDS"), FISH_SHOP_TELEPORT_CORDS);
-		ns::from_json(j.at("FISH_CAST_TELEPORT_CORDS"), FISH_CAST_TELEPORT_CORDS);
-		ns::from_json(j.at("SPAM_NORMAL_COLOR"), SPAM_NORMAL_COLOR);
-		ns::from_json(j.at("SPAM_WHISPER_COLOR"), SPAM_WHISPER_COLOR);
-		ns::from_json(j.at("SPAM_SHOUT_COLOR"), SPAM_SHOUT_COLOR);
-		ns::from_json(j.at("RADAR_MONSTER_COLOR"), RADAR_MONSTER_COLOR);
-		ns::from_json(j.at("RADAR_BOSS_COLOR"), RADAR_BOSS_COLOR);
-		ns::from_json(j.at("RADAR_NPC_COLOR"), RADAR_NPC_COLOR);
-		ns::from_json(j.at("RADAR_MINE_COLOR"), RADAR_MINE_COLOR);
-		ns::from_json(j.at("RADAR_STONE_COLOR"), RADAR_STONE_COLOR);
-		ns::from_json(j.at("RADAR_PLAYER_COLOR"), RADAR_PLAYER_COLOR);
-		ns::from_json(j.at("RADAR_WAYPOINT_COLOR"), RADAR_WAYPOINT_COLOR);
+		if (j.find("PROTECTION_DETECT_PLAYER_WHITE_LIST") != j.end())
+		{
+			j.at("PROTECTION_DETECT_PLAYER_WHITE_LIST").get_to(PROTECTION_DETECT_PLAYER_WHITE_LIST);
+		}
+		if (j.find("FISH_KILL_FISH_LIST") != j.end())
+		{
+			j.at("FISH_KILL_FISH_LIST").get_to(FISH_KILL_FISH_LIST);
+		}
+		if (j.find("FISH_BAIT_LIST") != j.end())
+		{
+			j.at("FISH_BAIT_LIST").get_to(FISH_BAIT_LIST);
+		}
+		if (j.find("FISH_DROP_LIST") != j.end())
+		{
+			j.at("FISH_DROP_LIST").get_to(FISH_DROP_LIST);
+		}
+		if (j.find("FISH_SELL_LIST") != j.end())
+		{
+			j.at("FISH_SELL_LIST").get_to(FISH_SELL_LIST);
+		}
+		if (j.find("ITEM_PICKUP_SELECTED_LIST") != j.end())
+		{
+			j.at("ITEM_PICKUP_SELECTED_LIST").get_to(ITEM_PICKUP_SELECTED_LIST);
+		}
+		if (j.find("MAIN_STONE_DETECT_ENABLE") != j.end())
+		{
+			j.at("MAIN_STONE_DETECT_ENABLE").get_to(MAIN_STONE_DETECT_ENABLE);
+		}
+		if (j.find("MAIN_MOBBER_ENABLE") != j.end())
+		{
+			j.at("MAIN_MOBBER_ENABLE").get_to(MAIN_MOBBER_ENABLE);
+		}
+		if (j.find("MAIN_ATTACK_ENABLE") != j.end())
+		{
+			j.at("MAIN_ATTACK_ENABLE").get_to(MAIN_ATTACK_ENABLE);
+		}
+		if (j.find("MAIN_ROTATION_ENABLE") != j.end())
+		{
+			j.at("MAIN_ROTATION_ENABLE").get_to(MAIN_ROTATION_ENABLE);
+		}
+		if (j.find("MAIN_ROTATION_SPEED_VALUE") != j.end())
+		{
+			j.at("MAIN_ROTATION_SPEED_VALUE").get_to(MAIN_ROTATION_SPEED_VALUE);
+		}
+		if (j.find("MAIN_SKILL_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_ENABLE").get_to(MAIN_SKILL_ENABLE);
+		}
+		if (j.find("MAIN_SKILL_1_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_1_ENABLE").get_to(MAIN_SKILL_1_ENABLE);
+		}
+		if (j.find("MAIN_SKILL_2_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_2_ENABLE").get_to(MAIN_SKILL_2_ENABLE);
+		}
+		if (j.find("MAIN_SKILL_3_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_3_ENABLE").get_to(MAIN_SKILL_3_ENABLE);
+		}
+		if (j.find("MAIN_SKILL_4_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_4_ENABLE").get_to(MAIN_SKILL_4_ENABLE);
+		}
+		if (j.find("MAIN_SKILL_5_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_5_ENABLE").get_to(MAIN_SKILL_5_ENABLE);
+		}
+		if (j.find("MAIN_SKILL_6_ENABLE") != j.end())
+		{
+			j.at("MAIN_SKILL_6_ENABLE").get_to(MAIN_SKILL_6_ENABLE);
+		}
+		if (j.find("MAIN_NOK_ENABLE") != j.end())
+		{
+			j.at("MAIN_NOK_ENABLE").get_to(MAIN_NOK_ENABLE);
+		}
+		if (j.find("MAIN_NOP_ENABLE") != j.end())
+		{
+			j.at("MAIN_NOP_ENABLE").get_to(MAIN_NOP_ENABLE);
+		}
+		if (j.find("MAIN_WALL_MOB_ENABLE") != j.end())
+		{
+			j.at("MAIN_WALL_MOB_ENABLE").get_to(MAIN_WALL_MOB_ENABLE);
+		}
+		if (j.find("MAIN_WALL_OBJECT_ENABLE") != j.end())
+		{
+			j.at("MAIN_WALL_OBJECT_ENABLE").get_to(MAIN_WALL_OBJECT_ENABLE);
+		}
+		if (j.find("MAIN_WALL_TERRAIN_ENABLE") != j.end())
+		{
+			j.at("MAIN_WALL_TERRAIN_ENABLE").get_to(MAIN_WALL_TERRAIN_ENABLE);
+		}
+		if (j.find("MAIN_WH_ENABLE") != j.end())
+		{
+			j.at("MAIN_WH_ENABLE").get_to(MAIN_WH_ENABLE);
+		}
+		if (j.find("MAIN_WH_DISTANCE_VALUE") != j.end())
+		{
+			j.at("MAIN_WH_DISTANCE_VALUE").get_to(MAIN_WH_DISTANCE_VALUE);
+		}
+		if (j.find("MAIN_WH_TYPE") != j.end())
+		{
+			j.at("MAIN_WH_TYPE").get_to(MAIN_WH_WEAPON_TYPE);
+		}
+		if (j.find("MAIN_WAITHACK_RANGE_ENABLE") != j.end())
+		{
+			j.at("MAIN_WAITHACK_RANGE_ENABLE").get_to(MAIN_WAITHACK_RANGE_ENABLE);
+		}
+		if (j.find("MAIN_WH_SKILL_COOLDOWN_TIME") != j.end())
+		{
+			j.at("MAIN_WH_SKILL_COOLDOWN_TIME").get_to(MAIN_WH_SKILL_COOLDOWN_TIME);
+		}
+		if (j.find("MAIN_WH_TIME") != j.end())
+		{
+			j.at("MAIN_WH_TIME").get_to(MAIN_WH_TIME);
+		}
+		if (j.find("MAIN_WH_ATTACK_TYPE") != j.end())
+		{
+			j.at("MAIN_WH_ATTACK_TYPE").get_to(MAIN_WH_ATTACK_TYPE);
+		}
+		if (j.find("MAIN_WH_RENDER_ENABLE") != j.end())
+		{
+			j.at("MAIN_WH_RENDER_ENABLE").get_to(MAIN_WH_RENDER_ENABLE);
+		}
+		if (j.find("MAIN_WH_SKILL_VALUE") != j.end())
+		{
+			j.at("MAIN_WH_SKILL_VALUE").get_to(MAIN_WH_SKILL_VALUE);
+		}
+		if (j.find("MAIN_MOB_DETECT_ENABLE") != j.end())
+		{
+			j.at("MAIN_MOB_DETECT_ENABLE").get_to(MAIN_MOB_DETECT_ENABLE);
+		}
+		if (j.find("MAIN_RED_POTION_ENABLE") != j.end())
+		{
+			j.at("MAIN_RED_POTION_ENABLE").get_to(MAIN_RED_POTION_ENABLE);
+		}
+		if (j.find("MAIN_RED_POTION_PERCENTAGE_VALUE") != j.end())
+		{
+			j.at("MAIN_RED_POTION_PERCENTAGE_VALUE").get_to(MAIN_RED_POTION_PERCENTAGE_VALUE);
+		}
+		if (j.find("MAIN_RED_POTION_SPEED_VALUE") != j.end())
+		{
+			j.at("MAIN_RED_POTION_SPEED_VALUE").get_to(MAIN_RED_POTION_SPEED_VALUE);
+		}
+		if (j.find("MAIN_BLUE_POTION_ENABLE") != j.end())
+		{
+			j.at("MAIN_BLUE_POTION_ENABLE").get_to(MAIN_BLUE_POTION_ENABLE);
+		}
+		if (j.find("MAIN_BLUE_POTION_PERCENTAGE_VALUE") != j.end())
+		{
+			j.at("MAIN_BLUE_POTION_PERCENTAGE_VALUE").get_to(MAIN_BLUE_POTION_PERCENTAGE_VALUE);
+		}
+		if (j.find("MAIN_BLUE_POTION_SPEED_VALUE") != j.end())
+		{
+			j.at("MAIN_BLUE_POTION_SPEED_VALUE").get_to(MAIN_BLUE_POTION_SPEED_VALUE);
+		}
+		if (j.find("MAIN_AUTO_REVIVE_ENABLE") != j.end())
+		{
+			j.at("MAIN_AUTO_REVIVE_ENABLE").get_to(MAIN_AUTO_REVIVE_ENABLE);
+		}
+		if (j.find("MAIN_AUTO_REVIVE_PERCENTAGE_VALUE") != j.end())
+		{
+			j.at("MAIN_AUTO_REVIVE_PERCENTAGE_VALUE").get_to(MAIN_AUTO_REVIVE_PERCENTAGE_VALUE);
+		}
+		if (j.find("MAIN_CHANNEL_CHANGER_PORT_OFFSET") != j.end())
+		{
+			j.at("MAIN_CHANNEL_CHANGER_PORT_OFFSET").get_to(MAIN_CHANNEL_CHANGER_PORT_OFFSET);
+		}
+		if (j.find("MAIN_BOOST_KEY") != j.end())
+		{
+			j.at("MAIN_BOOST_KEY").get_to(MAIN_BOOST_KEY);
+		}
+		if (j.find("MAIN_RELOG_KEY") != j.end())
+		{
+			j.at("MAIN_RELOG_KEY").get_to(MAIN_RELOG_KEY);
+		}
+		if (j.find("MAIN_GLOBAL_SWITCH_KEY") != j.end())
+		{
+			j.at("MAIN_GLOBAL_SWITCH_KEY").get_to(MAIN_GLOBAL_SWITCH_KEY);
+		}
+		if (j.find("MAIN_HIDE_UI_KEY") != j.end())
+		{
+			j.at("MAIN_HIDE_UI_KEY").get_to(MAIN_HIDE_UI_KEY);
+		}
+		if (j.find("MAIN_BOOST_SPEED") != j.end())
+		{
+			j.at("MAIN_BOOST_SPEED").get_to(MAIN_BOOST_SPEED);
+		}
+		if (j.find("MAIN_WH_DETECT_PLAYER_ENABLE") != j.end())
+		{
+			j.at("MAIN_WH_DETECT_PLAYER_ENABLE").get_to(MAIN_WH_DETECT_PLAYER_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_RANDOM_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_RANDOM_ENABLE").get_to(ITEM_SLOT_RANDOM_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_3_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_3_ENABLE").get_to(ITEM_SLOT_3_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_4_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_4_ENABLE").get_to(ITEM_SLOT_4_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_5_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_5_ENABLE").get_to(ITEM_SLOT_5_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_6_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_6_ENABLE").get_to(ITEM_SLOT_6_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_7_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_7_ENABLE").get_to(ITEM_SLOT_7_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_8_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_8_ENABLE").get_to(ITEM_SLOT_8_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_9_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_9_ENABLE").get_to(ITEM_SLOT_9_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_10_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_10_ENABLE").get_to(ITEM_SLOT_10_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_11_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_11_ENABLE").get_to(ITEM_SLOT_11_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_12_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_12_ENABLE").get_to(ITEM_SLOT_12_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_13_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_13_ENABLE").get_to(ITEM_SLOT_13_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_14_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_14_ENABLE").get_to(ITEM_SLOT_14_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_15_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_15_ENABLE").get_to(ITEM_SLOT_15_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_16_ENABLE") != j.end())
+		{
+			j.at("ITEM_SLOT_16_ENABLE").get_to(ITEM_SLOT_16_ENABLE);
+		}
+		if (j.find("ITEM_SLOT_RANDOM_MIN_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_RANDOM_MIN_TIME").get_to(ITEM_SLOT_RANDOM_MIN_TIME);
+		}
+		if (j.find("ITEM_SLOT_RANDOM_MAX_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_RANDOM_MAX_TIME").get_to(ITEM_SLOT_RANDOM_MAX_TIME);
+		}
+		if (j.find("ITEM_SLOT_3_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_3_TIME").get_to(ITEM_SLOT_3_TIME);
+		}
+		if (j.find("ITEM_SLOT_4_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_4_TIME").get_to(ITEM_SLOT_4_TIME);
+		}
+		if (j.find("ITEM_SLOT_5_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_5_TIME").get_to(ITEM_SLOT_5_TIME);
+		}
+		if (j.find("ITEM_SLOT_6_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_6_TIME").get_to(ITEM_SLOT_6_TIME);
+		}
+		if (j.find("ITEM_SLOT_7_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_7_TIME").get_to(ITEM_SLOT_7_TIME);
+		}
+		if (j.find("ITEM_SLOT_8_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_8_TIME").get_to(ITEM_SLOT_8_TIME);
+		}
+		if (j.find("ITEM_SLOT_9_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_9_TIME").get_to(ITEM_SLOT_9_TIME);
+		}
+		if (j.find("ITEM_SLOT_10_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_10_TIME").get_to(ITEM_SLOT_10_TIME);
+		}
+		if (j.find("ITEM_SLOT_11_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_11_TIME").get_to(ITEM_SLOT_11_TIME);
+		}
+		if (j.find("ITEM_SLOT_12_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_12_TIME").get_to(ITEM_SLOT_12_TIME);
+		}
+		if (j.find("ITEM_SLOT_13_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_13_TIME").get_to(ITEM_SLOT_13_TIME);
+		}
+		if (j.find("ITEM_SLOT_14_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_14_TIME").get_to(ITEM_SLOT_14_TIME);
+		}
+		if (j.find("ITEM_SLOT_15_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_15_TIME").get_to(ITEM_SLOT_15_TIME);
+		}
+		if (j.find("ITEM_SLOT_16_TIME") != j.end())
+		{
+			j.at("ITEM_SLOT_16_TIME").get_to(ITEM_SLOT_16_TIME);
+		}
+		if (j.find("ITEM_PICKUP_ENABLE") != j.end())
+		{
+			j.at("ITEM_PICKUP_ENABLE").get_to(ITEM_PICKUP_ENABLE);
+		}
+		if (j.find("ITEM_PICKUP_FILTER_ENABLE") != j.end())
+		{
+			j.at("ITEM_PICKUP_FILTER_ENABLE").get_to(ITEM_PICKUP_FILTER_ENABLE);
+		}
+		if (j.find("ITEM_PICKUP_DISTANCE") != j.end())
+		{
+			j.at("ITEM_PICKUP_DISTANCE").get_to(ITEM_PICKUP_DISTANCE);
+		}
+		if (j.find("ITEM_PICKUP_TIME") != j.end())
+		{
+			j.at("ITEM_PICKUP_TIME").get_to(ITEM_PICKUP_TIME);
+		}
+		if (j.find("ITEM_PICKUP_TYPE") != j.end())
+		{
+			j.at("ITEM_PICKUP_TYPE").get_to(ITEM_PICKUP_TYPE);
+		}
+		if (j.find("FISH_ENABLE") != j.end())
+		{
+			j.at("FISH_ENABLE").get_to(FISH_ENABLE);
+		}
+		if (j.find("FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE") != j.end())
+		{
+			j.at("FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE").get_to(FISH_SUCCESS_PERCENTAGE_VALUE_ENABLE);
+		}
+		if (j.find("FISH_CAST_TIME_MIN_VALUE") != j.end())
+		{
+			j.at("FISH_CAST_TIME_MIN_VALUE").get_to(FISH_CAST_TIME_MIN_VALUE);
+		}
+		if (j.find("FISH_CAST_TIME_MAX_VALUE") != j.end())
+		{
+			j.at("FISH_CAST_TIME_MAX_VALUE").get_to(FISH_CAST_TIME_MAX_VALUE);
+		}
+		if (j.find("FISH_ROUND_TIME_MIN_VALUE") != j.end())
+		{
+			j.at("FISH_ROUND_TIME_MIN_VALUE").get_to(FISH_ROUND_TIME_MIN_VALUE);
+		}
+		if (j.find("FISH_ROUND_TIME_MAX_VALUE") != j.end())
+		{
+			j.at("FISH_ROUND_TIME_MAX_VALUE").get_to(FISH_ROUND_TIME_MAX_VALUE);
+		}
+		if (j.find("FISH_EMERGENCY_RUN_TIME_VALUE") != j.end())
+		{
+			j.at("FISH_EMERGENCY_RUN_TIME_VALUE").get_to(FISH_EMERGENCY_RUN_TIME_VALUE);
+		}
+		if (j.find("FISH_CAST_TIME_ENABLE") != j.end())
+		{
+			j.at("FISH_CAST_TIME_ENABLE").get_to(FISH_CAST_TIME_ENABLE);
+		}
+		if (j.find("FISH_ROUND_TIME_ENABLE") != j.end())
+		{
+			j.at("FISH_ROUND_TIME_ENABLE").get_to(FISH_ROUND_TIME_ENABLE);
+		}
+		if (j.find("FISH_EMERGENCY_RUN_TIME_ENABLE") != j.end())
+		{
+			j.at("FISH_EMERGENCY_RUN_TIME_ENABLE").get_to(FISH_EMERGENCY_RUN_TIME_ENABLE);
+		}
+		if (j.find("FISH_DETECT_PLAYER_ENABLE") != j.end())
+		{
+			j.at("FISH_DETECT_PLAYER_ENABLE").get_to(FISH_DETECT_PLAYER_ENABLE);
+		}
+		if (j.find("FISH_KILL_TILL_SIZE_ENABLE") != j.end())
+		{
+			j.at("FISH_KILL_TILL_SIZE_ENABLE").get_to(FISH_KILL_TILL_SIZE_ENABLE);
+		}
+		if (j.find("FISH_KILL_TILL_SIZE_VALUE") != j.end())
+		{
+			j.at("FISH_KILL_TILL_SIZE_VALUE").get_to(FISH_KILL_TILL_SIZE_VALUE);
+		}
+		if (j.find("FISH_USE_FIRST_SLOT_ENABLE") != j.end())
+		{
+			j.at("FISH_USE_FIRST_SLOT_ENABLE").get_to(FISH_USE_FIRST_SLOT_ENABLE);
+		}
+		if (j.find("FISH_KILL_FISH_ENABLE") != j.end())
+		{
+			j.at("FISH_KILL_FISH_ENABLE").get_to(FISH_KILL_FISH_ENABLE);
+		}
+		if (j.find("FISH_SELL_TRASH_ENABLE") != j.end())
+		{
+			j.at("FISH_SELL_TRASH_ENABLE").get_to(FISH_SELL_TRASH_ENABLE);
+		}
+		if (j.find("FISH_SELL_TRASH_AFTER_PERCENTAGE") != j.end())
+		{
+			j.at("FISH_SELL_TRASH_AFTER_PERCENTAGE").get_to(FISH_SELL_TRASH_AFTER_PERCENTAGE);
+		}
+		if (j.find("FISH_DROP_TRASH_ENABLE") != j.end())
+		{
+			j.at("FISH_DROP_TRASH_ENABLE").get_to(FISH_DROP_TRASH_ENABLE);
+		}
+		if (j.find("FISH_BUY_BAIT_ENABLE") != j.end())
+		{
+			j.at("FISH_BUY_BAIT_ENABLE").get_to(FISH_BUY_BAIT_ENABLE);
+		}
+		if (j.find("FISH_BUY_BAIT_SHOP_SLOT") != j.end())
+		{
+			j.at("FISH_BUY_BAIT_SHOP_SLOT").get_to(FISH_BUY_BAIT_SHOP_SLOT);
+		}
+		if (j.find("FISH_BUY_BAIT_SHOP_COUNT") != j.end())
+		{
+			j.at("FISH_BUY_BAIT_SHOP_COUNT").get_to(FISH_BUY_BAIT_SHOP_COUNT);
+		}
+		if (j.find("FISH_SHOP_CAST_TELEPORT_ENABLE") != j.end())
+		{
+			j.at("FISH_SHOP_CAST_TELEPORT_ENABLE").get_to(FISH_SHOP_CAST_TELEPORT_ENABLE);
+		}
+		if (j.find("FISH_STOP_IF_POSITION_CHANGED_ENABLE") != j.end())
+		{
+			j.at("FISH_STOP_IF_POSITION_CHANGED_ENABLE").get_to(FISH_STOP_IF_POSITION_CHANGED_ENABLE);
+		}
+		if (j.find("FISH_STOP_IF_INVENTORY_FULL_ENABLE") != j.end())
+		{
+			j.at("FISH_STOP_IF_INVENTORY_FULL_ENABLE").get_to(FISH_STOP_IF_INVENTORY_FULL_ENABLE);
+		}
+		if (j.find("FISH_TELEPORT_STEP_RANGE") != j.end())
+		{
+			j.at("FISH_TELEPORT_STEP_RANGE").get_to(FISH_TELEPORT_STEP_RANGE);
+		}
+		if (j.find("FARM_ENABLE") != j.end())
+		{
+			j.at("FARM_ENABLE").get_to(FARM_ENABLE);
+		}
+		if (j.find("FARM_MOB_ENABLE") != j.end())
+		{
+			j.at("FARM_MOB_ENABLE").get_to(FARM_MOB_ENABLE);
+		}
+		if (j.find("FARM_BOSS_ENABLE") != j.end())
+		{
+			j.at("FARM_BOSS_ENABLE").get_to(FARM_BOSS_ENABLE);
+		}
+		if (j.find("FARM_METIN_ENABLE") != j.end())
+		{
+			j.at("FARM_METIN_ENABLE").get_to(FARM_METIN_ENABLE);
+		}
+		if (j.find("FARM_MINE_ENABLE") != j.end())
+		{
+			j.at("FARM_MINE_ENABLE").get_to(FARM_MINE_ENABLE);
+		}
+		if (j.find("FARM_PLANT_ENABLE") != j.end())
+		{
+			j.at("FARM_PLANT_ENABLE").get_to(FARM_PLANT_ENABLE);
+		}
+		if (j.find("FARM_DISTANCE") != j.end())
+		{
+			j.at("FARM_DISTANCE").get_to(FARM_DISTANCE);
+		}
+		if (j.find("FARM_DROP_WAIT_DELAY") != j.end())
+		{
+			j.at("FARM_DROP_WAIT_DELAY").get_to(FARM_DROP_WAIT_DELAY);
+		}
+		if (j.find("FARM_MOVE_TYPE") != j.end())
+		{
+			j.at("FARM_MOVE_TYPE").get_to(FARM_MOVE_TYPE);
+		}
+		if (j.find("FARM_RENDER_PATH_ENABLE") != j.end())
+		{
+			j.at("FARM_RENDER_PATH_ENABLE").get_to(FARM_RENDER_PATH_ENABLE);
+		}
+		if (j.find("SPAM_NORMAL_ENABLE") != j.end())
+		{
+			j.at("SPAM_NORMAL_ENABLE").get_to(SPAM_NORMAL_ENABLE);
+		}
+		if (j.find("SPAM_SHOUT_ENABLE") != j.end())
+		{
+			j.at("SPAM_SHOUT_ENABLE").get_to(SPAM_SHOUT_ENABLE);
+		}
+		if (j.find("SPAM_WISPER_ENABLE") != j.end())
+		{
+			j.at("SPAM_WISPER_ENABLE").get_to(SPAM_WISPER_ENABLE);
+		}
+		if (j.find("SPAM_NORMAL_TIME") != j.end())
+		{
+			j.at("SPAM_NORMAL_TIME").get_to(SPAM_NORMAL_TIME);
+		}
+		if (j.find("SPAM_WHISPER_TIME") != j.end())
+		{
+			j.at("SPAM_WHISPER_TIME").get_to(SPAM_WHISPER_TIME);
+		}
+		if (j.find("SPAM_SHOUT_TIME") != j.end())
+		{
+			j.at("SPAM_SHOUT_TIME").get_to(SPAM_SHOUT_TIME);
+		}
+		if (j.find("SPAM_NORMAL_COLOR_ENABLE") != j.end())
+		{
+			j.at("SPAM_NORMAL_COLOR_ENABLE").get_to(SPAM_NORMAL_COLOR_ENABLE);
+		}
+		if (j.find("SPAM_WHISPER_COLOR_ENABLE") != j.end())
+		{
+			j.at("SPAM_WHISPER_COLOR_ENABLE").get_to(SPAM_WHISPER_COLOR_ENABLE);
+		}
+		if (j.find("SPAM_SHOUT_COLOR_ENABLE") != j.end())
+		{
+			j.at("SPAM_SHOUT_COLOR_ENABLE").get_to(SPAM_SHOUT_COLOR_ENABLE);
+		}
+		if (j.find("SPAM_NORMAL_RAINBOW_COLOR_ENABLE") != j.end())
+		{
+			j.at("SPAM_NORMAL_RAINBOW_COLOR_ENABLE").get_to(SPAM_NORMAL_RAINBOW_COLOR_ENABLE);
+		}
+		if (j.find("SPAM_WHISPER_RAINBOW_COLOR_ENABLE") != j.end())
+		{
+			j.at("SPAM_WHISPER_RAINBOW_COLOR_ENABLE").get_to(SPAM_WHISPER_RAINBOW_COLOR_ENABLE);
+		}
+		if (j.find("SPAM_SHOUT_RAINBOW_COLOR_ENABLE") != j.end())
+		{
+			j.at("SPAM_SHOUT_RAINBOW_COLOR_ENABLE").get_to(SPAM_SHOUT_RAINBOW_COLOR_ENABLE);
+		}
+		if (j.find("REFINE_UPGRADE_TYPE") != j.end())
+		{
+			j.at("REFINE_UPGRADE_TYPE").get_to(REFINE_UPGRADE_TYPE);
+		}
+		if (j.find("REFINE_UPGRADE_COUNT") != j.end())
+		{
+			j.at("REFINE_UPGRADE_COUNT").get_to(REFINE_UPGRADE_COUNT);
+		}
+		if (j.find("REFINE_ITEM_SLOT") != j.end())
+		{
+			j.at("REFINE_ITEM_SLOT").get_to(REFINE_ITEM_SLOT);
+		}
+		if (j.find("BUFF_ENABLE") != j.end())
+		{
+			j.at("BUFF_ENABLE").get_to(BUFF_ENABLE);
+		}
+		if (j.find("BUFF_SKILL_1_ENABLE") != j.end())
+		{
+			j.at("BUFF_SKILL_1_ENABLE").get_to(BUFF_SKILL_1_ENABLE);
+		}
+		if (j.find("BUFF_SKILL_2_ENABLE") != j.end())
+		{
+			j.at("BUFF_SKILL_2_ENABLE").get_to(BUFF_SKILL_2_ENABLE);
+		}
+		if (j.find("BUFF_SKILL_3_ENABLE") != j.end())
+		{
+			j.at("BUFF_SKILL_3_ENABLE").get_to(BUFF_SKILL_3_ENABLE);
+		}
+		if (j.find("BUFF_SKILL_1_TIME") != j.end())
+		{
+			j.at("BUFF_SKILL_1_TIME").get_to(BUFF_SKILL_1_TIME);
+		}
+		if (j.find("BUFF_SKILL_2_TIME") != j.end())
+		{
+			j.at("BUFF_SKILL_2_TIME").get_to(BUFF_SKILL_2_TIME);
+		}
+		if (j.find("BUFF_SKILL_3_TIME") != j.end())
+		{
+			j.at("BUFF_SKILL_3_TIME").get_to(BUFF_SKILL_3_TIME);
+		}
+		if (j.find("STATUS_ENABLE") != j.end())
+		{
+			j.at("STATUS_ENABLE").get_to(STATUS_ENABLE);
+		}
+		if (j.find("PROTECTION_SHOW_WHISPER_LOGS_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_SHOW_WHISPER_LOGS_ENABLE").get_to(PROTECTION_SHOW_WHISPER_LOGS_ENABLE);
+		}
+		if (j.find("PROTECTION_SHOW_WHISPER_BALLOON_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_SHOW_WHISPER_BALLOON_ENABLE").get_to(PROTECTION_SHOW_WHISPER_BALLOON_ENABLE);
+		}
+		if (j.find("PROTECTION_SHOW_TALK_BALLOON_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_SHOW_TALK_BALLOON_ENABLE").get_to(PROTECTION_SHOW_TALK_BALLOON_ENABLE);
+		}
+		if (j.find("PROTECTION_PLAY_WHISPER_BEEP_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_PLAY_WHISPER_BEEP_ENABLE").get_to(PROTECTION_PLAY_WHISPER_BEEP_ENABLE);
+		}
+		if (j.find("PROTECTION_PLAY_TALK_BEEP_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_PLAY_TALK_BEEP_ENABLE").get_to(PROTECTION_PLAY_TALK_BEEP_ENABLE);
+		}
+		if (j.find("PROTECTION_FLASH_TALK_ICON_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_FLASH_TALK_ICON_ENABLE").get_to(PROTECTION_FLASH_TALK_ICON_ENABLE);
+		}
+		if (j.find("PROTECTION_SHOW_TALK_LOGS_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_SHOW_TALK_LOGS_ENABLE").get_to(PROTECTION_SHOW_TALK_LOGS_ENABLE);
+		}
+		if (j.find("PROTECTION_RESTORE_WISPER_WINDOW_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_RESTORE_WISPER_WINDOW_ENABLE").get_to(PROTECTION_RESTORE_WISPER_WINDOW_ENABLE);
+		}
+		if (j.find("PROTECTION_FLASH_WHISPER_ICON_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_FLASH_WHISPER_ICON_ENABLE").get_to(PROTECTION_FLASH_WHISPER_ICON_ENABLE);
+		}
+		if (j.find("PROTECTION_DISABLE_RENDER_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_DISABLE_RENDER_ENABLE").get_to(PROTECTION_DISABLE_RENDER_ENABLE);
+		}
+		if (j.find("PROTECTION_DISABLE_UPDATE_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_DISABLE_UPDATE_ENABLE").get_to(PROTECTION_DISABLE_UPDATE_ENABLE);
+		}
+		if (j.find("PROTECTION_DISABLE_RENDER_FRAMES_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_DISABLE_RENDER_FRAMES_ENABLE").get_to(PROTECTION_DISABLE_RENDER_FRAMES_ENABLE);
+		}
+		if (j.find("PROTECTION_AUTO_LOGIN_ENABLE") != j.end())
+		{
+			j.at("PROTECTION_AUTO_LOGIN_ENABLE").get_to(PROTECTION_AUTO_LOGIN_ENABLE);
+		}
+		if (j.find("RADAR_MONSTER_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_MONSTER_SHOW_ENABLE").get_to(RADAR_MONSTER_SHOW_ENABLE);
+		}
+		if (j.find("RADAR_BOSS_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_BOSS_SHOW_ENABLE").get_to(RADAR_BOSS_SHOW_ENABLE);
+		}
+		if (j.find("RADAR_NPC_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_NPC_SHOW_ENABLE").get_to(RADAR_NPC_SHOW_ENABLE);
+		}
+		if (j.find("RADAR_MINING_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_MINING_SHOW_ENABLE").get_to(RADAR_MINING_SHOW_ENABLE);
+		}
+		if (j.find("RADAR_STONE_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_STONE_SHOW_ENABLE").get_to(RADAR_STONE_SHOW_ENABLE);
+		}
+		if (j.find("RADAR_PLAYER_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_PLAYER_SHOW_ENABLE").get_to(RADAR_PLAYER_SHOW_ENABLE);
+		}
+		if (j.find("RADAR_WAYPOINT_SHOW_ENABLE") != j.end())
+		{
+			j.at("RADAR_WAYPOINT_SHOW_ENABLE").get_to(RADAR_WAYPOINT_SHOW_ENABLE);
+		}
+		if (j.find("MAIN_WH_RENDER_COLOR") != j.end())
+		{
+			ns::from_json(j.at("MAIN_WH_RENDER_COLOR"), MAIN_WH_RENDER_COLOR);
+		}
+		if (j.find("FISH_SHOP_TELEPORT_CORDS") != j.end())
+		{
+			ns::from_json(j.at("FISH_SHOP_TELEPORT_CORDS"), FISH_SHOP_TELEPORT_CORDS);
+		}
+		if (j.find("FISH_CAST_TELEPORT_CORDS") != j.end())
+		{
+			ns::from_json(j.at("FISH_CAST_TELEPORT_CORDS"), FISH_CAST_TELEPORT_CORDS);
+		}
+		if (j.find("SPAM_NORMAL_COLOR") != j.end())
+		{
+			ns::from_json(j.at("SPAM_NORMAL_COLOR"), SPAM_NORMAL_COLOR);
+		}
+		if (j.find("SPAM_WHISPER_COLOR") != j.end())
+		{
+			ns::from_json(j.at("SPAM_WHISPER_COLOR"), SPAM_WHISPER_COLOR);
+		}
+		if (j.find("SPAM_SHOUT_COLOR") != j.end())
+		{
+			ns::from_json(j.at("SPAM_SHOUT_COLOR"), SPAM_SHOUT_COLOR);
+		}
+		if (j.find("RADAR_MONSTER_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_MONSTER_COLOR"), RADAR_MONSTER_COLOR);
+		}
+		if (j.find("RADAR_BOSS_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_BOSS_COLOR"), RADAR_BOSS_COLOR);
+		}
+		if (j.find("RADAR_NPC_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_NPC_COLOR"), RADAR_NPC_COLOR);
+		}
+		if (j.find("RADAR_MINE_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_MINE_COLOR"), RADAR_MINE_COLOR);
+		}
+		if (j.find("RADAR_STONE_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_STONE_COLOR"), RADAR_STONE_COLOR);
+		}
+		if (j.find("RADAR_PLAYER_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_PLAYER_COLOR"), RADAR_PLAYER_COLOR);
+		}
+		if (j.find("RADAR_WAYPOINT_COLOR") != j.end())
+		{
+			ns::from_json(j.at("RADAR_WAYPOINT_COLOR"), RADAR_WAYPOINT_COLOR);
+		}
 	}
 
 	static void Save(string name, string folderPath)
@@ -376,9 +912,9 @@ public:
 			{ "FISH_BUY_BAIT_SHOP_SLOT", FISH_BUY_BAIT_SHOP_SLOT },
 			{ "FISH_BUY_BAIT_SHOP_COUNT", FISH_BUY_BAIT_SHOP_COUNT },
 			{ "FISH_SHOP_CAST_TELEPORT_ENABLE", FISH_SHOP_CAST_TELEPORT_ENABLE },
-			{ "FISH_CAST_ROTATION", FISH_CAST_ROTATION },
 			{ "FISH_STOP_IF_POSITION_CHANGED_ENABLE", FISH_STOP_IF_POSITION_CHANGED_ENABLE },
 			{ "FISH_STOP_IF_INVENTORY_FULL_ENABLE", FISH_STOP_IF_INVENTORY_FULL_ENABLE },
+			{ "FISH_TELEPORT_STEP_RANGE", FISH_TELEPORT_STEP_RANGE },
 			{ "FARM_ENABLE", FARM_ENABLE },
 			{ "FARM_MOB_ENABLE", FARM_MOB_ENABLE },
 			{ "FARM_BOSS_ENABLE", FARM_BOSS_ENABLE },
@@ -583,11 +1119,11 @@ public:
 	static int			FISH_BUY_BAIT_SHOP_SLOT;
 	static int			FISH_BUY_BAIT_SHOP_COUNT;
 	static bool			FISH_SHOP_CAST_TELEPORT_ENABLE;
-	static int			FISH_CAST_ROTATION;
 	static D3DVECTOR	FISH_SHOP_TELEPORT_CORDS;
 	static D3DVECTOR	FISH_CAST_TELEPORT_CORDS;
 	static bool			FISH_STOP_IF_POSITION_CHANGED_ENABLE;
 	static bool			FISH_STOP_IF_INVENTORY_FULL_ENABLE;
+	static int			FISH_TELEPORT_STEP_RANGE;
 
 	//#################        FARM
 
@@ -1325,7 +1861,6 @@ int			Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE = 60;
 bool		Settings::FISH_BUY_BAIT_ENABLE = false;;
 int			Settings::FISH_BUY_BAIT_SHOP_SLOT = 8;
 int			Settings::FISH_BUY_BAIT_SHOP_COUNT = 10;
-int			Settings::FISH_CAST_ROTATION = 200;
 bool		Settings::FISH_SHOP_CAST_TELEPORT_ENABLE = false;
 D3DVECTOR	Settings::FISH_SHOP_TELEPORT_CORDS = { 0, 0, 0 };;
 D3DVECTOR	Settings::FISH_CAST_TELEPORT_CORDS = { 0, 0, 0 };;
@@ -1335,6 +1870,7 @@ bool		Settings::FISH_ROUND_TIME_ENABLE = true;
 bool		Settings::FISH_EMERGENCY_RUN_TIME_ENABLE = true;
 bool		Settings::FISH_KILL_TILL_SIZE_ENABLE = false;
 float		Settings::FISH_KILL_TILL_SIZE_VALUE = 10;
+int			Settings::FISH_TELEPORT_STEP_RANGE = 1800;
 
 //#################        PROTECTION
 

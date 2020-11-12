@@ -535,7 +535,7 @@ void MainForm::ShowRadar()
 		ImVec2 pos1 = ImVec2(x, y - 12);
 		ImVec2 pos2 = ImVec2(x - 8, y + 12);
 		ImVec2 pos3 = ImVec2(x + 8, y + 12);
-		float fov = DEG2RAD(GameFunctionsCustom::PlayerGetCameraRotation());
+		float fov = DEG2RAD(GameFunctionsCustom::PlayerGetRotation());
 		rotateVector(pos1.x, pos1.y, fov, x, y);
 		rotateVector(pos2.x, pos2.y, fov, x, y);
 		rotateVector(pos3.x, pos3.y, fov, x, y);
@@ -568,7 +568,7 @@ void MainForm::ShowRadar()
 				{
 					TempPos = GameFunctionsCustom::GetTempPosition(new_position, Crap);
 					GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), TempPos.x, TempPos.y);
-					GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 0, 0);
+					GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetRotation(), 0, 0);
 					TmpCount += 1;
 				}
 				GameFunctionsCustom::PlayerMoveToDestPixelPositionDirection(TempPos);

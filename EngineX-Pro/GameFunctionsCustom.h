@@ -978,7 +978,7 @@ public:
 			D3DVECTOR newPosition;
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(pCharInstance, &Position);
 			float rotation = 0;
-			rotation = GameFunctionsCustom::PlayerGetCameraRotation();
+			rotation = GameFunctionsCustom::PlayerGetRotation();
 
 			int xx = Settings::MAIN_BOOST_SPEED * sin(rotation * 0.017453);
 			int yy = Settings::MAIN_BOOST_SPEED * cos(rotation * 0.017453);
@@ -1145,7 +1145,7 @@ public:
 	}
 
 	//#################################################################################################################################
-	static float PlayerGetCameraRotation()
+	static float PlayerGetRotation()
 	{
 		float frotation = 180.0f - GameFunctions::InstanceBaseGetRotation(GameFunctions::PlayerNEW_GetMainActorPtr());
 
@@ -1162,11 +1162,11 @@ public:
 			if (BoostCount >= 1)
 			{
 				BoostCount = 0;
-				GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 1, 0);
+				GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetRotation(), 1, 0);
 			}
 			else 
 			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetCameraRotation(), 0, 0);
+				GameFunctions::NetworkStreamSendCharacterStatePacket(TempPos, GameFunctionsCustom::PlayerGetRotation(), 0, 0);
 				BoostCount++;
 			}
 		}
