@@ -88,6 +88,24 @@ public:
 		}
 	}
 
+
+	static void LoadServerVariables()
+	{
+		if (Globals::Server == ServerName::METINPL)
+		{
+			Settings::FISH_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));
+			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(22, true), make_pair(27824, "Weżoglów")));
+			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(23, true), make_pair(27825, "Skaber")));
+			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(24, true), make_pair(27826, "Krab Królewski")));
+			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(25, true), make_pair(27827, "Rak Niebiański")));
+			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(42, true), make_pair(27854, "Martwy Weżoglów")));
+			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(43, true), make_pair(27855, "Martwy Skaber")));
+			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(44, true), make_pair(27856, "Martwy Krab Królewski")));
+			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(45, true), make_pair(27857, "Martwy Rak Niebiański")));
+			Settings::INVENTORY_PAGE_COUNT = 2;
+		}
+	}
+
 	static void Load(string name, string folderPath)
 	{
 		string buffer = "";
@@ -799,6 +817,7 @@ public:
 		{
 			ns::from_json(j.at("RADAR_WAYPOINT_COLOR"), RADAR_WAYPOINT_COLOR);
 		}
+		LoadServerVariables();
 	}
 
 	static void Save(string name, string folderPath)

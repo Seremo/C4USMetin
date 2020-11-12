@@ -1093,8 +1093,6 @@ void MainForm::Initialize()
 	D3DXCreateCylinder(Device::pDevice, 1.0f, 1.0f, 1.0f, 8, 8, &Device::ms_lpCylinderMesh, NULL);
 	oWndProc = (WNDPROC)SetWindowLongPtr(Globals::mainHwnd, GWL_WNDPROC, (LONG)WndProc);
 
-	
-	Configuration::Instance().OnStart();
 	IsInitialized = true;
 }
 
