@@ -161,9 +161,10 @@ typedef int                 Py_ssize_t;
 
 
 #include "Json.h"
+#include "Device.h"
+#include "Globals.h"
 #include "Settings.h"
 #include "Hotkey.h"
-#include "Device.h"
 #include "CRender.h"
 #include"SplashScreen.h"
 #include "Logger.h"
@@ -171,7 +172,7 @@ typedef int                 Py_ssize_t;
 #include "MainForm.h"
 #include "SimpleIni.h"
 
-#include "Globals.h"
+
 //NETWORK
 #include "Packet.h"
 #include "Network.h"
