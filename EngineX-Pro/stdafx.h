@@ -73,28 +73,38 @@ enum ServerName
 	DRAGON,
 	NEVILLA,
 	DRAGON2,
+	LUNA
 };
+//############################################################################
+//############################################################################
+//############################################################################
 
 
 //#define DX9
-
+ServerName SERVER = ServerName::DEVERIA;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
 
-
-#define FISHBOT
+#ifdef _DEBUG
 #define DEVELOPER_MODE
+#endif
+#define FISHBOT
+
 //#define NETWORK_MODE
 
 //#define PYTHON_ENABLE
 
+
+//############################################################################
+//############################################################################
+//############################################################################
 #if defined(PYTHON_ENABLE)
 #include "Python.h"
 #pragma comment(lib, "python27.lib")
 #endif
 
-#define DLL_VERSION "0.0.96 Beta"
+#define DLL_VERSION "0.0.98 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"

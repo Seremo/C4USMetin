@@ -14,17 +14,25 @@ void MainCore::Crack()
 		//	MemoryExtension::MemSet(addr1, 0x90, 16);
 		//	break;
 		//}
+
+
+		
 		case ServerName::METINPL:
-		{
-			MemoryExtension::MemSet(Globals::iCPythonNetworkStreamInstance + 31409, 0x0, 1);
-			break;
-		}
+			{
+				MemoryExtension::MemSet(Globals::iCPythonNetworkStreamInstance + 31409, 0x0, 1);
+				break;
+			}
+		case ServerName::LUNA:
+			{
+				MemoryExtension::MemSet((MainCore::hEntryBaseAddress + 0x12F0E4), 0x90, 29); //83 C4 ? E8 ? ? ? ? 6A ? 6A
+				break;
+			}
 		default:
-		{
-			break;
-		}
+			{
+				break;
+			}
 	}
-}
+			}
 ///##################################################################################################################
 bool MainCore::CheckMembers()
 {
