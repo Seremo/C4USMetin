@@ -81,7 +81,7 @@ enum ServerName
 
 
 //#define DX9
-ServerName SERVER = ServerName::DEVERIA;
+ServerName SERVER = ServerName::CLASSIC;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM

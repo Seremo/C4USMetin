@@ -965,11 +965,11 @@ void Globals::ReAddressingInstances()
 				pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x23683c4; // [95 ] [41 / 43]
 				pCItemManagerInstance = Globals::hEntryBaseAddress + 0x23683e0; // [100 ] [52 / 52]
 				pCPythonItemInstance = Globals::hEntryBaseAddress + 0x236bcf0; // [100 ] [4 / 4]
-				//pCPythonApplicationInstance = Globals::hEntryBaseAddress + (null); 
+				pCPythonApplicationInstance = Globals::hEntryBaseAddress + 0x236dde0; // [100 ] [1 / 1]
 				pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x23683c8; // [100 ] [3 / 3]
 				pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x23683d4; // [99 ] [107 / 108]
 				pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x236bd5c; // [100 ] [6 / 6]
-				//pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + (null); 
+				pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x23702B4;
 				break;
 			}
 	}
@@ -2086,7 +2086,7 @@ void Globals::ReAddressingLocas()
 				pCPythonBackgroundLocalPositionToGlobalPosition = Globals::hEntryBaseAddress + 0xaed30; // [100 ] [1 / 1]
 				pCNetworkStreamConnect = Globals::hEntryBaseAddress + 0x15e850; // [100 ] [1 / 1]
 				pCNetworkStream__DirectEnterMode_Set = Globals::hEntryBaseAddress + 0x118c80; // [100 ] [1 / 1]
-				//pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + (null); 
+				pCNetworkStreamGetAccountCharacterSlotDataz = Globals::hEntryBaseAddress + 0x1183d0; // [100 ] [1 / 1]
 				pCNetworkStreamIsOnline = Globals::hEntryBaseAddress + 0x15ea80; // [100 ] [3 / 3]
 				pCNetworkStreamPeek = Globals::hEntryBaseAddress + 0x15eac0; // [100 ] [4 / 4]
 				pCNetworkStreamRecv = Globals::hEntryBaseAddress + 0x15eca0; // [100 ] [1 / 1]
@@ -2100,7 +2100,7 @@ void Globals::ReAddressingLocas()
 				pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0xbb650; // [100 ] [3 / 3]
 				pCPythonNetworkStreamConnectGameServer = Globals::hEntryBaseAddress + 0x118110; // [100 ] [1 / 1]
 				pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x1184b0; // [100 ] [1 / 1]
-				//pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + (null); 
+				pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0x123410;
 				pCPythonNetworkStreamSendAttackPacket = Globals::hEntryBaseAddress + 0x1235b0; // [100 ] [2 / 2]
 				pCPythonNetworkStreamSendCharacterStatePacket = Globals::hEntryBaseAddress + 0x1237f0; // [100 ] [6 / 6]
 				pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x123950; // [100 ] [7 / 7]
@@ -2124,8 +2124,8 @@ void Globals::ReAddressingLocas()
 				pCPythonNetworkStreamSendUseSkillPacket = Globals::hEntryBaseAddress + 0x1252f0; // [100 ] [2 / 2]
 				pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0x198830; // [100 ] [1 / 1]
 				pCPythonNetworkStreamServerCommand = Globals::hEntryBaseAddress + 0x118d50; // [100 ] [9 / 9]
-				//pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0xa3370; // [37 ] [3 / 8]
-				//pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0xc0d60; // [62 ] [5 / 8]
+				pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0xc0d60; // [100 ] [1 / 1]
+				//pCPythonNonPlayerGetTable = Globals::hEntryBaseAddress + 0xa3370; // [100 ] [1 / 1]
 				pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0xdcc90; // [100 ] [2 / 2]
 				//pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + (null); 
 				pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0xc2e30; // [50 ] [2 / 4]
@@ -2150,7 +2150,7 @@ void Globals::ReAddressingLocas()
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x15f260; // [100 ] [2 / 2]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xabbf0; // [100 ] [1 / 1]
 				//pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0xac180; // [33 ] [1 / 3]
-				//pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0xac560; // [66 ] [2 / 3]
+				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0xac560; // [66 ] [2 / 3]
 				pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0xa6170; // [100 ] [1 / 1]
 				break;
 			}

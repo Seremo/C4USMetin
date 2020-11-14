@@ -24,7 +24,7 @@ void MainCore::Crack()
 			}
 		case ServerName::LUNA:
 			{
-				MemoryExtension::MemSet((MainCore::hEntryBaseAddress + 0x12F0E4), 0x90, 29); //83 C4 ? E8 ? ? ? ? 6A ? 6A
+				MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x12F0E4), 0x90, 29); //83 C4 ? E8 ? ? ? ? 6A ? 6A
 				break;
 			}
 		default:
@@ -154,7 +154,7 @@ void MainCore::Initialize()
 void  MainCore::UpdateLoop()
 {
 	DelayActions::Update();
-	for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+	for (map< pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 	{
 		if (itor->second.first)
 		{

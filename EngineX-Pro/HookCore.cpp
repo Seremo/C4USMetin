@@ -8,7 +8,7 @@ void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX)
 	{
 		Device::pDevice->GetTransform(D3DTS_WORLD, &CRender::WorldStateCopy);
 		nCPythonApplicationRenderGame(This);
-		for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+		for (map< pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 		{
 			if (itor->second.first)
 			{

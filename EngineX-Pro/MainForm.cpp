@@ -382,9 +382,19 @@ void MainForm::AddTab(size_t Index, const char* Text, size_t Index2)
 	ImGui::PushStyleColor(ImGuiCol_HeaderActive, (ImVec4)ImColor(35, 35, 35));			// Color on click tab
 
 
+	ImGui::Dummy(ImVec2(3.0f, 0.0f)); ImGui::SameLine();
 	bool isSelected = CurTabOpen == Index;
-	if (ImGui::Selectable2(Text, isSelected, 0, ImVec2(TabWidth, TabHeight)))	// If tab clicked
+	if (ImGui::Selectable2(Text, isSelected, 0, ImVec2(TabWidth, TabHeight))) 
+	{
 		CurTabOpen = Index;
+		for (map < DWORD, pair<string, DWORD>> ::iterator itor = MainCore::TabMenuList.begin(); itor != MainCore::TabMenuList.end(); itor++)
+		{
+			if (CurMenuOpen == itor->first)
+			{
+				itor->second.second = CurTabOpen;
+			}
+		}
+	}
 	ImGui::PopStyleVar();
 	ImGui::PopStyleColor(4);
 	ImGui::PopID();
@@ -392,12 +402,11 @@ void MainForm::AddTab(size_t Index, const char* Text, size_t Index2)
 
 void MainForm::AddMenu(size_t Index, const char* Text, size_t Index2)
 {
-	static const size_t TabWidth = 120;
-	static const size_t TabHeight = 30;
+	static const size_t TabWidth = 95;
+	static const size_t TabHeight = 35;
 
 	ImGui::PushID(Index);
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1);
-
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 6.0f));
 	if (Index2 != 0) 
 	{
 		ImGui::NewLine();
@@ -408,13 +417,14 @@ void MainForm::AddMenu(size_t Index, const char* Text, size_t Index2)
 
 	if (CurMenuOpen == Index) 
 	{
-
-		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(38, 181, 199));			// Color on tab open
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(4, 12, 25));			// Color on tab open
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor(255, 255, 255));
 	}
 	else 
 	{
-		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(40, 40, 40));			// Color on tab closed
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(14, 24, 41));			// Color on tab closed
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor(246, 244, 244));
 	}
 
@@ -422,9 +432,18 @@ void MainForm::AddMenu(size_t Index, const char* Text, size_t Index2)
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor(45, 45, 45));			// Color on click tab
 	
 	if (ImGui::Button(Text, ImVec2(TabWidth, TabHeight)))	// If tab clicked
+	{
 		CurMenuOpen = Index;
+		for (map < DWORD, pair<string, DWORD>> ::iterator itor = MainCore::TabMenuList.begin(); itor != MainCore::TabMenuList.end(); itor++)
+		{
+			if (CurMenuOpen == itor->first)
+			{
+				CurTabOpen = itor->second.second;
+			}
+		}
+	}
 
-	ImGui::PopStyleVar();
+	ImGui::PopStyleVar(2);
 	ImGui::PopStyleColor(4);
 	ImGui::PopID();
 }
@@ -739,7 +758,7 @@ void MainForm::Menu() {
 			static float f = 0.0f;
 			static int counter = 0;
 #if defined(DEVELOPER_MODE) && defined(_DEBUG)
-			/*ImGui::ShowDemoWindow();*/
+			ImGui::ShowDemoWindow();
 #else
 			if (StartPopup)
 			{
@@ -878,48 +897,58 @@ void MainForm::Menu() {
 			if(CheatWindowOpen)
 			{
 				ImGui::SetNextWindowBgAlpha(0.90f);
-				ImGui::SetNextWindowSize(ImVec2(800, 500));
-				ImGui::Begin("##Window", &CheatWindowOpen, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs);
+				ImGui::SetNextWindowSize(ImVec2(800, 600));
+				ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+				ImGui::Begin("##Window", &CheatWindowOpen, flags);
+				//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
+				//ImGui::SameLine();
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, (ImVec4)ImColor(25, 36, 55));
+				ImGui::BeginChild("Header", ImVec2(800, 45), false);
+				ImGui::Dummy(ImVec2(0.0f, 3.0f));
+				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
+				ImGui::Image(LogoHref, ImVec2(40, 28)); ImGui::SameLine();
+				ImGui::Dummy(ImVec2(10.0f, 0.0f)); ImGui::SameLine();
+				for (map < DWORD, pair<string, DWORD>> ::iterator itor = MainCore::TabMenuList.begin(); itor != MainCore::TabMenuList.end(); itor++)
 				{
-					/*if (ImGui::IsWindowHovered())
-					{
-						ImGui::GetStyle().Alpha = 1.0;
-					}
-					else
-					{
-						 ImGui::GetStyle().Alpha = 0.3;
-					}*/
-					//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
-					//ImGui::Image(LogoHref, ImVec2(30, 30));
-					//ImGui::SameLine();
-					ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-					ImGui::BeginGroup();
-					ImGui::Dummy(ImVec2(10.0f, 10.0f));
-					ImGui::Dummy(ImVec2(0.0f, 0.0f)); ImGui::SameLine(); ImGui::Image(LogoHref, ImVec2(80, 56)); ImGui::Dummy(ImVec2(10.0f, 10.0f));
-						
-					for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
-					{
-						if (itor->second.first)
-						{
-							AddTab(itor->first.first, itor->first.second.c_str());
-						}
-					}
-					ImGui::EndGroup();
-					ImGui::PopStyleVar();
-					ImGui::SameLine();
-					ImGui::BeginGroup();
-					ImGui::BeginChildFrame(1, ImVec2(0, 0), ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground);
-					for (map< pair<DWORD, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
-					{
-						if (itor->first.first == CurTabOpen)
-						{
-							itor->second.second->OnMenu();
-						}
-					}
-					ImGui::EndChildFrame();
-					ImGui::EndGroup();
-					
+					AddMenu(itor->first, itor->second.first.c_str());
 				}
+				ImGui::EndChild();
+				ImGui::PopStyleColor();
+				ImGui::PopStyleVar();
+
+				ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+				ImGui::BeginGroup();
+				for (map< pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+				{
+					if (itor->second.first && itor->first.first.second == CurMenuOpen)
+					{
+						AddTab(itor->first.first.first, itor->first.second.c_str());
+					}
+				}
+				ImGui::EndGroup();
+				ImGui::PopStyleVar();
+
+				ImGui::SameLine();
+
+				ImGui::BeginGroup();
+				ImGui::BeginChildFrame(1, ImVec2(695, 525), ImGuiWindowFlags_NoBackground);
+				for (map< pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+				{
+					if (itor->first.first.first == CurTabOpen)
+					{
+						itor->second.second->OnMenu();
+					}
+				}
+				ImGui::EndChildFrame();
+				ImGui::EndGroup();
+
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, (ImVec4)ImColor(25, 36, 55));
+				ImGui::BeginChild("Footer", ImVec2(800, 20), false);
+				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
+				ImGui::Text("Multihack Metin2 - Free Version");
+				ImGui::EndChild();
+				ImGui::PopStyleColor();
 				ImGui::End();
 			}
 

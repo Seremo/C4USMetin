@@ -331,9 +331,7 @@ bool ImGui::Selectable2(const char* label, bool selected, ImGuiSelectableFlags f
 		RenderFrame(bb.Min, bb.Max, col, false, 0.0f);
 		RenderNavHighlight(bb, id, ImGuiNavHighlightFlags_TypeThin | ImGuiNavHighlightFlags_NoRounding);
 		ImGuiWindow* window = GetCurrentWindow();
-		window->DrawList->AddRect(ImVec2(bb.Min.x, bb.Min.y), ImVec2(bb.Min.x, bb.Max.y), GetColorU32(ImGuiCol_NavHighlight), 0.0f, ~0, 1.0f);		//window->DrawList->AddRectFilled(bb.Min, bb.Max, GetColorU32(col));
-		//(window->DrawList, pos, GetColorU32(ImGuiCol_Text), ImGuiDir_Down);
-		//RenderBullet(bb.Min);
+		window->DrawList->AddRectFilled(ImVec2(bb.Min.x - 5.0f, bb.Min.y), ImVec2(bb.Min.x, bb.Max.y), GetColorU32(ImGuiCol_NavHighlight), 0.0f, ~0);
 	}
 
 	if ((flags & ImGuiSelectableFlags_SpanAllColumns) && window->DC.CurrentColumns)
@@ -780,3 +778,4 @@ bool ImGui::Hotkey( DWORD& hotKeyTime,const char* label, int* k, const ImVec2& s
 		ImGui::RenderText(ImVec2(total_bb.Min.x, frame_bb.Min.y + style.FramePadding.y), label);
 	return value_changed;
 }
+
