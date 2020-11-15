@@ -1358,24 +1358,6 @@ public:
 	{
 		if (Globals::Server == ServerName::AELDRA)
 		{
-			//TPacketCGAttackAeldra attack;
-			//attack.header = 79;
-			//attack.unk1 = 0;
-			//attack.size = 12;
-			//attack.unk2 = 0;
-			//attack.unk3 = 0;
-			//attack.unk4 = 16;
-			//attack.dwVictimVID = dwVIDVictim;
-			//attack.app37 = *(unsigned __int8*)(Globals::iCPythonApplicationInstance + 37) + 4;
-			//SOCKET s = (SOCKET)Globals::iCPythonNetworkStreamInstance + 76;
-			//PacketSniffer::Instance().ProcessSendPacket(sizeof(attack), (void*)&attack, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
-			//send(s, (const char*)&attack, sizeof(attack), 0);
-			//typedef void(__thiscall* OnHit)(void* This, UINT uSkill, DWORD& rkInstVictm, BOOL isSendPacket);
-			//DWORD* mobInstance = GameFunctions::CharacterManagerGetInstancePtr(dwVIDVictim);
-			//BOOL isSend = true;
-			//OnHit onHitFunc = (OnHit)(Globals::hEntryBaseAddress + 0x316DB0);
-			//DWORD playerEventHandler = *reinterpret_cast<DWORD*>(Globals::hEntryBaseAddress + 0x2C78088);
-			//onHitFunc((void*)playerEventHandler, uMotAttack, *mobInstance, isSend);
 			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
 			return true;
 		}
@@ -1391,6 +1373,9 @@ public:
 				break;
 			case ServerName::CALLIOPE2:
 				kPacketAtk.header = -112;
+				break;
+			case ServerName::TASTRIA2:
+				kPacketAtk.header = 124;
 				break;
 			default:
 				kPacketAtk.header = HEADER_CG_ATTACK;

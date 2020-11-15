@@ -355,6 +355,12 @@ bool MainForm::IsInitialized = 0;
 bool MainForm::SideBarIsOpen = true;
 bool StartPopup = true;
 
+ImVec4 TabOpenColor = (ImVec4)ImColor(33, 69, 119);
+ImVec4 TabClosedColor = (ImVec4)ImColor(16, 49, 94);
+ImVec4 TabHoveredColor = (ImVec4)ImColor(83, 116, 161);
+ImVec4 TabClickColor = (ImVec4)ImColor(55, 90, 139);
+ImVec4 HeaderFooterColor = (ImVec4)ImColor(24, 27, 32);
+
 void MainForm::AddTab(size_t Index, const char* Text, size_t Index2)
 {
 	static const size_t TabWidth = 90;
@@ -418,18 +424,18 @@ void MainForm::AddMenu(size_t Index, const char* Text, size_t Index2)
 	if (CurMenuOpen == Index) 
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
-		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(4, 12, 25));			// Color on tab open
+		ImGui::PushStyleColor(ImGuiCol_Button, TabOpenColor);			// Color on tab open
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor(255, 255, 255));
 	}
 	else 
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
-		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(14, 24, 41));			// Color on tab closed
+		ImGui::PushStyleColor(ImGuiCol_Button, TabClosedColor);			// Color on tab closed
 		ImGui::PushStyleColor(ImGuiCol_Text, (ImVec4)ImColor(246, 244, 244));
 	}
 
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor(50, 50, 50));			// Color on mouse hover in tab
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor(45, 45, 45));			// Color on click tab
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, TabHoveredColor);			// Color on mouse hover in tab
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, TabClickColor);			// Color on click tab
 	
 	if (ImGui::Button(Text, ImVec2(TabWidth, TabHeight)))	// If tab clicked
 	{
@@ -896,6 +902,13 @@ void MainForm::Menu() {
 			}
 			if(CheatWindowOpen)
 			{
+				/*ImGui::Begin("Color Window");
+				ImGui::ColorEdit3("TabOpen", (float*)&TabOpenColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("TabCloes", (float*)&TabClosedColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("TabHovered", (float*)&TabHoveredColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("TabClick", (float*)&TabClickColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("HeaderFooterColor", (float*)&HeaderFooterColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::End();*/
 				ImGui::SetNextWindowBgAlpha(0.90f);
 				ImGui::SetNextWindowSize(ImVec2(800, 600));
 				ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
@@ -903,7 +916,7 @@ void MainForm::Menu() {
 				ImGui::Begin("##Window", &CheatWindowOpen, flags);
 				//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 				//ImGui::SameLine();
-				ImGui::PushStyleColor(ImGuiCol_ChildBg, (ImVec4)ImColor(25, 36, 55));
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, HeaderFooterColor);
 				ImGui::BeginChild("Header", ImVec2(800, 45), false);
 				ImGui::Dummy(ImVec2(0.0f, 3.0f));
 				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
@@ -943,10 +956,14 @@ void MainForm::Menu() {
 				ImGui::EndChildFrame();
 				ImGui::EndGroup();
 
-				ImGui::PushStyleColor(ImGuiCol_ChildBg, (ImVec4)ImColor(25, 36, 55));
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, HeaderFooterColor);
 				ImGui::BeginChild("Footer", ImVec2(800, 20), false);
 				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
+				//ImGui::TextColored((ImVec4)ImColor(0, 0, 0), "Multihack Metin2 - Free Version");
 				ImGui::Text("Multihack Metin2 - Free Version");
+				ImGui::SameLine(ImGui::GetWindowWidth() - 45);
+				//ImGui::TextColored((ImVec4)ImColor(0, 0, 0), "C4US.PL");
+				ImGui::Text("C4US.PL");
 				ImGui::EndChild();
 				ImGui::PopStyleColor();
 				ImGui::End();

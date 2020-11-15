@@ -55,8 +55,11 @@ public:
 		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
 
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
-
-
+		ImGui::Text("MainActorPTR:0x%x", (*(DWORD*)(Globals::iCPythonPlayerInstance + 4) + 136) - Globals::hEntryBaseAddress);
+		ImGui::Text("GetItemIndex:0x%x", (*(DWORD*)(Globals::iCPythonPlayerInstance + 4) + 64) - Globals::hEntryBaseAddress);
+		ImGui::Text("GetInstancePtr:0x%x", (*(DWORD*)(Globals::iCPythonCharacterManagerInstance + 4) + 8) - Globals::hEntryBaseAddress);
+		ImGui::Text("PlayerGetRace:%d", GameFunctions::PlayerGetRace());
+		ImGui::Text("NetworkStreamGetMainActorSkillGroup:%d", GameFunctions::NetworkStreamGetMainActorSkillGroup());
 		ImGui::InputText("Name", &whisperTextName[0], whisperTextName.size());
 		ImGui::InputText("Text", &whisperTextMessage[0], whisperTextMessage.size());
 		if(ImGui::Button("Send Whisper"))

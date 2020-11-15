@@ -3,6 +3,7 @@ class MainCore
 {
 public:
 	static bool DXLoaded;
+	static void StartCrack();
 	static void Crack();
 	static void NetworkThread();
 	static bool CheckMembers();	
@@ -16,10 +17,10 @@ public:
 map < DWORD, pair<string, DWORD>> MainCore::TabMenuList =
 {
 	{1, make_pair("Main", 1)},
-	{2, make_pair("Visuals", 15)},
-	{3, make_pair("Settings", 16)},
+	{2, make_pair("Visuals", 12)},
+	{3, make_pair("Settings", 13)},
 #ifdef DEVELOPER_MODE
-	{4, make_pair("Developer", 16)}
+	{4, make_pair("Developer", 14)}
 #endif
 };
 

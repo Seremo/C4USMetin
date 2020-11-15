@@ -3,6 +3,21 @@
 
 bool MainCore::DXLoaded = false;
 
+void MainCore::StartCrack()
+{
+	switch (Globals::Server)
+	{
+		case ServerName::TASTRIA2:
+		{
+			MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x1E5FE0, 0x90, 10);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+}
 
 void MainCore::Crack()
 {
@@ -14,9 +29,6 @@ void MainCore::Crack()
 		//	MemoryExtension::MemSet(addr1, 0x90, 16);
 		//	break;
 		//}
-
-
-		
 		case ServerName::METINPL:
 			{
 				MemoryExtension::MemSet(Globals::iCPythonNetworkStreamInstance + 31409, 0x0, 1);
@@ -32,7 +44,7 @@ void MainCore::Crack()
 				break;
 			}
 	}
-			}
+}
 ///##################################################################################################################
 bool MainCore::CheckMembers()
 {
@@ -108,6 +120,7 @@ void MainCore::Initialize()
 		exit(0);
 	}
 #endif
+	MainCore::StartCrack();
 #ifdef NETWORK_MODE
 	while (!Device::pDevice || !PacketHandler::AddressReceived)
 #else

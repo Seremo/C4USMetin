@@ -73,7 +73,8 @@ enum ServerName
 	DRAGON,
 	NEVILLA,
 	DRAGON2,
-	LUNA
+	LUNA,
+	TASTRIA2
 };
 //############################################################################
 //############################################################################
@@ -81,7 +82,7 @@ enum ServerName
 
 
 //#define DX9
-ServerName SERVER = ServerName::CLASSIC;
+ServerName SERVER = ServerName::TASTRIA2;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
@@ -89,7 +90,7 @@ ServerName SERVER = ServerName::CLASSIC;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-#define FISHBOT
+//#define FISHBOT
 
 //#define NETWORK_MODE
 
