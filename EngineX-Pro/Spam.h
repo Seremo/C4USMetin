@@ -179,15 +179,15 @@ public:
 		}
 
 	}
-	void OnMenu()
-	{
 
+	void OnTab1()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("WhisperBorder", ImVec2(640, 200), true);
-		ImGui::Checkbox("Whisper", &Settings::SPAM_WISPER_ENABLE);
-		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_WHISPER_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamWhisperColor", (float*)&Settings::SPAM_WHISPER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); 
-		ImGui::SameLine(); 
+		ImGui::BeginChild("WhisperBorder", ImVec2(ImGui::GetWindowWidth() - 20, 90), true);
+		ImGui::Checkbox("Whisper", &Settings::SPAM_WISPER_ENABLE); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_WHISPER_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamWhisperColor", (float*)&Settings::SPAM_WHISPER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs);
+		ImGui::SameLine();
 		ImGui::Checkbox("Text Color", &Settings::SPAM_WHISPER_COLOR_ENABLE);
 		{
 			Settings::SPAM_WHISPER_RAINBOW_COLOR_ENABLE = false;
@@ -199,18 +199,18 @@ public:
 			Settings::SPAM_WHISPER_COLOR_ENABLE = false;
 		};
 #endif
-		ImGui::PushItemWidth(150); ImGui::InputTextMultiline("Text", &whisperTextMessage[0], whisperTextMessage.size());
+		ImGui::PushItemWidth(400); ImGui::InputText("Text", &whisperTextMessage[0], whisperTextMessage.size());
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("NormalBorder", ImVec2(645, 110), true);
-		ImGui::Checkbox("Normal", &Settings::SPAM_NORMAL_ENABLE);
-		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_NORMAL_TIME, 0.100, 1);
+		ImGui::BeginChild("NormalBorder", ImVec2(ImGui::GetWindowWidth() - 20, 90), true);
+		ImGui::Checkbox("Normal", &Settings::SPAM_NORMAL_ENABLE); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_NORMAL_TIME, 0.100, 1);
 		ImGui::SameLine();
 		ImGui::ColorEdit4("##SpamNormalColor", (float*)&Settings::SPAM_NORMAL_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine(); 
+		ImGui::SameLine();
 		ImGui::Checkbox("Text Color", &Settings::SPAM_NORMAL_COLOR_ENABLE);
 		{
 			Settings::SPAM_NORMAL_RAINBOW_COLOR_ENABLE = false;
@@ -222,18 +222,18 @@ public:
 			Settings::SPAM_NORMAL_COLOR_ENABLE = false;
 		};
 #endif
-		ImGui::PushItemWidth(570); ImGui::InputText("Text", &normalTextMessage[0], normalTextMessage.size());
+		ImGui::PushItemWidth(400); ImGui::InputText("Text", &normalTextMessage[0], normalTextMessage.size());
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("ShoutBorder", ImVec2(645, 110), true); ImGui::SameLine();
-		ImGui::Checkbox("Shout", &Settings::SPAM_SHOUT_ENABLE);
-		ImGui::PushItemWidth(150); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_SHOUT_TIME, 0.100, 1);
-		ImGui::SameLine(); 
+		ImGui::BeginChild("ShoutBorder", ImVec2(ImGui::GetWindowWidth() - 20, 90), true); ImGui::SameLine();
+		ImGui::Checkbox("Shout", &Settings::SPAM_SHOUT_ENABLE); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_SHOUT_TIME, 0.100, 1);
+		ImGui::SameLine();
 		ImGui::ColorEdit4("##SpamShoutColor", (float*)&Settings::SPAM_SHOUT_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs);
-		ImGui::SameLine(); 
+		ImGui::SameLine();
 		ImGui::Checkbox("Text Color", &Settings::SPAM_SHOUT_COLOR_ENABLE);
 		{
 			Settings::SPAM_SHOUT_RAINBOW_COLOR_ENABLE = false;
@@ -245,9 +245,24 @@ public:
 			Settings::SPAM_SHOUT_COLOR_ENABLE = false;
 		};
 #endif
-		ImGui::PushItemWidth(570); ImGui::InputText("Text", &shoutTextMessage[0], shoutTextMessage.size());
+		ImGui::PushItemWidth(400); ImGui::InputText("Text", &shoutTextMessage[0], shoutTextMessage.size());
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(33, "Spam");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 33:
+			OnTab1();
+			break;
+		}
 	}
 };
 

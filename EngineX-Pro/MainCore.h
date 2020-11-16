@@ -10,42 +10,51 @@ public:
 	static void Initialize();
 	static void UpdateLoop();
 	static void ConsoleOutput(const char* txt, ...);
-	static map < pair<pair<DWORD, DWORD>, string>, pair<bool, shared_ptr<IAbstractModuleBase>>> moduleList;
+	static map < pair<DWORD, DWORD>, pair<bool, shared_ptr<IAbstractModuleBase>>> moduleList;
 	static map < DWORD, pair<string, DWORD>> TabMenuList;
 };
 
 map < DWORD, pair<string, DWORD>> MainCore::TabMenuList =
 {
-	{1, make_pair("Main", 1)},
-	{2, make_pair("Visuals", 12)},
-	{3, make_pair("Settings", 13)},
+	{1, make_pair("Main", 10)},
+#ifdef FISHBOT
+	{2, make_pair("Fishbot", 20)},
+#endif
+	{3, make_pair("Additional", 31)},
+	{4, make_pair("Visuals", 40)},
+	{5, make_pair("Protection", 50)},
+	{6, make_pair("Settings", 60)},
 #ifdef DEVELOPER_MODE
-	{4, make_pair("Developer", 14)}
+	{7, make_pair("Developer", 70)}
 #endif
 };
 
-map < pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  MainCore::moduleList =
+map < pair<DWORD, DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  MainCore::moduleList =
 {
-	{ make_pair(make_pair(1, 1), "Main"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Main()))},
-	{ make_pair(make_pair(2, 1), "Item"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Item()))},
+	{ make_pair(10, 1), make_pair(true, shared_ptr<IAbstractModuleBase >(new Main()))},
+	{ make_pair(14, 1), make_pair(true,shared_ptr<IAbstractModuleBase >(new Item()))},
+    { make_pair(16, 1), make_pair(true, shared_ptr<IAbstractModuleBase >(new Farm()))},
+	{ make_pair(17, 1), make_pair(true,shared_ptr<IAbstractModuleBase >(new Buff()))},
+
 #ifdef FISHBOT
-	{ make_pair(make_pair(3, 1), "Fish"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Fish()))},
+	{ make_pair(20, 2), make_pair(true, shared_ptr<IAbstractModuleBase >(new Fish()))},
 #endif
-    { make_pair(make_pair(4, 1), "Farm"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Farm()))},
-	{ make_pair(make_pair(5, 1), "Spam"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Spam()))},
-	{ make_pair(make_pair(6, 1), "Refine"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Refine()))},
-	{ make_pair(make_pair(7, 1), "Buff"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Buff()))},
-	{ make_pair(make_pair(8, 1), "Status"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Status()))},
-#if defined( DEVELOPER_MODE) || defined( METINPL)
-	{ make_pair(make_pair(9, 1), "PythonScript"), make_pair(true, shared_ptr<IAbstractModuleBase >(new PythonScript()))},
+
+//	{ make_pair(30, 3), make_pair(false, shared_ptr<IAbstractModuleBase >(new AutoTalk()))},
+	{ make_pair(31, 3), make_pair(true, shared_ptr<IAbstractModuleBase >(new Status()))},
+	{ make_pair(32, 3), make_pair(true,shared_ptr<IAbstractModuleBase >(new Refine()))},
+	{ make_pair(33, 3), make_pair(true,shared_ptr<IAbstractModuleBase >(new Spam()))},
+	#if defined( DEVELOPER_MODE) || defined( METINPL)
+	{ make_pair(34, 3), make_pair(true, shared_ptr<IAbstractModuleBase >(new PythonScript()))},
 #endif
-	{ make_pair(make_pair(10, 1), "Protection"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Protection()))},
-//	{ make_pair(make_pair(11, 1), "AutoTalk"), make_pair(false, shared_ptr<IAbstractModuleBase >(new AutoTalk()))},
-	{ make_pair(make_pair(12, 2), "Radar"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Radar()))},
-	{ make_pair(make_pair(13, 3), "Configuration"), make_pair(true,shared_ptr<IAbstractModuleBase >(new Configuration()))},
+
+	{ make_pair(40, 4), make_pair(true,shared_ptr<IAbstractModuleBase >(new Visuals()))},
+	{ make_pair(50, 5), make_pair(true, shared_ptr<IAbstractModuleBase >(new Protection()))},
+	{ make_pair(60, 6), make_pair(true,shared_ptr<IAbstractModuleBase >(new Configuration()))},
+
 #ifdef DEVELOPER_MODE
-	{ make_pair(make_pair(14, 4), "Debug"), make_pair(true, shared_ptr<IAbstractModuleBase >(new Debug()))},
-	{ make_pair(make_pair(15, 4), "PacketSniffer"), make_pair(true, shared_ptr<IAbstractModuleBase >(new PacketSniffer()))},
-	{ make_pair(make_pair(16, 4), "Dungeons"), make_pair(true, shared_ptr<IAbstractModuleBase >(new MainDungs()))},
+	{ make_pair(70, 7), make_pair(true, shared_ptr<IAbstractModuleBase >(new Debug()))},
+	{ make_pair(71, 7), make_pair(true, shared_ptr<IAbstractModuleBase >(new PacketSniffer()))},
+	{ make_pair(72, 7), make_pair(true, shared_ptr<IAbstractModuleBase >(new MainDungs()))},
 #endif
 };

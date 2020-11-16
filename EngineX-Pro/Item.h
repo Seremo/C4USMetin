@@ -31,7 +31,7 @@ public:
 	{
 	}
 
-	void OnMenu()
+	void OnTab1()
 	{
 		/*if (!Globals::itemProtoList.size())
 		{
@@ -41,43 +41,20 @@ public:
 		{
 			Globals::itemProtoNames = GameFunctionsCustom::GetItemProtoNames();
 		}
-		
+
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("PickupBorder", ImVec2(420, 440), true);
+		ImGui::BeginChild("PickupBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); ImGui::SameLine();
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1);
 		ImGui::PushItemWidth(150); ImGui::SliderInt("Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputInt("Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000);
 		ImGui::Separator();
-		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "ic"   /*format "exe"*/);
-		ImGui::PushItemWidth(200);
-		if (ImGui::Combo("Items", &currentIndex, configs))
-		{
-			newFileName = configs[currentIndex];
-		}
-		ImGui::InputText("##FileName", &newFileName);
-		if (ImGui::Button("Load Item List"))
-		{
-			Settings::LoadItemFilter(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Save Item List"))
-		{
-			Settings::SaveItemFilter(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Remove Item List"))
-		{
-			Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "ic");
-		}
-		ImGui::Separator();
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER_ENABLE); ImGui::SameLine();
 		ImGui::InputText("Search", &filterItemLine[0], filterItemLine.size());
-		ImGui::Separator();
 		ImGui::Columns(2, "PickupList", false);
-		ImGui::BeginChild("ItemProtoList", ImVec2(190, 195), true);
+		ImGui::BeginChild("ItemProtoList", ImVec2(225, 160), true);
 		if (strlen(&filterItemLine[0]) >= 2)
 		{
 			if (filterItemLine != filterItemLineLast)
@@ -88,27 +65,27 @@ public:
 				{
 					switch (Globals::Server)
 					{
-						case ServerName::AELDRA:
+					case ServerName::AELDRA:
+					{
+						if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
 						{
-							if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
-							{
-								itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second) + " " + to_string(itor->first), false)));
-							}
-							break;
+							itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(string(itor->second) + " " + to_string(itor->first), false)));
 						}
-						default:
+						break;
+					}
+					default:
+					{
+						if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
 						{
-							if (!StringExtension::Equals(itor->second, "") && StringExtension::Contains(itor->second, filterItemLine.c_str()))
-							{
-								itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(StringExtension::ASCIIToUTF8(itor->second) + " " + to_string(itor->first), false)));
-							}
-							break;
+							itemPickupFilteredList.insert(std::make_pair(itor->first, std::make_pair(StringExtension::ASCIIToUTF8(itor->second) + " " + to_string(itor->first), false)));
 						}
+						break;
+					}
 					}
 				}
-			}	
+			}
 		}
-		if(!itemPickupFilteredList.size())
+		if (!itemPickupFilteredList.size())
 		{
 			ImGui::Text("Type 3 Letters...");
 		}
@@ -130,10 +107,10 @@ public:
 				}
 
 			}
-		}	
+		}
 		ImGui::EndChild();
 		ImGui::NextColumn();
-		ImGui::BeginChild("ItemProtoListFiltered", ImVec2(190, 195), true);
+		ImGui::BeginChild("ItemProtoListFiltered", ImVec2(225, 160), true);
 		for (map< DWORD, pair<string, bool>>::iterator itor = Settings::ITEM_PICKUP_SELECTED_LIST.begin(); itor != Settings::ITEM_PICKUP_SELECTED_LIST.end(); itor++)
 		{
 			if (ImGui::Selectable(itor->second.first.c_str(), itor->second.second))
@@ -151,7 +128,7 @@ public:
 		}
 		ImGui::EndChild();
 		ImGui::EndColumns();
-		if (ImGui::Button("Add")) 
+		if (ImGui::Button("Add"))
 		{
 			for (map< DWORD, pair<string, bool>>::iterator itor = itemPickupFilteredList.begin(); itor != itemPickupFilteredList.end(); itor++)
 			{
@@ -163,14 +140,14 @@ public:
 					}
 					else
 					{
-						Settings::ITEM_PICKUP_SELECTED_LIST.insert(std::make_pair(itor->first, std::make_pair(itor->second.first,false)));
+						Settings::ITEM_PICKUP_SELECTED_LIST.insert(std::make_pair(itor->first, std::make_pair(itor->second.first, false)));
 					}
-					
+
 				}
 
 			}
 		}
-		ImGui::SameLine(); ImGui::Dummy(ImVec2(160.0f, 0.0f)); ImGui::SameLine();
+		ImGui::SameLine(); ImGui::Dummy(ImVec2(200.0f, 0.0f)); ImGui::SameLine();
 		if (ImGui::Button("Remove"))
 		{
 
@@ -189,54 +166,101 @@ public:
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
-		ImGui::SameLine();
+	}
+
+	void OnTab2()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 
 		static float ITEM_SLOT_RANDOM_MIN_TIME;
 		static float ITEM_SLOT_RANDOM_MAX_TIME;
 
-		ImGui::BeginChild("SlotsBorder", ImVec2(225, 445), true);
-		ImGui::Checkbox("Random +/- (s.ms)  ", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
-	    ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0.0f, 100.0f, 0.100, 1);
+		ImGui::BeginChild("SlotsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::Checkbox("Random +/- (s.ms)", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
+		ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0.0f, 100.0f, 0.100, 1);
 		ImGui::InputFloatMinMax("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME, 0.0f, 100.0f, 0.100, 1);
 
-
-		//ImGui::InputFloat("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME,  0.100, 1);
-		//ImGui::InputFloat("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME,  0.100, 1);
 		ImGui::Separator();
 		ImGui::Text("Slots(s.ms)");
-		ImGui::Checkbox("3  ", &Settings::ITEM_SLOT_3_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot3time", &Settings::ITEM_SLOT_3_TIME, 0.100, 1);
-		ImGui::Checkbox("4  ", &Settings::ITEM_SLOT_4_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot4time", &Settings::ITEM_SLOT_4_TIME, 0.100, 1);
-		ImGui::Checkbox("5  ", &Settings::ITEM_SLOT_5_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot5time", &Settings::ITEM_SLOT_5_TIME, 0.100, 1);
-		ImGui::Checkbox("6  ", &Settings::ITEM_SLOT_6_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot6time", &Settings::ITEM_SLOT_6_TIME, 0.100, 1);
-		ImGui::Checkbox("7  ", &Settings::ITEM_SLOT_7_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot7time", &Settings::ITEM_SLOT_7_TIME, 0.100, 1);
-		ImGui::Checkbox("8  ", &Settings::ITEM_SLOT_8_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot8time", &Settings::ITEM_SLOT_8_TIME, 0.100, 1);
-		ImGui::Checkbox("9  ", &Settings::ITEM_SLOT_10_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot9time", &Settings::ITEM_SLOT_9_TIME, 0.100, 1);
-		ImGui::Checkbox("10", &Settings::ITEM_SLOT_10_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot10time", &Settings::ITEM_SLOT_10_TIME, 0.100, 1);
-		ImGui::Checkbox("11", &Settings::ITEM_SLOT_11_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot11time", &Settings::ITEM_SLOT_11_TIME, 0.100, 1);
-		ImGui::Checkbox("12", &Settings::ITEM_SLOT_12_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot12time", &Settings::ITEM_SLOT_12_TIME, 0.100, 1);
-		ImGui::Checkbox("13", &Settings::ITEM_SLOT_14_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot13time", &Settings::ITEM_SLOT_13_TIME, 0.100, 1);
-		ImGui::Checkbox("14", &Settings::ITEM_SLOT_14_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot14time", &Settings::ITEM_SLOT_14_TIME, 0.100, 1);
-		ImGui::Checkbox("15", &Settings::ITEM_SLOT_15_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot15time", &Settings::ITEM_SLOT_15_TIME, 0.100, 1);
-		ImGui::Checkbox("16", &Settings::ITEM_SLOT_16_ENABLE); ImGui::SameLine();
-		ImGui::InputFloat("##slot15time", &Settings::ITEM_SLOT_16_TIME, 0.100, 1);
+		if (ImGui::BeginTable("##table1", 3))
+		{
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot3time", &Settings::ITEM_SLOT_3_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("3", &Settings::ITEM_SLOT_3_ENABLE);
+			ImGui::TableSetColumnIndex(1);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot4time", &Settings::ITEM_SLOT_4_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("4", &Settings::ITEM_SLOT_4_ENABLE);
+			ImGui::TableSetColumnIndex(2);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot5time", &Settings::ITEM_SLOT_5_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("5", &Settings::ITEM_SLOT_5_ENABLE);
+
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot6time", &Settings::ITEM_SLOT_6_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("6", &Settings::ITEM_SLOT_6_ENABLE);
+			ImGui::TableSetColumnIndex(1);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot7time", &Settings::ITEM_SLOT_7_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("7", &Settings::ITEM_SLOT_7_ENABLE);
+			ImGui::TableSetColumnIndex(2);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot8time", &Settings::ITEM_SLOT_8_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("8", &Settings::ITEM_SLOT_8_ENABLE);
+
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot9time", &Settings::ITEM_SLOT_9_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("9", &Settings::ITEM_SLOT_10_ENABLE);
+			ImGui::TableSetColumnIndex(1);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot10time", &Settings::ITEM_SLOT_10_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("10", &Settings::ITEM_SLOT_10_ENABLE);
+			ImGui::TableSetColumnIndex(2);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot11time", &Settings::ITEM_SLOT_11_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("11", &Settings::ITEM_SLOT_11_ENABLE);
+
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot12time", &Settings::ITEM_SLOT_12_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("12", &Settings::ITEM_SLOT_12_ENABLE);
+			ImGui::TableSetColumnIndex(1);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot13time", &Settings::ITEM_SLOT_13_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("13", &Settings::ITEM_SLOT_14_ENABLE);
+			ImGui::TableSetColumnIndex(2);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot14time", &Settings::ITEM_SLOT_14_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("14", &Settings::ITEM_SLOT_14_ENABLE);
+
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot15time", &Settings::ITEM_SLOT_15_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("15", &Settings::ITEM_SLOT_15_ENABLE);
+			ImGui::TableSetColumnIndex(1);
+			ImGui::PushItemWidth(100); ImGui::InputFloat("##slot15time", &Settings::ITEM_SLOT_16_TIME, 0.100, 1); ImGui::SameLine();
+			ImGui::Checkbox("16", &Settings::ITEM_SLOT_16_ENABLE);
+			ImGui::EndTable();
+		}
 		ImGui::EndChild();
-		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::PopStyleVar();
 	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(14, "Pickup");
+		MainForm::AddTab(15, "Slots");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 14:
+			OnTab1();
+			break;
+		case 15:
+			OnTab2();
+			break;
+		}
+	}
+
 	void OnUpdate()
 	{
 		

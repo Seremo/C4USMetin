@@ -196,8 +196,6 @@ public:
 
 						}
 					}
-
-
 					if (Settings::BUFF_SKILL_2_ENABLE)
 					{
 						if (DynamicTimer::Check("BuffBotSkill2Time", Settings::BUFF_SKILL_2_TIME * 100))
@@ -241,8 +239,6 @@ public:
 
 						}
 					}
-
-
 					if (Settings::BUFF_SKILL_3_ENABLE)
 					{
 						if (DynamicTimer::Check("BuffBotSkill3Time", Settings::BUFF_SKILL_3_TIME * 100))
@@ -296,39 +292,42 @@ public:
 	{
 	}
 
-	void OnMenu()
+	void OnTab1()
 	{
-
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("BuffSkillsBorder", ImVec2(645, 430), true);
+		ImGui::BeginChild("BuffSkillsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Buff Enable", &Settings::BUFF_ENABLE);
-		ImGui::IconButton2(&Settings::BUFF_SKILL_1_ENABLE, "Skill 1", textureSkill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 1 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
-		ImGui::IconButton2(&Settings::BUFF_SKILL_2_ENABLE, "Skill 2", textureSkill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 2 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
-		ImGui::IconButton2(&Settings::BUFF_SKILL_3_ENABLE, "Skill 3", textureSkill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::PushItemWidth(150);  ImGui::InputFloat("Skill 3 Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
+		if (ImGui::BeginTable("##table1", 3))
+		{
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::IconButton2(&Settings::BUFF_SKILL_1_ENABLE, "Skill 1", textureSkill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+			ImGui::SameLine();
+			ImGui::PushItemWidth(100);  ImGui::InputFloat("##Skill1Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
+			ImGui::TableSetColumnIndex(1);
+			ImGui::IconButton2(&Settings::BUFF_SKILL_2_ENABLE, "Skill 2", textureSkill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+			ImGui::SameLine();
+			ImGui::PushItemWidth(100);  ImGui::InputFloat("##Skill2Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
+			ImGui::TableSetColumnIndex(2);
+			ImGui::IconButton2(&Settings::BUFF_SKILL_3_ENABLE, "Skill 3", textureSkill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+			ImGui::SameLine();
+			ImGui::PushItemWidth(100);  ImGui::InputFloat("##Skill3Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
+			ImGui::EndTable();
+		}
 
-		
-		ImGui::BeginChild("BuffTargetList", ImVec2(190, 240), true);
-		
+		ImGui::BeginChild("BuffTargetList", ImVec2(190, 200), true);
 		for (map<DWORD, std::shared_ptr<TargetBuff>>::iterator itor = targetList.begin(); itor != targetList.end(); itor++)
 		{
-			
+
 			if (ImGui::Selectable(itor->second.get()->targetName.c_str(), itor->second.get()->guiLineIsSelected))
 			{
 				selectedTargetLine = itor->first;
 			}
 			else
 			{
-				
+
 			}
-
-
 			if (itor->first == selectedTargetLine)
 			{
 				itor->second.get()->guiLineIsSelected = true;
@@ -338,14 +337,12 @@ public:
 				itor->second.get()->guiLineIsSelected = false;
 			}
 		}
-	
 		ImGui::EndChild();
 		ImGui::SameLine();
 		if (ImGui::Button("Add"))
 		{
 			if (!Settings::BUFF_ENABLE)
 			{
-
 				DWORD targetVID = GameFunctions::PlayerGetTargetVID();
 				if (targetVID)
 				{
@@ -378,13 +375,8 @@ public:
 
 								targetList.insert(std::make_pair(emptyLastKey, shared_ptr<TargetBuff >(new TargetBuff(targetName, targetVID))));
 							}
-
 						}
-
 					}
-
-
-
 				}
 			}
 		}
@@ -405,12 +397,24 @@ public:
 				}
 				targetList.erase(key);
 			}
-			
+
 		}
-		
-		
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
 
+	void OnTabs()
+	{
+		MainForm::AddTab(17, "Buff");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 17:
+			OnTab1();
+			break;
+		}
+	}
 };

@@ -30,20 +30,20 @@ public:
 	{
 	}
 
-	void OnMenu()
+	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("StatusBorder", ImVec2(645, 430), true);
-		ImGui::Checkbox("Status Enable", &Settings::STATUS_ENABLE); 
-		
-		
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),"Player Name");
+		ImGui::BeginChild("StatusBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::Checkbox("Status Enable", &Settings::STATUS_ENABLE);
+
+
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Player Name");
 		ImGui::SameLine();
-		
+
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringPlayerName.c_str());
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Position X Y:");
-		
+
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringPlayerPositionX.c_str());
 		ImGui::SameLine();
@@ -84,6 +84,21 @@ public:
 
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(31, "Status");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 31:
+			OnTab1();
+			break;
+		}
 	}
 
 	void OnUpdate()

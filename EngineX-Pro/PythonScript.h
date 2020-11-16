@@ -5,35 +5,50 @@ private:
 	string pythonBuffer =string(4000, '\0');;
 	
 public:
-	virtual void OnStart()
+	void OnStart()
 	{
 
 	}
 
-	virtual void OnStop()
+	void OnStop()
 	{
 	}
 
-	virtual void OnUpdate()
+	void OnUpdate()
 	{
 
 	}
 
-	virtual void OnRender()
+	void OnRender()
 	{
 	}
 
-	virtual void OnMenu()
+	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("PythonBorder", ImVec2(645, 430), true);
-		ImGui::InputTextMultiline("##Code", &pythonBuffer[0], pythonBuffer.size(), ImVec2(615, 290));
+		ImGui::BeginChild("PythonBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::InputTextMultiline("##Code", &pythonBuffer[0], pythonBuffer.size(), ImVec2(ImGui::GetWindowWidth() - 40, ImGui::GetWindowHeight() - 80));
 		if (ImGui::Button("Execute"))
 		{
-			Globals::PyRun_SimpleStringFlags(pythonBuffer.c_str(),0);
+			Globals::PyRun_SimpleStringFlags(pythonBuffer.c_str(), 0);
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(34, "PythonScript");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 34:
+			OnTab1();
+			break;
+		}
 	}
 };

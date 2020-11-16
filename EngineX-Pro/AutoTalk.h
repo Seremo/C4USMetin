@@ -21,9 +21,24 @@ public:
 	{
 	}
 
+	void OnTab1()
+	{
+
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(30, "AutoTalk");
+	}
+
 	void OnMenu()
 	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 30:
+			OnTab1();
+			break;
+		}
 	}
-	
 };
 

@@ -533,11 +533,11 @@ public:
 	{
 	}
 
-	void OnMenu()
+	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DungBot", ImVec2(645, 210), true);
+		ImGui::BeginChild("DungBot", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		std::string PhaseText = "Phase:" + to_string(Phase);
 		ImGui::Text(PhaseText.c_str());
 		if (ImGui::Checkbox("On/Off", &Settings::DUNGEON_BOT_ENABLE)) {
@@ -555,5 +555,20 @@ public:
 		ImGui::RadioButton("BARIA 175", &Settings::DUNGEON_TYPE, 2);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(72, "Dungeons");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 72:
+			OnTab1();
+			break;
+		}
 	}
 };

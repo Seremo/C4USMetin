@@ -73,14 +73,8 @@
     <ClInclude Include="ProtectExtension.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PacketSniffer.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="MemoryExtension.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Protection.h">
-      <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_win32.h">
       <Filter>ImGui</Filter>
@@ -136,27 +130,6 @@
     <ClInclude Include="resource.h">
       <Filter>Form</Filter>
     </ClInclude>
-    <ClInclude Include="Buff.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Fish.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Farm.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Main.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Spam.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="AutoTalk.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="MathExtension.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -190,35 +163,14 @@
     <ClInclude Include="Smietnik.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="Refine.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Misc.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="PythonScript.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="TAbstractSingleton.h">
       <Filter>Utils\Other</Filter>
     </ClInclude>
     <ClInclude Include="HookCore.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Debug.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiExtension.h">
       <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="Radar.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Status.h">
-      <Filter>Core\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Configuration.h">
-      <Filter>Core\Modules</Filter>
     </ClInclude>
     <ClInclude Include="IAbstractModuleBase.h">
       <Filter>Core\Modules</Filter>
@@ -234,7 +186,7 @@
       <Filter>Config</Filter>
     </ClInclude>
     <ClInclude Include="MainDungs.h">
-      <Filter>Core\Modules\Dungeons</Filter>
+      <Filter>Core\Modules\Developer</Filter>
     </ClInclude>
     <ClInclude Include="Socks5.h">
       <Filter>Utils</Filter>
@@ -262,6 +214,51 @@
     <ClInclude Include="ProcessExtension.h" />
     <ClInclude Include="ImGui\imgui_stdlib.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Core\Modules\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Fish.h">
+      <Filter>Core\Modules\Fishbot</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketSniffer.h">
+      <Filter>Core\Modules\Developer</Filter>
+    </ClInclude>
+    <ClInclude Include="PythonScript.h">
+      <Filter>Core\Modules\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Core\Modules\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>Core\Modules\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Farm.h">
+      <Filter>Core\Modules\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Refine.h">
+      <Filter>Core\Modules\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="Spam.h">
+      <Filter>Core\Modules\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>Core\Modules\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Core\Modules\Developer</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoTalk.h">
+      <Filter>Core\Modules\Additional</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
+      <Filter>Core\Modules\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Protection.h">
+      <Filter>Core\Modules\Protection</Filter>
+    </ClInclude>
+    <ClInclude Include="Visuals.h">
+      <Filter>Core\Modules\Visuals</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -292,14 +289,32 @@
     <Filter Include="Other">
       <UniqueIdentifier>{32c70d04-5b8e-4841-9eb4-0d4fa951509d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Modules\Dungeons">
-      <UniqueIdentifier>{f9b160f3-cfcc-4907-a086-478461b2f8d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{16f4f4ac-38c9-428e-bed5-2067896f60ef}</UniqueIdentifier>
     </Filter>
     <Filter Include="Communication">
       <UniqueIdentifier>{7f6cf64e-6319-4945-bb48-8f6949aace31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Main">
+      <UniqueIdentifier>{422c2669-f7b3-4b93-a97e-75493f47e6da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Visuals">
+      <UniqueIdentifier>{799a91c8-32c1-4306-8166-429463694632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Settings">
+      <UniqueIdentifier>{fd3ed0b7-95d7-4f9b-9d91-264c3d894cc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Additional">
+      <UniqueIdentifier>{8e1142a6-9a02-4e0d-bd90-973d3d8683d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Developer">
+      <UniqueIdentifier>{f9b160f3-cfcc-4907-a086-478461b2f8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Fishbot">
+      <UniqueIdentifier>{debeff30-467b-486e-8ed5-5916f47d9805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Modules\Protection">
+      <UniqueIdentifier>{420fae72-65a9-46de-9163-07fb96966534}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

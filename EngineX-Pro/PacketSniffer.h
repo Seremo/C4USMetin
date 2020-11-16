@@ -50,18 +50,32 @@ public:
 	{
 	}
 
-	virtual void OnMenu()
+	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("SniffernBorder", ImVec2(645, 445), true);
+		ImGui::BeginChild("SniffernBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Send Enable", &PacketSendEnable); ImGui::SameLine(); ImGui::Checkbox("Show Return Address", &PacketSendReturnAddressEnable);
 		ImGui::Checkbox("Receive Enable", &PacketRecvEnable); ImGui::SameLine(); ImGui::Checkbox("Show Return Address", &PacketRecvReturnAddressEnable);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
-	
 
+	void OnTabs()
+	{
+		MainForm::AddTab(71, "PacketSniffer");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 71:
+			OnTab1();
+			break;
+		}
+	}
+	
 	void ProcessSendPacket(int len, void* pDestBuf, DWORD address)
 	{
 		BYTE header;

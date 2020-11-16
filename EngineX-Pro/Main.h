@@ -19,8 +19,6 @@ private:
 	DWORD lastMiniMHMoveSpeed = 0;
 	DWORD lastMiniMHAttackSpeed = 0;
 
-	DWORD hotkeyTime = 0;
-
 	DWORD lastTimeStonesArrowShow = 0;
 
 	DirectTexture texture_Skill_0;
@@ -253,100 +251,54 @@ public:
 		}
 	}
 
-	void OnMenu()
+	void OnTab1()
 	{
-
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("MHUsager", ImVec2(645, 110), true);
-		ImGui::Checkbox("HP Potion           ", &Settings::MAIN_RED_POTION_ENABLE); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % HP", &Settings::MAIN_RED_POTION_PERCENTAGE_VALUE, 1, 100);
-
-
-		ImGui::Checkbox("MP Potion           ", &Settings::MAIN_BLUE_POTION_ENABLE); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Speed(ms)            ", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
-		ImGui::PushItemWidth(150); ImGui::SliderInt("Below % MP", &Settings::MAIN_BLUE_POTION_PERCENTAGE_VALUE, 1, 100);
-
-
-		ImGui::Checkbox("Auto Revive        ", &Settings::MAIN_AUTO_REVIVE_ENABLE); ImGui::SameLine();
-		ImGui::SliderInt("Resume Attack After HP %", &Settings::MAIN_AUTO_REVIVE_PERCENTAGE_VALUE, 1, 100);
-		ImGui::EndChild();
-		ImGui::PopStyleVar();/* ImGui::SameLine();*/
-		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-		ImGui::SetNextWindowBgAlpha(0.75f);
-
-		ImGui::BeginChild("AtakBorder", ImVec2(645, 80), true);
+		ImGui::BeginChild("AtakBorder", ImVec2(ImGui::GetWindowWidth() - 20, 120), true);
 		if (ImGui::Checkbox("Auto Attack    ", &Settings::MAIN_ATTACK_ENABLE))
 		{
 			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
-
 		}
 		else
 		{
 			GameFunctions::PlayerSetAttackKeyState(false);
 		}
 		ImGui::SameLine();
-
-
-		ImGui::Checkbox("Mob Detect         ", &Settings::MAIN_MOB_DETECT_ENABLE);
-
-		ImGui::SameLine();
+		ImGui::Checkbox("Mob Detect", &Settings::MAIN_MOB_DETECT_ENABLE);
 		ImGui::Checkbox("Rotation", &Settings::MAIN_ROTATION_ENABLE);
 		ImGui::SameLine();
-		ImGui::PushItemWidth(200); ImGui::SliderInt("Rotation Frequency", &Settings::MAIN_ROTATION_SPEED_VALUE, 1, 100);
-
-
-
-		if (ImGui::Checkbox("Wallhack Mob", &Settings::MAIN_WALL_MOB_ENABLE)) {
-			//if (Settings::MainWallHackMob)
-			//{
-			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision, 0xC2, 1);
-			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x1, 0x04, 1);
-			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x2, 0x00, 1);
-			//}
-			//else
-			//{
-			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision, 0x55, 1);
-			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x1, 0x8B, 1);
-			//	MemoryExtension::MemSet(Globals::pCActorInstanceTestActorCollision + 0x2, 0xEC, 1);
-			//}
-		}ImGui::SameLine();
-		ImGui::Checkbox("Wallhack Object", &Settings::MAIN_WALL_OBJECT_ENABLE); ImGui::SameLine();
-		ImGui::Checkbox("Wallhack Terrain", &Settings::MAIN_WALL_TERRAIN_ENABLE); ImGui::SameLine();
-
-
-		ImGui::Checkbox("Enemy AntiFly", &Settings::MAIN_NOK_ENABLE); ImGui::SameLine();
-		ImGui::Checkbox("Player AntiFly", &Settings::MAIN_NOP_ENABLE);
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Rotation Frequency", &Settings::MAIN_ROTATION_SPEED_VALUE, 1, 100);
+		ImGui::Checkbox("Auto Revive", &Settings::MAIN_AUTO_REVIVE_ENABLE); ImGui::SameLine();
+		ImGui::SliderInt("Resume Attack After HP %", &Settings::MAIN_AUTO_REVIVE_PERCENTAGE_VALUE, 1, 100);
 		ImGui::EndChild();
 		ImGui::PopStyleVar(); /*ImGui::SameLine();*/
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("SkillsBorder", ImVec2(645, 75), true);
-		ImGui::IconButton2(&Settings::MAIN_SKILL_1_ENABLE, "Skill 1", texture_Skill_0, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_2_ENABLE, "Skill 2", texture_Skill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_3_ENABLE, "Skill 3", texture_Skill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_4_ENABLE, "Skill 4", texture_Skill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_5_ENABLE, "Skill 5", texture_Skill_4, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
-		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_6_ENABLE, "Skill 6", texture_Skill_5, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::BeginChild("OtherBorder", ImVec2(ImGui::GetWindowWidth() - 20, 180), true);
+		ImGui::Checkbox("Wallhack Mob", &Settings::MAIN_WALL_MOB_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Wallhack Object", &Settings::MAIN_WALL_OBJECT_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Wallhack Terrain", &Settings::MAIN_WALL_TERRAIN_ENABLE);
+		ImGui::Checkbox("Enemy AntiFly", &Settings::MAIN_NOK_ENABLE); ImGui::SameLine();
+		ImGui::Checkbox("Player AntiFly", &Settings::MAIN_NOP_ENABLE);
+		ImGui::Checkbox("Detect Stones", &Settings::MAIN_STONE_DETECT_ENABLE);
+		switch (Globals::Server)
+		{
+		case ServerName::MEDIUMMT2:
+			ImGui::Checkbox("Medium Mobber", &Settings::MAIN_MOBBER_ENABLE);
+			break;
+		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
 
+	void OnTab2()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("WHBorder", ImVec2(315, 230), true);
-		ImGui::Checkbox("WaitHack", &Settings::MAIN_WH_ENABLE); ImGui::SameLine();
-		ImGui::ColorEdit4("##RenderWH", (float*)&Settings::MAIN_WH_RENDER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-		ImGui::Checkbox("Render WH", &Settings::MAIN_WH_RENDER_ENABLE);
-
-		ImGui::Checkbox("Detect Player", &Settings::MAIN_WH_DETECT_PLAYER_ENABLE);
-
+		ImGui::BeginChild("WHBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::Checkbox("WaitHack", &Settings::MAIN_WH_ENABLE);
 		ImGui::RadioButton("Standard", &Settings::MAIN_WH_ATTACK_TYPE, 0);
 		ImGui::SameLine();
 		ImGui::RadioButton("Target", &Settings::MAIN_WH_ATTACK_TYPE, 1);
@@ -367,36 +319,71 @@ public:
 #endif	
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
 
-		ImGui::SameLine();
-
+	void OnTab3()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("OtherBorder", ImVec2(315, 230), true);
-
-
-		ImGui::Checkbox("Detect Stones", &Settings::MAIN_STONE_DETECT_ENABLE);
-
-		switch (Globals::Server)
-		{
-		case ServerName::MEDIUMMT2:
-			ImGui::Checkbox("Medium Mobber", &Settings::MAIN_MOBBER_ENABLE);
-			break;
-		}
-
-		ImGui::Hotkey(hotkeyTime, "Boost         ", &Settings::MAIN_BOOST_KEY);
-		ImGui::Hotkey(hotkeyTime, "Relog         ", &Settings::MAIN_RELOG_KEY);
-		ImGui::Hotkey(hotkeyTime, "MH Switch", &Settings::MAIN_GLOBAL_SWITCH_KEY);
-		ImGui::Hotkey(hotkeyTime, "Hide UI      ", &Settings::MAIN_HIDE_UI_KEY);
-
-		ImGui::PushItemWidth(100); ImGui::InputInt("Boost Distance", &Settings::MAIN_BOOST_SPEED, 5, 100);
-		ImGui::InputInt("Channel Changer Port +/-", &Settings::MAIN_CHANNEL_CHANGER_PORT_OFFSET, 1, 1);
-
-
-
+		ImGui::BeginChild("MHUsager", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::Checkbox("HP Potion           ", &Settings::MAIN_RED_POTION_ENABLE);
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % HP", &Settings::MAIN_RED_POTION_PERCENTAGE_VALUE, 1, 100);
+		ImGui::Separator();
+		ImGui::Checkbox("MP Potion           ", &Settings::MAIN_BLUE_POTION_ENABLE);
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % MP", &Settings::MAIN_BLUE_POTION_PERCENTAGE_VALUE, 1, 100);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
+
+	void OnTab4()
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+		ImGui::SetNextWindowBgAlpha(0.75f);
+		ImGui::BeginChild("SkillsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::IconButton2(&Settings::MAIN_SKILL_1_ENABLE, "Skill 1", texture_Skill_0, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::SameLine();
+		ImGui::IconButton2(&Settings::MAIN_SKILL_2_ENABLE, "Skill 2", texture_Skill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::SameLine();
+		ImGui::IconButton2(&Settings::MAIN_SKILL_3_ENABLE, "Skill 3", texture_Skill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::SameLine();
+		ImGui::IconButton2(&Settings::MAIN_SKILL_4_ENABLE, "Skill 4", texture_Skill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::SameLine();
+		ImGui::IconButton2(&Settings::MAIN_SKILL_5_ENABLE, "Skill 5", texture_Skill_4, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::SameLine();
+		ImGui::IconButton2(&Settings::MAIN_SKILL_6_ENABLE, "Skill 6", texture_Skill_5, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::EndChild();
+		ImGui::PopStyleVar();
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(10, "General");
+		MainForm::AddTab(11, "WaitHack");
+		MainForm::AddTab(12, "Potions");
+		MainForm::AddTab(13, "Skills");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 10:
+			OnTab1();
+			break;
+		case 11:
+			OnTab2();
+			break;
+		case 12:
+			OnTab3();
+			break;
+		case 13:
+			OnTab4();
+			break;
+		}
+	}
+
 private:
 	bool Revive()
 	{

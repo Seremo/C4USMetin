@@ -283,7 +283,6 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MainCore.h" />
     <ClInclude Include="MainForm.h" />
-    <ClInclude Include="Misc.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PacketHandler.h" />
@@ -291,7 +290,7 @@
     <ClInclude Include="ProcessExtension.h" />
     <ClInclude Include="PythonExtension.h" />
     <ClInclude Include="PythonScript.h" />
-    <ClInclude Include="Radar.h" />
+    <ClInclude Include="Visuals.h" />
     <ClInclude Include="Refine.h" />
     <ClInclude Include="Security.h" />
     <ClInclude Include="Socks5.h" />

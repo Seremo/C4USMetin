@@ -48,40 +48,12 @@ public:
 	string  whisperTextName = string(500, '\0');
 	string  whisperTextMessage = string(500, '\0');
 
-	void OnMenu()
+	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DebugBorder", ImVec2(645, 445), true);
-
+		ImGui::BeginChild("DebugBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
-		ImGui::Text("MainActorPTR:0x%x", (*(DWORD*)(Globals::iCPythonPlayerInstance + 4) + 136) - Globals::hEntryBaseAddress);
-		ImGui::Text("GetItemIndex:0x%x", (*(DWORD*)(Globals::iCPythonPlayerInstance + 4) + 64) - Globals::hEntryBaseAddress);
-		ImGui::Text("GetInstancePtr:0x%x", (*(DWORD*)(Globals::iCPythonCharacterManagerInstance + 4) + 8) - Globals::hEntryBaseAddress);
-		ImGui::Text("PlayerGetRace:%d", GameFunctions::PlayerGetRace());
-		ImGui::Text("NetworkStreamGetMainActorSkillGroup:%d", GameFunctions::NetworkStreamGetMainActorSkillGroup());
-		ImGui::InputText("Name", &whisperTextName[0], whisperTextName.size());
-		ImGui::InputText("Text", &whisperTextMessage[0], whisperTextMessage.size());
-		if(ImGui::Button("Send Whisper"))
-		{
-			GameFunctions::NetworkStreamSendWhisperPacket(whisperTextName.c_str(), StringExtension::UTF8ToASCII(whisperTextMessage));
-		}
-
-
-		if (ImGui::InputInt("Recv Limit Game Phase", &recv_limit))
-		{
-			switch (Globals::Server)
-			{
-				case ServerName::MEDIUMMT2:
-					MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x8D035), recv_limit, 1);
-					break;
-
-				case ServerName::METINPL:
-					MemoryExtension::MemSet((Globals::hEntryBaseAddress + 0x1F4387), recv_limit, 1);
-					break;
-			}
-		}
-
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::hEntryBaseAddress).c_str());
 		ImGui::Text("CPythonPlayerInstance  "); ImGui::SameLine();
@@ -96,29 +68,32 @@ public:
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCItemManagerInstance).c_str());
 		ImGui::Text("CPythonApplicationInstance  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::iCPythonApplicationInstance).c_str());
-
-
-
-
-
-
 		ImGui::Text("Inventory Eq Percent Usage "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctionsCustom::InventoryEquippedPercentage()).c_str());
 		ImGui::Text("ID First Slot Item  "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 		ImGui::Text("ID Weapon Slot Item  "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4))).c_str());
-
-
-
-
-
-
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
+#ifdef DEVELOPER_MODE
+		if (ImGui::Button("Rozdziel raka!"))
+		{
+			Rozdzielacz(27887);
+		}
+		if (ImGui::Button("Rozdziel Biala Perla!"))
+		{
+			Rozdzielacz(27992);
+		}
+		if (ImGui::Button("Rozdziel Niebieska Perla!"))
+		{
+			Rozdzielacz(27993);
+		}
+		if (ImGui::Button("Rozdziel Czerwona Perla!"))
+		{
+			Rozdzielacz(27994);
+		}
+#endif
 		if (ImGui::Button("Send Packet"))
 		{
-
 			GameFunctionsCustom::SendPacket(string(packetHex.c_str()));
-
 		}
-
 		if (ImGui::Button("TEST 1"))
 		{
 			cout << GameFunctionsCustom::PlayerIsRodEquipped() << endl;
@@ -146,24 +121,6 @@ public:
 			/*int slot = GameFunctionsCustom::FindItemSlotInInventory(27420);*/
 			GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, 0), 1);
 		}
-#ifdef DEVELOPER_MODE
-		if (ImGui::Button("Rozdziel raka!"))
-		{
-			Rozdzielacz(27887);
-		}
-		if (ImGui::Button("Rozdziel Biala Perla!"))
-		{
-			Rozdzielacz(27992);
-		}
-		if (ImGui::Button("Rozdziel Niebieska Perla!"))
-		{
-			Rozdzielacz(27993);
-		}
-		if (ImGui::Button("Rozdziel Czerwona Perla!"))
-		{
-			Rozdzielacz(27994);
-		}
-#endif
 		if (ImGui::Button("TEST 8"))
 		{
 			if (GameFunctionsCustom::PlayerIsRodEquipped())
@@ -180,15 +137,12 @@ public:
 			vector<DWORD> rodsList = GameFunctionsCustom::FindItemSlotsInInventory(27400, 27590);
 			for (vector<DWORD>::iterator it = rodsList.begin(); it != rodsList.end(); ++it)
 			{
-				
-
-				if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(INVENTORY, *it), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, *it))].second  )
+				if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(INVENTORY, *it), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, *it))].second)
 				{
 					DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
 					GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, *it), 1);
 					GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
 				}
-
 			}
 			if (rodsList.size() > 0)
 			{
@@ -202,6 +156,22 @@ public:
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(70, "Debug");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 70:
+			OnTab1();
+			break;
+		}
+	}
+
 	void DebugMsgBoxNoBlocking(string message,...)
 	{
 		MessageBox(NULL, "Cheat Wrong Version", "Error", 0);

@@ -157,13 +157,11 @@ public:
 	{
 	}
 
-
-	void OnMenu()
+	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("RandomizerBorder", ImVec2(400, 200), true);
-
+		ImGui::BeginChild("RandomizerBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		//Przyciski
 		ImGui::Checkbox("Stop - Position Changed", &Settings::FISH_STOP_IF_POSITION_CHANGED_ENABLE); 	ImGui::SameLine();
 		ImGui::Checkbox("Stop - Equipment Full", &Settings::FISH_STOP_IF_INVENTORY_FULL_ENABLE);
@@ -175,18 +173,21 @@ public:
 		ImGui::InputInt("##randclick", &Settings::FISH_CAST_TIME_MIN_VALUE, 100, 1000);
 		ImGui::InputInt("##randclick2", &Settings::FISH_CAST_TIME_MAX_VALUE, 100, 1000);
 		ImGui::NextColumn();
-		ImGui::Checkbox("Detect Player", &Settings::FISH_DETECT_PLAYER_ENABLE);
 		ImGui::Checkbox("Emergency Resume", &Settings::FISH_EMERGENCY_RUN_TIME_ENABLE);
 		ImGui::InputInt("##emergencytimeout", &Settings::FISH_EMERGENCY_RUN_TIME_VALUE, 100, 1000);
 		ImGui::Checkbox("Random End Times", &Settings::FISH_ROUND_TIME_ENABLE);
 		ImGui::InputInt("##randtour", &Settings::FISH_ROUND_TIME_MIN_VALUE, 100, 1000);
 		ImGui::InputInt("##randtour2", &Settings::FISH_ROUND_TIME_MAX_VALUE, 100, 1000);
 		ImGui::EndChild();
-		ImGui::PopStyleVar(); ImGui::SameLine();
+		ImGui::PopStyleVar();
+	}
+
+	void OnTab2()
+	{
 		//Przynety
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("BaitBorder", ImVec2(235, 200), true);
+		ImGui::BeginChild("BaitBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Text("Bait Type Use");
 		ImGui::Checkbox("1 slot", &Settings::FISH_USE_FIRST_SLOT_ENABLE);
 
@@ -216,12 +217,13 @@ public:
 #endif
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
+	}
 
-		//##########################################################################################
-
+	void OnTab3()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("KillBorder", ImVec2(635, 290), true);
+		ImGui::BeginChild("KillBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Kill Fish", &Settings::FISH_KILL_FISH_ENABLE);
 		ImGui::Columns(3, "KillColumns", false);
 
@@ -234,12 +236,13 @@ public:
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
-		//##########################################################################################
+	}
 
-
+	void OnTab4()
+	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DropBorder", ImVec2(635, 190), true);
+		ImGui::BeginChild("DropBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Drop Trash", &Settings::FISH_DROP_TRASH_ENABLE);
 		ImGui::Separator();
 		ImGui::Columns(3, "DropColumns", false);
@@ -250,11 +253,14 @@ public:
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
-		//##########################################################################################
+	}
+
+	void OnTab5()
+	{
 #ifdef DEVELOPER_MODE
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("SellBorder", ImVec2(635, 190), true);
+		ImGui::BeginChild("SellBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::PushItemWidth(150); ImGui::Checkbox("Sell Trash", &Settings::FISH_SELL_TRASH_ENABLE); ImGui::SameLine();
 		ImGui::InputInt("After % EQ Filled", &Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE, 5, 100);
 		ImGui::Separator();
@@ -267,6 +273,41 @@ public:
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 #endif
+	}
+
+	void OnTabs()
+	{
+		MainForm::AddTab(20, "Main");
+		MainForm::AddTab(21, "Bait");
+		MainForm::AddTab(22, "Kill");
+		MainForm::AddTab(23, "Drop");
+#ifdef DEVELOPER_MODE
+		MainForm::AddTab(24, "Sell");
+#endif
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 20:
+			OnTab1();
+			break;
+		case 21:
+			OnTab2();
+			break;
+		case 22:
+			OnTab3();
+			break;
+		case 23:
+			OnTab4();
+			break;
+#ifdef DEVELOPER_MODE
+		case 24:
+			OnTab5();
+			break;
+#endif
+		}
 	}
 
 

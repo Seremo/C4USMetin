@@ -8,7 +8,7 @@ void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX)
 	{
 		Device::pDevice->GetTransform(D3DTS_WORLD, &CRender::WorldStateCopy);
 		nCPythonApplicationRenderGame(This);
-		for (map< pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+		for (map< pair<DWORD, DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 		{
 			if (itor->second.first)
 			{
@@ -631,16 +631,6 @@ void _fastcall Hooks::NewCPythonChatAppendChat(void* This, void* EDX, int iType,
 #ifdef FISHBOT
 	Fish::Instance().ParseMessage(c_szChat);
 #endif
-#ifdef DEVELOPER_MODE
-//	if (StringExtension::Contains(c_szChat, "|cff0AFF0A|h[Informacja] |h|r") && StringExtension::Contains(c_szChat, " dolaczyl na serwer Vidgar.pl!")) {
-//		string Text1 = StringExtension::ReplaceString(c_szChat, "|cff0AFF0A|h[Informacja] |h|r", "");
-//		string Text2 = StringExtension::ReplaceString(Text1, " dolaczyl na serwer Vidgar.pl!", "");
-//		string Text3 = Text2 + "\n";
-//		
-//	}
-	Logger::Add(Logger::MAIN, true, Logger::WHITE, c_szChat);
-#endif
-
 	nCPythonChatAppendChat(This, iType, c_szChat);
 }
 //##################################################################################################################################################

@@ -90,7 +90,7 @@ ServerName SERVER = ServerName::TASTRIA2;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-//#define FISHBOT
+#define FISHBOT
 
 //#define NETWORK_MODE
 
@@ -207,13 +207,12 @@ typedef int                 Py_ssize_t;
 #include "Status.h"
 #include "Spam.h"
 #include "AutoTalk.h"
-#include "Misc.h"
 #include "PythonScript.h"
 #include "Refine.h"
 #include "MainDungs.h"
 
 #include "Debug.h"
-#include "Radar.h"
+#include "Visuals.h"
 #include "Configuration.h"
 #include "HookIAT.h"
 #include "HookCore.h"

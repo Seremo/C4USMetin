@@ -234,13 +234,12 @@ public:
 		}
 	}
 
-	void OnMenu()
+	void OnTab1()
 	{
-		
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("FarmBotBorder", ImVec2(645, 160), true);
-		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE)) 
+		ImGui::BeginChild("FarmBotBorder", ImVec2(ImGui::GetWindowWidth() - 20, 150), true);
+		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE))
 		{
 			if (Settings::FARM_ENABLE == true)
 			{
@@ -251,9 +250,6 @@ public:
 				OnStop();
 			}
 		} ImGui::SameLine();
-		ImGui::ColorEdit4("##RendeFarm", (float*)&Settings::RADAR_WAYPOINT_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-		ImGui::Checkbox("Render Path", &Settings::FARM_RENDER_PATH_ENABLE);
-		ImGui::Text("Move Type      "); ImGui::SameLine();
 		ImGui::RadioButton("Move", &Settings::FARM_MOVE_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Teleport", &Settings::FARM_MOVE_TYPE, 1);
 		/*ImGui::RadioButton("Normal", &Settings::LevelBotAttackType, 0); ImGui::SameLine();
@@ -266,47 +262,20 @@ public:
 		ImGui::Checkbox("Mine", &Settings::FARM_MINE_ENABLE); /*ImGui::SameLine();*/
 
 		ImGui::InputFloat("Drop Wait Delay (s)", &Settings::FARM_DROP_WAIT_DELAY, 0.100, 1);
-		
+
 		/*ImGui::Checkbox("Plant", &Settings::FARM_PLANT_ENABLE);*/
-		ImGui::EndChild();
-		ImGui::PopStyleVar();
-		
-		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("FarmConfBorder", ImVec2(645, 120), true);
-		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "fc"   /*format "exe"*/);
-		ImGui::PushItemWidth(200);
-		if (ImGui::Combo("Paths", &currentIndex, configs))
-		{
-			newFileName = configs[currentIndex];
-		}
-		ImGui::InputText("##FileName", &newFileName);
-		if (ImGui::Button("Load Paths"))
-		{
-			Settings::LoadFarm(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Save Paths"))
-		{
-			Settings::SaveFarm(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Remove Paths"))
-		{
-			Settings::Remove(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\", "fc");
-		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("CordsBorder", ImVec2(645, 150), true);
-		if (ImGui::Button("Add Position")) 
+		ImGui::BeginChild("CordsBorder", ImVec2(ImGui::GetWindowWidth() - 20, 150), true);
+		if (ImGui::Button("Add Position"))
 		{
 			Settings::cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Delete All Position")) 
+		if (ImGui::Button("Delete All Position"))
 		{
 			Settings::cordsMaps.clear();
 		}
@@ -316,7 +285,7 @@ public:
 			for (auto item : Settings::cordsMaps)
 			{
 				bool is_selected = true;
-				std::string& item_name = "[ X:" + to_string((DWORD)(item.x /100)) + "],[ Y:" + to_string((DWORD)(item.y / 100)) + "]";
+				std::string& item_name = "[ X:" + to_string((DWORD)(item.x / 100)) + "],[ Y:" + to_string((DWORD)(item.y / 100)) + "]";
 				if (ImGui::Selectable(item_name.c_str(), is_selected))
 				{
 
@@ -327,5 +296,18 @@ public:
 		ImGui::PopStyleVar();
 	}
 
-	
+	void OnTabs()
+	{
+		MainForm::AddTab(16, "Farm");
+	}
+
+	void OnMenu()
+	{
+		switch (MainForm::CurTabOpen)
+		{
+		case 16:
+			OnTab1();
+			break;
+		}
+	}
 };

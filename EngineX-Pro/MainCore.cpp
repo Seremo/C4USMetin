@@ -167,7 +167,7 @@ void MainCore::Initialize()
 void  MainCore::UpdateLoop()
 {
 	DelayActions::Update();
-	for (map< pair<pair<DWORD, DWORD>, string>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
+	for (map< pair<DWORD , DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 	{
 		if (itor->second.first)
 		{
