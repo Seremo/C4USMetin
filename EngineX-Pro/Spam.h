@@ -192,8 +192,8 @@ public:
 		{
 			Settings::SPAM_WHISPER_RAINBOW_COLOR_ENABLE = false;
 		};
-		ImGui::SameLine();
 #ifdef DEVELOPER_MODE
+		ImGui::SameLine();
 		if (ImGui::Checkbox("Rainbow Color", &Settings::SPAM_WHISPER_RAINBOW_COLOR_ENABLE))
 		{
 			Settings::SPAM_WHISPER_COLOR_ENABLE = false;
@@ -215,8 +215,8 @@ public:
 		{
 			Settings::SPAM_NORMAL_RAINBOW_COLOR_ENABLE = false;
 		};
-		ImGui::SameLine();
 #ifdef DEVELOPER_MODE
+		ImGui::SameLine();
 		if (ImGui::Checkbox("Rainbow Color", &Settings::SPAM_NORMAL_RAINBOW_COLOR_ENABLE))
 		{
 			Settings::SPAM_NORMAL_COLOR_ENABLE = false;
@@ -238,8 +238,8 @@ public:
 		{
 			Settings::SPAM_SHOUT_RAINBOW_COLOR_ENABLE = false;
 		};
-		ImGui::SameLine();
 #ifdef DEVELOPER_MODE
+		ImGui::SameLine();
 		if (ImGui::Checkbox("Rainbow Color", &Settings::SPAM_SHOUT_RAINBOW_COLOR_ENABLE))
 		{
 			Settings::SPAM_SHOUT_COLOR_ENABLE = false;

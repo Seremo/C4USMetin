@@ -1139,37 +1139,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (MainForm::SideBarIsOpen) 
 	{
+		//ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
 		ImGuiIO& io = ImGui::GetIO();
 		switch (msg)
 		{
 		case WM_LBUTTONDOWN:
-			if (!ImGui::IsAnyMouseDown() && ::GetCapture() == NULL)
-				::SetCapture(hWnd);
 			io.MouseDown[0] = true;
 			break;
 		case WM_LBUTTONUP:
-			if (!ImGui::IsAnyMouseDown() && ::GetCapture() == hWnd)
-				::ReleaseCapture();
 			io.MouseDown[0] = false;
 			break;
 		case WM_RBUTTONDOWN:
-			if (!ImGui::IsAnyMouseDown() && ::GetCapture() == NULL)
-				::SetCapture(hWnd);
 			io.MouseDown[1] = true;
 			break;
 		case WM_RBUTTONUP:
-			if (!ImGui::IsAnyMouseDown() && ::GetCapture() == hWnd)
-				::ReleaseCapture();
 			io.MouseDown[1] = false;
 			break;
 		case WM_MBUTTONDOWN:
-			if (!ImGui::IsAnyMouseDown() && ::GetCapture() == NULL)
-				::SetCapture(hWnd);
 			io.MouseDown[2] = true;
 			break;
 		case WM_MBUTTONUP:
-			if (!ImGui::IsAnyMouseDown() && ::GetCapture() == hWnd)
-				::ReleaseCapture();
 			io.MouseDown[2] = false;
 			break;
 		case WM_MOUSEWHEEL:
@@ -1182,8 +1171,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (Settings::RADAR_ZOOM <= 0.5f)
 					Settings::RADAR_ZOOM = 0.5f;
 			}
-			break;
-			
+			break;		
 		case WM_MOUSEMOVE:
 			io.MousePos.x = (signed short)(lParam);
 			io.MousePos.y = (signed short)(lParam >> 16);
