@@ -52,7 +52,7 @@ public:
 		{
 			newFileName = configs[currentIndex];
 		}
-		ImGui::InputText("##FileName", &newFileName);
+		ImGui::InputText("##FileName1", &newFileName);
 		if (ImGui::Button("Load Settings"))
 		{
 			Settings::Load(newFileName, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
@@ -77,7 +77,7 @@ public:
 		{
 			newFileName2 = configs[currentIndex2];
 		}
-		ImGui::InputText("##FileName", &newFileName2);
+		ImGui::InputText("##FileName2", &newFileName2);
 		if (ImGui::Button("Load Item List"))
 		{
 			Settings::LoadItemFilter(newFileName2, FileExtension::GetAppDataDirectory() + "\\EngineX\\");
@@ -99,7 +99,7 @@ public:
 		{
 			newFileName3 = configs[currentIndex3];
 		}
-		ImGui::InputText("##FileName", &newFileName3);
+		ImGui::InputText("##FileName3", &newFileName3);
 		if (ImGui::Button("Load Paths"))
 		{
 			Settings::LoadFarm(newFileName3, FileExtension::GetAppDataDirectory() + "\\EngineX\\");

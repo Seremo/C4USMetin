@@ -2233,7 +2233,7 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerClickSkillSlot = Globals::hEntryBaseAddress + 0x1caf30; // [100 ] [1 / 1]
 			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0x1C0840;
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x1c08a0; // [100 ] [1 / 1]
-			pCPythonPlayerGetMainCharacterIndex = Globals::hEntryBaseAddress + 0x17bb50; // [100 ] [1 / 1]
+			pCPythonPlayerGetMainCharacterIndex = Globals::hEntryBaseAddress + 0x1C0A90; // [100 ] [1 / 1]
 			pCPythonPlayerGetName = Globals::hEntryBaseAddress + 0x1c0aa0; // [100 ] [1 / 1]
 			pCPythonPlayerGetRace = Globals::hEntryBaseAddress + 0x1c0b60; // [100 ] [1 / 1]
 			pCPythonPlayerGetStatus = Globals::hEntryBaseAddress + 0x1c0d20; // [100 ] [1 / 1]
