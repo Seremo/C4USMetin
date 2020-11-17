@@ -23,7 +23,7 @@ public:
 
 	void OnUpdate()
 	{
-		
+
 	}
 
 	void OnRender()
@@ -48,12 +48,22 @@ public:
 	string  whisperTextName = string(500, '\0');
 	string  whisperTextMessage = string(500, '\0');
 
+	void BuildShop()
+	{
+		int slot = GameFunctionsCustom::FindItemSlotInInventory(71221);
+		GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+	}
+
 	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
+		if(ImGui::Button("Build Shop 71221"))
+		{
+			BuildShop();
+		}
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::hEntryBaseAddress).c_str());
 		ImGui::Text("CPythonPlayerInstance  "); ImGui::SameLine();

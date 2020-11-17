@@ -82,7 +82,7 @@ enum ServerName
 
 
 //#define DX9
-ServerName SERVER = ServerName::TASTRIA2;
+ServerName SERVER = ServerName::DEVERIA;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
@@ -90,7 +90,7 @@ ServerName SERVER = ServerName::TASTRIA2;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-//#define FISHBOT
+#define FISHBOT
 
 //#define NETWORK_MODE
 
