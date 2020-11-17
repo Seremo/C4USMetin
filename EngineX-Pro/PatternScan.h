@@ -20,6 +20,12 @@ public:
 		return	PatternScan::Search(base, size, (unsigned char*)pPattern, count);
 	}
 
+	static DWORD FindPatternGlobal(const char* pPattern, DWORD base, DWORD size)
+	{
+		unsigned int count = 0;
+		return	PatternScan::Search(base, size, (unsigned char*)pPattern, count);
+	}
+
 	static DWORD FindPattern2(std::string moduleName, std::string pattern)
 	{
 		const char* pat = pattern.c_str();

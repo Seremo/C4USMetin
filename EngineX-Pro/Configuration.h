@@ -75,7 +75,7 @@ public:
 		ImGui::PushItemWidth(200);
 		if (ImGui::Combo("Items", &currentIndex2, configs2))
 		{
-			newFileName2 = configs[currentIndex2];
+			newFileName2 = configs2[currentIndex2];
 		}
 		ImGui::InputText("##FileName2", &newFileName2);
 		if (ImGui::Button("Load Item List"))
@@ -97,7 +97,7 @@ public:
 		ImGui::PushItemWidth(200);
 		if (ImGui::Combo("Paths", &currentIndex3, configs3))
 		{
-			newFileName3 = configs[currentIndex3];
+			newFileName3 = configs3[currentIndex3];
 		}
 		ImGui::InputText("##FileName3", &newFileName3);
 		if (ImGui::Button("Load Paths"))

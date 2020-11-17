@@ -48,10 +48,52 @@ public:
 	string  whisperTextName = string(500, '\0');
 	string  whisperTextMessage = string(500, '\0');
 
+	string ShopName = "";
+	int whitePearlPrice = 10000000;
+	int yabbaPrice = 2200000;
+	bool whitePearlAdd = true;
+	bool yabbaAdd = true;
+
 	void BuildShop()
 	{
-		int slot = GameFunctionsCustom::FindItemSlotInInventory(71221);
-		GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, slot));
+		typedef DWORD(__thiscall* GetItemCount)(void* This, TItemPos Cell);
+		GetItemCount ItemCount = (GetItemCount)PatternScan::FindPatternGlobal("55 8B EC 83 EC 08 89 4D F8 8D 4D 08 E8 ? ? ? ? 0F B6 C0 85 C0 75 04 33 C0 EB 31", Globals::hEntryBaseAddress, Globals::hEntryBaseSize); //0xEFB70
+
+		DWORD Instance = *reinterpret_cast<DWORD*>(PatternScan::FindPatternGlobal("55 8B EC 83 EC 1C 8D 45 FB", Globals::hEntryBaseAddress, Globals::hEntryBaseSize) + 0x103); //Globals::hEntryBaseAddress + 0x201F3AC
+		DWORD iCPythonShopInstance = *reinterpret_cast<DWORD*>(Instance);
+		
+		typedef void(__thiscall* AddPrivateShopItemStock)(void* This, TItemPos Cell, BYTE dwDisplayPos, DWORD dwPrice, BYTE checkque);
+		AddPrivateShopItemStock AddItemStock = (AddPrivateShopItemStock)(PatternScan::FindPatternGlobal("55 8B EC 81 EC 94 01 00 00 56", Globals::hEntryBaseAddress, Globals::hEntryBaseSize));//Globals::hEntryBaseAddress + 0x1ACFC0
+		
+		typedef void(__thiscall* BuildPrivateShop)(void* This, const char* c_szName);
+		BuildPrivateShop BuildShop = (BuildPrivateShop)(PatternScan::FindPatternGlobal("55 8B EC 6A FF 68 ? ? ? ? 64 A1 00 00 00 00 50 81 EC 18 01 00 00 A1 ? ? ? ? 33 C5 50 8D 45 F4 64 A3 00 00 00 00 89 8D DC FE FF FF 8D 4D DC", Globals::hEntryBaseAddress, Globals::hEntryBaseSize));//Globals::hEntryBaseAddress + 0x1AD420
+
+		int shopIndex = 0;
+		if (whitePearlAdd)
+		{
+			vector<DWORD> whiteSlot = GameFunctionsCustom::FindItemSlotsInInventory(27992);
+			for (auto slot : whiteSlot)
+			{
+				if (ItemCount((void*)(Globals::iCPythonPlayerInstance + 4), TItemPos(INVENTORY, slot)) == 1)
+				{
+					AddItemStock((void*)iCPythonShopInstance, TItemPos(INVENTORY, slot), shopIndex, whitePearlPrice, 0);
+					shopIndex++;
+				}
+			}
+		}
+		if (yabbaAdd)
+		{
+			vector<DWORD> yabbaSlot = GameFunctionsCustom::FindItemSlotsInInventory(27887);
+			for (auto slot : yabbaSlot)
+			{
+				if (ItemCount((void*)(Globals::iCPythonPlayerInstance + 4), TItemPos(INVENTORY, slot)) == 1)
+				{
+					AddItemStock((void*)iCPythonShopInstance, TItemPos(INVENTORY, slot), shopIndex, yabbaPrice, 0);
+					shopIndex++;
+				}
+			}
+		}
+		BuildShop((void*)iCPythonShopInstance, ShopName.c_str());
 	}
 
 	void OnTab1()
@@ -60,10 +102,16 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("DebugBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
-		if(ImGui::Button("Build Shop 71221"))
+		ImGui::InputText("Shop Name", &ShopName);
+		ImGui::Checkbox("Add WhitePearl", &whitePearlAdd);
+		ImGui::Checkbox("Add Yabba", &yabbaAdd);
+		ImGui::InputInt("WhitePearl Price", &whitePearlPrice);
+		ImGui::InputInt("Yabba Price", &yabbaPrice);
+		if(ImGui::Button("Add Items to Shop"))
 		{
 			BuildShop();
 		}
+		ImGui::Text("GetItemCount:0x%x", (*(DWORD*)(Globals::iCPythonPlayerInstance + 4) + 96) - Globals::hEntryBaseAddress);
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::hEntryBaseAddress).c_str());
 		ImGui::Text("CPythonPlayerInstance  "); ImGui::SameLine();

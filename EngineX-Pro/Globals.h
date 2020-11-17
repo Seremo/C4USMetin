@@ -14,6 +14,7 @@ public:
 	static map<DWORD, TGroundItemInstance*> groundItemList;
 
 	static DWORD hEntryBaseAddress;
+	static DWORD hEntryBaseSize;
 	static HMODULE hModule;
 	static HWND mainHwnd;
 	
@@ -478,6 +479,7 @@ map<DWORD, const char*>  Globals::itemProtoNames;
 
 HMODULE	Globals::hModule = NULL;
 DWORD	Globals::hEntryBaseAddress = (DWORD)GetModuleHandle(NULL);
+DWORD	Globals::hEntryBaseSize = 0;
 
 HWND Globals::mainHwnd;
 
@@ -790,6 +792,7 @@ void Globals::ReAddressingInstances()
 						if (info.RegionSize >= 0x02000000)
 						{
 							Globals::hEntryBaseAddress = (DWORD)info.BaseAddress;
+							Globals::hEntryBaseSize = (DWORD)info.RegionSize;
 						}
 					}
 				}
@@ -1005,6 +1008,7 @@ void Globals::ReAddressingLocas()
 						if (info.RegionSize >= 0x02000000)
 						{
 							Globals::hEntryBaseAddress = (DWORD)info.BaseAddress;
+							Globals::hEntryBaseSize = (DWORD)info.RegionSize;
 						}
 					}
 				}
