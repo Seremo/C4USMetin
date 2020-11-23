@@ -21,7 +21,13 @@
 #define IDB_PNG16                        909
 #define IDB_SPLASH						925
 
-
+#define IDB_MainTab						1001
+#define IDB_FishbotTab						1002
+#define IDB_AdditionalTab						1003
+#define IDB_VisualsTab						1004
+#define IDB_ProtectionTab						1005
+#define IDB_SettingsTab						1006
+#define IDB_DeveloperTab						1007
 
 #define NINJA_A_0 950
 #define NINJA_A_1 951

@@ -72,6 +72,14 @@ DirectTexture MainForm::ChannelChangerIcon;
 DirectTexture MainForm::LogOn;
 DirectTexture MainForm::LogOff;
 
+DirectTexture MainForm::MainTab;
+DirectTexture MainForm::FishbotTab;
+DirectTexture MainForm::AdditionalTab;
+DirectTexture MainForm::VisualsTab;
+DirectTexture MainForm::ProtectionTab;
+DirectTexture MainForm::SettingsTab;
+DirectTexture MainForm::DeveloperTab;
+
 bool MainForm::IsRadarHovered = false;
 
 DirectTexture MainForm::ninja_a_0;
@@ -141,6 +149,7 @@ DirectTexture MainForm::skill_none;
 DirectTexture MainForm::skill_on;
 DirectTexture MainForm::skill_off;
 
+map < pair<DWORD, DirectTexture>, pair<string, DWORD>> MainForm::TabMenuList;
 
 HCURSOR hCurs;
 HWND GameHWND = nullptr;
@@ -167,6 +176,13 @@ void MainForm::SetImages() {
 	LogOn = ImageLoad(IDB_PNG15);
 	LogOff = ImageLoad(IDB_PNG16);
 
+	MainTab = ImageLoad(IDB_MainTab);
+	FishbotTab = ImageLoad(IDB_FishbotTab);
+	AdditionalTab = ImageLoad(IDB_AdditionalTab);
+	VisualsTab = ImageLoad(IDB_VisualsTab);
+	ProtectionTab = ImageLoad(IDB_ProtectionTab);
+	SettingsTab = ImageLoad(IDB_SettingsTab);
+	DeveloperTab = ImageLoad(IDB_DeveloperTab);
 
 	ninja_a_0 = ImageLoad(NINJA_A_0);
 	ninja_a_1 = ImageLoad(NINJA_A_1);
@@ -234,10 +250,6 @@ void MainForm::SetImages() {
 	skill_none = ImageLoad(SKILL_NONE);
 	skill_on = ImageLoad(SKILL_ON);
 	skill_off = ImageLoad(SKILL_OFF);
-
-
-	
-
 }
 
 
@@ -361,17 +373,13 @@ ImVec4 TabHoveredColor = (ImVec4)ImColor(83, 116, 161);
 ImVec4 TabClickColor = (ImVec4)ImColor(55, 90, 139);
 ImVec4 HeaderFooterColor = (ImVec4)ImColor(24, 27, 32);
 
-void MainForm::AddTab(size_t Index, const char* Text, size_t Index2)
+void MainForm::AddTab(size_t Index, const char* Text)
 {
 	static const size_t TabWidth = 65;
 	static const size_t TabHeight = 20;
 
 	ImGui::PushID(Index);
 	ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.0f, 0.5f));
-	if (Index2 != 0) 
-	{
-		ImGui::NewLine();
-	}
 
 	if (CurTabOpen == Index)
 	{
@@ -393,9 +401,9 @@ void MainForm::AddTab(size_t Index, const char* Text, size_t Index2)
 	if (ImGui::Selectable2(Text, isSelected, 0, ImVec2(TabWidth, TabHeight))) 
 	{
 		CurTabOpen = Index;
-		for (map < DWORD, pair<string, DWORD>> ::iterator itor = MainCore::TabMenuList.begin(); itor != MainCore::TabMenuList.end(); itor++)
+		for (map < pair<DWORD, DirectTexture>, pair<string, DWORD>> ::iterator itor = MainForm::TabMenuList.begin(); itor != MainForm::TabMenuList.end(); itor++)
 		{
-			if (CurMenuOpen == itor->first)
+			if (CurMenuOpen == itor->first.first)
 			{
 				itor->second.second = CurTabOpen;
 			}
@@ -406,17 +414,13 @@ void MainForm::AddTab(size_t Index, const char* Text, size_t Index2)
 	ImGui::PopID();
 }
 
-void MainForm::AddMenu(size_t Index, const char* Text, size_t Index2)
+void MainForm::AddMenu(size_t Index, ImTextureID texture, const char* Text)
 {
-	static const size_t TabWidth = 70;
-	static const size_t TabHeight = 35;
+	static const size_t TabWidth = 28;
+	static const size_t TabHeight = 28;
 
 	ImGui::PushID(Index);
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 6.0f));
-	if (Index2 != 0) 
-	{
-		ImGui::NewLine();
-	}
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 
 	if (Index > 0)
 		ImGui::SameLine();
@@ -437,12 +441,12 @@ void MainForm::AddMenu(size_t Index, const char* Text, size_t Index2)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, TabHoveredColor);			// Color on mouse hover in tab
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, TabClickColor);			// Color on click tab
 	
-	if (ImGui::Button(Text, ImVec2(TabWidth, TabHeight)))	// If tab clicked
+	if (ImGui::IconSingleButton(Text, texture, ImVec2(TabWidth, TabHeight)))	// If tab clicked
 	{
 		CurMenuOpen = Index;
-		for (map < DWORD, pair<string, DWORD>> ::iterator itor = MainCore::TabMenuList.begin(); itor != MainCore::TabMenuList.end(); itor++)
+		for (map < pair<DWORD, DirectTexture>, pair<string, DWORD>> ::iterator itor = MainForm::TabMenuList.begin(); itor != MainForm::TabMenuList.end(); itor++)
 		{
-			if (CurMenuOpen == itor->first)
+			if (CurMenuOpen == itor->first.first)
 			{
 				CurTabOpen = itor->second.second;
 			}
@@ -912,18 +916,14 @@ void MainForm::Menu() {
 				ImGui::PopStyleVar();
 
 				ImGui::PushStyleColor(ImGuiCol_ChildBg, HeaderFooterColor);
-				ImGui::BeginChild("Header", ImVec2(ImGui::GetWindowWidth(), 45), false);
-				ImGui::Dummy(ImVec2(0.0f, 3.0f));
-				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
-				ImGui::Image(LogoHref, ImVec2(40, 28)); ImGui::SameLine();
-				ImGui::Dummy(ImVec2(10.0f, 0.0f)); ImGui::SameLine();
-				for (map < DWORD, pair<string, DWORD>> ::iterator itor = MainCore::TabMenuList.begin(); itor != MainCore::TabMenuList.end(); itor++)
+				ImGui::BeginChild("Header", ImVec2(ImGui::GetWindowWidth(), 40), false);
+				ImGui::Logo(LogoHref, ImVec2(38, 28));
+				for (map < pair<DWORD, DirectTexture>, pair<string, DWORD>> ::iterator itor = MainForm::TabMenuList.begin(); itor != MainForm::TabMenuList.end(); itor++)
 				{
-					AddMenu(itor->first, itor->second.first.c_str());
+					AddMenu(itor->first.first, itor->first.second, itor->second.first.c_str());
 				}
 				ImGui::EndChild();
 				ImGui::PopStyleColor();
-				//ImGui::PopStyleVar();
 
 				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor(18, 20, 23, 200));
@@ -1130,7 +1130,20 @@ void MainForm::Initialize()
 	D3DXCreateSphere(Device::pDevice, 1.0f, 32, 32, &Device::ms_lpSphereMesh, NULL);
 	D3DXCreateCylinder(Device::pDevice, 1.0f, 1.0f, 1.0f, 8, 8, &Device::ms_lpCylinderMesh, NULL);
 	oWndProc = (WNDPROC)SetWindowLongPtr(Globals::mainHwnd, GWL_WNDPROC, (LONG)WndProc);
-
+	TabMenuList =
+	{
+		{make_pair(1, MainTab), make_pair("Main", 10)},
+#ifdef FISHBOT
+		{ make_pair(2, FishbotTab), make_pair("Fishbot", 20) },
+#endif
+		{ make_pair(3, AdditionalTab), make_pair("Additional", 31) },
+		{ make_pair(4, VisualsTab), make_pair("Visuals", 40) },
+		{ make_pair(5, ProtectionTab), make_pair("Protection", 50) },
+		{ make_pair(6, SettingsTab), make_pair("Settings", 60) },
+#ifdef DEVELOPER_MODE
+		{ make_pair(7, DeveloperTab), make_pair("Developer", 70) }
+#endif
+	};
 	IsInitialized = true;
 }
 

@@ -44,6 +44,8 @@ namespace ImGui
 	};
 
 	bool Hotkey(DWORD& hotKeyTime, const char* label, int* k, const ImVec2& size_arg = ImVec2(0, 0));
+	void Logo(ImTextureID texture, const ImVec2& size);
+	bool IconSingleButton(const char* tooltip, ImTextureID texture, const ImVec2& size);
 	bool IconButton(bool* state, const char* tooltip, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size);
 	bool IconButton2(bool* state, const char* tooltip, ImTextureID texture, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size);
 	bool InputFloatMinMax(const char* label, float* v, float Min, float Max, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", ImGuiInputTextFlags flags = 0);

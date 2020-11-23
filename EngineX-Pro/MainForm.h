@@ -12,8 +12,8 @@ public:
 	static bool ShowFishLog;
 
 	static bool IsRadarHovered;
-	static void AddTab(size_t Index, const char* Text, size_t Index2 = 0);
-	static void AddMenu(size_t Index, const char* Text, size_t Index2 = 0);
+	static void AddTab(size_t Index, const char* Text);
+	static void AddMenu(size_t Index, ImTextureID texture, const char* Text);
 
 
 
@@ -41,7 +41,14 @@ public:
 	static DirectTexture ChannelChangerIcon;
 	static DirectTexture LogOn;
 	static DirectTexture LogOff;
-
+	//MenuTabs
+	static DirectTexture MainTab;
+	static DirectTexture FishbotTab;
+	static DirectTexture AdditionalTab;
+	static DirectTexture VisualsTab;
+	static DirectTexture ProtectionTab;
+	static DirectTexture SettingsTab;
+	static DirectTexture DeveloperTab;
 
 	static DirectTexture ninja_a_0;
 	static DirectTexture ninja_a_1;
@@ -102,11 +109,5 @@ public:
 	static DirectTexture skill_none;
 	static DirectTexture skill_on;
 	static DirectTexture skill_off;
-	
-
-	
-
-
-
-
+	static map < pair<DWORD, DirectTexture>, pair<string, DWORD>> TabMenuList;
 };

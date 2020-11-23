@@ -442,6 +442,89 @@ bool ImGui::PopupButton(const char* tooltip, ImTextureID texture, const ImVec2& 
 	return pressed;
 }
 
+void ImGui::Logo(ImTextureID texture, const ImVec2& size) {
+	int frame_padding = -1;
+	const ImVec2& uv0 = ImVec2(0, 0);
+	const ImVec2& uv1 = ImVec2(1, 1);
+	const ImVec4& bg_col = ImVec4(0, 0, 0, 0);
+	const ImVec4& tint_col = ImVec4(1, 1, 1, 1);
+	ImTextureID user_texture_id = texture;
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	// Default to using texture ID as ID. User can still push string/integer prefixes.
+	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
+	PushID((void*)(intptr_t)texture);
+	const ImGuiID id = window->GetID("#image");
+	PopID();
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	const ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, id))
+		return;
+	//bool hovered, held;
+	//bool pressed = ButtonBehavior(bb, id, &hovered, &held);
+	// Render
+	//const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	//RenderNavHighlight(bb, id);
+	//RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
+	//if (bg_col.w > 0.0f)
+	//	window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
+	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
+	return;
+}
+
+bool ImGui::IconSingleButton(const char* tooltip, ImTextureID texture, const ImVec2& size) {
+	int frame_padding = -1;
+	const ImVec2& uv0 = ImVec2(0, 0);
+	const ImVec2& uv1 = ImVec2(1, 1);
+	const ImVec4& bg_col = ImVec4(0, 0, 0, 0);
+	const ImVec4& tint_col = ImVec4(1, 1, 1, 1);
+	ImTextureID user_texture_id = texture;
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+
+	// Default to using texture ID as ID. User can still push string/integer prefixes.
+	// We could hash the size/uv to create a unique ID but that would prevent the user from animating UV.
+	PushID((void*)(intptr_t)tooltip);
+	const ImGuiID id = window->GetID("#image");
+	PopID();
+
+	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
+	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	const ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, id))
+		return false;
+
+	bool hovered, held;
+	bool pressed = ButtonBehavior(bb, id, &hovered, &held);
+	if (hovered) {
+		ImGui::BeginTooltip();
+		ImGui::SetTooltip(tooltip);
+		ImGui::EndTooltip();
+	}
+	// Render
+	const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
+	RenderNavHighlight(bb, id);
+	RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
+	if (bg_col.w > 0.0f)
+		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
+	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
+
+	return pressed;
+}
+
 bool ImGui::IconButton(bool* state, const char* tooltip, ImTextureID textureOn, ImTextureID textureOff, const ImVec2& size) {
 	int frame_padding = -1;
 	const ImVec2& uv0 = ImVec2(0, 0);

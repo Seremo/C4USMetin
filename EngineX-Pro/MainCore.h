@@ -11,22 +11,6 @@ public:
 	static void UpdateLoop();
 	static void ConsoleOutput(const char* txt, ...);
 	static map < pair<DWORD, DWORD>, pair<bool, shared_ptr<IAbstractModuleBase>>> moduleList;
-	static map < DWORD, pair<string, DWORD>> TabMenuList;
-};
-
-map < DWORD, pair<string, DWORD>> MainCore::TabMenuList =
-{
-	{1, make_pair("Main", 10)},
-#ifdef FISHBOT
-	{2, make_pair("Fishbot", 20)},
-#endif
-	{3, make_pair("Additional", 31)},
-	{4, make_pair("Visuals", 40)},
-	{5, make_pair("Protection", 50)},
-	{6, make_pair("Settings", 60)},
-#ifdef DEVELOPER_MODE
-	{7, make_pair("Developer", 70)}
-#endif
 };
 
 map < pair<DWORD, DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  MainCore::moduleList =

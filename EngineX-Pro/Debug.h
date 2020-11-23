@@ -50,8 +50,10 @@ public:
 
 	string ShopName = "";
 	int whitePearlPrice = 10000000;
-	int yabbaPrice = 2200000;
+	int bluePearlPrice = 1500000;
+	int yabbaPrice = 2500000;
 	bool whitePearlAdd = true;
+	bool bluePearlAdd = true;
 	bool yabbaAdd = true;
 
 	void BuildShop()
@@ -81,6 +83,18 @@ public:
 				}
 			}
 		}
+		if (bluePearlAdd)
+		{
+			vector<DWORD> whiteSlot = GameFunctionsCustom::FindItemSlotsInInventory(27993);
+			for (auto slot : whiteSlot)
+			{
+				if (ItemCount((void*)(Globals::iCPythonPlayerInstance + 4), TItemPos(INVENTORY, slot)) == 1)
+				{
+					AddItemStock((void*)iCPythonShopInstance, TItemPos(INVENTORY, slot), shopIndex, bluePearlPrice, 0);
+					shopIndex++;
+				}
+			}
+		}
 		if (yabbaAdd)
 		{
 			vector<DWORD> yabbaSlot = GameFunctionsCustom::FindItemSlotsInInventory(27887);
@@ -104,14 +118,17 @@ public:
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
 		ImGui::InputText("Shop Name", &ShopName);
 		ImGui::Checkbox("Add WhitePearl", &whitePearlAdd);
+		ImGui::Checkbox("Add BluePearl", &bluePearlAdd);
 		ImGui::Checkbox("Add Yabba", &yabbaAdd);
 		ImGui::InputInt("WhitePearl Price", &whitePearlPrice);
+		ImGui::InputInt("BluePearl Price", &bluePearlPrice);
 		ImGui::InputInt("Yabba Price", &yabbaPrice);
 		if(ImGui::Button("Add Items to Shop"))
 		{
 			BuildShop();
 		}
-		ImGui::Text("GetItemCount:0x%x", (*(DWORD*)(Globals::iCPythonPlayerInstance + 4) + 96) - Globals::hEntryBaseAddress);
+		//ImGui::Text("GetItemCount:0x%x", (*(DWORD*)(GameFunctions::PlayerNEW_GetMainActorPtr() + 512)) - Globals::hEntryBaseAddress);
+
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::hEntryBaseAddress).c_str());
 		ImGui::Text("CPythonPlayerInstance  "); ImGui::SameLine();

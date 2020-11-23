@@ -73,8 +73,13 @@ IDB_PNG15                RCDATA                    "Resources\\log_on.png"
 IDB_PNG16                RCDATA                    "Resources\\log_off.png"
 IDB_SPLASH               RCDATA                    "Resources\\splash.png"
 
-
-
+IDB_MainTab                RCDATA                    "Resources\\Main.png"
+IDB_FishbotTab                RCDATA                    "Resources\\Fishbot.png"
+IDB_AdditionalTab                RCDATA                    "Resources\\Additional.png"
+IDB_VisualsTab                RCDATA                    "Resources\\Visuals.png"
+IDB_ProtectionTab                RCDATA                    "Resources\\Protection.png"
+IDB_SettingsTab                RCDATA                    "Resources\\Settings.png"
+IDB_DeveloperTab                RCDATA                    "Resources\\Developer.png"
 
 
 
