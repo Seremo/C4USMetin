@@ -375,7 +375,7 @@ ImVec4 HeaderFooterColor = (ImVec4)ImColor(24, 27, 32);
 
 void MainForm::AddTab(size_t Index, const char* Text)
 {
-	static const size_t TabWidth = 65;
+	static const size_t TabWidth = 75;
 	static const size_t TabHeight = 20;
 
 	ImGui::PushID(Index);
@@ -396,7 +396,7 @@ void MainForm::AddTab(size_t Index, const char* Text)
 	ImGui::PushStyleColor(ImGuiCol_HeaderActive, (ImVec4)ImColor(35, 35, 35));			// Color on click tab
 
 
-	ImGui::Dummy(ImVec2(3.0f, 0.0f)); ImGui::SameLine();
+	//ImGui::Dummy(ImVec2(3.0f, 0.0f)); ImGui::SameLine();
 	bool isSelected = CurTabOpen == Index;
 	if (ImGui::Selectable2(Text, isSelected, 0, ImVec2(TabWidth, TabHeight))) 
 	{
@@ -416,8 +416,8 @@ void MainForm::AddTab(size_t Index, const char* Text)
 
 void MainForm::AddMenu(size_t Index, ImTextureID texture, const char* Text)
 {
-	static const size_t TabWidth = 28;
-	static const size_t TabHeight = 28;
+	static const size_t TabWidth = 20;
+	static const size_t TabHeight = 20;
 
 	ImGui::PushID(Index);
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
@@ -909,13 +909,13 @@ void MainForm::Menu() {
 				//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 				//ImGui::SameLine();
 				ImGui::SetNextWindowBgAlpha(0.90f);
-				ImGui::SetNextWindowSize(ImVec2(600, 400));
+				ImGui::SetNextWindowSize(ImVec2(600, 385));
 				ImGuiWindowFlags flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 				ImGui::Begin("##Window", &CheatWindowOpen, flags);
 				ImGui::PopStyleVar();
-
 				ImGui::PushStyleColor(ImGuiCol_ChildBg, HeaderFooterColor);
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 				ImGui::BeginChild("Header", ImVec2(ImGui::GetWindowWidth(), 40), false);
 				ImGui::Logo(LogoHref, ImVec2(38, 28));
 				for (map < pair<DWORD, DirectTexture>, pair<string, DWORD>> ::iterator itor = MainForm::TabMenuList.begin(); itor != MainForm::TabMenuList.end(); itor++)
@@ -924,9 +924,12 @@ void MainForm::Menu() {
 				}
 				ImGui::EndChild();
 				ImGui::PopStyleColor();
+				ImGui::PopStyleVar();
 
-				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
+				ImGui::DrawImage(Background, ImVec2(1920 / 3.2, 600 / 1.5), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.75f));
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor(18, 20, 23, 200));
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 6.0f));
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
 				ImGui::BeginChildFrame(1, ImVec2(75, 325));
 				for (map< pair<DWORD, DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 				{
@@ -935,9 +938,9 @@ void MainForm::Menu() {
 						itor->second.second->OnTabs();
 					}
 				}
-				ImGui::EndChildFrame();
+				ImGui::EndChild();
 				ImGui::PopStyleColor();
-				ImGui::PopStyleVar();
+				ImGui::PopStyleVar(2);
 
 				ImGui::SameLine();
 
@@ -946,18 +949,18 @@ void MainForm::Menu() {
 				{
 					itor->second.second->OnMenu();
 				}
-				ImGui::EndChildFrame();
+				ImGui::EndChild();
 
 				ImGui::PushStyleColor(ImGuiCol_ChildBg, HeaderFooterColor);
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 				ImGui::BeginChild("Footer", ImVec2(ImGui::GetWindowWidth(), 20), false);
 				ImGui::Dummy(ImVec2(5.0f, 0.0f)); ImGui::SameLine();
-				//ImGui::TextColored((ImVec4)ImColor(0, 0, 0), "Multihack Metin2 - Free Version");
 				ImGui::Text("Multihack Metin2 - Free Version");
 				ImGui::SameLine(ImGui::GetWindowWidth() - 45);
-				//ImGui::TextColored((ImVec4)ImColor(0, 0, 0), "C4US.PL");
 				ImGui::Text("C4US.PL");
 				ImGui::EndChild();
 				ImGui::PopStyleColor();
+				ImGui::PopStyleVar();
 				ImGui::End();
 			}
 

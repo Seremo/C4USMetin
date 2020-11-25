@@ -331,7 +331,7 @@ bool ImGui::Selectable2(const char* label, bool selected, ImGuiSelectableFlags f
 		RenderFrame(bb.Min, bb.Max, col, false, 0.0f);
 		RenderNavHighlight(bb, id, ImGuiNavHighlightFlags_TypeThin | ImGuiNavHighlightFlags_NoRounding);
 		ImGuiWindow* window = GetCurrentWindow();
-		window->DrawList->AddRectFilled(ImVec2(bb.Min.x - 5.0f, bb.Min.y), ImVec2(bb.Min.x, bb.Max.y), GetColorU32(ImGuiCol_NavHighlight), 0.0f, ~0);
+		window->DrawList->AddRectFilled(ImVec2(bb.Min.x, bb.Min.y), ImVec2(bb.Min.x + 4.0f, bb.Max.y), GetColorU32(ImGuiCol_NavHighlight), 0.0f, ~0);
 	}
 
 	if ((flags & ImGuiSelectableFlags_SpanAllColumns) && window->DC.CurrentColumns)
@@ -341,7 +341,8 @@ bool ImGui::Selectable2(const char* label, bool selected, ImGuiSelectableFlags f
 	}
 
 	if (flags & ImGuiSelectableFlags_Disabled) PushStyleColor(ImGuiCol_Text, style.Colors[ImGuiCol_TextDisabled]);
-	RenderTextClipped(bb_inner.Min, bb_inner.Max, label, NULL, &label_size, style.SelectableTextAlign, &bb);
+	//RenderTextClipped(bb_inner.Min, bb_inner.Max, label, NULL, &label_size, style.SelectableTextAlign, &bb);	
+	RenderTextClipped(ImVec2(bb_inner.Min.x + 6.0f, bb_inner.Min.y), ImVec2(bb_inner.Max.x + 6.0f, bb_inner.Max.y), label, NULL, &label_size, style.SelectableTextAlign, &bb);
 	if (flags & ImGuiSelectableFlags_Disabled) PopStyleColor();
 
 	// Automatically close popups
@@ -372,7 +373,7 @@ void ImGui::DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImV
 	//ItemSize(bb);
 	//if (!ItemAdd(bb, 0))
 	//	return;
-	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 15), bb.Max + ImVec2(15, 15), uv0, uv1, GetColorU32(tint_col));
+	window->DrawList->AddImage(user_texture_id, bb.Min, bb.Max, uv0, uv1, GetColorU32(tint_col));
 	//if (border_col.w > 0.0f)
 	//{
 	//	window->DrawList->AddRect(bb.Min, bb.Max, GetColorU32(border_col), 0.0f);
