@@ -54,100 +54,102 @@ DirectTexture ImageLoad(int resourceID = 0)
 	return texture;
 }
 
-DirectTexture MainForm::LogoHref;
-DirectTexture MainForm::Background;
-DirectTexture MainForm::WindowOn;
-DirectTexture MainForm::WindowOff;
-DirectTexture MainForm::RadarOn;
-DirectTexture MainForm::RadarOff;
-DirectTexture MainForm::MHOn;
-DirectTexture MainForm::MHOff;
-DirectTexture MainForm::AutologinOn;
-DirectTexture MainForm::AutologinOff;
-DirectTexture MainForm::FishbotOn;
-DirectTexture MainForm::FishbotOff;
-DirectTexture MainForm::ExitGameIcon;
-DirectTexture MainForm::ChannelChangerIcon;
-
-DirectTexture MainForm::LogOn;
-DirectTexture MainForm::LogOff;
-
-DirectTexture MainForm::MainTab;
-DirectTexture MainForm::FishbotTab;
-DirectTexture MainForm::AdditionalTab;
-DirectTexture MainForm::VisualsTab;
-DirectTexture MainForm::ProtectionTab;
-DirectTexture MainForm::SettingsTab;
-DirectTexture MainForm::DeveloperTab;
-
 bool MainForm::IsRadarHovered = false;
+map<string, DirectTexture> MainForm::ResourceMap;
 
-DirectTexture MainForm::ninja_a_0;
-DirectTexture MainForm::ninja_a_1;
-DirectTexture MainForm::ninja_a_2;
-DirectTexture MainForm::ninja_a_3;
-DirectTexture MainForm::ninja_a_4;
-DirectTexture MainForm::ninja_a_5;
-
-DirectTexture MainForm::ninja_d_0;
-DirectTexture MainForm::ninja_d_1;
-DirectTexture MainForm::ninja_d_2;
-DirectTexture MainForm::ninja_d_3;
-DirectTexture MainForm::ninja_d_4;
-DirectTexture MainForm::ninja_d_5;
-
-DirectTexture MainForm::shaman_d_0;
-DirectTexture MainForm::shaman_d_1;
-DirectTexture MainForm::shaman_d_2;
-DirectTexture MainForm::shaman_d_3;
-DirectTexture MainForm::shaman_d_4;
-DirectTexture MainForm::shaman_d_5;
-
-
-DirectTexture MainForm::shaman_h_0;
-DirectTexture MainForm::shaman_h_1;
-DirectTexture MainForm::shaman_h_2;
-DirectTexture MainForm::shaman_h_3;
-DirectTexture MainForm::shaman_h_4;
-DirectTexture MainForm::shaman_h_5;
-
-
-
-DirectTexture MainForm::sura_b_0;
-DirectTexture MainForm::sura_b_1;
-DirectTexture MainForm::sura_b_2;
-DirectTexture MainForm::sura_b_3;
-DirectTexture MainForm::sura_b_4;
-DirectTexture MainForm::sura_b_6;
-
-
-DirectTexture MainForm::sura_w_0;
-DirectTexture MainForm::sura_w_1;
-DirectTexture MainForm::sura_w_2;
-DirectTexture MainForm::sura_w_3;
-DirectTexture MainForm::sura_w_4;
-DirectTexture MainForm::sura_w_5;
-
-
-DirectTexture MainForm::warrior_b_0;
-DirectTexture MainForm::warrior_b_1;
-DirectTexture MainForm::warrior_b_2;
-DirectTexture MainForm::warrior_b_3;
-DirectTexture MainForm::warrior_b_4;
-DirectTexture MainForm::warrior_b_5;
-
-
-
-DirectTexture MainForm::warrior_m_0;
-DirectTexture MainForm::warrior_m_1;
-DirectTexture MainForm::warrior_m_2;
-DirectTexture MainForm::warrior_m_3;
-DirectTexture MainForm::warrior_m_4;
-DirectTexture MainForm::warrior_m_5;
-
-DirectTexture MainForm::skill_none;
-DirectTexture MainForm::skill_on;
-DirectTexture MainForm::skill_off;
+//DirectTexture MainForm::LogoHref;
+//DirectTexture MainForm::Background;
+//DirectTexture MainForm::WindowOn;
+//DirectTexture MainForm::WindowOff;
+//DirectTexture MainForm::RadarOn;
+//DirectTexture MainForm::RadarOff;
+//DirectTexture MainForm::MHOn;
+//DirectTexture MainForm::MHOff;
+//DirectTexture MainForm::AutologinOn;
+//DirectTexture MainForm::AutologinOff;
+//DirectTexture MainForm::FishbotOn;
+//DirectTexture MainForm::FishbotOff;
+//DirectTexture MainForm::ExitGameIcon;
+//DirectTexture MainForm::ChannelChangerIcon;
+//
+//DirectTexture MainForm::LogOn;
+//DirectTexture MainForm::LogOff;
+//
+//DirectTexture MainForm::MainTab;
+//DirectTexture MainForm::FishbotTab;
+//DirectTexture MainForm::AdditionalTab;
+//DirectTexture MainForm::VisualsTab;
+//DirectTexture MainForm::ProtectionTab;
+//DirectTexture MainForm::SettingsTab;
+//DirectTexture MainForm::DeveloperTab;
+//
+//
+//DirectTexture MainForm::ninja_a_0;
+//DirectTexture MainForm::ninja_a_1;
+//DirectTexture MainForm::ninja_a_2;
+//DirectTexture MainForm::ninja_a_3;
+//DirectTexture MainForm::ninja_a_4;
+//DirectTexture MainForm::ninja_a_5;
+//
+//DirectTexture MainForm::ninja_d_0;
+//DirectTexture MainForm::ninja_d_1;
+//DirectTexture MainForm::ninja_d_2;
+//DirectTexture MainForm::ninja_d_3;
+//DirectTexture MainForm::ninja_d_4;
+//DirectTexture MainForm::ninja_d_5;
+//
+//DirectTexture MainForm::shaman_d_0;
+//DirectTexture MainForm::shaman_d_1;
+//DirectTexture MainForm::shaman_d_2;
+//DirectTexture MainForm::shaman_d_3;
+//DirectTexture MainForm::shaman_d_4;
+//DirectTexture MainForm::shaman_d_5;
+//
+//
+//DirectTexture MainForm::shaman_h_0;
+//DirectTexture MainForm::shaman_h_1;
+//DirectTexture MainForm::shaman_h_2;
+//DirectTexture MainForm::shaman_h_3;
+//DirectTexture MainForm::shaman_h_4;
+//DirectTexture MainForm::shaman_h_5;
+//
+//
+//
+//DirectTexture MainForm::sura_b_0;
+//DirectTexture MainForm::sura_b_1;
+//DirectTexture MainForm::sura_b_2;
+//DirectTexture MainForm::sura_b_3;
+//DirectTexture MainForm::sura_b_4;
+//DirectTexture MainForm::sura_b_6;
+//
+//
+//DirectTexture MainForm::sura_w_0;
+//DirectTexture MainForm::sura_w_1;
+//DirectTexture MainForm::sura_w_2;
+//DirectTexture MainForm::sura_w_3;
+//DirectTexture MainForm::sura_w_4;
+//DirectTexture MainForm::sura_w_5;
+//
+//
+//DirectTexture MainForm::warrior_b_0;
+//DirectTexture MainForm::warrior_b_1;
+//DirectTexture MainForm::warrior_b_2;
+//DirectTexture MainForm::warrior_b_3;
+//DirectTexture MainForm::warrior_b_4;
+//DirectTexture MainForm::warrior_b_5;
+//
+//
+//
+//DirectTexture MainForm::warrior_m_0;
+//DirectTexture MainForm::warrior_m_1;
+//DirectTexture MainForm::warrior_m_2;
+//DirectTexture MainForm::warrior_m_3;
+//DirectTexture MainForm::warrior_m_4;
+//DirectTexture MainForm::warrior_m_5;
+//
+//DirectTexture MainForm::skill_none;
+//DirectTexture MainForm::skill_on;
+//DirectTexture MainForm::skill_off;
 
 map < pair<DWORD, DirectTexture>, pair<string, DWORD>> MainForm::TabMenuList;
 
@@ -158,98 +160,87 @@ bool CheatWindowOpen = false;
 bool LogWindowOpen = false;
 
 void MainForm::SetImages() {
-	LogoHref = ImageLoad(IDB_PNG1);
-	Background = ImageLoad(IDB_PNG2);
-	WindowOn = ImageLoad(IDB_PNG3);
-	WindowOff = ImageLoad(IDB_PNG4);
-	RadarOn = ImageLoad(IDB_PNG5);
-	RadarOff = ImageLoad(IDB_PNG6);
-	AutologinOn = ImageLoad(IDB_PNG7);
-	AutologinOff = ImageLoad(IDB_PNG8);
-	FishbotOn = ImageLoad(IDB_PNG9);
-	FishbotOff = ImageLoad(IDB_PNG10);
-	MHOn = ImageLoad(IDB_PNG11);
-	MHOff = ImageLoad(IDB_PNG12);
-	ExitGameIcon = ImageLoad(IDB_PNG13);
-	ChannelChangerIcon = ImageLoad(IDB_PNG14);
+	ResourceMap.insert(make_pair("LogoHref", ImageLoad(IDB_PNG1)));
+	ResourceMap.insert(make_pair("Background", ImageLoad(IDB_PNG2)));
+	ResourceMap.insert(make_pair("WindowOn", ImageLoad(IDB_PNG3)));
+	ResourceMap.insert(make_pair("WindowOff", ImageLoad(IDB_PNG4)));
+	ResourceMap.insert(make_pair("RadarOn", ImageLoad(IDB_PNG5)));
+	ResourceMap.insert(make_pair("RadarOff", ImageLoad(IDB_PNG6)));
+	ResourceMap.insert(make_pair("AutologinOn", ImageLoad(IDB_PNG7)));
+	ResourceMap.insert(make_pair("AutologinOff", ImageLoad(IDB_PNG8)));
+	ResourceMap.insert(make_pair("FishbotOn", ImageLoad(IDB_PNG9)));
+	ResourceMap.insert(make_pair("FishbotOff", ImageLoad(IDB_PNG10)));
+	ResourceMap.insert(make_pair("MHOn", ImageLoad(IDB_PNG11)));
+	ResourceMap.insert(make_pair("MHOff", ImageLoad(IDB_PNG12)));
+	ResourceMap.insert(make_pair("ExitGameIcon", ImageLoad(IDB_PNG13)));
+	ResourceMap.insert(make_pair("ChannelChangerIcon", ImageLoad(IDB_PNG14)));
+	ResourceMap.insert(make_pair("LogOn", ImageLoad(IDB_PNG15)));
+	ResourceMap.insert(make_pair("LogOff", ImageLoad(IDB_PNG16)));
+	ResourceMap.insert(make_pair("PotionOff", ImageLoad(IDB_POTION_OFF)));
+	ResourceMap.insert(make_pair("PotionOn", ImageLoad(IDB_POTION_ON)));
 
-	LogOn = ImageLoad(IDB_PNG15);
-	LogOff = ImageLoad(IDB_PNG16);
+	ResourceMap.insert(make_pair("MainTab", ImageLoad(IDB_MainTab)));
+	ResourceMap.insert(make_pair("FishbotTab", ImageLoad(IDB_FishbotTab)));
+	ResourceMap.insert(make_pair("AdditionalTab", ImageLoad(IDB_AdditionalTab)));
+	ResourceMap.insert(make_pair("VisualsTab", ImageLoad(IDB_VisualsTab)));
+	ResourceMap.insert(make_pair("ProtectionTab", ImageLoad(IDB_ProtectionTab)));
+	ResourceMap.insert(make_pair("SettingsTab", ImageLoad(IDB_SettingsTab)));
+	ResourceMap.insert(make_pair("DeveloperTab", ImageLoad(IDB_DeveloperTab)));
 
-	MainTab = ImageLoad(IDB_MainTab);
-	FishbotTab = ImageLoad(IDB_FishbotTab);
-	AdditionalTab = ImageLoad(IDB_AdditionalTab);
-	VisualsTab = ImageLoad(IDB_VisualsTab);
-	ProtectionTab = ImageLoad(IDB_ProtectionTab);
-	SettingsTab = ImageLoad(IDB_SettingsTab);
-	DeveloperTab = ImageLoad(IDB_DeveloperTab);
+	ResourceMap.insert(make_pair("ninja_a_0", ImageLoad(NINJA_A_0)));
+	ResourceMap.insert(make_pair("ninja_a_1", ImageLoad(NINJA_A_1)));
+	ResourceMap.insert(make_pair("ninja_a_2", ImageLoad(NINJA_A_2)));
+	ResourceMap.insert(make_pair("ninja_a_3", ImageLoad(NINJA_A_3)));
+	ResourceMap.insert(make_pair("ninja_a_4", ImageLoad(NINJA_A_4)));
+	ResourceMap.insert(make_pair("ninja_a_5", ImageLoad(NINJA_A_5)));
+	ResourceMap.insert(make_pair("ninja_d_0", ImageLoad(NINJA_D_0)));
+	ResourceMap.insert(make_pair("ninja_d_1", ImageLoad(NINJA_D_1)));
+	ResourceMap.insert(make_pair("ninja_d_2", ImageLoad(NINJA_D_2)));
+	ResourceMap.insert(make_pair("ninja_d_3", ImageLoad(NINJA_D_3)));
+	ResourceMap.insert(make_pair("ninja_d_4", ImageLoad(NINJA_D_4)));
+	ResourceMap.insert(make_pair("ninja_d_5", ImageLoad(NINJA_D_5)));
 
-	ninja_a_0 = ImageLoad(NINJA_A_0);
-	ninja_a_1 = ImageLoad(NINJA_A_1);
-	ninja_a_2 = ImageLoad(NINJA_A_2);
-	ninja_a_3 = ImageLoad(NINJA_A_3);
-	ninja_a_4 = ImageLoad(NINJA_A_4);
-	ninja_a_5 = ImageLoad(NINJA_A_5);
+	ResourceMap.insert(make_pair("shaman_d_0", ImageLoad(SHAMAN_D_0)));
+	ResourceMap.insert(make_pair("shaman_d_1", ImageLoad(SHAMAN_D_1)));
+	ResourceMap.insert(make_pair("shaman_d_2", ImageLoad(SHAMAN_D_2)));
+	ResourceMap.insert(make_pair("shaman_d_3", ImageLoad(SHAMAN_D_3)));
+	ResourceMap.insert(make_pair("shaman_d_4", ImageLoad(SHAMAN_D_4)));
+	ResourceMap.insert(make_pair("shaman_d_5", ImageLoad(SHAMAN_D_5)));
+	ResourceMap.insert(make_pair("shaman_h_0", ImageLoad(SHAMAN_H_0)));
+	ResourceMap.insert(make_pair("shaman_h_1", ImageLoad(SHAMAN_H_1)));
+	ResourceMap.insert(make_pair("shaman_h_2", ImageLoad(SHAMAN_H_2)));
+	ResourceMap.insert(make_pair("shaman_h_3", ImageLoad(SHAMAN_H_3)));
+	ResourceMap.insert(make_pair("shaman_h_4", ImageLoad(SHAMAN_H_4)));
+	ResourceMap.insert(make_pair("shaman_h_5", ImageLoad(SHAMAN_H_5)));
 
-	ninja_d_0 = ImageLoad(NINJA_D_0);
-	ninja_d_1 = ImageLoad(NINJA_D_1);
-	ninja_d_2 = ImageLoad(NINJA_D_2);
-	ninja_d_3 = ImageLoad(NINJA_D_3);
-	ninja_d_4 = ImageLoad(NINJA_D_4);
-	ninja_d_5 = ImageLoad(NINJA_D_5);
+	ResourceMap.insert(make_pair("sura_b_0", ImageLoad(SURA_B_0)));
+	ResourceMap.insert(make_pair("sura_b_1", ImageLoad(SURA_B_1)));
+	ResourceMap.insert(make_pair("sura_b_2", ImageLoad(SURA_B_2)));
+	ResourceMap.insert(make_pair("sura_b_3", ImageLoad(SURA_B_3)));
+	ResourceMap.insert(make_pair("sura_b_4", ImageLoad(SURA_B_4)));
+	ResourceMap.insert(make_pair("sura_b_5", ImageLoad(SURA_B_5)));
+	ResourceMap.insert(make_pair("sura_w_0", ImageLoad(SURA_W_0)));
+	ResourceMap.insert(make_pair("sura_w_1", ImageLoad(SURA_W_1)));
+	ResourceMap.insert(make_pair("sura_w_2", ImageLoad(SURA_W_2)));
+	ResourceMap.insert(make_pair("sura_w_3", ImageLoad(SURA_W_3)));
+	ResourceMap.insert(make_pair("sura_w_4", ImageLoad(SURA_W_4)));
+	ResourceMap.insert(make_pair("sura_w_5", ImageLoad(SURA_W_5)));
 
-	shaman_d_0 = ImageLoad(SHAMAN_D_0);
-	shaman_d_1 = ImageLoad(SHAMAN_D_1);
-	shaman_d_2 = ImageLoad(SHAMAN_D_2);
-	shaman_d_3 = ImageLoad(SHAMAN_D_3);
-	shaman_d_4 = ImageLoad(SHAMAN_D_4);
-	shaman_d_5 = ImageLoad(SHAMAN_D_5);
-
-
-	shaman_h_0 = ImageLoad(SHAMAN_H_0);
-	shaman_h_1 = ImageLoad(SHAMAN_H_1);
-	shaman_h_2 = ImageLoad(SHAMAN_H_2);
-	shaman_h_3 = ImageLoad(SHAMAN_H_3);
-	shaman_h_4 = ImageLoad(SHAMAN_H_4);
-	shaman_h_5 = ImageLoad(SHAMAN_H_5);
-
-
-
-	sura_b_0 = ImageLoad(SURA_B_0);
-	sura_b_1 = ImageLoad(SURA_B_1);
-	sura_b_2 = ImageLoad(SURA_B_2);
-	sura_b_3 = ImageLoad(SURA_B_3);
-	sura_b_4 = ImageLoad(SURA_B_4);
-	sura_b_6 = ImageLoad(SURA_B_5);
-
-
-	sura_w_0 = ImageLoad(SURA_W_0);
-	sura_w_1 = ImageLoad(SURA_W_1);
-	sura_w_2 = ImageLoad(SURA_W_2);
-	sura_w_3 = ImageLoad(SURA_W_3);
-	sura_w_4 = ImageLoad(SURA_W_4);
-	sura_w_5 = ImageLoad(SURA_W_5);
-
-
-	warrior_b_0 = ImageLoad(WARRIOR_B_0);
-	warrior_b_1 = ImageLoad(WARRIOR_B_1);
-	warrior_b_2 = ImageLoad(WARRIOR_B_2);
-	warrior_b_3 = ImageLoad(WARRIOR_B_3);
-	warrior_b_4 = ImageLoad(WARRIOR_B_4);
-	warrior_b_5 = ImageLoad(WARRIOR_B_5);
-
-
-
-	warrior_m_0 = ImageLoad(WARRIOR_M_0);
-	warrior_m_1 = ImageLoad(WARRIOR_M_1);
-	warrior_m_2 = ImageLoad(WARRIOR_M_2);
-	warrior_m_3 = ImageLoad(WARRIOR_M_3);
-	warrior_m_4 = ImageLoad(WARRIOR_M_4);
-	warrior_m_5 = ImageLoad(WARRIOR_M_5);
-
-	skill_none = ImageLoad(SKILL_NONE);
-	skill_on = ImageLoad(SKILL_ON);
-	skill_off = ImageLoad(SKILL_OFF);
+	ResourceMap.insert(make_pair("warrior_b_0", ImageLoad(WARRIOR_B_0)));
+	ResourceMap.insert(make_pair("warrior_b_1", ImageLoad(WARRIOR_B_1)));
+	ResourceMap.insert(make_pair("warrior_b_2", ImageLoad(WARRIOR_B_2)));
+	ResourceMap.insert(make_pair("warrior_b_3", ImageLoad(WARRIOR_B_3)));
+	ResourceMap.insert(make_pair("warrior_b_4", ImageLoad(WARRIOR_B_4)));
+	ResourceMap.insert(make_pair("warrior_b_5", ImageLoad(WARRIOR_B_5)));
+	ResourceMap.insert(make_pair("warrior_m_0", ImageLoad(WARRIOR_M_0)));
+	ResourceMap.insert(make_pair("warrior_m_1", ImageLoad(WARRIOR_M_1)));
+	ResourceMap.insert(make_pair("warrior_m_2", ImageLoad(WARRIOR_M_2)));
+	ResourceMap.insert(make_pair("warrior_m_3", ImageLoad(WARRIOR_M_3)));
+	ResourceMap.insert(make_pair("warrior_m_4", ImageLoad(WARRIOR_M_4)));
+	ResourceMap.insert(make_pair("warrior_m_5", ImageLoad(WARRIOR_M_5)));
+	ResourceMap.insert(make_pair("skill_none", ImageLoad(SKILL_NONE)));
+	ResourceMap.insert(make_pair("skill_on", ImageLoad(SKILL_ON)));
+	ResourceMap.insert(make_pair("skill_off", ImageLoad(SKILL_OFF)));
 }
 
 
@@ -807,10 +798,10 @@ void MainForm::Menu() {
 			{
 				ImGui::TextColored(ImColor(MiscExtension::RandomInt(0,255), MiscExtension::RandomInt(0, 255), MiscExtension::RandomInt(0, 255), 255), "C4US.PL");
 				ImGui::TextColored(FrameColor, FrameRate);
-				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", WindowOn, WindowOff, ImVec2(20, 20));
-				ImGui::IconButton(&LogWindowOpen, "Log Window", LogOn, LogOff, ImVec2(20, 20));
-				ImGui::IconButton(&m_radarIsActive, "Radar Window", RadarOn, RadarOff, ImVec2(20, 20));
-				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH_ENABLE, "MultiHack Switch", MHOn, MHOff, ImVec2(20, 20))) 
+				ImGui::IconButton(&CheatWindowOpen, "Cheat Window", ResourceMap["WindowOn"], ResourceMap["WindowOff"], ImVec2(20, 20));
+				ImGui::IconButton(&LogWindowOpen, "Log Window", ResourceMap["LogOn"], ResourceMap["LogOff"], ImVec2(20, 20));
+				ImGui::IconButton(&m_radarIsActive, "Radar Window", ResourceMap["RadarOn"], ResourceMap["RadarOff"], ImVec2(20, 20));
+				if (ImGui::IconButton(&Settings::GLOBAL_SWITCH_ENABLE, "MultiHack Switch", ResourceMap["MHOn"], ResourceMap["MHOff"], ImVec2(20, 20)))
 				{
 					if (Settings::GLOBAL_SWITCH_ENABLE == true) 
 					{
@@ -821,7 +812,7 @@ void MainForm::Menu() {
 						Main::Instance().OnStop();
 					}
 				}
-				ImGui::IconButton(&Settings::PROTECTION_AUTO_LOGIN_ENABLE, "Auto-Login", AutologinOn, AutologinOff, ImVec2(20, 20));
+				ImGui::IconButton(&Settings::PROTECTION_AUTO_LOGIN_ENABLE, "Auto-Login", ResourceMap["AutologinOn"], ResourceMap["AutologinOff"], ImVec2(20, 20));
 
 #ifdef FISHBOT
 				if (ImGui::IconButton(&Settings::FISH_ENABLE, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
@@ -836,7 +827,8 @@ void MainForm::Menu() {
 					}
 				}
 #endif
-				if (ImGui::PopupButton("Channel Change", ChannelChangerIcon, ImVec2(20, 20)))
+				ImGui::IconButton(&Settings::MAIN_POTION_ENABLE, "Auto-Potion", ResourceMap["PotionOn"], ResourceMap["PotionOff"], ImVec2(20, 20));
+				if (ImGui::PopupButton("Channel Change", ResourceMap["ChannelChangerIcon"], ImVec2(20, 20)))
 				{
 					ImGui::OpenPopup("##channelchange");
 				}
@@ -873,7 +865,7 @@ void MainForm::Menu() {
 					}			
 					ImGui::EndPopup();
 				}
-				if (ImGui::PopupButton("Exit Game", ExitGameIcon, ImVec2(20, 20)))
+				if (ImGui::PopupButton("Exit Game", ResourceMap["ExitGameIcon"], ImVec2(20, 20)))
 				{
 					ImGui::OpenPopup("##exitgame");
 				}
@@ -917,7 +909,7 @@ void MainForm::Menu() {
 				ImGui::PushStyleColor(ImGuiCol_ChildBg, HeaderFooterColor);
 				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 				ImGui::BeginChild("Header", ImVec2(ImGui::GetWindowWidth(), 40), false);
-				ImGui::Logo(LogoHref, ImVec2(38, 28));
+				ImGui::Logo(ResourceMap["LogoHref"], ImVec2(38, 28));
 				for (map < pair<DWORD, DirectTexture>, pair<string, DWORD>> ::iterator itor = MainForm::TabMenuList.begin(); itor != MainForm::TabMenuList.end(); itor++)
 				{
 					AddMenu(itor->first.first, itor->first.second, itor->second.first.c_str());
@@ -926,7 +918,7 @@ void MainForm::Menu() {
 				ImGui::PopStyleColor();
 				ImGui::PopStyleVar();
 
-				ImGui::DrawImage(Background, ImVec2(1920 / 3.2, 600 / 1.5), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.75f));
+				ImGui::DrawImage(ResourceMap["Background"], ImVec2(1920 / 3.2, 600 / 1.5), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.75f));
 				ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor(18, 20, 23, 200));
 				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 6.0f));
 				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
@@ -1135,16 +1127,16 @@ void MainForm::Initialize()
 	oWndProc = (WNDPROC)SetWindowLongPtr(Globals::mainHwnd, GWL_WNDPROC, (LONG)WndProc);
 	TabMenuList =
 	{
-		{make_pair(1, MainTab), make_pair("Main", 10)},
+		{make_pair(1, ResourceMap["MainTab"]), make_pair("Main", 10)},
 #ifdef FISHBOT
 		{ make_pair(2, FishbotTab), make_pair("Fishbot", 20) },
 #endif
-		{ make_pair(3, AdditionalTab), make_pair("Additional", 31) },
-		{ make_pair(4, VisualsTab), make_pair("Visuals", 40) },
-		{ make_pair(5, ProtectionTab), make_pair("Protection", 50) },
-		{ make_pair(6, SettingsTab), make_pair("Settings", 60) },
+		{ make_pair(3, ResourceMap["AdditionalTab"]), make_pair("Additional", 31) },
+		{ make_pair(4, ResourceMap["VisualsTab"]), make_pair("Visuals", 40) },
+		{ make_pair(5, ResourceMap["ProtectionTab"]), make_pair("Protection", 50) },
+		{ make_pair(6, ResourceMap["SettingsTab"]), make_pair("Settings", 60) },
 #ifdef DEVELOPER_MODE
-		{ make_pair(7, DeveloperTab), make_pair("Developer", 70) }
+		{ make_pair(7, ResourceMap["DeveloperTab"]), make_pair("Developer", 70) }
 #endif
 	};
 	IsInitialized = true;

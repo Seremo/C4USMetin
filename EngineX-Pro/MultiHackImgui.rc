@@ -72,6 +72,9 @@ IDB_PNG14                RCDATA                    "Resources\\channel.png"
 IDB_PNG15                RCDATA                    "Resources\\log_on.png"
 IDB_PNG16                RCDATA                    "Resources\\log_off.png"
 IDB_SPLASH               RCDATA                    "Resources\\splash.png"
+IDB_POTION_OFF               RCDATA                    "Resources\\Autopoty_OFF.png"
+IDB_POTION_ON               RCDATA                    "Resources\\Autopoty_ON.png"
+
 
 IDB_MainTab                RCDATA                    "Resources\\Main.png"
 IDB_FishbotTab                RCDATA                    "Resources\\Fishbot.png"

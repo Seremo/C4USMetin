@@ -20,6 +20,8 @@
 #define IDB_PNG15                        910
 #define IDB_PNG16                        909
 #define IDB_SPLASH						925
+#define IDB_POTION_OFF						926
+#define IDB_POTION_ON						927
 
 #define IDB_MainTab						1001
 #define IDB_FishbotTab						1002

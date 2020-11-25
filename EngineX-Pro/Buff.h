@@ -41,9 +41,9 @@ private:
 		}
 		if (job == 0)
 		{
-			textureSkill_1 = MainForm::skill_none;
-			textureSkill_2 = MainForm::skill_none;
-			textureSkill_3 = MainForm::skill_none;
+			textureSkill_1 = MainForm::ResourceMap["skill_none"];
+			textureSkill_2 = MainForm::ResourceMap["skill_none"];
+			textureSkill_3 = MainForm::ResourceMap["skill_none"];
 			return;
 		}
 		else
@@ -55,15 +55,15 @@ private:
 			if (job == 1)
 			{
 
-				textureSkill_1 = MainForm::skill_none;
-				textureSkill_2 = MainForm::skill_none;
-				textureSkill_3 = MainForm::skill_none;
+				textureSkill_1 = MainForm::ResourceMap["skill_none"];
+				textureSkill_2 = MainForm::ResourceMap["skill_none"];
+				textureSkill_3 = MainForm::ResourceMap["skill_none"];
 			}
 			if (job == 2)
 			{
-				textureSkill_1 = MainForm::skill_none;
-				textureSkill_2 = MainForm::skill_none;
-				textureSkill_3 = MainForm::skill_none;
+				textureSkill_1 = MainForm::ResourceMap["skill_none"];
+				textureSkill_2 = MainForm::ResourceMap["skill_none"];
+				textureSkill_3 = MainForm::ResourceMap["skill_none"];
 			}
 		}
 
@@ -71,15 +71,15 @@ private:
 		{
 			if (job == 1)
 			{
-				textureSkill_1 = MainForm::skill_none;
-				textureSkill_2 = MainForm::skill_none;
-				textureSkill_3 = MainForm::skill_none;
+				textureSkill_1 = MainForm::ResourceMap["skill_none"];
+				textureSkill_2 = MainForm::ResourceMap["skill_none"];
+				textureSkill_3 = MainForm::ResourceMap["skill_none"];
 			}
 			if (job == 2)
 			{
-				textureSkill_1 = MainForm::skill_none;
-				textureSkill_2 = MainForm::skill_none;
-				textureSkill_3 = MainForm::skill_none;
+				textureSkill_1 = MainForm::ResourceMap["skill_none"];
+				textureSkill_2 = MainForm::ResourceMap["skill_none"];
+				textureSkill_3 = MainForm::ResourceMap["skill_none"];
 			}
 		}
 
@@ -87,16 +87,16 @@ private:
 		{
 			if (job == 1)
 			{
-				textureSkill_1 = MainForm::skill_none;
-				textureSkill_2 = MainForm::skill_none;
-				textureSkill_3 = MainForm::skill_none;
+				textureSkill_1 = MainForm::ResourceMap["skill_none"];
+				textureSkill_2 = MainForm::ResourceMap["skill_none"];
+				textureSkill_3 = MainForm::ResourceMap["skill_none"];
 
 			}
 			if (job == 2)
 			{
-				textureSkill_1 = MainForm::skill_none;
-				textureSkill_2 = MainForm::skill_none;
-				textureSkill_3 = MainForm::skill_none;
+				textureSkill_1 = MainForm::ResourceMap["skill_none"];
+				textureSkill_2 = MainForm::ResourceMap["skill_none"];
+				textureSkill_3 = MainForm::ResourceMap["skill_none"];
 			}
 		}
 
@@ -104,15 +104,15 @@ private:
 		{
 			if (job == 1)
 			{
-				textureSkill_1 = MainForm::shaman_d_3;
-				textureSkill_2 = MainForm::shaman_d_4;
-				textureSkill_3 = MainForm::shaman_d_5;
+				textureSkill_1 = MainForm::ResourceMap["shaman_d_3"];
+				textureSkill_2 = MainForm::ResourceMap["shaman_d_4"];
+				textureSkill_3 = MainForm::ResourceMap["shaman_d_5"];
 			}
 			if (job == 2)
 			{
-				textureSkill_1 = MainForm::shaman_h_3;
-				textureSkill_2 = MainForm::shaman_h_4;
-				textureSkill_3 = MainForm::shaman_h_5;
+				textureSkill_1 = MainForm::ResourceMap["shaman_h_3"];
+				textureSkill_2 = MainForm::ResourceMap["shaman_h_4"];
+				textureSkill_3 = MainForm::ResourceMap["shaman_h_5"];
 			}
 		}
 	}
@@ -302,15 +302,15 @@ public:
 		{
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			ImGui::IconButton2(&Settings::BUFF_SKILL_1_ENABLE, "Skill 1", textureSkill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+			ImGui::IconButton2(&Settings::BUFF_SKILL_1_ENABLE, "Skill 1", textureSkill_1, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 			ImGui::SameLine();
 			ImGui::PushItemWidth(100);  ImGui::InputFloat("##Skill1Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 			ImGui::TableSetColumnIndex(1);
-			ImGui::IconButton2(&Settings::BUFF_SKILL_2_ENABLE, "Skill 2", textureSkill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+			ImGui::IconButton2(&Settings::BUFF_SKILL_2_ENABLE, "Skill 2", textureSkill_2, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 			ImGui::SameLine();
 			ImGui::PushItemWidth(100);  ImGui::InputFloat("##Skill2Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 			ImGui::TableSetColumnIndex(2);
-			ImGui::IconButton2(&Settings::BUFF_SKILL_3_ENABLE, "Skill 3", textureSkill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+			ImGui::IconButton2(&Settings::BUFF_SKILL_3_ENABLE, "Skill 3", textureSkill_3, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 			ImGui::SameLine();
 			ImGui::PushItemWidth(100);  ImGui::InputFloat("##Skill3Time", &Settings::BUFF_SKILL_3_TIME, 0.100, 1);
 			ImGui::EndTable();

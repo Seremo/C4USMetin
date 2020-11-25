@@ -249,6 +249,10 @@ public:
 		{
 			j.at("MAIN_MOB_DETECT_ENABLE").get_to(MAIN_MOB_DETECT_ENABLE);
 		}
+		if (j.find("MAIN_POTION_ENABLE") != j.end())
+		{
+			j.at("MAIN_POTION_ENABLE").get_to(MAIN_POTION_ENABLE);
+		}
 		if (j.find("MAIN_RED_POTION_ENABLE") != j.end())
 		{
 			j.at("MAIN_RED_POTION_ENABLE").get_to(MAIN_RED_POTION_ENABLE);
@@ -857,6 +861,7 @@ public:
 			{ "MAIN_WH_RENDER_ENABLE", MAIN_WH_RENDER_ENABLE },
 			{ "MAIN_WH_SKILL_VALUE", MAIN_WH_SKILL_VALUE },
 			{ "MAIN_MOB_DETECT_ENABLE", MAIN_MOB_DETECT_ENABLE },
+			{ "MAIN_POTION_ENABLE", MAIN_POTION_ENABLE },
 			{ "MAIN_RED_POTION_ENABLE", MAIN_RED_POTION_ENABLE },
 			{ "MAIN_RED_POTION_PERCENTAGE_VALUE", MAIN_RED_POTION_PERCENTAGE_VALUE },
 			{ "MAIN_RED_POTION_SPEED_VALUE", MAIN_RED_POTION_SPEED_VALUE },
@@ -1058,6 +1063,7 @@ public:
 	static ImVec4		MAIN_WH_RENDER_COLOR;
 	static int			MAIN_WH_SKILL_VALUE;
 	static bool			MAIN_MOB_DETECT_ENABLE;
+	static bool			MAIN_POTION_ENABLE;
 	static bool			MAIN_RED_POTION_ENABLE;
 	static int			MAIN_RED_POTION_PERCENTAGE_VALUE;
 	static int			MAIN_RED_POTION_SPEED_VALUE;
@@ -1743,6 +1749,7 @@ vector<D3DVECTOR> Settings::cordsMaps;
  bool		Settings::MAIN_WALL_OBJECT_ENABLE = false;
  bool		Settings::MAIN_WALL_TERRAIN_ENABLE = false;
  bool		Settings::MAIN_MOB_DETECT_ENABLE = false;
+ bool		Settings::MAIN_POTION_ENABLE = false;
  bool		Settings::MAIN_RED_POTION_ENABLE = false;
  bool		Settings::MAIN_BLUE_POTION_ENABLE = false;
  int		Settings::MAIN_RED_POTION_PERCENTAGE_VALUE = 80;

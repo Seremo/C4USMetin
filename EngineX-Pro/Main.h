@@ -32,7 +32,7 @@ private:
 	void  SetJobRaceTextures(int job, int race)
 	{
 
-		texture_Skill_None = MainForm::skill_none;
+		texture_Skill_None = MainForm::ResourceMap["skill_none"];
 		if (job == 0)
 		{
 			texture_Skill_0 = texture_Skill_None;
@@ -51,23 +51,23 @@ private:
 			if (job == 1)
 			{
 
-				texture_Skill_0 = MainForm::warrior_b_0;
-				texture_Skill_1 = MainForm::warrior_b_1;
-				texture_Skill_2 = MainForm::warrior_b_2;
-				texture_Skill_3 = MainForm::warrior_b_3;
-				texture_Skill_4 = MainForm::warrior_b_4;
-				texture_Skill_5 = MainForm::warrior_b_5;
+				texture_Skill_0 = MainForm::ResourceMap["warrior_b_0"];
+				texture_Skill_1 = MainForm::ResourceMap["warrior_b_1"];
+				texture_Skill_2 = MainForm::ResourceMap["warrior_b_2"];
+				texture_Skill_3 = MainForm::ResourceMap["warrior_b_3"];
+				texture_Skill_4 = MainForm::ResourceMap["warrior_b_4"];
+				texture_Skill_5 = MainForm::ResourceMap["warrior_b_5"];
 				return;
 			}
 			if (job == 2)
 			{
 
-				texture_Skill_0 = MainForm::warrior_m_0;
-				texture_Skill_1 = MainForm::warrior_m_1;
-				texture_Skill_2 = MainForm::warrior_m_2;
-				texture_Skill_3 = MainForm::warrior_m_3;
-				texture_Skill_4 = MainForm::warrior_m_4;
-				texture_Skill_5 = MainForm::warrior_m_5;
+				texture_Skill_0 = MainForm::ResourceMap["warrior_m_0"];
+				texture_Skill_1 = MainForm::ResourceMap["warrior_m_1"];
+				texture_Skill_2 = MainForm::ResourceMap["warrior_m_2"];
+				texture_Skill_3 = MainForm::ResourceMap["warrior_m_3"];
+				texture_Skill_4 = MainForm::ResourceMap["warrior_m_4"];
+				texture_Skill_5 = MainForm::ResourceMap["warrior_m_5"];
 				return;
 			}
 		}
@@ -76,22 +76,22 @@ private:
 		{
 			if (job == 1)
 			{
-				texture_Skill_0 = MainForm::ninja_d_0;
-				texture_Skill_1 = MainForm::ninja_d_1;
-				texture_Skill_2 = MainForm::ninja_d_2;
-				texture_Skill_3 = MainForm::ninja_d_3;
-				texture_Skill_4 = MainForm::ninja_d_4;
-				texture_Skill_5 = MainForm::ninja_d_5;
+				texture_Skill_0 = MainForm::ResourceMap["ninja_d_0"];
+				texture_Skill_1 = MainForm::ResourceMap["ninja_d_1"];
+				texture_Skill_2 = MainForm::ResourceMap["ninja_d_2"];
+				texture_Skill_3 = MainForm::ResourceMap["ninja_d_3"];
+				texture_Skill_4 = MainForm::ResourceMap["ninja_d_4"];
+				texture_Skill_5 = MainForm::ResourceMap["ninja_d_5"];
 				return;
 			}
 			if (job == 2)
 			{
-				texture_Skill_0 = MainForm::ninja_a_0;
-				texture_Skill_1 = MainForm::ninja_a_1;
-				texture_Skill_2 = MainForm::ninja_a_2;
-				texture_Skill_3 = MainForm::ninja_a_3;
-				texture_Skill_4 = MainForm::ninja_a_4;
-				texture_Skill_5 = MainForm::ninja_a_5;
+				texture_Skill_0 = MainForm::ResourceMap["ninja_a_0"];
+				texture_Skill_1 = MainForm::ResourceMap["ninja_a_1"];
+				texture_Skill_2 = MainForm::ResourceMap["ninja_a_2"];
+				texture_Skill_3 = MainForm::ResourceMap["ninja_a_3"];
+				texture_Skill_4 = MainForm::ResourceMap["ninja_a_4"];
+				texture_Skill_5 = MainForm::ResourceMap["ninja_a_5"];
 				return;
 			}
 		}
@@ -100,22 +100,22 @@ private:
 		{
 			if (job == 1)
 			{
-				texture_Skill_0 = MainForm::sura_w_0;
-				texture_Skill_1 = MainForm::sura_w_1;
-				texture_Skill_2 = MainForm::sura_w_2;
-				texture_Skill_3 = MainForm::sura_w_3;
-				texture_Skill_4 = MainForm::sura_w_4;
-				texture_Skill_5 = MainForm::sura_w_5;
+				texture_Skill_0 = MainForm::ResourceMap["sura_w_0"];
+				texture_Skill_1 = MainForm::ResourceMap["sura_w_1"];
+				texture_Skill_2 = MainForm::ResourceMap["sura_w_2"];
+				texture_Skill_3 = MainForm::ResourceMap["sura_w_3"];
+				texture_Skill_4 = MainForm::ResourceMap["sura_w_4"];
+				texture_Skill_5 = MainForm::ResourceMap["sura_w_5"];
 				return;
 			}
 			if (job == 2)
 			{
-				texture_Skill_0 = MainForm::sura_b_0;
-				texture_Skill_1 = MainForm::sura_b_1;
-				texture_Skill_2 = MainForm::sura_b_2;
-				texture_Skill_3 = MainForm::sura_b_3;
-				texture_Skill_4 = MainForm::sura_b_4;
-				texture_Skill_5 = MainForm::sura_b_6;
+				texture_Skill_0 = MainForm::ResourceMap["sura_b_0"];
+				texture_Skill_1 = MainForm::ResourceMap["sura_b_1"];
+				texture_Skill_2 = MainForm::ResourceMap["sura_b_2"];
+				texture_Skill_3 = MainForm::ResourceMap["sura_b_3"];
+				texture_Skill_4 = MainForm::ResourceMap["sura_b_4"];
+				texture_Skill_5 = MainForm::ResourceMap["sura_b_6"];
 				return;
 			}
 		}
@@ -124,22 +124,22 @@ private:
 		{
 			if (job == 1)
 			{
-				texture_Skill_0 = MainForm::shaman_d_0;
-				texture_Skill_1 = MainForm::shaman_d_1;
-				texture_Skill_2 = MainForm::shaman_d_2;
-				texture_Skill_3 = MainForm::shaman_d_3;
-				texture_Skill_4 = MainForm::shaman_d_4;
-				texture_Skill_5 = MainForm::shaman_d_5;
+				texture_Skill_0 = MainForm::ResourceMap["shaman_d_0"];
+				texture_Skill_1 = MainForm::ResourceMap["shaman_d_1"];
+				texture_Skill_2 = MainForm::ResourceMap["shaman_d_2"];
+				texture_Skill_3 = MainForm::ResourceMap["shaman_d_3"];
+				texture_Skill_4 = MainForm::ResourceMap["shaman_d_4"];
+				texture_Skill_5 = MainForm::ResourceMap["shaman_d_5"];
 				return;
 			}
 			if (job == 2)
 			{
-				texture_Skill_0 = MainForm::shaman_h_0;
-				texture_Skill_1 = MainForm::shaman_h_1;
-				texture_Skill_2 = MainForm::shaman_h_2;
-				texture_Skill_3 = MainForm::shaman_h_3;
-				texture_Skill_4 = MainForm::shaman_h_4;
-				texture_Skill_5 = MainForm::shaman_h_5;
+				texture_Skill_0 = MainForm::ResourceMap["shaman_h_0"];
+				texture_Skill_1 = MainForm::ResourceMap["shaman_h_1"];
+				texture_Skill_2 = MainForm::ResourceMap["shaman_h_2"];
+				texture_Skill_3 = MainForm::ResourceMap["shaman_h_3"];
+				texture_Skill_4 = MainForm::ResourceMap["shaman_h_4"];
+				texture_Skill_5 = MainForm::ResourceMap["shaman_h_5"];
 				return;
 			}
 		}
@@ -176,16 +176,15 @@ public:
 		{
 			SetJobRaceTextures(0, 0);
 		}
+		if (Settings::MAIN_POTION_ENABLE)
+		{
+			Potions();
+		}
 		if (Settings::GLOBAL_SWITCH_ENABLE)
 		{
 			if (GameFunctionsCustom::PlayerIsInstance())
 			{
 				bool canAttack = true;
-				Potions();
-
-
-
-
 				Other();
 
 
@@ -331,7 +330,7 @@ public:
 		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % HP", &Settings::MAIN_RED_POTION_PERCENTAGE_VALUE, 1, 100);
 		ImGui::Separator();
 		ImGui::Checkbox("MP Potion           ", &Settings::MAIN_BLUE_POTION_ENABLE);
-		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)", &Settings::MAIN_BLUE_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % MP", &Settings::MAIN_BLUE_POTION_PERCENTAGE_VALUE, 1, 100);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -342,17 +341,17 @@ public:
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("SkillsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
-		ImGui::IconButton2(&Settings::MAIN_SKILL_1_ENABLE, "Skill 1", texture_Skill_0, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_1_ENABLE, "Skill 1", texture_Skill_0, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_2_ENABLE, "Skill 2", texture_Skill_1, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_2_ENABLE, "Skill 2", texture_Skill_1, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_3_ENABLE, "Skill 3", texture_Skill_2, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_3_ENABLE, "Skill 3", texture_Skill_2, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_4_ENABLE, "Skill 4", texture_Skill_3, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_4_ENABLE, "Skill 4", texture_Skill_3, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_5_ENABLE, "Skill 5", texture_Skill_4, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_5_ENABLE, "Skill 5", texture_Skill_4, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::SameLine();
-		ImGui::IconButton2(&Settings::MAIN_SKILL_6_ENABLE, "Skill 6", texture_Skill_5, MainForm::skill_on, MainForm::skill_off, ImVec2(32, 32));
+		ImGui::IconButton2(&Settings::MAIN_SKILL_6_ENABLE, "Skill 6", texture_Skill_5, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
@@ -901,6 +900,7 @@ private:
 			}
 		}
 	}
+
 	void Potions()
 	{
 		if (Settings::MAIN_RED_POTION_ENABLE)
@@ -925,6 +925,7 @@ private:
 			}
 		}
 	}
+
 	void HPPotion() 
 	{
 		int slot = GameFunctionsCustom::FindItemSlotInInventory(27001);
