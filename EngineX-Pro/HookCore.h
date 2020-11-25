@@ -22,7 +22,7 @@ public:
 	static Globals::tCPythonEventManagerRegisterEventSetFromString nCPythonEventManagerRegisterEventSetFromString;
 
 
-	static Globals::tCPythonApplicationOnUIRender nCPythonApplicationOnUIRender;
+	static Globals::tDirectEndScene nDirectEndScene;
 	static Globals::tCInputKeyboardUpdateKeyboard nCInputKeyboardUpdateKeyboard;
 	static Globals::tCPythonNetworkStreamSendCommandPacket nCSendCommandPacket;
 	static void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX);
@@ -46,9 +46,11 @@ public:
 	static bool _fastcall Hooks::NewCPythonNetworkStreamSendChatPacket(void* This, void* EDX, const char* c_szChat, BYTE byType);
 	static DWORD* _fastcall Hooks::NewCResourceManagerGetResourcePointer(void* This, void* EDX, const char* c_szFileName);
 	static bool _fastcall Hooks::NewCPythonApplicationProcess(void* This, void* EDX);
-	static void _fastcall Hooks::NewCPythonApplicationOnUIRender(void* This, void* EDX);
+
+	static HRESULT __stdcall NewDirectEndScene(void* This);
 	static void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX);
 	static bool _fastcall Hooks::NewNetworkStreamSendCommandPacket(void* This, void* EDX, DWORD a1, DWORD a2, const char* a3);
+
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	static void Hooks::Initialize();
 
@@ -72,7 +74,7 @@ Globals::tCActorInstanceTestActorCollision Hooks::nCActorInstanceTestActorCollis
 Globals::tCPythonApplicationRenderGame Hooks::nCPythonApplicationRenderGame = NULL;
 Globals::tCPythonApplicationProcess Hooks::nCPythonApplicationProcess = NULL;
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
-Globals::tCPythonApplicationOnUIRender Hooks::nCPythonApplicationOnUIRender = NULL;
+Globals::tDirectEndScene Hooks::nDirectEndScene = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NULL;
 Globals::tCPythonNetworkStreamSendCommandPacket Hooks::nCSendCommandPacket = NULL;
 

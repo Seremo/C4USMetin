@@ -167,6 +167,7 @@ public:
 	typedef bool(__thiscall* tCPythonNetworkStreamSendCommandPacket)(void* This, DWORD a1, DWORD a2,const char* a3);
 	typedef float(__cdecl* tCInstanceBase__GetBackgroundHeight)(float x, float y);
 
+	typedef HRESULT(__stdcall* tDirectEndScene)(void* pDevice);
 
 	static DWORD iCEterPackManagerInstance;
 	static DWORD iCPythonApplicationInstance;
