@@ -416,7 +416,8 @@ void MainForm::AddMenu(size_t Index, ImTextureID texture, const char* Text)
 	if (Index > 0)
 		ImGui::SameLine();
 
-	if (CurMenuOpen == Index) 
+	bool Open = CurMenuOpen == Index;
+	if (Open)
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
 		ImGui::PushStyleColor(ImGuiCol_Button, TabOpenColor);			// Color on tab open
@@ -432,7 +433,7 @@ void MainForm::AddMenu(size_t Index, ImTextureID texture, const char* Text)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, TabHoveredColor);			// Color on mouse hover in tab
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, TabClickColor);			// Color on click tab
 	
-	if (ImGui::IconSingleButton(Text, texture, ImVec2(TabWidth, TabHeight)))	// If tab clicked
+	if (ImGui::IconMenuButton(Text, texture, ImVec2(TabWidth, TabHeight), Open))	// If tab clicked
 	{
 		CurMenuOpen = Index;
 		for (map < pair<DWORD, DirectTexture>, pair<string, DWORD>> ::iterator itor = MainForm::TabMenuList.begin(); itor != MainForm::TabMenuList.end(); itor++)
@@ -898,6 +899,13 @@ void MainForm::Menu() {
 			}
 			if(CheatWindowOpen)
 			{
+				ImGui::Begin("Color Window");
+				ImGui::ColorEdit3("TabOpen", (float*)&TabOpenColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("TabCloes", (float*)&TabClosedColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("TabHovered", (float*)&TabHoveredColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("TabClick", (float*)&TabClickColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::ColorEdit3("HeaderFooterColor", (float*)&HeaderFooterColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				ImGui::End();
 				//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 				//ImGui::SameLine();
 				ImGui::SetNextWindowBgAlpha(0.90f);
@@ -1024,46 +1032,6 @@ void MainForm::Initialize()
 	style->GrabMinSize = 5.0f;
 	style->GrabRounding = 3.0f;
 	style->WindowBorderSize = 0.0f;
-	//style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
-	//style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-	////style->Colors[ImGuiCol_WindowBg] = ImColor(18, 24, 31);
-	//style->Colors[ImGuiCol_WindowBg] = ImColor(10, 10, 10);
-	////style->Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-	////style->Colors[ImGuiCol_ChildWindowBg] = ImColor(5, 5, 5);
-	//style->Colors[ImGuiCol_PopupBg] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-	//style->Colors[ImGuiCol_Border] = ImColor(18, 24, 31);
-	//style->Colors[ImGuiCol_BorderShadow] = ImVec4(0.92f, 0.91f, 0.88f, 0.00f);
-	////style->Colors[ImGuiCol_FrameBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	//style->Colors[ImGuiCol_FrameBg] = ImColor(20, 20, 20);
-	//style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-	//style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-	//style->Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	//style->Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0, 0, 0, 191);
-	//style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.07f, 0.07f, 0.09f, 1.00f);
-	//style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	//style->Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	////style->Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-	//style->Colors[ImGuiCol_ScrollbarGrab] = ImColor(38,181,199);
-	//style->Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-	//style->Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-	//style->Colors[ImGuiCol_CheckMark] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-	//style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.80f, 0.83f, 0.31f);
-	//style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-	//style->Colors[ImGuiCol_Button] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	//style->Colors[ImGuiCol_ButtonHovered] = ImVec4(0.24f, 0.23f, 0.29f, 1.00f);
-	//style->Colors[ImGuiCol_ButtonActive] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-	//style->Colors[ImGuiCol_Header] = ImVec4(0.10f, 0.09f, 0.12f, 1.00f);
-	//style->Colors[ImGuiCol_HeaderHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-	//style->Colors[ImGuiCol_HeaderActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-	//style->Colors[ImGuiCol_ResizeGrip] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-	//style->Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.56f, 0.56f, 0.58f, 1.00f);
-	//style->Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.06f, 0.05f, 0.07f, 1.00f);
-	//style->Colors[ImGuiCol_PlotLines] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
-	//style->Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
-	//style->Colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
-	//style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
-	//style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
-	//style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 	style->Colors[ImGuiCol_Text] = ImVec4(0.80f, 0.80f, 0.83f, 1.00f);
 	style->Colors[ImGuiCol_TextDisabled] = ImVec4(0.70f, 0.78f, 0.90f, 1.00f);
 	style->Colors[ImGuiCol_WindowBg] = ImVec4(0.07f, 0.08f, 0.09f, 1.00f);

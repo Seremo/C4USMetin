@@ -481,7 +481,7 @@ void ImGui::Logo(ImTextureID texture, const ImVec2& size) {
 	return;
 }
 
-bool ImGui::IconSingleButton(const char* tooltip, ImTextureID texture, const ImVec2& size) {
+bool ImGui::IconMenuButton(const char* tooltip, ImTextureID texture, const ImVec2& size_arg, bool Open) {
 	int frame_padding = -1;
 	const ImVec2& uv0 = ImVec2(0, 0);
 	const ImVec2& uv1 = ImVec2(1, 1);
@@ -502,15 +502,22 @@ bool ImGui::IconSingleButton(const char* tooltip, ImTextureID texture, const ImV
 	PopID();
 
 	const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : style.FramePadding;
-	const ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
-	const ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size);
+
+	const ImVec2 label_size = CalcTextSize(tooltip, NULL, true);
+	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size_arg + padding * 2);
+	ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size_arg);
+	if (Open)
+	{
+		ImVec2 size = ImVec2(size_arg.x + label_size.x, size_arg.y);
+		bb = ImRect(window->DC.CursorPos, window->DC.CursorPos + size + padding * 2);
+	}
 	ItemSize(bb);
 	if (!ItemAdd(bb, id))
 		return false;
 
 	bool hovered, held;
 	bool pressed = ButtonBehavior(bb, id, &hovered, &held);
-	if (hovered) {
+	if (hovered && !Open) {
 		ImGui::BeginTooltip();
 		ImGui::SetTooltip(tooltip);
 		ImGui::EndTooltip();
@@ -522,7 +529,12 @@ bool ImGui::IconSingleButton(const char* tooltip, ImTextureID texture, const ImV
 	if (bg_col.w > 0.0f)
 		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
 	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
-
+	if (Open)
+	{
+		ImVec2 textMin = ImVec2(bb.Min.x + size_arg.x + 5.0f, bb.Min.y);
+		ImVec2 textMax = ImVec2(bb.Max.x, bb.Max.y);
+		RenderTextClipped(textMin, textMax, tooltip, NULL, &label_size, style.ButtonTextAlign, &bb);
+	}
 	return pressed;
 }
 
