@@ -90,7 +90,7 @@ ServerName SERVER = ServerName::METINPL;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-//#define FISHBOT
+#define FISHBOT
 
 //#define NETWORK_MODE
 

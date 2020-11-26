@@ -816,7 +816,7 @@ void MainForm::Menu() {
 				ImGui::IconButton(&Settings::PROTECTION_AUTO_LOGIN_ENABLE, "Auto-Login", ResourceMap["AutologinOn"], ResourceMap["AutologinOff"], ImVec2(20, 20));
 
 #ifdef FISHBOT
-				if (ImGui::IconButton(&Settings::FISH_ENABLE, "FishBot Switch", FishbotOn, FishbotOff, ImVec2(20, 20))) 
+				if (ImGui::IconButton(&Settings::FISH_ENABLE, "FishBot Switch", ResourceMap["FishbotOn"], ResourceMap["FishbotOff"], ImVec2(20, 20))) 
 				{
 					if (Settings::FISH_ENABLE) 
 					{
@@ -1097,7 +1097,7 @@ void MainForm::Initialize()
 	{
 		{make_pair(1, ResourceMap["MainTab"]), make_pair("Main", 10)},
 #ifdef FISHBOT
-		{ make_pair(2, FishbotTab), make_pair("Fishbot", 20) },
+		{ make_pair(2, ResourceMap["FishbotTab"]), make_pair("Fishbot", 20) },
 #endif
 		{ make_pair(3, ResourceMap["AdditionalTab"]), make_pair("Additional", 31) },
 		{ make_pair(4, ResourceMap["VisualsTab"]), make_pair("Visuals", 40) },
