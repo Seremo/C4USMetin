@@ -38,7 +38,7 @@ public:
 		if (Globals::Server == ServerName::METINPL)
 		{
 			GameFunctions::NetworkStreamSendEmoticon(116);
-			GameFunctions::NetworkStreamSendFishingQuitPacket(3, 0);
+			GameFunctions::NetworkStreamSendFishingQuitPacket(3, GameFunctionsCustom::PlayerGetRotation());
 		}
 	}
 	void OnUpdate()
@@ -404,7 +404,7 @@ public:
 				isEnable = false;
 			}
 		}
-		GameFunctions::NetworkStreamSendFishingQuitPacket(3, 0);
+		GameFunctions::NetworkStreamSendFishingQuitPacket(3, GameFunctionsCustom::PlayerGetRotation());
 		lastTimeFishing = GetTickCount();
 	}
 

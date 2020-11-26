@@ -399,8 +399,8 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	case ServerName::METINPL:
 		if (header == 42 && len >= sizeof(TPacketGCFishing) && Settings::FISH_ENABLE)
 		{
-			TPacketGCFishing packetGCFishing;
-			memcpy(&packetGCFishing, destBuf, sizeof(TPacketGCFishing));
+			TPacketGCFishingGlobal packetGCFishing;
+			memcpy(&packetGCFishing, destBuf, sizeof(TPacketGCFishingGlobal));
 			//if (/*packetGCFishing.subheader == 3 || packetGCFishing.subheader == 4 ||*/ packetGCFishing.subheader == 5 && packetGCFishing.info == GameFunctions::PlayerGetMainCharacterIndex())
 			//{
 			//	return false;

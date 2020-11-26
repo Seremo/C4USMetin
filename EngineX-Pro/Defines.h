@@ -627,6 +627,14 @@ typedef struct packet_fishing
 	BYTE dir;
 } TPacketGCFishing;
 
+typedef struct packet_fishing_global
+{
+	BYTE header;
+	BYTE subheader;
+	DWORD info;
+	WORD dir;
+} TPacketGCFishingGlobal;
+
 typedef struct packet_fishing_pangea
 {
 	BYTE header;
