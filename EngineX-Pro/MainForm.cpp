@@ -362,7 +362,7 @@ ImVec4 TabOpenColor = (ImVec4)ImColor(33, 69, 119);
 ImVec4 TabClosedColor = (ImVec4)ImColor(16, 49, 94);
 ImVec4 TabHoveredColor = (ImVec4)ImColor(83, 116, 161);
 ImVec4 TabClickColor = (ImVec4)ImColor(55, 90, 139);
-ImVec4 HeaderFooterColor = (ImVec4)ImColor(24, 27, 32);
+ImVec4 HeaderFooterColor = (ImVec4)ImColor(28, 40, 64);
 
 void MainForm::AddTab(size_t Index, const char* Text)
 {
@@ -387,7 +387,6 @@ void MainForm::AddTab(size_t Index, const char* Text)
 	ImGui::PushStyleColor(ImGuiCol_HeaderActive, (ImVec4)ImColor(35, 35, 35));			// Color on click tab
 
 
-	//ImGui::Dummy(ImVec2(3.0f, 0.0f)); ImGui::SameLine();
 	bool isSelected = CurTabOpen == Index;
 	if (ImGui::Selectable2(Text, isSelected, 0, ImVec2(TabWidth, TabHeight))) 
 	{
@@ -407,8 +406,8 @@ void MainForm::AddTab(size_t Index, const char* Text)
 
 void MainForm::AddMenu(size_t Index, ImTextureID texture, const char* Text)
 {
-	static const size_t TabWidth = 20;
-	static const size_t TabHeight = 20;
+	static const size_t TabWidth = 28;
+	static const size_t TabHeight = 28;
 
 	ImGui::PushID(Index);
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
@@ -433,6 +432,7 @@ void MainForm::AddMenu(size_t Index, ImTextureID texture, const char* Text)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, TabHoveredColor);			// Color on mouse hover in tab
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, TabClickColor);			// Color on click tab
 	
+	//ImGui::Dummy(ImVec2(0.0f, 5.0f));
 	if (ImGui::IconMenuButton(Text, texture, ImVec2(TabWidth, TabHeight), Open))	// If tab clicked
 	{
 		CurMenuOpen = Index;
@@ -899,13 +899,13 @@ void MainForm::Menu() {
 			}
 			if(CheatWindowOpen)
 			{
-				ImGui::Begin("Color Window");
-				ImGui::ColorEdit3("TabOpen", (float*)&TabOpenColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-				ImGui::ColorEdit3("TabCloes", (float*)&TabClosedColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-				ImGui::ColorEdit3("TabHovered", (float*)&TabHoveredColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-				ImGui::ColorEdit3("TabClick", (float*)&TabClickColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-				ImGui::ColorEdit3("HeaderFooterColor", (float*)&HeaderFooterColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
-				ImGui::End();
+				//ImGui::Begin("Color Window");
+				//ImGui::ColorEdit3("TabOpen", (float*)&TabOpenColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				//ImGui::ColorEdit3("TabCloes", (float*)&TabClosedColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				//ImGui::ColorEdit3("TabHovered", (float*)&TabHoveredColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				//ImGui::ColorEdit3("TabClick", (float*)&TabClickColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				//ImGui::ColorEdit3("HeaderFooterColor", (float*)&HeaderFooterColor, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
+				//ImGui::End();
 				//ImGui::DrawImage(Background, ImVec2(1920 / 2.25, 1080 / 2.35), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.f, 1.f, 1.f, 0.2f));
 				//ImGui::SameLine();
 				ImGui::SetNextWindowBgAlpha(0.90f);

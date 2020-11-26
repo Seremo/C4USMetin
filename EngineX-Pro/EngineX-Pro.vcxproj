@@ -165,8 +165,8 @@
       <IgnoreSpecificDefaultLibraries>libci.lib</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <GenerateMapFile>false</GenerateMapFile>
-      <MapExports>false</MapExports>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
       <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>

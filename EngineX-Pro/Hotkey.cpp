@@ -505,7 +505,7 @@ bool ImGui::IconMenuButton(const char* tooltip, ImTextureID texture, const ImVec
 
 	const ImVec2 label_size = CalcTextSize(tooltip, NULL, true);
 	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size_arg + padding * 2);
-	ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + size_arg);
+	ImRect image_bb(window->DC.CursorPos + padding, window->DC.CursorPos + padding + (ImVec2(size_arg.x - 8.0f, size_arg.y - 8.0f)));
 	if (Open)
 	{
 		ImVec2 size = ImVec2(size_arg.x + label_size.x, size_arg.y);
@@ -528,12 +528,16 @@ bool ImGui::IconMenuButton(const char* tooltip, ImTextureID texture, const ImVec
 	RenderFrame(bb.Min, bb.Max, col, true, ImClamp((float)ImMin(padding.x, padding.y), 0.0f, style.FrameRounding));
 	if (bg_col.w > 0.0f)
 		window->DrawList->AddRectFilled(image_bb.Min, image_bb.Max, GetColorU32(bg_col));
-	window->DrawList->AddImage(user_texture_id, image_bb.Min, image_bb.Max, uv0, uv1, GetColorU32(tint_col));
 	if (Open)
 	{
-		ImVec2 textMin = ImVec2(bb.Min.x + size_arg.x + 5.0f, bb.Min.y);
+		window->DrawList->AddImage(user_texture_id, ImVec2(image_bb.Min.x, image_bb.Min.y + 3.0f), ImVec2(image_bb.Max.x, image_bb.Max.y + 3.0f), uv0, uv1, GetColorU32(tint_col));
+		ImVec2 textMin = ImVec2(bb.Min.x + size_arg.x + 0.0f, bb.Min.y);
 		ImVec2 textMax = ImVec2(bb.Max.x, bb.Max.y);
 		RenderTextClipped(textMin, textMax, tooltip, NULL, &label_size, style.ButtonTextAlign, &bb);
+	}
+	else
+	{
+		window->DrawList->AddImage(user_texture_id, ImVec2(image_bb.Min.x + 3.0f, image_bb.Min.y + 3.0f), ImVec2(image_bb.Max.x + 3.0f, image_bb.Max.y + 3.0f), uv0, uv1, GetColorU32(tint_col));
 	}
 	return pressed;
 }
