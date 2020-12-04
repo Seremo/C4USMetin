@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Document Version="2">
+    <Protection InputFileName="" Options="985032">
+        <Messages />
+        <Folders />
+        <Procedures>
+            <Procedure MapAddress="ImGui::Initialize(struct ImGuiContext *)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="ImGui::Render(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MetinerBot::Update(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MetinerBot::Start(class std::vector&lt;struct _D3DVECTOR,class std::allocator&lt;struct _D3DVECTOR&gt; &gt;)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::Skill(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::Slots(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::WaitHack(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::AttackNoMobDistance(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::HPPotion(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::MPPotion(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::Other(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::Start(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::Stop(void)" IncludedInCompilation="0" Options="0" CompilationType="2" />
+            <Procedure MapAddress="MiniMH::Revive(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::Update(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::UpdateRaceJobUi(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::TeleportXY(int,int)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MiniMH::TeleportDirection(int)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="Misc::Random(int,int)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="Protection::Update(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MainCore::Initialize(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MainForm::MainForm(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MetinerBot::ParseMessage(char const *)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MetinerBot::Stop(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MinerBot::Start(class std::vector&lt;struct _D3DVECTOR,class std::allocator&lt;struct _D3DVECTOR&gt; &gt;)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MinerBot::Stop(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MinerBot::Update(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MinerBot::Restart(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MinerBot::ParseMessage(char const *)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="MainCore::Crack(void)" Options="0" CompilationType="1" />
+            <Procedure MapAddress="_DllMain@12" Options="0" CompilationType="2" />
+        </Procedures>
+        <Objects />
+    </Protection>
+    <Script />
+</Document>

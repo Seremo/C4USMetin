@@ -90,7 +90,7 @@ ServerName SERVER = ServerName::METINPL;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-#define FISHBOT
+//#define FISHBOT
 
 //#define NETWORK_MODE
 
@@ -105,7 +105,7 @@ ServerName SERVER = ServerName::METINPL;
 #pragma comment(lib, "python27.lib")
 #endif
 
-#define DLL_VERSION "0.0.98 Beta"
+#define DLL_VERSION "0.1.01 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"

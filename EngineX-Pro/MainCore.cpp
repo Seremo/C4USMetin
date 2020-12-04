@@ -48,6 +48,7 @@ void MainCore::Crack()
 ///##################################################################################################################
 bool MainCore::CheckMembers()
 {
+	
 	string hwid = GetHardwareId();
 #ifdef DEVELOPER_MODE
 	printf(hwid.c_str());
@@ -82,6 +83,8 @@ bool MainCore::CheckMembers()
 		return true;
 	}
 	return false;
+	
+
 }
 
 void MainCore::ConsoleOutput(const char* txt, ...)

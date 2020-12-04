@@ -374,6 +374,7 @@ public:
 		GameFunctions::NetworkStreamSendFishingPacket(GameFunctionsCustom::PlayerGetRotation());
 #else
 		GameFunctions::PythonPlayerNEW_Fishing();
+		/*GameFunctions::PlayerSetAttackKeyState();*/
 #endif
 		lastTimeFishing = GetTickCount();
 	}

@@ -385,7 +385,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 	//	}
 	//	break;
 	case ServerName::PANGEA:
-		if (header == 0x32 && len == 8)
+		/*if (header == 0x32 && len == 8)
 		{
 			TPacketGCFishingPangea packetGCFishingPangea;
 			memcpy(&packetGCFishingPangea, destBuf, sizeof(TPacketGCFishingPangea));
@@ -394,7 +394,31 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 			{
 				Fish::Instance().AppendCastDirect(packetGCFishingPangea.count);
 			}
+		}*/
+		if (header == 0xA5 && len == 133)
+		{
+#ifdef FISHBOT			
+			typedef struct packet_fishing_pangea_NEW
+			{
+				BYTE header;
+
+
+				DWORD vid;
+				char anim[40];
+
+			};
+			packet_fishing_pangea_NEW packet_fishing_pangea;
+			memcpy(&packet_fishing_pangea, destBuf, sizeof(packet_fishing_pangea_NEW));
+			if (GameFunctions::PlayerGetMainCharacterIndex() == packet_fishing_pangea.vid)
+			{
+				Logger::Add(Logger::FISH, true, Logger::WHITE, packet_fishing_pangea.anim);
+				Fish::Instance().ParseMessage(packet_fishing_pangea.anim);
+
+			}
+#endif
 		}
+
+
 		break;
 	case ServerName::METINPL:
 		if (header == 42 && len >= sizeof(TPacketGCFishing) && Settings::FISH_ENABLE)
@@ -849,7 +873,8 @@ void Hooks::Initialize()
 			nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 			nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
 			nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
-
+			
+			
 			break;
 		case ServerName::CLASSIC:
 			nCPythonApplicationProcess = (Globals::tCPythonApplicationProcess)DetourFunction((PBYTE)Globals::CPythonApplicationProcess, (PBYTE)NewCPythonApplicationProcess);

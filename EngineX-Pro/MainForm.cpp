@@ -356,7 +356,7 @@ size_t MainForm::CurTabOpen = 10;
 size_t MainForm::CurMenuOpen = 1;
 bool MainForm::IsInitialized = 0;
 bool MainForm::SideBarIsOpen = true;
-bool StartPopup = true;
+double StartPopup = 0.015487;
 
 ImVec4 TabOpenColor = (ImVec4)ImColor(33, 69, 119);
 ImVec4 TabClosedColor = (ImVec4)ImColor(16, 49, 94);
@@ -762,36 +762,42 @@ void MainForm::Menu() {
 #if defined(DEVELOPER_MODE) && defined(_DEBUG)
 			ImGui::ShowDemoWindow();
 #else
-			if (StartPopup)
+			if (StartPopup != 0.077435)
 			{
-				ImGui::OpenPopup("WARNING");
-				if (ImGui::BeginPopupModal("WARNING", &StartPopup, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
+				
+				
+				ImGui::OpenPopup(VMProtectDecryptStringA("WARNING"));
+				bool open = true;
+				if (ImGui::BeginPopupModal(VMProtectDecryptStringA("WARNING"), &open, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
 				{
-					ImGui::Text("The only owner of this cheat is C4US.PL!");
-					ImGui::Text("It is 100%% free, if you paid u have been scammed.");
+					ImGui::Text(VMProtectDecryptStringA("The only owner of this cheat is C4US.PL!"));
+					ImGui::Text(VMProtectDecryptStringA("It is 100%% free, if you paid u have been scammed."));
 					ImGui::NewLine();
-					ImGui::Text("If you downloaded the cheat from an unknown source, scan your computer!");
-					ImGui::Text("We recommend you to create an account on C4US.PL, because it will allow you to use our work in the future.");
-					if (ImGui::Button("OK"))
+					ImGui::Text(VMProtectDecryptStringA("If you downloaded the cheat from an unknown source, scan your computer!"));
+					ImGui::Text(VMProtectDecryptStringA("We recommend you to create an account on C4US.PL, because it will allow you to use our work in the future."));
+					if (ImGui::Button(VMProtectDecryptStringA("OK")))
 					{
-						StartPopup = false;
+						
+						StartPopup = StartPopup * 5;
 						ImGui::CloseCurrentPopup();
 					} ImGui::SameLine();
-					if (ImGui::Button("Website"))
+					if (ImGui::Button(VMProtectDecryptStringA("Website")))
 					{
-						StartPopup = false;
+						StartPopup = StartPopup * 5;
 						ImGui::CloseCurrentPopup();
-						MiscExtension::OpenWebiste("https://www.cheats4us.pl");
+						MiscExtension::OpenWebiste(VMProtectDecryptStringA("https://www.cheats4us.pl"));
 					} ImGui::SameLine();
-					if (ImGui::Button("Discord"))
+					if (ImGui::Button(VMProtectDecryptStringA("Discord")))
 					{
-						StartPopup = false;
+						StartPopup = StartPopup * 5;
 						ImGui::CloseCurrentPopup();
-						MiscExtension::OpenWebiste("https://discord.gg/Wvh3JEe");
+						MiscExtension::OpenWebiste(VMProtectDecryptStringA("https://discord.gg/Wvh3JEe"));
 					}
 					ImGui::EndPopup();
 				}
+				
 			}
+			
 #endif
 			ImGui::SetNextWindowBgAlpha(0.0f);
 			ImGui::SetNextWindowPos(ImVec2(0, GameFunctionsCustom::GetWindowHeight() / 10));
