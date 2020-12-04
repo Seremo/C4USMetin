@@ -9,7 +9,7 @@ void MainCore::StartCrack()
 	{
 		case ServerName::TASTRIA2:
 		{
-			MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x1E6030, 0x90, 10);//89 85 94 FE FF FF E8 ? ? ? ?
+			MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x1E67E0, 0x90, 10);//89 85 94 FE FF FF E8 ? ? ? ?
 			break;
 		}
 		default:
