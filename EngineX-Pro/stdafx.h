@@ -82,7 +82,7 @@ enum ServerName
 
 
 //#define DX9
-ServerName SERVER = ServerName::METINPL;
+ServerName SERVER = ServerName::PANGEA;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
@@ -90,7 +90,7 @@ ServerName SERVER = ServerName::METINPL;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-//#define FISHBOT
+#define FISHBOT
 
 //#define NETWORK_MODE
 
@@ -105,7 +105,7 @@ ServerName SERVER = ServerName::METINPL;
 #pragma comment(lib, "python27.lib")
 #endif
 
-#define DLL_VERSION "0.1.01 Beta"
+#define DLL_VERSION "0.1.03 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"

@@ -191,42 +191,15 @@ public:
 		}
 		if (ImGui::Button("TEST 7"))
 		{
-			DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
-			/*27400*/
-			/*int slot = GameFunctionsCustom::FindItemSlotInInventory(27420);*/
-			GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, 0), 1);
+		
 		}
 		if (ImGui::Button("TEST 8"))
 		{
-			if (GameFunctionsCustom::PlayerIsRodEquipped())
-			{
-				if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(EQUIPMENT, 4), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4))].second)
-				{
-					GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(EQUIPMENT, 4));
-					if (GameFunctionsCustom::PlayerIsRodEquipped())
-					{
-						/*MessageBox(NULL, "Cant unequipt rod", "Error", 0);*/
-					}
-				}
-			}
-			vector<DWORD> rodsList = GameFunctionsCustom::FindItemSlotsInInventory(27400, 27590);
-			for (vector<DWORD>::iterator it = rodsList.begin(); it != rodsList.end(); ++it)
-			{
-				if (GameFunctions::PlayerGetItemMetinSocket(TItemPos(INVENTORY, *it), 0) == Settings::FISH_ROD_REFINE_POINTS[GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, *it))].second)
-				{
-					DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
-					GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, *it), 1);
-					GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
-				}
-			}
-			if (rodsList.size() > 0)
-			{
-				GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(INVENTORY, rodsList[0]));
-			}
+			
 		}
 		if (ImGui::Button("TEST 9"))
 		{
-			GameFunctions::NetworkStreamSendScriptAnswerPacket(0);
+			
 		}
 		ImGui::EndChild();
 		ImGui::PopStyleVar();

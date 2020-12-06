@@ -411,7 +411,7 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 			memcpy(&packet_fishing_pangea, destBuf, sizeof(packet_fishing_pangea_NEW));
 			if (GameFunctions::PlayerGetMainCharacterIndex() == packet_fishing_pangea.vid)
 			{
-				Logger::Add(Logger::FISH, true, Logger::WHITE, packet_fishing_pangea.anim);
+				/*Logger::Add(Logger::FISH, true, Logger::WHITE, packet_fishing_pangea.anim);*/
 				Fish::Instance().ParseMessage(packet_fishing_pangea.anim);
 
 			}

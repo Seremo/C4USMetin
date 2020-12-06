@@ -371,7 +371,20 @@ public:
 			//}
 		}
 #if defined(DEVELOPER_MODE)		
-		GameFunctions::NetworkStreamSendFishingPacket(GameFunctionsCustom::PlayerGetRotation());
+		
+		switch (Globals::Server)
+		{
+			case ServerName::METINPL:
+				{
+					GameFunctionsCustom::SendPacket("0E 06 00 06 00 00");
+					break;
+				}
+			default:
+				{
+					GameFunctions::NetworkStreamSendFishingPacket(GameFunctionsCustom::PlayerGetRotation());
+				}
+		}
+		
 #else
 		GameFunctions::PythonPlayerNEW_Fishing();
 		/*GameFunctions::PlayerSetAttackKeyState();*/
@@ -425,10 +438,10 @@ public:
 			}
 		}
 #ifdef DEVELOPER_MODE
-		if (DynamicTimer::CheckAutoSet("RefineRod", 10000))
+		/*if (DynamicTimer::CheckAutoSet("RefineRod", 10000))
 		{
 			RefineRod();
-		}
+		}*/
 		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
 		{
 			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(Settings::FISH_TELEPORT_STEP_RANGE, standingPosition, Settings::FISH_CAST_TELEPORT_CORDS);

@@ -7,6 +7,11 @@ void MainCore::StartCrack()
 {
 	switch (Globals::Server)
 	{
+		case ServerName::METINPL:
+		{
+				//89 85 94 FE FF FF E8 ? ? ? ?
+				break;
+		}
 		case ServerName::TASTRIA2:
 		{
 			MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x1E6030, 0x90, 10);//89 85 94 FE FF FF E8 ? ? ? ?
@@ -31,7 +36,7 @@ void MainCore::Crack()
 		//}
 		case ServerName::METINPL:
 			{
-				MemoryExtension::MemSet(Globals::iCPythonNetworkStreamInstance + 31409, 0x0, 1);
+				
 				break;
 			}
 		case ServerName::LUNA:
