@@ -82,7 +82,9 @@ enum ServerName
 
 
 //#define DX9
-ServerName SERVER = ServerName::PANGEA;
+
+ServerName SERVER = ServerName::TASTRIA2;
+
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM
