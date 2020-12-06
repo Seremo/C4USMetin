@@ -1067,7 +1067,7 @@ void Globals::ReAddressingLocas()
 				pCPythonNetworkStreamSendShootPacket = Globals::hEntryBaseAddress + 0x200440; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendShopBuyPacket = Globals::hEntryBaseAddress + 0x2202b0; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendShopEndPacket = Globals::hEntryBaseAddress + 0x220230; // [100 ] [1 / 1]
-				pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0x1f0750; // [100 ] [1 / 1]
+				pCPythonNetworkStreamSendShopSellPacketNew = Globals::hEntryBaseAddress + 0x220390; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendSpecial = Globals::hEntryBaseAddress + 0x200070; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendUseSkillPacket = Globals::hEntryBaseAddress + 0x1fa180; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendWhisperPacket = Globals::hEntryBaseAddress + 0x1fbbd0; // [100 ] [1 / 1]
