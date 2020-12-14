@@ -381,7 +381,8 @@ public:
 				}
 			default:
 				{
-					GameFunctions::NetworkStreamSendFishingPacket(GameFunctionsCustom::PlayerGetRotation());
+					GameFunctions::PythonPlayerNEW_Fishing();
+					/*GameFunctions::NetworkStreamSendFishingPacket(GameFunctionsCustom::PlayerGetRotation());*/
 				}
 		}
 		
@@ -442,14 +443,7 @@ public:
 		{
 			RefineRod();
 		}*/
-		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
-		{
-			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(Settings::FISH_TELEPORT_STEP_RANGE, standingPosition, Settings::FISH_CAST_TELEPORT_CORDS);
-			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
-			{
-				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-			}
-		}
+		
 #endif
 		if (Settings::FISH_SELL_TRASH_ENABLE && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE)
 		{
@@ -475,14 +469,39 @@ public:
 				}
 			}
 		}
+
+#ifdef DEVELOPER_MODE
+		D3DVECTOR oldPosition;
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
+		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
+		{
+
+			
+			vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, Settings::FISH_CAST_TELEPORT_CORDS);
+			int i = 0;
+			for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
+			{
+
+				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+
+				i++;
+			}
+		}
+#endif
+
 		Cast();
 #ifdef DEVELOPER_MODE
 		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
 		{
-			vector< D3DVECTOR> gf = MiscExtension::DivideTwoPointsByDistance(Settings::FISH_TELEPORT_STEP_RANGE, Settings::FISH_CAST_TELEPORT_CORDS, standingPosition);
-			for (vector< D3DVECTOR>::iterator it = gf.begin(); it != gf.end(); ++it)
+
+			vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, Settings::FISH_CAST_TELEPORT_CORDS, oldPosition);
+			int i = 0;
+			for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
 			{
+
 				GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+
+				i++;
 			}
 		}
 #endif

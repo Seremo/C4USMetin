@@ -109,7 +109,22 @@ public:
 		}
 		BuildShop((void*)iCPythonShopInstance, ShopName.c_str());
 	}
+	DirectTexture LoadTextureFromFile(const char* filename)
+	{
+		// Load texture from disk
+		DirectTexture texture;
+		HRESULT hr = D3DXCreateTextureFromFileA(Device::pDevice, filename, &texture);
+		if (hr != S_OK)
+			return false;
 
+		// Retrieve description of the texture surface so we can access its size
+		D3DSURFACE_DESC my_image_desc;
+		texture->GetLevelDesc(0, &my_image_desc);
+	
+		return texture;
+
+		
+	}
 	void OnTab1()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -189,9 +204,33 @@ public:
 		{
 			GameFunctions::NetworkStreamSendItemUsePacket(TItemPos(EQUIPMENT, 4));
 		}
-		if (ImGui::Button("TEST 7"))
+		if (ImGui::Button("Reload Icon [Adrian ZJEB]"))
 		{
-		
+			MainForm::ResourceMap["LogoHref"] = LoadTextureFromFile("c:\\Adi\\logo.png");
+			MainForm::ResourceMap["Background"] = LoadTextureFromFile("c:\\Adi\\background2.png");
+			MainForm::ResourceMap["WindowOn"] = LoadTextureFromFile("c:\\Adi\\window_on.png");
+			MainForm::ResourceMap["WindowOff"] = LoadTextureFromFile("c:\\Adi\\window_off.png");
+			MainForm::ResourceMap["RadarOn"] = LoadTextureFromFile("c:\\Adi\\radar_on.png");
+			MainForm::ResourceMap["RadarOff"] = LoadTextureFromFile("c:\\Adi\\radar_off.png");
+			MainForm::ResourceMap["AutologinOn"] = LoadTextureFromFile("c:\\Adi\\autologin_on.png");
+			MainForm::ResourceMap["AutologinOff"] = LoadTextureFromFile("c:\\Adi\\autologin_off.png");
+			MainForm::ResourceMap["FishbotOn"] = LoadTextureFromFile("c:\\Adi\\fishbot_on.png");
+			MainForm::ResourceMap["FishbotOff"] = LoadTextureFromFile("c:\\Adi\\fishbot_off.png");
+			MainForm::ResourceMap["MHOn"] = LoadTextureFromFile("c:\\Adi\\mh_on.png");
+			MainForm::ResourceMap["MHOff"] = LoadTextureFromFile("c:\\Adi\\mh_off.png");
+			MainForm::ResourceMap["ExitGameIcon"] = LoadTextureFromFile("c:\\Adi\\exit.png");
+			MainForm::ResourceMap["ChannelChangerIcon"] = LoadTextureFromFile("c:\\Adi\\channel.png");
+			MainForm::ResourceMap["LogOn"] = LoadTextureFromFile("c:\\Adi\\log_on.png");
+			MainForm::ResourceMap["LogOff"] = LoadTextureFromFile("c:\\Adi\\log_off.png");
+			MainForm::ResourceMap["PotionOff"] = LoadTextureFromFile("c:\\Adi\\Autopoty_OFF.png");
+			MainForm::ResourceMap["PotionOn"] = LoadTextureFromFile("c:\\Adi\\Autopoty_ON.png");
+
+			MainForm::ResourceMap["MainTab"] = LoadTextureFromFile("c:\\Adi\\Main.png");
+			MainForm::ResourceMap["FishbotTab"] = LoadTextureFromFile("c:\\Adi\\Fishbot.png");
+			MainForm::ResourceMap["AdditionalTab"] = LoadTextureFromFile("c:\\Adi\\Additional.png");
+			MainForm::ResourceMap["VisualsTab"] = LoadTextureFromFile("c:\\Adi\\Visuals.png");
+			MainForm::ResourceMap["SettingsTab"] = LoadTextureFromFile("c:\\Adi\\Protection.png");
+			MainForm::ResourceMap["DeveloperTab"] = LoadTextureFromFile("c:\\Adi\\Developer.png");
 		}
 		if (ImGui::Button("TEST 8"))
 		{

@@ -74,7 +74,8 @@ enum ServerName
 	NEVILLA,
 	DRAGON2,
 	LUNA,
-	TASTRIA2
+	TASTRIA2,
+	WOM
 };
 //############################################################################
 //############################################################################
@@ -83,7 +84,7 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::TASTRIA2;
+ServerName SERVER = ServerName::WOM;
 
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
