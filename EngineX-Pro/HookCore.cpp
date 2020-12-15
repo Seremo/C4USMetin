@@ -464,6 +464,23 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	memcpy(&header, pDestBuf, sizeof(header));
 	switch (Globals::Server)
 	{
+	case ServerName::WOM:
+		{
+			if (header == 0x6C && len == 1286)
+			{
+				char mac[22];
+				int i, tp;
+				for (i = 0; i < 6; i++)
+				{
+					tp = rand() % 256;
+
+					_snprintf(mac, 22, "%02X::%02X::%02X::%02X::%02X::%02X", rand() % 256, rand() % 256, rand() % 256, rand() % 256, rand() % 256, rand() % 256);
+
+				}
+				strncpy((char*)pDestBuf + 1, &mac[0], 22);
+			}
+		}
+
 	case ServerName::VIDGAR:
 		if (header == HEADER_CG_LOGIN3 && len == 361)
 		{
@@ -551,65 +568,7 @@ bool _fastcall Hooks::NewCNetworkStreamSend(void* This, void* EDX, int len, void
 	return ret;
 }
 
-bool _fastcall Hooks::NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant)
-{
-	BYTE header;
-	memcpy(&header, pDestBuf, sizeof(header));
 
-	//if (header == 0x02 && len == 6)
-	//{
-	//	strncpy((char*)pDestBuf + 2, "\xB5", 1);
-	//}
-	if (header == 0x0A && len > 120)
-	{
-		for (int i = 0; i < len; i++)
-		{
-			BYTE check1 = 0;
-			BYTE check2 = 0;
-			BYTE check3 = 0;
-			BYTE check4 = 0;
-			memcpy(&check1, static_cast<char*>(pDestBuf) + i, sizeof(check1));
-			memcpy(&check2, static_cast<char*>(pDestBuf) + (i + 1), sizeof(check2));
-			memcpy(&check3, static_cast<char*>(pDestBuf) + (i + 2), sizeof(check3));
-			memcpy(&check4, static_cast<char*>(pDestBuf) + (i + 3), sizeof(check4));
-			if (check1 == 0xDD && check2 == 0xFC && check3 == 0xDF && check4 == 0xF9)
-			{
-				strncpy((char*)pDestBuf + (i), "\xBD\xDE\xA0\xFA", 4); //83 d8 9f fa
-				break;
-			}
-		}
-	}
-
-	bool ret = nCNetworkStreamSendAeldra(This, len, pDestBuf, 1);
-	//BYTE* destBuf = (BYTE*)pDestBuf;
-#ifdef DEVELOPER_MODE
-	PacketSniffer::Instance().ProcessSendPacket(len, (void*)pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
-#endif
-	return ret;
-}
-
-//int _stdcall Hooks::NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, int len, int flags)
-//{
-//	BYTE header;
-//	memcpy(&header, pDestBuf, sizeof(header));
-//
-//	if (header == 0x02 && len == 6)
-//	{
-//		strncpy((char*)pDestBuf + 2, "\xA7", 1);
-//	}
-//	if (header == 0x0A && len > 150)
-//	{
-//		strncpy((char*)pDestBuf + (len - 85), "\x9C\xBF\xFE\xF9", 4);
-//		//strncpy((char*)pDestBuf + (len - 85), "\xB1\xC4\x90\xFA", 4);
-//	}
-//
-//	int ret = nCNetworkStreamSendAeldra(s, pDestBuf, len, flags);
-//	BYTE* destBuf = (BYTE*)pDestBuf;
-//#ifdef DEVELOPER_MODE
-//	PacketSniffer::Instance().ProcessSendPacket(len, (void*)pDestBuf, (DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
-//#endif
-//	return ret;
-//}
 
 bool _fastcall Hooks::NewCNetworkStreamSendSequence(void* This, void* EDX)
 {

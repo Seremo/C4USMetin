@@ -438,18 +438,26 @@ public:
 			{
 				switch (Globals::Server)
 				{
-				case ServerName::BARIA:
-				{
-					typedef bool(__thiscall* SendItemUsePacket)(void* This, TItemPos pos, char unk);
-					SendItemUsePacket ItemUse = (SendItemUsePacket)Globals::pCPythonNetworkStreamSendItemUsePacket;
-					ItemUse((void*)Globals::iCPythonNetworkStreamInstance, cell, '\0');
-					break;
-				}
-				default:
-				{
-					Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
-					break;
-				}
+					case ServerName::BARIA:
+						{
+							typedef bool(__thiscall* SendItemUsePacket)(void* This, TItemPos pos, char unk);
+							SendItemUsePacket ItemUse = (SendItemUsePacket)Globals::pCPythonNetworkStreamSendItemUsePacket;
+							ItemUse((void*)Globals::iCPythonNetworkStreamInstance, cell, '\0');
+							break;
+						}
+					case ServerName::WOM:
+						{
+							typedef bool(__thiscall* tCPythonNetworkStreamSendItemUsePacket)(void* This, TItemPos& pos);
+							tCPythonNetworkStreamSendItemUsePacket CPythonNetworkStreamSendItemUsePacket = (tCPythonNetworkStreamSendItemUsePacket)(Globals::pCPythonNetworkStreamSendItemUsePacket);
+							CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
+							break;
+						}
+					default:
+						{
+							Globals::CPythonNetworkStreamSendItemUsePacket((void*)Globals::iCPythonNetworkStreamInstance, cell);
+
+							break;
+						}
 				}
 			}
 		}
@@ -1573,12 +1581,29 @@ public:
 	{
 		try
 		{
-			return Globals::CBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
+			switch (Globals::Server)
+			{
+				case ServerName::WOM:
+					{
+						typedef TMapInfo* (__thiscall* tCPythonBackgroundGlobalPositionToMapInfo)(void* This, DWORD dwGlobalX, DWORD dwGlobalY,int unk);
+						tCPythonBackgroundGlobalPositionToMapInfo CPythonBackgroundGlobalPositionToMapInfo = (tCPythonBackgroundGlobalPositionToMapInfo)(Globals::pCPythonBackgroundGlobalPositionToMapInfo);
+						CPythonBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY,0);
+						break;
+					}
+				default:
+					{
+						
+							return Globals::CPythonBackgroundGlobalPositionToMapInfo((void*)Globals::iCPythonBackgroundInstance, dwGlobalX, dwGlobalY);
+						
+						break;
+					}
+			}
 		}
 		catch (...)
 		{
-			return NULL;
+			
 		}
+		return NULL;
 	}
 	static bool PyCallClassMemberFunc(PyObject* poClass, const char* c_szFunc, PyObject* poArgs)
 	{

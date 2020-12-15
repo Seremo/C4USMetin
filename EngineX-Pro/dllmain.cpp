@@ -42,9 +42,15 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				Security::Initialize();
 				Globals::hModule = hModule;
 				bool DXIsAlreadyLoaded = GetModuleHandleA("d3d8.dll") || GetModuleHandleA("d3d9.dll");
+				
+				
+				
+				
+
 				while (!MainCore::DXLoaded && !DXIsAlreadyLoaded)
 				{
 					Sleep(100);
+					cout << " Wait." << endl;;
 				}
 #ifdef NETWORK_MODE
 				const HANDLE hThreadNetword = CreateThreadSafe(&MainCore::NetworkThread, hModule);
