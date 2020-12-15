@@ -1361,11 +1361,6 @@ public:
 			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
 			return true;
 		}
-		if (Globals::Server == ServerName::WOM)
-		{
-			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
-			return true;
-		}
 		else {
 			TPacketCGAttack kPacketAtk;
 			switch (Globals::Server)

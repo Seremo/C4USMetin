@@ -193,31 +193,3 @@ string GetHardwareId() //OK
 
 	return string(HardwareId);
 }
-//std::vector<std::string> GetAllMacAddresses()
-//{
-//	std::vector<std::string> macs;
-//	std::string address;
-//
-//	// from: https://stackoverflow.com/questions/9034575/c-c-linux-mac-address-of-all-interfaces
-//	//  ... just read /sys/class/net/eth0/address
-//
-//	// NOTE: there may be more than one: /sys/class/net/*/address
-//	//  (1) so walk /sys/class/net/* to find the names to read the address of.
-//
-//	std::vector<std::string> nets = GetAllFiles("/sys/class/net/", false);
-//	for (auto it = nets.begin(); it != nets.end(); ++it)
-//	{
-//		// we don't care about the local loopback interface
-//		if (0 == strcmp((*it).substr(-3).c_str(), "/lo"))
-//			continue;
-//		address.clear();
-//		if (ReadFileContents(*it, "address", address))
-//		{
-//			if (!address.empty())
-//			{
-//				macs.push_back(address);
-//			}
-//		}
-//	}
-//	return macs;
-//}

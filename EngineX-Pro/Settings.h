@@ -1451,13 +1451,7 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(41,  make_pair(ServerName::DEVERIA,"CH3")), make_pair(17030, "87.98.237.48") },
 	{ make_pair(42,  make_pair(ServerName::DEVERIA,"CH4")), make_pair(17040, "87.98.237.48") },
 	{ make_pair(43,  make_pair(ServerName::DEVERIA,"CH5")), make_pair(17050, "87.98.237.48") },
-
-
-	{ make_pair(44,  make_pair(ServerName::WOM,"CH1")), make_pair(55101, "51.83.214.65") },
-	{ make_pair(45,  make_pair(ServerName::WOM,"CH2")), make_pair(55111, "51.83.214.65") },
-	{ make_pair(46,  make_pair(ServerName::WOM,"CH3")), make_pair(55121, "51.83.214.65") },
-	{ make_pair(47,  make_pair(ServerName::WOM,"CH4")), make_pair(55131, "51.83.214.65") },
-	{ make_pair(48,  make_pair(ServerName::WOM,"CH5")), make_pair(55141, "51.83.214.65") },
+	
 };
 vector<string>												Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST =
 {

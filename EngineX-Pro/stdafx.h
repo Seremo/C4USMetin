@@ -82,7 +82,7 @@ enum ServerName
 //############################################################################
 
 
-#define DX9
+//#define DX9
 
 ServerName SERVER = ServerName::WOM;
 
@@ -93,7 +93,7 @@ ServerName SERVER = ServerName::WOM;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-//#define FISHBOT
+#define FISHBOT
 
 //#define NETWORK_MODE
 
@@ -108,7 +108,7 @@ ServerName SERVER = ServerName::WOM;
 #pragma comment(lib, "python27.lib")
 #endif
 
-#define DLL_VERSION "0.1.05 Beta"
+#define DLL_VERSION "0.1.03 Beta"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
