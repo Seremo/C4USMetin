@@ -354,9 +354,7 @@ public:
 	static DWORD CythonNetGetMainActorSkillGroup;
 	static DWORD CythonNetGetAccountCharacterSlotData;
 	static DWORD CythonNetSendCommandPacket;
-	//item
-	static DWORD CythonItemSelectItem;
-	static DWORD CythonItemGetItemName;
+	static DWORD CythonEventSelectAnswer;
 public:
 	//#####################################################################################################################################
 	/*static tCNetworkStreamPeek CNetworkStreamPeek;*/
@@ -472,7 +470,7 @@ public:
 
 
 ServerName Globals::Server = SERVER;
-bool Globals::UsePythonFunctions = false;
+bool Globals::UsePythonFunctions = true;
 
 map<DWORD, TCItemData*> Globals::itemProtoList;
 map<DWORD, TGroundItemInstance*> Globals::groundItemList;
@@ -672,9 +670,8 @@ DWORD Globals::CythonNetIsConnect = NULL;
 DWORD Globals::CythonNetGetMainActorSkillGroup = NULL;
 DWORD Globals::CythonNetGetAccountCharacterSlotData = NULL;
 DWORD Globals::CythonNetSendCommandPacket = NULL;
-//item
-DWORD Globals::CythonItemSelectItem = NULL;
-DWORD Globals::CythonItemGetItemName = NULL;
+DWORD Globals::CythonEventSelectAnswer = NULL;
+
 
 Globals::tCActorInstanceTestActorCollision Globals::CActorInstanceTestActorCollision = NULL;
 Globals::tCPythonBackgroundGlobalPositionToMapInfo Globals::CPythonBackgroundGlobalPositionToMapInfo = NULL;
@@ -2322,9 +2319,8 @@ void Globals::ReAddressingPython()
 	CythonNetGetMainActorSkillGroup = PythonExtension::ModulesMap["netGetMainActorSkillGroup"];
 	CythonNetGetAccountCharacterSlotData = PythonExtension::ModulesMap["netGetAccountCharacterSlotDataString"];
 	CythonNetSendCommandPacket = PythonExtension::ModulesMap["netSendCommandPacket"];
-	//item
-	CythonItemSelectItem = PythonExtension::ModulesMap["itemSelectItem"];
-	CythonItemGetItemName = PythonExtension::ModulesMap["itemGetItemName"];
+	//event
+	CythonEventSelectAnswer = PythonExtension::ModulesMap["eventSelectAnswer"];
 }
 
 void Globals::ReDeclarationInstances()

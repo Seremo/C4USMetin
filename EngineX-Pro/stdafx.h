@@ -106,6 +106,10 @@ ServerName SERVER = ServerName::WOM;
 #if defined(PYTHON_ENABLE)
 #include "Python.h"
 #pragma comment(lib, "python27.lib")
+#else
+typedef unsigned long       PyObject;
+typedef unsigned long       PyMethodDef;
+typedef int                 Py_ssize_t;
 #endif
 
 #define DLL_VERSION "0.1.05 Beta"
@@ -138,11 +142,6 @@ ServerName SERVER = ServerName::WOM;
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 
-
-
-typedef unsigned long       PyObject;
-typedef unsigned long       PyMethodDef;
-typedef int                 Py_ssize_t;
 
 #include "DynamicTimer.h"
 

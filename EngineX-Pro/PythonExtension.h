@@ -42,9 +42,11 @@ public:
 
 	typedef PyObject* PythonModuleFunction(PyObject* poSelf, PyObject* PoArgs);
 
-	static bool PyTuple_GetFloat(PyObject* poItem, int pos, float* ret)
+	static bool PyTuple_GetFloat(PyObject* poArgs, int pos, float* ret)
 	{
 #if defined(PYTHON_ENABLE)
+		PyObject* poItem = PyTuple_GetItem(poArgs, pos);
+
 		if (!poItem)
 			return false;
 
@@ -206,15 +208,21 @@ public:
 
 	static D3DVECTOR GetPythonD3DVECTOR1(DWORD addr, int arg1)
 	{
-		D3DVECTOR result;
+		D3DVECTOR result{ 0,0,0 };
 #if defined(PYTHON_ENABLE)
 		PyObject* args = PyTuple_New(1);
+		printf("VID is %d\n", arg1);
 		PyTuple_SetItem(args, 0, PyInt_FromLong(arg1));
 		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
 		PyObject* ret = func(NULL, args);
-		PyTuple_GetFloat(ret, 0, &result.x);
-		PyTuple_GetFloat(ret, 1, &result.y);
-		PyTuple_GetFloat(ret, 2, &result.z);
+		if (PyTuple_Size(ret) == 3)
+		{
+			printf("Size is 3\n");
+			PyTuple_GetFloat(ret, 0, &result.x);
+			PyTuple_GetFloat(ret, 1, &result.y);
+			PyTuple_GetFloat(ret, 2, &result.z);
+		}
+		printf("D3DVector result X:%1.f, Y:%1.f, Z:%1.f\n", result.x, result.y, result.z);
 		Py_DECREF(ret);
 		Py_DECREF(args);
 #endif

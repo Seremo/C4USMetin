@@ -59,29 +59,12 @@ public:
 			return false;
 		}
 	}
-	static void ItemSelectItem(DWORD vnum)
-	{
-		try
-		{
-			PythonExtension::CallPythonInteger1(Globals::CythonItemSelectItem, vnum);
-		}
-		catch (...)
-		{
-		}
-	}
 	//#################################################################################################################################
 	static const char* ItemDataGetName(DWORD* cItemData)
 	{
 		try
 		{
-			if (Globals::UsePythonFunctions && Globals::CythonItemGetItemName)
-			{
-				return PythonExtension::GetPythonString0(Globals::CythonItemGetItemName);
-			}
-			else
-			{
-				return Globals::CItemDataGetName(cItemData);
-			}
+			return Globals::CItemDataGetName(cItemData);
 		}
 		catch (...)
 		{
@@ -959,6 +942,26 @@ public:
 		}
 	}
 	//#################################################################################################################################
+	static bool NetworkStreamSendScriptAnswerPacket(int iAnswer)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions && Globals::CythonEventSelectAnswer)
+			{
+				PythonExtension::CallPythonInteger2(Globals::CythonEventSelectAnswer, 0, iAnswer);
+				return true;
+			}
+			else
+			{
+				return Globals::CPythonNetworkStreamSendScriptAnswerPacket((void*)Globals::iCPythonNetworkStreamInstance, iAnswer);
+			}
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
 	static void NetworkStreamServerCommand(const char* c_szCommand)
 	{
 		try
@@ -1011,18 +1014,6 @@ public:
 		try
 		{
 			return Globals::CPythonNetworkStreamSendSpecial((void*)Globals::iCPythonNetworkStreamInstance, nLen, pvBuf);
-		}
-		catch (...)
-		{
-			return false;
-		}
-	}
-	//#################################################################################################################################
-	static bool NetworkStreamSendScriptAnswerPacket(int iAnswer)
-	{
-		try
-		{
-			return Globals::CPythonNetworkStreamSendScriptAnswerPacket((void*)Globals::iCPythonNetworkStreamInstance, iAnswer);
 		}
 		catch (...)
 		{
@@ -1227,9 +1218,9 @@ public:
 		}
 		try
 		{
-			if (Globals::UsePythonFunctions && Globals::Server != METINPL)
+			if (Globals::UsePythonFunctions && Globals::CythonChrGetPixelPosition)//Globals::Server != METINPL)
 			{
-				*pPixelPosition = PythonExtension::GetPythonD3DVECTOR1(Globals::pCInstanceBaseNEW_GetPixelPosition, GetVIDByInstance(instance));
+				*pPixelPosition = PythonExtension::GetPythonD3DVECTOR1(Globals::CythonChrGetPixelPosition, GetVIDByInstance(instance));
 			}
 			else
 			{
