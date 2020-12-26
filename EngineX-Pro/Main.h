@@ -307,7 +307,8 @@ public:
 #endif
 		ImGui::PushItemWidth(100); ImGui::InputInt("Time(ms)", &Settings::MAIN_WH_TIME, 5, 100);
 		ImGui::Checkbox("Range", &Settings::MAIN_WAITHACK_RANGE_ENABLE); ImGui::SameLine();
-		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MAIN_WH_DISTANCE_VALUE, 100, 1000);
+		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MAIN_WH_DISTANCE_VALUE, 100, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputInt("Teleport Step", &Settings::MAIN_WH_DISTANCE_STEP, 100, 1000);
 		ImGui::RadioButton("Sword", &Settings::MAIN_WH_WEAPON_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Bow", &Settings::MAIN_WH_WEAPON_TYPE, 1); ImGui::SameLine();
 
@@ -589,7 +590,7 @@ private:
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
 			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
-				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
+				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, oldPosition, newPosition);
 				int i = 0;
 				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
 				{			
@@ -602,7 +603,7 @@ private:
 
 			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
-				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
+				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, newPosition, oldPosition);
 				int i = 0;
 				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
 				{				
@@ -668,7 +669,7 @@ private:
 				GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
 				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
+					vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, oldPosition, newPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
 					{
@@ -680,7 +681,7 @@ private:
 				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
 					GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
-					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
+					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, newPosition, oldPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
 					{
@@ -723,7 +724,7 @@ private:
 
 				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
+					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, oldPosition, newPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
 					{				
@@ -746,7 +747,7 @@ private:
 				}
 				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 				{
-					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
+					vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, newPosition, oldPosition);
 					int i = 0;
 					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
 					{

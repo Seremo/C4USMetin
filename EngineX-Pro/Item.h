@@ -49,7 +49,8 @@ public:
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1);
 		ImGui::PushItemWidth(150); ImGui::SliderInt("Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000); ImGui::SameLine();
-		ImGui::PushItemWidth(100); ImGui::InputInt("Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000);
+		ImGui::PushItemWidth(100); ImGui::InputInt("Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::InputInt("Teleport Step", &Settings::ITEM_PICKUP_STEP, 100, 1000);
 		ImGui::Separator();
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER_ENABLE); ImGui::SameLine();
 		ImGui::InputText("Search", &filterItemLine[0], filterItemLine.size());
@@ -404,14 +405,14 @@ public:
 					}
 					else if (distance > 300 && distance < Settings::ITEM_PICKUP_DISTANCE)
 					{
-						vector< D3DVECTOR> steps = MiscExtension::DivideTwoPointsByDistance(1500, playerPosition, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z });
+						vector< D3DVECTOR> steps = MiscExtension::DivideTwoPointsByDistance(Settings::ITEM_PICKUP_STEP, playerPosition, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z });
 						int i = 0;
 						for (vector< D3DVECTOR>::iterator it = steps.begin(); it != steps.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
 						}
 						GameFunctions::NetworkStreamSendItemPickUpPacket(itemVID);
-						steps = MiscExtension::DivideTwoPointsByDistance(1500, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
+						steps = MiscExtension::DivideTwoPointsByDistance(Settings::ITEM_PICKUP_STEP, D3DVECTOR{ groundItemInstance->v3EndPosition.x, -groundItemInstance->v3EndPosition.y, groundItemInstance->v3EndPosition.z }, playerPosition);
 						for (vector< D3DVECTOR>::iterator it = steps.begin(); it != steps.end(); ++it)
 						{
 							GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);

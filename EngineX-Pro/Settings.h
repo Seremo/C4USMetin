@@ -217,6 +217,10 @@ public:
 		{
 			j.at("MAIN_WH_DISTANCE_VALUE").get_to(MAIN_WH_DISTANCE_VALUE);
 		}
+		if (j.find("MAIN_WH_DISTANCE_STEP") != j.end())
+		{
+			j.at("MAIN_WH_DISTANCE_STEP").get_to(MAIN_WH_DISTANCE_STEP);
+		}
 		if (j.find("MAIN_WH_TYPE") != j.end())
 		{
 			j.at("MAIN_WH_TYPE").get_to(MAIN_WH_WEAPON_TYPE);
@@ -464,6 +468,10 @@ public:
 		if (j.find("ITEM_PICKUP_DISTANCE") != j.end())
 		{
 			j.at("ITEM_PICKUP_DISTANCE").get_to(ITEM_PICKUP_DISTANCE);
+		}
+		if (j.find("ITEM_PICKUP_STEP") != j.end())
+		{
+			j.at("ITEM_PICKUP_STEP").get_to(ITEM_PICKUP_STEP);
 		}
 		if (j.find("ITEM_PICKUP_TIME") != j.end())
 		{
@@ -869,6 +877,7 @@ public:
 			{ "MAIN_WALL_TERRAIN_ENABLE", MAIN_WALL_TERRAIN_ENABLE },
 			{ "MAIN_WH_ENABLE", MAIN_WH_ENABLE },
 			{ "MAIN_WH_DISTANCE_VALUE", MAIN_WH_DISTANCE_VALUE },
+			{ "MAIN_WH_DISTANCE_STEP", MAIN_WH_DISTANCE_STEP },
 			{ "MAIN_WH_TYPE", MAIN_WH_WEAPON_TYPE },
 			{ "MAIN_WAITHACK_RANGE_ENABLE", MAIN_WAITHACK_RANGE_ENABLE },
 			{ "MAIN_WH_SKILL_COOLDOWN_TIME", MAIN_WH_SKILL_COOLDOWN_TIME },
@@ -931,6 +940,7 @@ public:
 			{ "ITEM_PICKUP_ENABLE", ITEM_PICKUP_ENABLE },
 			{ "ITEM_PICKUP_FILTER_ENABLE", ITEM_PICKUP_FILTER_ENABLE },
 			{ "ITEM_PICKUP_DISTANCE", ITEM_PICKUP_DISTANCE },
+			{ "ITEM_PICKUP_STEP", ITEM_PICKUP_STEP },
 			{ "ITEM_PICKUP_TIME", ITEM_PICKUP_TIME },
 			{ "ITEM_PICKUP_TYPE", ITEM_PICKUP_TYPE },
 			{ "FISH_ENABLE", FISH_ENABLE },
@@ -1074,6 +1084,7 @@ public:
 	static bool			MAIN_WALL_TERRAIN_ENABLE;
 	static bool			MAIN_WH_ENABLE;
 	static int			MAIN_WH_DISTANCE_VALUE;
+	static int			MAIN_WH_DISTANCE_STEP;
 	static int			MAIN_WH_WEAPON_TYPE;
 	static bool			MAIN_WAITHACK_RANGE_ENABLE;
 	static int			MAIN_WH_SKILL_COOLDOWN_TIME;
@@ -1140,6 +1151,7 @@ public:
 	static bool			ITEM_PICKUP_ENABLE;
 	static bool			ITEM_PICKUP_FILTER_ENABLE;
 	static int			ITEM_PICKUP_DISTANCE;
+	static int			ITEM_PICKUP_STEP;
 	static int			ITEM_PICKUP_TIME;
 	static int			ITEM_PICKUP_TYPE;
 
@@ -1793,6 +1805,7 @@ vector<D3DVECTOR> Settings::cordsMaps;
  bool		Settings::MAIN_SKILL_6_ENABLE = false;
  bool		Settings::MAIN_WH_ENABLE = false;
  int		Settings::MAIN_WH_DISTANCE_VALUE = 3000;
+ int		Settings::MAIN_WH_DISTANCE_STEP = 1000;
  int		Settings::MAIN_WH_WEAPON_TYPE = 0;
  int		Settings::MAIN_WH_SKILL_COOLDOWN_TIME = 25;
  bool		Settings::MAIN_WAITHACK_RANGE_ENABLE = false;
@@ -1849,6 +1862,7 @@ vector<D3DVECTOR> Settings::cordsMaps;
  bool		Settings::ITEM_PICKUP_FILTER_ENABLE = false;
  int		Settings::ITEM_PICKUP_TIME = 900;
  int		Settings::ITEM_PICKUP_DISTANCE = 5000;
+ int		Settings::ITEM_PICKUP_STEP = 1500;
  int		Settings::ITEM_PICKUP_TYPE = 0;
 
 
