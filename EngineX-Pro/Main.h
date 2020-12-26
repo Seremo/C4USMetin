@@ -575,11 +575,7 @@ private:
 		D3DVECTOR oldPosition;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 		D3DVECTOR newPosition;
-#ifdef DEVELOPER_MODE
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MAIN_WH_DISTANCE_VALUE);
-#else
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
-#endif
 		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
@@ -620,7 +616,7 @@ private:
 	void BowWH()
 	{
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MAIN_WH_DISTANCE_VALUE);
 		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
@@ -651,7 +647,7 @@ private:
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MAIN_WH_DISTANCE_VALUE);
 		if (objectList.size() > 0)
 		{
 			for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
@@ -705,7 +701,7 @@ private:
 	{
 		D3DVECTOR oldPosition;
 		D3DVECTOR newPosition;
-		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
+		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, Settings::MAIN_WH_DISTANCE_VALUE);
 		if (objectList.size() > 0)
 		{
 			for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
