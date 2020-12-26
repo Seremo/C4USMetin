@@ -245,6 +245,22 @@ public:
 		{
 			j.at("MAIN_WH_SKILL_VALUE").get_to(MAIN_WH_SKILL_VALUE);
 		}
+		if (j.find("MAIN_WH_MONSTER") != j.end())
+		{
+			j.at("MAIN_WH_MONSTER").get_to(MAIN_WH_MONSTER);
+		}
+		if (j.find("MAIN_WH_METIN") != j.end())
+		{
+			j.at("MAIN_WH_METIN").get_to(MAIN_WH_METIN);
+		}
+		if (j.find("MAIN_WH_BOSS") != j.end())
+		{
+			j.at("MAIN_WH_BOSS").get_to(MAIN_WH_BOSS);
+		}
+		if (j.find("MAIN_WH_PLAYER") != j.end())
+		{
+			j.at("MAIN_WH_PLAYER").get_to(MAIN_WH_PLAYER);
+		}
 		if (j.find("MAIN_MOB_DETECT_ENABLE") != j.end())
 		{
 			j.at("MAIN_MOB_DETECT_ENABLE").get_to(MAIN_MOB_DETECT_ENABLE);
@@ -859,7 +875,11 @@ public:
 			{ "MAIN_WH_TIME", MAIN_WH_TIME },
 			{ "MAIN_WH_ATTACK_TYPE", MAIN_WH_ATTACK_TYPE },
 			{ "MAIN_WH_RENDER_ENABLE", MAIN_WH_RENDER_ENABLE },
+			{ "MAIN_WH_MONSTER", MAIN_WH_MONSTER },
 			{ "MAIN_WH_SKILL_VALUE", MAIN_WH_SKILL_VALUE },
+			{ "MAIN_WH_METIN", MAIN_WH_METIN },
+			{ "MAIN_WH_BOSS", MAIN_WH_BOSS },
+			{ "MAIN_WH_PLAYER", MAIN_WH_PLAYER },
 			{ "MAIN_MOB_DETECT_ENABLE", MAIN_MOB_DETECT_ENABLE },
 			{ "MAIN_POTION_ENABLE", MAIN_POTION_ENABLE },
 			{ "MAIN_RED_POTION_ENABLE", MAIN_RED_POTION_ENABLE },
@@ -1062,6 +1082,10 @@ public:
 	static bool			MAIN_WH_RENDER_ENABLE;
 	static ImVec4		MAIN_WH_RENDER_COLOR;
 	static int			MAIN_WH_SKILL_VALUE;
+	static bool			MAIN_WH_MONSTER;
+	static bool			MAIN_WH_METIN;
+	static bool			MAIN_WH_BOSS;
+	static bool			MAIN_WH_PLAYER;
 	static bool			MAIN_MOB_DETECT_ENABLE;
 	static bool			MAIN_POTION_ENABLE;
 	static bool			MAIN_RED_POTION_ENABLE;
@@ -1780,6 +1804,10 @@ vector<D3DVECTOR> Settings::cordsMaps;
  int		Settings::MAIN_GLOBAL_SWITCH_KEY = VK_F1;
  int		Settings::MAIN_HIDE_UI_KEY = VK_F12;
  int		Settings::MAIN_WH_SKILL_VALUE = 35;
+ bool		Settings::MAIN_WH_MONSTER = true;
+ bool		Settings::MAIN_WH_METIN = true;
+ bool		Settings::MAIN_WH_BOSS = true;
+ bool		Settings::MAIN_WH_PLAYER = false;
  int		Settings::MAIN_BOOST_SPEED = 47;
  ImVec4		Settings::MAIN_WH_RENDER_COLOR = ImColor(255, 0, 0, 255);
  bool		Settings::MAIN_WH_RENDER_ENABLE = false;

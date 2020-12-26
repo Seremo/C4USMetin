@@ -123,7 +123,6 @@ typedef struct RECV_AUTH_PACKET
 	DWORD pCResourceManagerGetResourcePointer;
 	DWORD pCGraphicImageGetTexturePointer;
 	DWORD pPyCallClassMemberFunc;
-	DWORD pCPythonApplicationOnUIRender;
 	DWORD pCGraphicBasems_lpd3dDevice;
 	DWORD pCInputKeyboardUpdateKeyboard;
 	DWORD pCInstanceBaseIsWaiting;

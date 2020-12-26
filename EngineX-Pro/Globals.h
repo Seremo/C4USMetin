@@ -157,7 +157,6 @@ public:
 	typedef void(__thiscall* tCPythonBackgroundLocalPositionToGlobalPosition)(void* This, LONG& rLocalX, LONG& rLocalY);
 	typedef TMapInfo* (__thiscall* tCPythonBackgroundGlobalPositionToMapInfo)(void* This, DWORD dwGlobalX, DWORD dwGlobalY);
 	typedef const char* (__thiscall* tCNetworkStreamGetAccountCharacterSlotDataz)(void* This, UINT iSlot, UINT eType);
-	typedef void(__thiscall* tCPythonApplicationOnUIRender)(void* This);
 	typedef void(__thiscall* tCInputKeyboardUpdateKeyboard)(void* This);
 
 
@@ -296,7 +295,6 @@ public:
 	
 
 	static DWORD pPyCallClassMemberFunc;
-	static DWORD pCPythonApplicationOnUIRender;
 	static DWORD pCGraphicBasems_lpd3dDevice;
 	static DWORD pCInputKeyboardUpdateKeyboard;
 	//####################################
@@ -441,7 +439,6 @@ public:
 	static tCResourceManagerGetTexturePointer CGraphicImageGetTexturePointer;
 	static tCTerrainLoadMiniMapTexture CTerrainLoadMiniMapTexture;
 	static tPyCallClassMemberFunc PyCallClassMemberFunc;
-	static tCPythonApplicationOnUIRender CPythonApplicationOnUIRender;
 	static tCInputKeyboardUpdateKeyboard CInputKeyboardUpdateKeyboard;
 	static tCInstanceBaseIsWaiting CInstanceBaseIsWaiting;
 	static tCInstanceBaseSetRotation CInstanceBaseSetRotation;
@@ -611,7 +608,6 @@ DWORD Globals::pCGraphicImageGetTexturePointer = NULL;
 
 
 DWORD Globals::pPyCallClassMemberFunc = NULL;
-DWORD Globals::pCPythonApplicationOnUIRender = NULL;
 DWORD Globals::pCGraphicBasems_lpd3dDevice = NULL;
 DWORD Globals::pCInputKeyboardUpdateKeyboard = NULL;
 //Globals::tCNetworkStreamPeek Globals::CNetworkStreamPeek = NULL;
@@ -756,7 +752,6 @@ Globals::tCResourceManagerGetResourcePointer Globals::CResourceManagerGetResourc
 Globals::tCResourceManagerGetTexturePointer Globals::CGraphicImageGetTexturePointer = NULL;
 Globals::tCTerrainLoadMiniMapTexture Globals::CTerrainLoadMiniMapTexture = NULL;
 Globals::tPyCallClassMemberFunc  Globals::PyCallClassMemberFunc = NULL;
-Globals::tCPythonApplicationOnUIRender Globals::CPythonApplicationOnUIRender = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Globals::CInputKeyboardUpdateKeyboard = NULL;
 //################################
 Globals::tCInstanceBaseIsWaiting Globals::CInstanceBaseIsWaiting = NULL;
@@ -1105,7 +1100,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x41bfd0; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x444300; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x467fe0; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x412a50; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x42f080; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x72dc0; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x733e0; // [100 ] [1 / 1]
@@ -1197,7 +1191,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x3a37b0; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x3cb040; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x486c20; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x2d0580; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x3b2920; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x194f20; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x1961d0; // [100 ] [1 / 1]
@@ -1284,7 +1277,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x133810; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x135020; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1b9ac0; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x7efe0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x1399c0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x75c00; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x76070; // [100 ] [1 / 1]
@@ -1372,7 +1364,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0xd5f90; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0xf26e0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x183f20; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x6e030; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0xe0c90; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x15e40; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x168e0; // [100 ] [1 / 1]
@@ -1460,7 +1451,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x14ea70; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1533c0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1db7e0; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x5d820; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x157d70; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x53500; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x53970; // [100 ] [1 / 1]
@@ -1549,7 +1539,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x1d0480; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1d3780; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x275cd0; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x1248c0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x1e63f0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x105190; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x105c10; // [100 ] [1 / 1]
@@ -1636,7 +1625,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x123370; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x13f260; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d0b30; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0xc5760; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x12d810; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x6fb70; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x70610; // [100 ] [1 / 1]
@@ -1723,7 +1711,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x18ecc0; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1952B0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x211620; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x12b5c0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x196840; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xa6560; // [100 ] [6 / 6]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0xa7260; // [100 ] [4 / 4]
@@ -1811,7 +1798,6 @@ void Globals::ReAddressingLocas()
 			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x150b90; // [100 ] [1 / 1]
 			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x15A050;
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d9300; // [100 ] [1 / 1]
-			pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x74000; // [100 ] [1 / 1]
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x156a50; // [100 ] [1 / 1]
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x6aca0; // [100 ] [1 / 1]
 			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x6b110; // [100 ] [1 / 1]
@@ -1899,7 +1885,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x2684a0; // [100 ] [2 / 2]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x26c9d0; // [100 ] [5 / 5]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x36FB30;
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0xc8940; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x2743f0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xa64d0; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0xa6a10; // [100 ] [1 / 1]
@@ -1989,7 +1974,6 @@ void Globals::ReAddressingLocas()
 			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x2B30E0; // [100 ] [1 / 1]
 			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x2d0ee0; // [100 ] [1 / 1]
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x36A960;
-			pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x236320; // [100 ] [1 / 1]
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x2bd9c0; // [100 ] [1 / 1]
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x171890; // [100 ] [1 / 1]
 			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x172560; // [100 ] [1 / 1]
@@ -2082,7 +2066,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x15fd60; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x171230; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d9ee0; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x10a1b0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x15f260; // [100 ] [2 / 2]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xabbf0; // [100 ] [1 / 1]
 				//pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0xac180; // [33 ] [1 / 3]
@@ -2171,7 +2154,6 @@ void Globals::ReAddressingLocas()
 			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x21b670; // [100 ] [1 / 1]
 			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x21dda0; // [100 ] [1 / 1]
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x2d86c0; // [100 ] [1 / 1]
-			pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x171e20; // [100 ] [1 / 1]
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x2308d0; // [100 ] [1 / 1]
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x163da0; // [100 ] [1 / 1]
 			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x164820; // [100 ] [1 / 1]
@@ -2258,7 +2240,6 @@ void Globals::ReAddressingLocas()
 				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x31e1d0; // [100 ] [1 / 1]
 				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x323520; // [100 ] [1 / 1]0x32DC70
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x3b0420; // [100 ] [1 / 1]
-				pCPythonApplicationOnUIRender = Globals::hEntryBaseAddress + 0x2c73e0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x3294c0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x251f00; // [100 ] [1 / 1]
 				pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x25d620; // [100 ] [1 / 1]
@@ -2719,10 +2700,6 @@ void Globals::ReDeclarationLocals()
 	if (pCPythonNetworkStreamSendGiveItemPacket != NULL) 
 	{
 		CPythonNetworkStreamSendGiveItemPacket = (tCPythonNetworkStreamSendGiveItemPacket)(pCPythonNetworkStreamSendGiveItemPacket);
-	}
-	if (pCPythonApplicationOnUIRender != NULL)
-	{
-		CPythonApplicationOnUIRender = (tCPythonApplicationOnUIRender)(pCPythonApplicationOnUIRender);
 	}
 	if (pCInstanceBaseGetInstanceVirtualNumber != NULL)
 	{

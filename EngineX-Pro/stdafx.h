@@ -82,9 +82,9 @@ enum ServerName
 //############################################################################
 
 
-#define DX9
+//#define DX9
 
-ServerName SERVER = ServerName::WOM;
+ServerName SERVER = ServerName::METINPL;
 
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
@@ -93,6 +93,7 @@ ServerName SERVER = ServerName::WOM;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
+#define DEVELOPER_MODE
 //#define FISHBOT
 
 //#define NETWORK_MODE

@@ -316,6 +316,11 @@ public:
 		ImGui::InputInt("Skill Number", &Settings::MAIN_WH_SKILL_VALUE, 1, 111); ImGui::SameLine();
 		ImGui::InputInt("Skill Time", &Settings::MAIN_WH_SKILL_COOLDOWN_TIME, 1, 10);
 #endif	
+		ImGui::Text("Applies to");
+		ImGui::Checkbox("Monster", &Settings::MAIN_WH_MONSTER); ImGui::SameLine();
+		ImGui::Checkbox("Metin", &Settings::MAIN_WH_METIN); ImGui::SameLine();
+		ImGui::Checkbox("Boss", &Settings::MAIN_WH_BOSS); ImGui::SameLine();
+		ImGui::Checkbox("Player", &Settings::MAIN_WH_PLAYER);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
@@ -541,9 +546,30 @@ private:
 			}
 
 		}
-
-
 	}
+
+	bool WHCanAttack(int targetType, bool isBoss)
+	{
+		bool canAttack = false;
+		if (targetType == TYPE_ENEMY && !isBoss && Settings::MAIN_WH_MONSTER)
+		{
+			canAttack = true;
+		}
+		if (targetType == TYPE_ENEMY && isBoss && Settings::MAIN_WH_BOSS)
+		{
+			canAttack = true;
+		}
+		if (targetType == TYPE_STONE && Settings::MAIN_WH_METIN)
+		{
+			canAttack = true;
+		}
+		if (targetType == TYPE_PC && Settings::MAIN_WH_PLAYER)
+		{
+			canAttack = true;
+		}
+		return canAttack;
+	}
+
 	void SwordWH()
 	{
 		D3DVECTOR oldPosition;
@@ -554,23 +580,24 @@ private:
 #else
 		map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE, Settings::MAIN_WH_DISTANCE_VALUE);
 #endif
-
-
 		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
+			DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+			bool isBoss = GameFunctionsCustom::InstanceIsBoss(itor->second);
+			if (WHCanAttack(type, isBoss) == false)
+			{
+				continue;
+			}
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
-		
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
 			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
 			{
 				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, newPosition);
 				int i = 0;
 				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
-				{
-					
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-					
+				{			
+					GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);				
 					i++;
 				}
 			}
@@ -582,10 +609,8 @@ private:
 				vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, newPosition, oldPosition);
 				int i = 0;
 				for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
-				{
-					
-						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
-					
+				{				
+					GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);		
 					i++;
 				}
 			}
@@ -599,6 +624,12 @@ private:
 		for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 		{
 			DWORD vid = itor->first;
+			DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+			bool isBoss = GameFunctionsCustom::InstanceIsBoss(itor->second);
+			if (WHCanAttack(type, isBoss) == false)
+			{
+				continue;
+			}
 			GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &newPosition);
 			GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
 			
@@ -626,7 +657,12 @@ private:
 			for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
 			{
 				DWORD vid = itor->first;
-
+				DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+				bool isBoss = GameFunctionsCustom::InstanceIsBoss(itor->second);
+				if (WHCanAttack(type, isBoss) == false)
+				{
+					continue;
+				}
 				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000)
 				{
 					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
@@ -676,6 +712,11 @@ private:
 			{
 				DWORD vid = itor->first;
 				DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+				bool isBoss = GameFunctionsCustom::InstanceIsBoss(itor->second);
+				if (WHCanAttack(type, isBoss) == false)
+				{
+					continue;
+				}
 				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000)
 				{
 					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
@@ -725,49 +766,53 @@ private:
 	void Target()
 	{
 		DWORD vid = GameFunctions::PlayerGetTargetVID();
-		if (vid != 0)
+		if (vid == 0)
 		{
-			D3DVECTOR oldPosition;
-			D3DVECTOR newPosition;
-			DWORD* targetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
-			DWORD* charInstance = GameFunctions::CharacterManagerGetInstancePtr(GameFunctions::PlayerGetMainCharacterIndex());
-			GameFunctions::InstanceBaseNEW_GetPixelPosition(targetInstance, &newPosition);
-			if (targetInstance != 0 && charInstance != 0)
+			return;
+		}
+		D3DVECTOR oldPosition;
+		D3DVECTOR newPosition;
+		DWORD* targetInstance = GameFunctions::CharacterManagerGetInstancePtr(vid);
+		DWORD targetType = GameFunctions::InstanceBaseGetInstanceType(targetInstance);
+		bool isBoss = GameFunctionsCustom::InstanceIsBoss(targetInstance);
+		GameFunctions::InstanceBaseNEW_GetPixelPosition(targetInstance, &newPosition);
+		if (targetInstance != 0)
+		{
+			if (WHCanAttack(targetType, isBoss) == false)
 			{
-				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
-				{
-					GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
-				}
-
-				switch (Settings::MAIN_WH_WEAPON_TYPE)
-				{
-				case 0:
-					GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
-					break;
-				case 1:
-					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
-					GameFunctions::NetworkStreamSendShootPacket(0);
-					break;
+				return;
+			}
+			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
+			{
+				GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, 0, 0);
+			}
+			switch (Settings::MAIN_WH_WEAPON_TYPE)
+			{
+			case 0:
+				GameFunctionsCustom::NetworkStreamSendAttackPacket(0, vid);
+				break;
+			case 1:
+				GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ newPosition.x, newPosition.y, newPosition.z });
+				GameFunctions::NetworkStreamSendShootPacket(0);
+				break;
 
 #ifdef DEVELOPER_MODE
-				case 2:
-					if ((GetTickCount() - Main::lastWaitHackSkillDelay) > (Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000))
-					{
-						GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
-						Main::lastWaitHackSkillDelay = GetTickCount();
-					}
-					for (int i = 0; i < 50; i++) {
-						GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ 0,0,0 });
-						GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
-					}
-					break;
-#endif
-				}
-				if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
+			case 2:
+				if ((GetTickCount() - Main::lastWaitHackSkillDelay) > (Settings::MAIN_WH_SKILL_COOLDOWN_TIME * 1000))
 				{
-					GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
+					GameFunctions::NetworkStreamSendUseSkillPacket(Settings::MAIN_WH_SKILL_VALUE, vid);
+					Main::lastWaitHackSkillDelay = GetTickCount();
 				}
-
+				for (int i = 0; i < 50; i++) {
+					GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ 0,0,0 });
+					GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);
+				}
+				break;
+#endif
+			}
+			if (Settings::MAIN_WAITHACK_RANGE_ENABLE)
+			{
+				GameFunctions::NetworkStreamSendCharacterStatePacket(oldPosition, 0, 0, 0);
 			}
 		}
 	}
