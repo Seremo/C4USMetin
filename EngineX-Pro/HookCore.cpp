@@ -623,29 +623,6 @@ bool _fastcall Hooks::NewCPythonNetworkStreamSendChatPacket(void* This, void* ED
 }
 
 
-//##################################################################################################################################################
-
-
-DWORD* _fastcall Hooks::NewCResourceManagerGetResourcePointer(void* This, void* EDX, const char* c_szFileName)
-{
-#if defined(VALIUM)
-	Fish::Instance().ParseMessage(c_szFileName);
-
-#endif
-#if defined(GLADOR)
-	FishBot::ParseMessage(c_szFileName);
-#endif
-
-	/*MainForm::LogSniffer(0, c_szFileName);
-	MainForm::LogSniffer(0, "\n");
-	string line = std::to_string((DWORD)_ReturnAddress() - Globals::hEntryBaseAddress);
-	line += "\n";
-	MainForm::LogSniffer(0, line.c_str());*/
-	return nCResourceManagerGetResourcePointer(This, c_szFileName);
-}
-
-
-
 bool _fastcall Hooks::NewCPythonApplicationProcess(void* This, void* EDX)
 {
 	if (MainForm::IsInitialized) 

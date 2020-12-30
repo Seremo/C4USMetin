@@ -186,8 +186,6 @@ public:
 			{
 				bool canAttack = true;
 				Other();
-
-
 				if (Revive())
 				{
 					return;
@@ -219,6 +217,10 @@ public:
 
 				Skill();
 				WaitHack();
+#ifdef DEVELOPER_MODE
+				Odpychaj();
+				Przyciagaj();
+#endif
 				if (Settings::MAIN_ATTACK_ENABLE)
 				{
 					GameFunctions::PlayerSetAttackKeyState(canAttack);
@@ -232,7 +234,6 @@ public:
 
 			}
 		}
-
 		else
 		{
 
@@ -310,18 +311,26 @@ public:
 		ImGui::PushItemWidth(100); ImGui::InputInt("Attack Distance", &Settings::MAIN_WH_DISTANCE_VALUE, 100, 1000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputInt("Teleport Step", &Settings::MAIN_WH_DISTANCE_STEP, 100, 1000);
 		ImGui::RadioButton("Sword", &Settings::MAIN_WH_WEAPON_TYPE, 0); ImGui::SameLine();
-		ImGui::RadioButton("Bow", &Settings::MAIN_WH_WEAPON_TYPE, 1); ImGui::SameLine();
+		ImGui::RadioButton("Bow", &Settings::MAIN_WH_WEAPON_TYPE, 1);
 
-#ifdef DEVELOPER_MODE
-		ImGui::RadioButton("Skill", &Settings::MAIN_WH_WEAPON_TYPE, 2);
-		ImGui::InputInt("Skill Number", &Settings::MAIN_WH_SKILL_VALUE, 1, 111); ImGui::SameLine();
-		ImGui::InputInt("Skill Time", &Settings::MAIN_WH_SKILL_COOLDOWN_TIME, 1, 10);
-#endif	
 		ImGui::Text("Applies to");
 		ImGui::Checkbox("Monster", &Settings::MAIN_WH_MONSTER); ImGui::SameLine();
 		ImGui::Checkbox("Metin", &Settings::MAIN_WH_METIN); ImGui::SameLine();
 		ImGui::Checkbox("Boss", &Settings::MAIN_WH_BOSS); ImGui::SameLine();
 		ImGui::Checkbox("Player", &Settings::MAIN_WH_PLAYER);
+
+#ifdef DEVELOPER_MODE
+		ImGui::RadioButton("Skill", &Settings::MAIN_WH_WEAPON_TYPE, 2);
+		ImGui::InputInt("Skill Number", &Settings::MAIN_WH_SKILL_VALUE, 1, 111); ImGui::SameLine();
+		ImGui::InputInt("Skill Time", &Settings::MAIN_WH_SKILL_COOLDOWN_TIME, 1, 10);
+		ImGui::Checkbox("Odpychanie", &Odpychanie); ImGui::SameLine();
+		ImGui::InputInt("Odpychanie Time", &odpychanieTime);
+		ImGui::Checkbox("Przyciaganie", &Przyciaganie); ImGui::SameLine();
+		ImGui::InputInt("Przyciaganie Time", &przyciaganieTime);
+		ImGui::InputInt("Animation", &Animation);
+		ImGui::InputInt("Attach Range", &range);
+		ImGui::InputInt("ExternalForce Range", &range2);
+#endif	
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
 	}
@@ -332,11 +341,11 @@ public:
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		ImGui::BeginChild("MHUsager", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("HP Potion           ", &Settings::MAIN_RED_POTION_ENABLE);
-		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)##1", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % HP", &Settings::MAIN_RED_POTION_PERCENTAGE_VALUE, 1, 100);
 		ImGui::Separator();
 		ImGui::Checkbox("MP Potion           ", &Settings::MAIN_BLUE_POTION_ENABLE);
-		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)", &Settings::MAIN_BLUE_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
+		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)##2", &Settings::MAIN_BLUE_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % MP", &Settings::MAIN_BLUE_POTION_PERCENTAGE_VALUE, 1, 100);
 		ImGui::EndChild();
 		ImGui::PopStyleVar();
@@ -856,10 +865,114 @@ private:
 	}
 
 
+#ifdef DEVELOPER_MODE
+	bool Odpychanie = false;
+	bool Przyciaganie = false;
+	int odpychanieTime = 500;
+	int przyciaganieTime = 500;
+	int lastOdpychanie = 0;
+	int lastPrzyciaganie = 0;
+
+	int Funkcja = 3;
+	int Animation = 17;
+	int range = 2000;
+	int range2 = 2000;
+
+	void Odpychaj()
+	{
+		if ((GetTickCount() - Main::lastOdpychanie) > Main::odpychanieTime && Odpychanie)
+		{
+			Main::lastOdpychanie = GetTickCount();
+			D3DVECTOR charPosition;
+			D3DVECTOR mobPosition;
+			map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, range);
+			if (objectList.size() > 0)
+			{
+				for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
+				{
+					DWORD vid = itor->first;
+					DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+					bool isBoss = GameFunctionsCustom::InstanceIsBoss(itor->second);
+					if (WHCanAttack(type, isBoss) == false)
+					{
+						continue;
+					}
+					GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &charPosition);
+					GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &mobPosition);
+
+					//tp to mob
+					/*vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, charPosition, mobPosition);
+					for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
+					{
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+					}*/
+
+					//attach
+					D3DVECTOR newPosition{ charPosition.x, charPosition.y, charPosition.z };
+					newPosition.x += range2;
+					newPosition.y -= range2;
+					GameFunctions::NetworkStreamSendCharacterStatePacket(newPosition, 0, Funkcja, Animation);
+					GameFunctions::NetworkStreamSendSyncPositionPacket(vid, newPosition.x, newPosition.y);
+					GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(itor->second, newPosition.x, newPosition.y);
+					//tp back
+					/*vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, mobPosition, charPosition);
+					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+					{
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+					}*/
+				}
+			}
+		}
+	}
+
+	void Przyciagaj()
+	{
+		if ((GetTickCount() - Main::lastPrzyciaganie) > Main::przyciaganieTime && Przyciaganie)
+		{
+			Main::lastPrzyciaganie = GetTickCount();
+			D3DVECTOR charPosition;
+			D3DVECTOR mobPosition;
+			map<DWORD, DWORD*> objectList = GameFunctionsCustom::GetObjectList(OBJECT_MOB | OBJECT_BOSS | OBJECT_STONE | OBJECT_PC, range);
+			if (objectList.size() > 0)
+			{
+				for (map<DWORD, DWORD*>::iterator itor = objectList.begin(); itor != objectList.end(); itor++)
+				{
+					DWORD vid = itor->first;
+					DWORD type = GameFunctions::InstanceBaseGetInstanceType(itor->second);
+					bool isBoss = GameFunctionsCustom::InstanceIsBoss(itor->second);
+					if (WHCanAttack(type, isBoss) == false)
+					{
+						continue;
+					}
+					GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &charPosition);
+					GameFunctions::InstanceBaseNEW_GetPixelPosition(itor->second, &mobPosition);
+
+					//tp to mob
+					/*vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, charPosition, mobPosition);
+					for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
+					{
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+					}*/
+
+					//attach
+					GameFunctions::NetworkStreamSendCharacterStatePacket(mobPosition, 0, Funkcja, Animation);
+					GameFunctions::NetworkStreamSendSyncPositionPacket(vid, charPosition.x, charPosition.y);
+					GameFunctions::InstanceBaseSCRIPT_SetPixelPosition(itor->second, charPosition.x, charPosition.y);
+
+					//tp back
+					/*vector< D3DVECTOR> distanceSteps = MiscExtension::DivideTwoPointsByDistance(Settings::MAIN_WH_DISTANCE_STEP, mobPosition, charPosition);
+					for (vector< D3DVECTOR>::iterator it = distanceSteps.begin(); it != distanceSteps.end(); ++it)
+					{
+						GameFunctions::NetworkStreamSendCharacterStatePacket(D3DVECTOR{ it->x, it->y, it->z }, 0, 0, 0);
+					}*/
+				}
+			}
+		}
+	}
+#endif
 
 	void Other()
 	{
-
 		if (Settings::MAIN_NOP_ENABLE)
 		{
 			switch (Globals::Server)
@@ -904,7 +1017,6 @@ private:
 		}
 
 	}
-
 
 	void MPPotion() 
 	{
@@ -1004,17 +1116,5 @@ private:
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 };
 

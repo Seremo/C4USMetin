@@ -128,8 +128,6 @@ public:
 
 	//############################### CHARACTER MANAGER
 
-	typedef DWORD*(__thiscall* tCResourceManagerGetResourcePointer)(void* This, const char * c_szFileName);
-
 	typedef void(__thiscall* tCPhysicsObjectIncreaseExternalForce)(void* This, const D3DVECTOR & c_rvBasePosition, float fForce);
 
 	typedef const char *(__thiscall* tCItemDataGetName)(void* This);
@@ -144,12 +142,6 @@ public:
 	typedef bool(__thiscall* tCPythonApplicationProcess)(void* This);
 	
 	typedef int(__thiscall* tCPythonEventManagerRegisterEventSetFromString)(void* This, const string& strScript);
-
-	
-	
-	typedef DWORD*(__thiscall* tCResourceManagerGetResourcePointer)(void* This, const char* c_szFileName);
-	typedef DWORD* (__thiscall* tCResourceManagerGetTexturePointer)(void* This);
-	typedef DirectTexture(__thiscall* tCResourceManagerGetD3DTexture)(void* This);
 	typedef void(__thiscall* tCTerrainLoadMiniMapTexture)(void* This, const char* c_pchMiniMapFileName);
 	typedef DWORD*(__thiscall* tCPythonNonPlayerGetTable)(void* This, int vid);
 	
@@ -165,6 +157,7 @@ public:
 	typedef void(__thiscall* tCInstanceBaseSetRotation)(void* This,float fRotation);
 	typedef bool(__thiscall* tCPythonNetworkStreamSendCommandPacket)(void* This, DWORD a1, DWORD a2,const char* a3);
 	typedef float(__cdecl* tCInstanceBase__GetBackgroundHeight)(float x, float y);
+	typedef bool(__thiscall* tCEterPackManagerGetFromPack)(void* This, void* rMappedFile, const char* c_szFileName, LPCVOID* pData);
 
 	typedef HRESULT(__stdcall* tDirectEndScene)(void* pDevice);
 
@@ -179,7 +172,7 @@ public:
 	static DWORD iCResourceManagerInstance;
 	static DWORD iCItemManagerInstance;
 
-
+	static DWORD pCEterPackManagerInstance;
 	static DWORD pCPythonCharacterManagerInstance;
 	static DWORD pCPythonBackgroundInstance;
 	static DWORD pCPythonItemInstance;
@@ -287,11 +280,6 @@ public:
 	static DWORD pCPythonPlayerSetTarget;
 	static DWORD pCPythonPlayer__OnClickActor;
 	static DWORD pCPythonPlayer__OnPressActor;
-
-	static DWORD pCGraphicTextureGetD3DTexture;
-	static DWORD pCResourceManagerGetResourcePointer;
-	static DWORD pCGraphicImageGetTexturePointer;
-
 	
 
 	static DWORD pPyCallClassMemberFunc;
@@ -302,6 +290,7 @@ public:
 	static DWORD pCInstanceBaseSetRotation;
 	static DWORD pCPythonNetworkStreamSendCommandPacket;
 	static DWORD pCInstanceBase__GetBackgroundHeight;
+	static DWORD pCEterPackManagerGetFromPack;
 
 	//python only
 	//player
@@ -434,9 +423,6 @@ public:
 	static tCPythonPlayerSetTarget CPythonPlayerSetTarget;
 	static tCPythonPlayer__OnClickActor CPythonPlayer__OnClickActor;
 	static tCPythonPlayer__OnPressActor CPythonPlayer__OnPressActor;
-	static tCResourceManagerGetD3DTexture CGraphicTextureGetD3DTexture;
-	static tCResourceManagerGetResourcePointer CResourceManagerGetResourcePointer;
-	static tCResourceManagerGetTexturePointer CGraphicImageGetTexturePointer;
 	static tCTerrainLoadMiniMapTexture CTerrainLoadMiniMapTexture;
 	static tPyCallClassMemberFunc PyCallClassMemberFunc;
 	static tCInputKeyboardUpdateKeyboard CInputKeyboardUpdateKeyboard;
@@ -444,6 +430,7 @@ public:
 	static tCInstanceBaseSetRotation CInstanceBaseSetRotation;
 	static tCPythonNetworkStreamSendCommandPacket CPythonNetworkStreamSendCommandPacket;
 	static tCInstanceBase__GetBackgroundHeight CInstanceBase__GetBackgroundHeight;
+	static tCEterPackManagerGetFromPack CEterPackManagerGetFromPack;
 	static tCItemDataGetName CItemDataGetName;
 
 	//#####################################################################################################################################
@@ -498,7 +485,7 @@ DWORD Globals::iCPythonPlayerInstance = NULL;
 DWORD Globals::iCPythonNonPlayerInstance = NULL;
 DWORD Globals::iCPythonBackgroundInstance = NULL;
 DWORD Globals::iCResourceManagerInstance = NULL;
-
+DWORD Globals::iCEterPackManagerInstance = NULL;
 
 
 
@@ -507,13 +494,17 @@ DWORD Globals::iCResourceManagerInstance = NULL;
 //#####################################################################################################################################
 
 DWORD Globals::pCPythonNetworkStreamInstance = NULL;
-
-DWORD Globals::pCActorInstanceTestActorCollision = NULL;
-
 DWORD Globals::pCPythonBackgroundInstance = NULL;
 DWORD Globals::pCItemManagerInstance = NULL;
 DWORD Globals::pCPythonItemInstance = NULL;
+DWORD Globals::pCPythonApplicationInstance = NULL;
+DWORD Globals::pCPythonCharacterManagerInstance = NULL;
+DWORD Globals::pCPythonNonPlayerInstance = NULL;
+DWORD Globals::pCPythonPlayerInstance = NULL;
+DWORD Globals::pCResourceManagerInstance = NULL;
+DWORD Globals::pCEterPackManagerInstance = NULL;
 
+DWORD Globals::pCActorInstanceTestActorCollision = NULL;
 DWORD Globals::pCPythonBackgroundGlobalPositionToMapInfo = NULL;
 DWORD Globals::pCInstanceBaseAvoidObject = NULL;
 DWORD Globals::pCInstanceBaseBlockMovement = NULL;
@@ -543,12 +534,10 @@ DWORD Globals::pCNetworkStreamSend = NULL;
 DWORD Globals::pCNetworkStreamSendSequence = NULL;
 DWORD Globals::pCPhysicsObjectIncreaseExternalForce = NULL;
 DWORD Globals::pCPythonPlayerReviveGlobal = NULL;
-DWORD Globals::pCPythonApplicationInstance = NULL;
 DWORD Globals::pCPythonApplicationProcess = NULL;
 DWORD Globals::pCPythonApplicationRenderGame = NULL;
 
 DWORD Globals::pCPythonCharacterManagerGetInstancePtr = NULL;
-DWORD Globals::pCPythonCharacterManagerInstance = NULL;
 DWORD Globals::pCPythonChatAppendChat = NULL;
 DWORD Globals::pCPythonEventManagerRegisterEventSetFromString = NULL;;
 
@@ -582,7 +571,6 @@ DWORD Globals::pCPythonNetworkStreamSendUseSkillPacket = NULL;
 DWORD Globals::pCPythonNetworkStreamSendWhisperPacket = NULL;;
 DWORD Globals::pCPythonNetworkStreamServerCommand = NULL;
 DWORD Globals::pCPythonNonPlayerGetTable = NULL;
-DWORD Globals::pCPythonNonPlayerInstance = NULL;
 DWORD Globals::pCPythonPlayerClickSkillSlot = NULL;
 DWORD Globals::pCPythonPlayerGetItemIndex = NULL;
 DWORD Globals::pCPythonPlayerGetItemMetinSocket = NULL;
@@ -591,7 +579,6 @@ DWORD Globals::pCPythonPlayerGetName = NULL;
 DWORD Globals::pCPythonPlayerGetRace = NULL;
 DWORD Globals::pCPythonPlayerGetStatus = NULL;
 DWORD Globals::pCPythonPlayerGetTargetVID = NULL;
-DWORD Globals::pCPythonPlayerInstance = NULL;
 DWORD Globals::pCPythonPlayerIsSkillActive = NULL;
 DWORD Globals::pCPythonPlayerIsSkillCoolTime = NULL;
 DWORD Globals::pCPythonPlayerNEW_Fishing = NULL;
@@ -601,11 +588,6 @@ DWORD Globals::pCPythonPlayerSetAttackKeyState = NULL;
 DWORD Globals::pCPythonPlayerSetTarget = NULL;
 DWORD Globals::pCPythonPlayer__OnClickActor = NULL;
 DWORD Globals::pCPythonPlayer__OnPressActor = NULL;
-DWORD Globals::pCResourceManagerInstance = NULL;
-DWORD Globals::pCGraphicTextureGetD3DTexture = NULL;
-DWORD Globals::pCResourceManagerGetResourcePointer = NULL;
-DWORD Globals::pCGraphicImageGetTexturePointer = NULL;
-
 
 DWORD Globals::pPyCallClassMemberFunc = NULL;
 DWORD Globals::pCGraphicBasems_lpd3dDevice = NULL;
@@ -616,7 +598,7 @@ DWORD Globals::pCInstanceBaseIsWaiting = NULL;
 DWORD Globals::pCInstanceBaseSetRotation = NULL;
 DWORD Globals::pCPythonNetworkStreamSendCommandPacket = NULL;
 DWORD Globals::pCInstanceBase__GetBackgroundHeight = NULL;
-
+DWORD Globals::pCEterPackManagerGetFromPack = NULL;
 //python only
 //player
 DWORD Globals::CythonPlayerGetStatus = NULL;
@@ -747,9 +729,6 @@ Globals::tCPythonPlayerSetAttackKeyState Globals::CPythonPlayerSetAttackKeyState
 Globals::tCPythonPlayerSetTarget Globals::CPythonPlayerSetTarget = NULL;
 Globals::tCPythonPlayer__OnClickActor Globals::CPythonPlayer__OnClickActor = NULL;
 Globals::tCPythonPlayer__OnPressActor Globals::CPythonPlayer__OnPressActor = NULL;
-Globals::tCResourceManagerGetD3DTexture Globals::CGraphicTextureGetD3DTexture = NULL;
-Globals::tCResourceManagerGetResourcePointer Globals::CResourceManagerGetResourcePointer = NULL;
-Globals::tCResourceManagerGetTexturePointer Globals::CGraphicImageGetTexturePointer = NULL;
 Globals::tCTerrainLoadMiniMapTexture Globals::CTerrainLoadMiniMapTexture = NULL;
 Globals::tPyCallClassMemberFunc  Globals::PyCallClassMemberFunc = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Globals::CInputKeyboardUpdateKeyboard = NULL;
@@ -758,6 +737,7 @@ Globals::tCInstanceBaseIsWaiting Globals::CInstanceBaseIsWaiting = NULL;
 Globals::tCInstanceBaseSetRotation Globals::CInstanceBaseSetRotation = NULL;
 Globals::tCPythonNetworkStreamSendCommandPacket Globals::CPythonNetworkStreamSendCommandPacket = NULL;
 Globals::tCInstanceBase__GetBackgroundHeight Globals::CInstanceBase__GetBackgroundHeight = NULL;
+Globals::tCEterPackManagerGetFromPack Globals::CEterPackManagerGetFromPack = NULL;
 //####Globals::#################################################################################################################################
 
 Globals::tPyRun_SimpleStringFlags Globals::PyRun_SimpleStringFlags = NULL;
@@ -969,6 +949,7 @@ void Globals::ReAddressingInstances()
 				pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x14F7A88; // [99 ] [107 / 108]
 				pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x14F7A40; // [100 ] [6 / 6]
 				pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x14FE5F4;
+				pCEterPackManagerInstance = Globals::hEntryBaseAddress + 0x14F7A28;
 				break;
 			}
 		case ServerName::PANGEA://"CPythonGraphic::SetViewport(%d, %d, %d, %d) - Error"
@@ -1096,9 +1077,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x107240; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x107770; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x1078d0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x4314f0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x41bfd0; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x444300; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x467fe0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x42f080; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x72dc0; // [100 ] [1 / 1]
@@ -1187,9 +1165,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x204470; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x204a80; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x204880; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x3b63f0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x3a37b0; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x3cb040; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x486c20; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x3b2920; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x194f20; // [100 ] [1 / 1]
@@ -1273,9 +1248,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0xc6f60; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0xc71e0; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xc7280; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x879d0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x133810; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x135020; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1b9ac0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x1399c0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x75c00; // [100 ] [1 / 1]
@@ -1360,9 +1332,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x366f0; // [100 ] [1 / 1]
 				//pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + (null); 
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x36cd0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0xe3cd0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0xd5f90; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0xf26e0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x183f20; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0xe0c90; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x15e40; // [100 ] [1 / 1]
@@ -1447,9 +1416,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0xae650; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0xaeb00; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xae970; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x65930; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x14ea70; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1533c0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1db7e0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x157d70; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x53500; // [100 ] [1 / 1]
@@ -1535,9 +1501,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x1737c0; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x173ca0; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x173da0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x1f0ed0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x1d0480; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1d3780; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x275cd0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x1e63f0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x105190; // [100 ] [1 / 1]
@@ -1621,9 +1584,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x8df60; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x8e4f0; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x8e540; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x130850; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x123370; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x13f260; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d0b30; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x12d810; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x6fb70; // [100 ] [1 / 1]
@@ -1707,9 +1667,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0xd3e70; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0xd43d0; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xd41f0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x5cd10; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x18ecc0; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x1952B0; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x211620; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x196840; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xa6560; // [100 ] [6 / 6]
@@ -1794,9 +1751,6 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0xb8050; // [100 ] [1 / 1]
 			pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0xb8520; // [100 ] [1 / 1]
 			pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xb8390; // [100 ] [1 / 1]
-			pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x7b870; // [100 ] [1 / 1]
-			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x150b90; // [100 ] [1 / 1]
-			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x15A050;
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d9300; // [100 ] [1 / 1]
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x156a50; // [100 ] [1 / 1]
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x6aca0; // [100 ] [1 / 1]
@@ -1881,9 +1835,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x13a660; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x13ab50; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x13a9c0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x2985b0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x2684a0; // [100 ] [2 / 2]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x26c9d0; // [100 ] [5 / 5]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x36FB30;
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x2743f0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xa64d0; // [100 ] [1 / 1]
@@ -1970,9 +1921,6 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x1b9370; // [100 ] [1 / 1]
 			pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x1b98e0; // [100 ] [1 / 1]
 			pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x1b96f0; // [100 ] [1 / 1]
-			pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x2c15f0; // [100 ] [1 / 1]
-			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x2B30E0; // [100 ] [1 / 1]
-			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x2d0ee0; // [100 ] [1 / 1]
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x36A960;
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x2bd9c0; // [100 ] [1 / 1]
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x171890; // [100 ] [1 / 1]
@@ -2062,9 +2010,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0xc6680; // [100 ] [3 / 3]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0xc6b70; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0xc6bb0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x1397e0; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x15fd60; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x171230; // [100 ] [1 / 1]
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x1d9ee0; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x15f260; // [100 ] [2 / 2]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0xabbf0; // [100 ] [1 / 1]
@@ -2150,13 +2095,11 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x1c4b30; // [100 ] [1 / 1]
 			pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x24b510; // [100 ] [1 / 1]
 			pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x1c5150; // [100 ] [1 / 1]
-			pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x239f20; // [100 ] [1 / 1]
-			pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x21b670; // [100 ] [1 / 1]
-			pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x21dda0; // [100 ] [1 / 1]
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x2d86c0; // [100 ] [1 / 1]
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x2308d0; // [100 ] [1 / 1]
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x163da0; // [100 ] [1 / 1]
 			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x164820; // [100 ] [1 / 1]
+			pCEterPackManagerGetFromPack = Globals::hEntryBaseAddress + 0x249330;
 			break;
 		}
 		case ServerName::WOM:
@@ -2236,9 +2179,6 @@ void Globals::ReAddressingLocas()
 				pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + 0x281380; // [100 ] [1 / 1]
 				pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x2817d0; // [100 ] [1 / 1]
 				pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x2818c0; // [100 ] [1 / 1]
-				pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + 0x32d730; // [100 ] [1 / 1]
-				pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + 0x31e1d0; // [100 ] [1 / 1]
-				pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + 0x323520; // [100 ] [1 / 1]0x32DC70
 				pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x3b0420; // [100 ] [1 / 1]
 				pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x3294c0; // [100 ] [1 / 1]
 				pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x251f00; // [100 ] [1 / 1]
@@ -2328,6 +2268,10 @@ void Globals::ReDeclarationInstances()
 		Globals::PyTuple_GetItem = (tPyTuple_GetItem)GetProcAddress(GetModuleHandle("python27.dll"), "PyTuple_GetItem");
 		Globals::PyInt_AsLong = (tPyInt_AsLong)GetProcAddress(GetModuleHandle("python27.dll"), "PyInt_AsLong");
 		Globals::Py_BuildValue = (tPy_BuildValue)GetProcAddress(GetModuleHandle("python27.dll"), "Py_BuildValue");
+	}
+	if (pCEterPackManagerInstance != NULL)
+	{
+		Globals::iCEterPackManagerInstance = *reinterpret_cast<DWORD*>(pCEterPackManagerInstance);
 	}
 	if (pCPythonCharacterManagerInstance != NULL)
 	{
@@ -2645,18 +2589,6 @@ void Globals::ReDeclarationLocals()
 	{
 		CPythonPlayerSetTarget = (tCPythonPlayerSetTarget)(pCPythonPlayerSetTarget);
 	}
-	if (pCResourceManagerGetResourcePointer != NULL)
-	{
-		CResourceManagerGetResourcePointer = (tCResourceManagerGetResourcePointer)(pCResourceManagerGetResourcePointer);
-	}
-	if (pCGraphicImageGetTexturePointer != NULL) 
-	{
-		CGraphicImageGetTexturePointer = (tCResourceManagerGetTexturePointer)(pCGraphicImageGetTexturePointer);
-	}
-	if (pCGraphicTextureGetD3DTexture != NULL) 
-	{
-		CGraphicTextureGetD3DTexture = (tCResourceManagerGetD3DTexture)(pCGraphicTextureGetD3DTexture);
-	}
 	if (pCPythonNonPlayerGetTable != NULL) 
 	{
 		CPythonNonPlayerGetTable = (tCPythonNonPlayerGetTable)(pCPythonNonPlayerGetTable);
@@ -2724,6 +2656,10 @@ void Globals::ReDeclarationLocals()
 	if (pCInstanceBase__GetBackgroundHeight != NULL)
 	{
 		CInstanceBase__GetBackgroundHeight = (tCInstanceBase__GetBackgroundHeight)(pCInstanceBase__GetBackgroundHeight);
+	}
+	if (pCEterPackManagerGetFromPack != NULL)
+	{
+		CEterPackManagerGetFromPack = (tCEterPackManagerGetFromPack)(pCEterPackManagerGetFromPack);
 	}
 }
 

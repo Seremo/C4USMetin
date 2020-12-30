@@ -593,6 +593,19 @@ typedef struct command_attack2
 	BYTE	app37;
 } TPacketCGAttackAeldra;
 
+typedef struct command_sync_position
+{
+	BYTE        header;
+	WORD		wSize;
+} TPacketCGSyncPosition;
+
+typedef struct command_sync_position_element
+{
+	DWORD       dwVID;
+	long        lX;
+	long        lY;
+} TPacketCGSyncPositionElement;
+
 typedef struct packet_fly
 {
 	BYTE        bHeader;

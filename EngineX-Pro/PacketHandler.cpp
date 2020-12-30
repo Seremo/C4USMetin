@@ -204,9 +204,6 @@ bool PacketHandler::RecvAuthPacket()
 	Globals::pCPythonPlayerSetTarget = Globals::hEntryBaseAddress + recv_auth_packet.pCPythonPlayerSetTarget;
 	Globals::pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + recv_auth_packet.pCPythonPlayer__OnClickActor;
 	Globals::pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + recv_auth_packet.pCPythonPlayer__OnPressActor;
-	Globals::pCGraphicTextureGetD3DTexture = Globals::hEntryBaseAddress + recv_auth_packet.pCGraphicTextureGetD3DTexture;
-	Globals::pCResourceManagerGetResourcePointer = Globals::hEntryBaseAddress + recv_auth_packet.pCResourceManagerGetResourcePointer;
-	Globals::pCGraphicImageGetTexturePointer = Globals::hEntryBaseAddress + recv_auth_packet.pCGraphicImageGetTexturePointer;
 	Globals::pPyCallClassMemberFunc = Globals::hEntryBaseAddress + recv_auth_packet.pPyCallClassMemberFunc;
 	Globals::pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + recv_auth_packet.pCGraphicBasems_lpd3dDevice;
 	Globals::pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + recv_auth_packet.pCInputKeyboardUpdateKeyboard;

@@ -17,9 +17,6 @@
     <ClCompile Include="ImGui\imgui_impl_win32.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Hotkey.cpp">
-      <Filter>ImGui\Custom</Filter>
-    </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_dx8.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -52,6 +49,15 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_stdlib.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomWidgets.cpp">
+      <Filter>ImGui\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="CMappedFile.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +108,6 @@
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_dx9.h">
       <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Hotkey.h">
-      <Filter>ImGui\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
       <Filter>Core</Filter>
@@ -259,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="Visuals.h">
       <Filter>Core\Modules\Visuals</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomWidgets.h">
+      <Filter>ImGui\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="CMappedFile.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

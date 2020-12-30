@@ -476,6 +476,7 @@ float SizeToZoom(float size)
 	return size * Settings::RADAR_ZOOM;
 }
 
+float minZoom;
 void MainForm::ShowRadar() 
 {
 	ImGui::SetNextWindowBgAlpha(0.9f);
@@ -528,6 +529,11 @@ void MainForm::ShowRadar()
 			}
 		}
 		if (MapName != "") {
+			minZoom = 2.0f / (Width * Height);
+			if (Settings::RADAR_ZOOM < minZoom)
+			{
+				Settings::RADAR_ZOOM = minZoom;
+			}
 			float ZoomSizeX = (25600 / mapSizeY) * bgSize.x;
 			float ZoomSizeY = (25600 / mapSizeY) * bgSize.y;
 			float AtlasX = midRadar.x + (charPosition.x / mapSizeX) * bgSize.x;
@@ -542,7 +548,13 @@ void MainForm::ShowRadar()
 					MapPath += "\\";
 					MapPath += GetMapFolder(i, j);
 					MapPath += "\\minimap.dds";
-					ImGui::DrawImagePos(GameFunctionsCustom::GetD3DTexture(MapPath.c_str()), ImVec2(ZoomSizeX, ZoomSizeY), ImVec2(PosX, PosY));
+					DirectTexture D3DTexture = NULL;
+					if (!MainForm::ResourceMap.count(MapPath))
+					{
+						MainForm::ResourceMap.insert(make_pair(MapPath, GameFunctionsCustom::LoadD3DTexture(MapPath.c_str())));
+					}
+					D3DTexture = MainForm::ResourceMap[MapPath];
+					ImGui::DrawImagePos(D3DTexture, ImVec2(ZoomSizeX, ZoomSizeY), ImVec2(PosX, PosY));
 					PosY += ZoomSizeY;
 				}
 				PosX += ZoomSizeX;
@@ -695,8 +707,8 @@ void MainForm::ShowRadar()
 	if (ImGui::Button(" - "))
 	{
 		Settings::RADAR_ZOOM *= 0.5f;
-		if (Settings::RADAR_ZOOM <= 0.5f)
-			Settings::RADAR_ZOOM = 0.5f;
+		if (Settings::RADAR_ZOOM <= minZoom)
+			Settings::RADAR_ZOOM = minZoom;
 	}
 	ImGui::End();
 }
@@ -1150,8 +1162,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				Settings::RADAR_ZOOM *= GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? 2.0f : 0.5f;
 				if (Settings::RADAR_ZOOM >= 4.0f)
 					Settings::RADAR_ZOOM = 4.0f;
-				if (Settings::RADAR_ZOOM <= 0.5f)
-					Settings::RADAR_ZOOM = 0.5f;
+				if (Settings::RADAR_ZOOM <= minZoom)
+					Settings::RADAR_ZOOM = minZoom;
 			}
 			break;		
 		case WM_MOUSEMOVE:

@@ -1124,6 +1124,46 @@ public:
 		}
 	}
 	//#################################################################################################################################
+	static bool NetworkStreamSendSyncPositionPacket(DWORD dwVictimVID, DWORD dwVictimX, DWORD dwVictimY)
+	{
+		try
+		{
+			int uiVictimCount = 1;
+			TPacketCGSyncPosition kPacketSync;
+			switch (Globals::Server)
+			{
+			case ServerName::METINPL:
+				kPacketSync.header = 0x0D;
+				break;
+			default:
+				kPacketSync.header = 0x8;
+				break;
+			}
+			kPacketSync.wSize = sizeof(kPacketSync) + sizeof(TPacketCGSyncPositionElement) * uiVictimCount;
+
+			if (!GameFunctions::NetworkStreamSend(sizeof(kPacketSync), &kPacketSync))
+			{
+				return false;
+			}
+
+			TPacketCGSyncPositionElement kSyncPos;
+			kSyncPos.dwVID = dwVictimVID;
+			kSyncPos.lX = dwVictimX;
+			kSyncPos.lY = dwVictimY;
+			BackgroundLocalPositionToGlobalPosition(kSyncPos.lX, kSyncPos.lY);
+			if (!GameFunctions::NetworkStreamSend(sizeof(kSyncPos), &kSyncPos))
+			{
+				return false;
+			}
+
+			return GameFunctions::NetworkStreamSendSequence();
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
+	//#################################################################################################################################
 	static bool NetworkStreamSendCharacterStatePacket(const D3DVECTOR& c_rkPPosDst, float fDstRot, UINT eFunc, UINT uArg)
 	{
 		try
@@ -1508,42 +1548,6 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static DWORD* ResourceManagerGetResourcePointer(const char* name)
-	{
-		try
-		{
-			return Globals::CResourceManagerGetResourcePointer((void*)Globals::iCResourceManagerInstance, name);
-		}
-		catch (...)
-		{
-			return NULL;
-		}
-	}
-	//#################################################################################################################################
-	static DWORD* GraphicImageGetTexturePointer(DWORD* instance)
-	{
-		try
-		{
-			return Globals::CGraphicImageGetTexturePointer((void*)instance);
-		}
-		catch (...)
-		{
-			return NULL;
-		}
-	}
-	//#################################################################################################################################
-	static DirectTexture GraphicTextureGetD3DTexture(DWORD* instance)
-	{
-		try
-		{
-			return Globals::CGraphicTextureGetD3DTexture((void*)instance);
-		}
-		catch (...)
-		{
-			return NULL;
-		}
-	}
-	//#################################################################################################################################
 	static const TMobTable* NonPlayerGetTable(int vid)
 	{
 		try
@@ -1641,6 +1645,11 @@ public:
 		{
 			return 0.0f;
 		}
+	}
+
+	static bool GetFromPack(void* rMappedFile, const char* c_szFileName, LPCVOID* pData)
+	{ 
+		return Globals::CEterPackManagerGetFromPack((void*)Globals::iCEterPackManagerInstance, rMappedFile, c_szFileName, pData);
 	}
 };
 

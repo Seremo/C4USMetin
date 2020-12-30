@@ -1,5 +1,5 @@
 
-#include "Hotkey.h"
+#include "CustomWidgets.h"
 
 
 
@@ -383,6 +383,65 @@ void ImGui::DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImV
 	//{
 	//	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 1), bb.Max + ImVec2(1, 1), uv0, uv1, GetColorU32(tint_col));
 	//}
+}
+
+bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, const ImVec2& size, const ImVec2& img_size, bool selected, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col)
+{
+	ImGuiWindow* window = GetCurrentWindow();
+	if (window->SkipItems)
+		return false;
+
+	ImGuiContext& g = *GImGui;
+	std::string unique = identificator + "##itemimage";
+	ImGuiID id = window->GetID(unique.c_str());
+	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
+	ImRect img_bb(window->DC.CursorPos, window->DC.CursorPos + img_size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, 0))
+		return false;
+
+	ImGuiSelectableFlags flags = 0;
+	ImGuiButtonFlags button_flags = 0;
+	const bool was_selected = selected;
+	bool hovered, held;
+	bool pressed = ButtonBehavior(bb, id, &hovered, &held, button_flags);
+
+	if (pressed || (hovered && (flags & ImGuiSelectableFlags_SetNavIdOnHover)))
+	{
+		if (!g.NavDisableMouseHover && g.NavWindow == window && g.NavLayer == window->DC.NavLayerCurrent)
+		{
+			g.NavDisableHighlight = true;
+#ifdef NDEBUG
+			SetNavID(id, window->DC.NavLayerCurrent, 0);
+#else
+			SetNavID(id, window->DC.NavLayerCurrent, 0);
+#endif
+		}
+	}
+	if (pressed)
+		MarkItemEdited(id);
+
+	if (selected != was_selected) //-V547
+		window->DC.LastItemStatusFlags |= ImGuiItemStatusFlags_ToggledSelection;
+
+	if (held && (flags & ImGuiSelectableFlags_DrawHoveredWhenHeld))
+		hovered = true;
+
+	if (hovered || selected)
+	{
+		float AddX = 3.5f;
+		float AddY = 1.0f;
+		const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_HeaderActive : hovered ? ImGuiCol_HeaderHovered : ImGuiCol_Header);
+		RenderFrame(ImVec2(img_bb.Min.x - AddX, img_bb.Min.y - AddY), ImVec2(img_bb.Max.x + AddX, img_bb.Max.y + AddY), col, false, 0.0f);
+		RenderNavHighlight(img_bb, id, ImGuiNavHighlightFlags_TypeThin | ImGuiNavHighlightFlags_NoRounding);
+		ImGuiWindow* window = GetCurrentWindow();
+		window->DrawList->AddRectFilled(ImVec2(img_bb.Min.x - AddX, img_bb.Min.y - AddY), ImVec2(img_bb.Min.x, img_bb.Max.y + AddY), GetColorU32(ImGuiCol_NavHighlight), 0.0f, ~0);
+	}
+	if (user_texture_id)
+	{
+		window->DrawList->AddImage(user_texture_id, img_bb.Min, img_bb.Max, uv0, uv1, GetColorU32(tint_col));
+	}
+	return pressed;
 }
 
 void ImGui::ImageAuto(DirectTexture user_texture_id, float scale, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col, const ImVec4& border_col) {

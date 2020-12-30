@@ -1122,26 +1122,16 @@ public:
 
 		return D3DVECTOR{ PlayerPos.x + (DestPos.x - PlayerPos.x) / count, PlayerPos.y + (DestPos.y - PlayerPos.y) / count };
 	}
-	//#################################################################################################################################
-	static DirectTexture GetD3DTexture(const char* name)
+
+	static DirectTexture LoadD3DTexture(const char* name)
 	{
-		if (name != NULL) {
-			DWORD* resourcePointer = GameFunctions::ResourceManagerGetResourcePointer(name);
-			if (resourcePointer != NULL)
-			{
-				auto texturePointer = GameFunctions::GraphicImageGetTexturePointer(resourcePointer);
-				if (texturePointer != NULL)
-				{
-					return GameFunctions::GraphicTextureGetD3DTexture(texturePointer);
-				}
-				return NULL;
-			}
-			return NULL;
-		}
-		else
-		{
-			return NULL;
-		}
+		char CMappedFile[324] = { 0 };
+		const void* pData = NULL;
+		bool ret = GameFunctions::GetFromPack(&CMappedFile, name, &pData);
+		int file_size = *(int*)((DWORD)CMappedFile + 284);
+		DirectTexture texture = nullptr;
+		D3DXCreateTextureFromFileInMemory(Device::pDevice, pData, file_size, &texture);
+		return texture;
 	}
 
 	//#################################################################################################################################

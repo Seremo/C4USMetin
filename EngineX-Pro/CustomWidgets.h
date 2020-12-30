@@ -54,7 +54,7 @@ namespace ImGui
 	void DrawImagePos(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& pos, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void ImageAuto(DirectTexture user_texture_id, float scale = 1.0f, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
-
+	bool ItemImage(std::string id, ImTextureID user_texture_id, const ImVec2& size, const ImVec2& img_size, bool selected = false, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1));
 
 	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values);
 	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values);

@@ -12,7 +12,6 @@ public:
 	static Globals::tCNetworkStreamCheckPacket	nCNetworkStreamCheckPacket;
 	static Globals::tCPythonChatAppendChat nCPythonChatAppendChat;
 	static Globals::tCPythonNetworkStreamSendChatPacket nCPythonNetworkStreamSendChatPacket;
-	static Globals::tCResourceManagerGetResourcePointer nCResourceManagerGetResourcePointer;
 	static Globals::tCInstanceBaseBlockMovement nCInstanceBaseBlockMovement;
 	static Globals::tCInstanceBaseAvoidObject nCInstanceBaseAvoidObject;
 	static Globals::tCActorInstanceTestActorCollision nCActorInstanceTestActorCollision;
@@ -67,7 +66,6 @@ Globals::tCPythonChatAppendChat Hooks::nCPythonChatAppendChat = NULL;
 Globals::tCPhysicsObjectIncreaseExternalForce Hooks::nCPhysicsObjectIncreaseExternalForce = NULL;
 Globals::tCPythonNetworkStreamSendChatPacket Hooks::nCPythonNetworkStreamSendChatPacket = NULL;
 Globals::tPyCallClassMemberFunc Hooks::nPyCallClassMemberFunc = NULL;
-Globals::tCResourceManagerGetResourcePointer Hooks::nCResourceManagerGetResourcePointer = NULL;
 Globals::tCInstanceBaseBlockMovement Hooks::nCInstanceBaseBlockMovement = NULL;
 Globals::tCInstanceBaseAvoidObject Hooks::nCInstanceBaseAvoidObject = NULL;
 Globals::tCActorInstanceTestActorCollision Hooks::nCActorInstanceTestActorCollision = NULL;

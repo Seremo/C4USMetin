@@ -84,7 +84,7 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::METINPL;
+ServerName SERVER = ServerName::TASTRIA2;
 
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
@@ -143,7 +143,7 @@ typedef int                 Py_ssize_t;
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 
-
+#include "CMappedFile.h"
 #include "DynamicTimer.h"
 
 
@@ -178,7 +178,7 @@ typedef int                 Py_ssize_t;
 #include "Device.h"
 #include "Globals.h"
 #include "Settings.h"
-#include "Hotkey.h"
+#include "CustomWidgets.h"
 #include "CRender.h"
 #include"SplashScreen.h"
 #include "Logger.h"

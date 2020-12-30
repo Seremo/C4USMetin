@@ -23,7 +23,7 @@
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <RootNamespace>ImGuiWin32</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>EngineX-Global</ProjectName>
+    <ProjectName>EngineX-Tastria</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -193,10 +193,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CMappedFile.cpp" />
     <ClCompile Include="CRender.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HookCore.cpp" />
-    <ClCompile Include="Hotkey.cpp">
+    <ClCompile Include="CustomWidgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -228,6 +229,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -245,6 +249,7 @@
   <ItemGroup>
     <ClInclude Include="Buff.h" />
     <ClInclude Include="CHANGE_LOG.h" />
+    <ClInclude Include="CMappedFile.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="CRender.h" />
     <ClInclude Include="Debug.h" />
@@ -266,7 +271,7 @@
     </ClInclude>
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HookCore.h" />
-    <ClInclude Include="Hotkey.h" />
+    <ClInclude Include="CustomWidgets.h" />
     <ClInclude Include="ImGuiExtension.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
