@@ -779,6 +779,7 @@ void Globals::ReAddressingInstances()
 				pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x205c978; // [100 ] [56 / 56]
 				pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x205fe98; // [100 ] [1 / 1]
 				pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x20691B8; 
+				pCEterPackManagerInstance = Globals::hEntryBaseAddress + 0x205FD44;
 				break;
 			}
 		case ServerName::ORIGINS2:
@@ -1084,6 +1085,7 @@ void Globals::ReAddressingLocas()
 				pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0x550a0; // [100 ] [1 / 1]
 				pCPythonNetworkStreamSendFishingQuitPacket = Globals::hEntryBaseAddress + 0x204F50;
 				pCPythonNetworkStreamSendCommandPacket = Globals::hEntryBaseAddress + 0x2109B0;
+				pCEterPackManagerGetFromPack = Globals::hEntryBaseAddress + 0x4C32B0;
 				break;
 			}
 

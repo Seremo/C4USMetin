@@ -26,7 +26,7 @@ map < pair<DWORD, DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>>  Mai
 
 //	{ make_pair(30, 3), make_pair(false, shared_ptr<IAbstractModuleBase >(new AutoTalk()))},
 	{ make_pair(31, 3), make_pair(true, shared_ptr<IAbstractModuleBase >(new Status()))},
-	{ make_pair(32, 3), make_pair(true,shared_ptr<IAbstractModuleBase >(new Refine()))},
+	{ make_pair(32, 3), make_pair(true,shared_ptr<IAbstractModuleBase >(new Inventory()))},
 	{ make_pair(33, 3), make_pair(true,shared_ptr<IAbstractModuleBase >(new Spam()))},
 	#if defined( DEVELOPER_MODE) || defined( METINPL)
 	{ make_pair(34, 3), make_pair(true, shared_ptr<IAbstractModuleBase >(new PythonScript()))},

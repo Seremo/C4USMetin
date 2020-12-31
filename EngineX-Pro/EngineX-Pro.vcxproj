@@ -296,7 +296,7 @@
     <ClInclude Include="PythonExtension.h" />
     <ClInclude Include="PythonScript.h" />
     <ClInclude Include="Visuals.h" />
-    <ClInclude Include="Refine.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Security.h" />
     <ClInclude Include="Socks5.h" />
     <ClInclude Include="SplashScreen.h" />

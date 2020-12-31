@@ -1649,7 +1649,30 @@ public:
 
 	static bool GetFromPack(void* rMappedFile, const char* c_szFileName, LPCVOID* pData)
 	{ 
-		return Globals::CEterPackManagerGetFromPack((void*)Globals::iCEterPackManagerInstance, rMappedFile, c_szFileName, pData);
+		try
+		{
+			bool ret = false;
+			switch (Globals::Server)
+			{
+			case ServerName::ORIGINS2:
+			{
+				typedef bool(__thiscall* tCEterPackManagerGetFromPack)(void* This, LPCVOID* pData, int a1, int a2, int a3, int a4, int a5, void* rMappedFile, const char* c_szFileName);
+				tCEterPackManagerGetFromPack CEterPackManagerGetFromPack = (tCEterPackManagerGetFromPack)(Globals::pCEterPackManagerGetFromPack);
+				CEterPackManagerGetFromPack((void*)Globals::iCEterPackManagerInstance, pData, 1, 63754643, 1, 1, 1, rMappedFile, c_szFileName);
+				break;
+			}
+			default:
+			{
+				ret = Globals::CEterPackManagerGetFromPack((void*)Globals::iCEterPackManagerInstance, rMappedFile, c_szFileName, pData);
+				break;
+			}
+			}
+			return ret;
+		}
+		catch (...)
+		{
+			return false;
+		}
 	}
 };
 

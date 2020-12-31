@@ -33,16 +33,7 @@ public:
 
 	void Rozdzielacz(int vnum)
 	{
-		int index = GameFunctionsCustom::FindItemSlotInInventory(vnum);
-		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * 4); i++)
-		{
-			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
-			if (current_vnum == 0)
-			{
-				GameFunctions::NetworkStreamSendItemMovePacket(TItemPos(INVENTORY, index), TItemPos(INVENTORY, i), 1);
-			}
 
-		}
 	}
 
 	string  whisperTextName = string(500, '\0');
@@ -162,24 +153,6 @@ public:
 		ImGui::Text("ID First Slot Item  "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, 0))).c_str());
 		ImGui::Text("ID Weapon Slot Item  "); ImGui::SameLine(); ImGui::Text(to_string(GameFunctions::PlayerGetItemIndex(TItemPos(EQUIPMENT, 4))).c_str());
 		ImGui::InputText("Packet Hex", &packetHex[0], packetHex.size());
-#ifdef DEVELOPER_MODE
-		if (ImGui::Button("Rozdziel raka!"))
-		{
-			Rozdzielacz(27887);
-		}
-		if (ImGui::Button("Rozdziel Biala Perla!"))
-		{
-			Rozdzielacz(27992);
-		}
-		if (ImGui::Button("Rozdziel Niebieska Perla!"))
-		{
-			Rozdzielacz(27993);
-		}
-		if (ImGui::Button("Rozdziel Czerwona Perla!"))
-		{
-			Rozdzielacz(27994);
-		}
-#endif
 		if (ImGui::Button("Send Packet"))
 		{
 			GameFunctionsCustom::SendPacket(string(packetHex.c_str()));

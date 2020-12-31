@@ -1988,4 +1988,4 @@ bool		Settings::GLOBAL_SWITCH_ENABLE = false;
 bool		Settings::DUNGEON_BOT_ENABLE = false;
 int			Settings::DUNGEON_TYPE = 0;
 DWORD		Settings::INVENTORY_PAGE_SIZE = 45;
-DWORD		Settings::INVENTORY_PAGE_COUNT = 5;
+DWORD		Settings::INVENTORY_PAGE_COUNT = 4;

@@ -211,7 +211,7 @@ typedef int                 Py_ssize_t;
 #include "Spam.h"
 #include "AutoTalk.h"
 #include "PythonScript.h"
-#include "Refine.h"
+#include "Inventory.h"
 #include "MainDungs.h"
 
 #include "Debug.h"

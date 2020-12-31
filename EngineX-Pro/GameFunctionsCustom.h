@@ -59,6 +59,24 @@ public:
 		}
 		return -1;
 	}
+	//
+	static void ItemSplitter(int item_slot, int packs, int count)
+	{
+		int current_pack = 0;
+		for (int i = 0; i < (Settings::INVENTORY_PAGE_SIZE * Settings::INVENTORY_PAGE_COUNT); i++)
+		{
+			int current_vnum = GameFunctions::PlayerGetItemIndex(TItemPos(INVENTORY, i));
+			if (current_vnum == 0)
+			{
+				GameFunctions::NetworkStreamSendItemMovePacket(TItemPos(INVENTORY, item_slot), TItemPos(INVENTORY, i), count);
+				current_pack++;
+			}
+			if (current_pack == packs)
+			{
+				break;
+			}
+		}
+	}
 	//#################################################################################################################################
 	static const char* PlayerGetName()
 	{
