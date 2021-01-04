@@ -548,13 +548,7 @@ void MainForm::ShowRadar()
 					MapPath += "\\";
 					MapPath += GetMapFolder(i, j);
 					MapPath += "\\minimap.dds";
-					DirectTexture D3DTexture = NULL;
-					if (!MainForm::ResourceMap.count(MapPath))
-					{
-						MainForm::ResourceMap.insert(make_pair(MapPath, GameFunctionsCustom::LoadD3DTexture(MapPath.c_str())));
-					}
-					D3DTexture = MainForm::ResourceMap[MapPath];
-					ImGui::DrawImagePos(D3DTexture, ImVec2(ZoomSizeX, ZoomSizeY), ImVec2(PosX, PosY));
+					ImGui::DrawImagePos(GameFunctionsCustom::GetD3DTexture(MapPath.c_str()), ImVec2(ZoomSizeX, ZoomSizeY), ImVec2(PosX, PosY));
 					PosY += ZoomSizeY;
 				}
 				PosX += ZoomSizeX;

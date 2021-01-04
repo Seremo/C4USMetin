@@ -50,7 +50,7 @@ public:
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1);
 		ImGui::PushItemWidth(150); ImGui::SliderInt("Delay(ms)", &Settings::ITEM_PICKUP_TIME, 0, 3000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputInt("Distance", &Settings::ITEM_PICKUP_DISTANCE, 100, 1000); ImGui::SameLine();
-		ImGui::PushItemWidth(100); ImGui::InputInt("Teleport Step", &Settings::ITEM_PICKUP_STEP, 100, 1000);
+		ImGui::PushItemWidth(100); ImGui::InputInt("Step", &Settings::ITEM_PICKUP_STEP, 100, 1000);
 		ImGui::Separator();
 		ImGui::Checkbox("Filter", &Settings::ITEM_PICKUP_FILTER_ENABLE); ImGui::SameLine();
 		ImGui::InputText("Search", &filterItemLine[0], filterItemLine.size());

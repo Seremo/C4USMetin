@@ -13,7 +13,6 @@ public:
 	}
 
 	int Page = 1;
-	map<string, DirectTexture> itemIcons;
 	vector<int> selectedSlots = { };
 	bool PlayerIsInstance = false;
 	int PackCount = 1;
@@ -25,17 +24,28 @@ public:
 		{
 			return;
 		}
+
 	}
 
 	void OnRender()
 	{
 	}
 
-	void SplitItems()
+	void SellItems()
 	{
 		for (auto slot : selectedSlots)
 		{
-			DelayActions::AppendBlock(false, 300, &GameFunctionsCustom::ItemSplitter, slot, PackCount, SplitCount);
+			GameFunctions::NetworkStreamSendShopSellPacketNew(slot, GameFunctions::PlayerGetItemCount(TItemPos(INVENTORY, slot)));
+		}
+	}
+
+	void SplitItems()
+	{
+		int i = 0;
+		for (auto slot : selectedSlots)
+		{
+			DelayActions::Append(150 * i, &GameFunctionsCustom::ItemSplitter, slot, PackCount, SplitCount);
+			i++;
 		}
 	}
 
@@ -84,7 +94,7 @@ public:
 					{
 						DWORD* pItemData;
 						GameFunctions::ItemManagerGetItemDataPointer(currentVnum, &pItemData);
-						std::string iconPath = ""; // tymczasowo w taki sposob
+						std::string iconPath = "";
 						switch (Globals::Server)
 						{
 						case ServerName::METINPL:
@@ -94,22 +104,12 @@ public:
 							iconPath = GetStr((DWORD)pItemData + 76);
 							break;
 						}
-						DirectTexture D3DTexture = NULL;
-						if (!itemIcons.count(iconPath))
-						{
-							itemIcons.insert(make_pair(iconPath, GameFunctionsCustom::LoadD3DTexture(iconPath.c_str())));
-						}
-						D3DTexture = itemIcons[iconPath];
+						DirectTexture D3DTexture = GameFunctionsCustom::GetD3DTexture(iconPath.c_str());
 						D3DSURFACE_DESC desc;
-						desc.Width = 32;
-						desc.Height = 32;
-						if (D3DTexture)
-						{
-							D3DTexture->GetLevelDesc(0, &desc);
-						}
+						D3DTexture->GetLevelDesc(0, &desc);
 						std::string itemid = "##" + std::to_string(currentSlot);
 						bool isSelected = std::find(selectedSlots.begin(), selectedSlots.end(), currentSlot) != selectedSlots.end();
-						if (ImGui::ItemImage(itemid, D3DTexture, ImVec2(desc.Width, desc.Width * 0.90f), ImVec2(desc.Width, desc.Height * 0.90f), isSelected))
+						if (ImGui::ItemImage(itemid, D3DTexture, GameFunctions::PlayerGetItemCount(TItemPos(INVENTORY, currentSlot)), ImVec2(desc.Width, desc.Height), isSelected))
 						{
 							if (isSelected)
 							{
@@ -122,7 +122,7 @@ public:
 						}
 						if (ImGui::IsItemHovered()) {
 							ImGui::BeginTooltip();
-							std::string name = GameFunctions::ItemDataGetName(pItemData);
+							std::string name = GameFunctions::ItemDataGetName(currentVnum);
 							ImGui::SetTooltip(StringExtension::ASCIIToUTF8(name.c_str()).c_str());
 							ImGui::EndTooltip();
 						}
@@ -141,13 +141,11 @@ public:
 			ImGui::EndTable();
 		}
 		ImGui::TableSetColumnIndex(1);
-		ImGui::PushItemWidth(70); ImGui::SliderInt("EQ Page", &Page, 1, 4);
-		string slots_str = "";
-		for (auto slot : selectedSlots) 
+		ImGui::PushItemWidth(70); ImGui::SliderInt("Page", &Page, 1, Settings::INVENTORY_PAGE_COUNT);  ImGui::SameLine();
+		if (ImGui::Button("Uncheck All"))
 		{
-			slots_str += " " + to_string(slot) + " ";
+			selectedSlots.clear();
 		}
-		ImGui::Text("Selected Slots: [%s]", slots_str.c_str());
 		ImGui::BeginTabBar("#Inventory Manager");
 		if (ImGui::BeginTabItem("Refine"))
 		{
@@ -168,7 +166,7 @@ public:
 			ImGui::InputInt("Count##split", &SplitCount, 0, 0); 
 			if (ImGui::Button("Sell"))
 			{
-
+				SellItems();
 			}
 			if (ImGui::Button("Stack"))
 			{
@@ -178,6 +176,17 @@ public:
 		}
 		if (ImGui::BeginTabItem("Bonus Switcher"))
 		{
+			if (ImGui::Button("Add Item"))
+			{
+				ImGui::OpenPopup("Bonus Switcher Item");
+			}
+			if (ImGui::BeginPopupModal("Bonus Switcher Item", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
+			{
+				ImGui::Text("Test Popup");
+				if (ImGui::Button("Close"))
+					ImGui::CloseCurrentPopup();
+				ImGui::EndPopup();
+			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

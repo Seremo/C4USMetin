@@ -81,6 +81,25 @@ public:
 		return true;
 	}
 
+	static int* GetPythonDoubleInt(DWORD addr)
+	{
+		int result[2];
+#if defined(PYTHON_ENABLE)
+		PythonModuleFunction* func = (PythonModuleFunction*)(addr);
+		PyObject* ret = func(NULL, args);
+		if (!PyTuple_GetInteger(ret, 0, &result[0]))
+		{
+			result[0] = 0;
+		}
+		if (!PyTuple_GetInteger(ret, 1, &result[1]))
+		{
+			result[1] = 0;
+		}
+		Py_DECREF(ret);
+#endif
+		return result;
+	}
+
 	static int GetPythonInt(DWORD addr)
 	{
 		int result;

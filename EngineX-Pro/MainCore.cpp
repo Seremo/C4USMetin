@@ -12,6 +12,12 @@ void MainCore::StartCrack()
 				//89 85 94 FE FF FF E8 ? ? ? ?
 				break;
 		}
+		case ServerName::ARATHAR:
+		{
+			//0x21F8863
+			MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x21F8863, 0x90, 5);
+			break;
+		}
 		case ServerName::TASTRIA2:
 		{
 			MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x1E67E0, 0x90, 10);//89 85 94 FE FF FF E8 ? ? ? ?
@@ -140,7 +146,9 @@ void MainCore::Initialize()
 #ifndef NETWORK_MODE
 			Globals::ReAddressingInstances();
 #endif
-			Globals::ReDeclarationInstances();
+			if (Globals::pCGraphicBasems_lpd3dDevice != NULL) {
+				Device::pDevice = *reinterpret_cast<DirectDevice2*>(Globals::pCGraphicBasems_lpd3dDevice);
+			}
 			Sleep(500);
 		}
 		catch (...)
@@ -150,6 +158,7 @@ void MainCore::Initialize()
 	}
 	MainCore::Crack();
 	ConsoleOutput("[+] Application detected.");
+	Globals::ReDeclarationInstances();
 	Globals::ReAddressingLocas();
 	Globals::ReDeclarationLocals();
 	if (Globals::UsePythonFunctions)

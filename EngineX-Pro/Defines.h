@@ -88,6 +88,7 @@ typedef struct
 } TMapInfo;
 
 
+
 enum
 {
 	FUNC_WAIT,

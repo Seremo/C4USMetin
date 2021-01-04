@@ -56,9 +56,6 @@
     <ClCompile Include="CustomWidgets.cpp">
       <Filter>ImGui\Custom</Filter>
     </ClCompile>
-    <ClCompile Include="CMappedFile.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">
@@ -262,9 +259,6 @@
     </ClInclude>
     <ClInclude Include="CustomWidgets.h">
       <Filter>ImGui\Custom</Filter>
-    </ClInclude>
-    <ClInclude Include="CMappedFile.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
       <Filter>Core\Modules\Additional</Filter>

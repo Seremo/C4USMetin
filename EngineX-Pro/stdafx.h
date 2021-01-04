@@ -75,7 +75,8 @@ enum ServerName
 	DRAGON2,
 	LUNA,
 	TASTRIA2,
-	WOM
+	WOM,
+	ARATHAR
 };
 //############################################################################
 //############################################################################
@@ -93,7 +94,7 @@ ServerName SERVER = ServerName::TASTRIA2;
 #ifdef _DEBUG
 #define DEVELOPER_MODE
 #endif
-#define DEVELOPER_MODE
+
 //#define FISHBOT
 
 //#define NETWORK_MODE
@@ -143,7 +144,6 @@ typedef int                 Py_ssize_t;
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 
-#include "CMappedFile.h"
 #include "DynamicTimer.h"
 
 

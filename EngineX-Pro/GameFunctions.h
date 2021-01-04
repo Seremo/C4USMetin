@@ -60,19 +60,7 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static const char* ItemDataGetName(DWORD* cItemData)
-	{
-		try
-		{
-			return Globals::CItemDataGetName(cItemData);
-		}
-		catch (...)
-		{
-			return "";
-		}
-	}
-	//#################################################################################################################################
-	static bool  ItemManagerGetItemDataPointer(DWORD dwItemID, DWORD** ppItemData)
+	static bool ItemManagerGetItemDataPointer(DWORD dwItemID, DWORD** ppItemData)
 	{
 		try
 		{
@@ -81,6 +69,41 @@ public:
 		catch (...)
 		{
 			return false;
+		}
+	}
+	static void ItemSelectItem(DWORD dwItemID)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions && Globals::CythonItemSelectItem)
+			{
+				return PythonExtension::CallPythonInteger1(Globals::CythonItemSelectItem, dwItemID);
+			}
+		}
+		catch (...)
+		{
+		}
+	}
+	//#################################################################################################################################
+	static const char* ItemDataGetName(DWORD dwItemID)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions && Globals::CythonItemGetItemName)
+			{
+				ItemSelectItem(dwItemID);
+				return PythonExtension::GetPythonString0(Globals::CythonItemGetItemName);
+			}
+			else
+			{
+				DWORD* pItemData;
+				GameFunctions::ItemManagerGetItemDataPointer(dwItemID, &pItemData);
+				return Globals::CItemDataGetName(pItemData);
+			}
+		}
+		catch (...)
+		{
+			return "";
 		}
 	}
 	//#################################################################################################################################
@@ -137,8 +160,8 @@ public:
 				case ServerName::BARIA:
 				{
 					typedef DWORD(__thiscall* GetItemIndex)(void* This, TItemPos Cell, char unk);
-					GetItemIndex ItemUse = (GetItemIndex)Globals::pCPythonPlayerGetItemIndex;
-					return ItemUse((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
+					GetItemIndex ItemIndex = (GetItemIndex)Globals::pCPythonPlayerGetItemIndex;
+					return ItemIndex((void*)(Globals::iCPythonPlayerInstance + 4), cell, '\0');
 					break;
 				}
 				default:
@@ -147,6 +170,25 @@ public:
 					break;
 				}
 				}
+			}
+		}
+		catch (...)
+		{
+			return 0;
+		}
+	}
+
+	static DWORD PlayerGetItemCount(TItemPos cell)
+	{
+		try
+		{
+			if (Globals::UsePythonFunctions && Globals::CythonPlayerGetItemCount)
+			{
+				return PythonExtension::GetPythonInteger2(Globals::CythonPlayerGetItemCount, cell.window_type, cell.cell);
+			}
+			else
+			{
+				return Globals::CPythonPlayerGetItemCount((void*)(Globals::iCPythonPlayerInstance + 4), cell);
 			}
 		}
 		catch (...)
@@ -685,7 +727,7 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static bool NetworkStreamSendShopSellPacketNew(BYTE bySlot, BYTE byCount)
+	static bool NetworkStreamSendShopSellPacketNew(BYTE bySlot, WORD byCount)
 	{
 		try
 		{
@@ -700,7 +742,7 @@ public:
 				{
 				case ServerName::METINPL:
 				{
-					typedef bool(__thiscall* SendShopSellPacketNew)(void* This, BYTE bySlot, BYTE byCount, BYTE unk);
+					typedef bool(__thiscall* SendShopSellPacketNew)(void* This, BYTE bySlot, WORD byCount, BYTE unk);
 					SendShopSellPacketNew SendShopSell = (SendShopSellPacketNew)Globals::pCPythonNetworkStreamSendShopSellPacketNew;
 					SendShopSell((void*)Globals::iCPythonNetworkStreamInstance, bySlot, byCount, 1);
 					break;
@@ -1647,31 +1689,50 @@ public:
 		}
 	}
 
-	static bool GetFromPack(void* rMappedFile, const char* c_szFileName, LPCVOID* pData)
-	{ 
+	static DWORD* ResourceManagerGetResourcePointer(const char* name)
+	{
 		try
 		{
-			bool ret = false;
-			switch (Globals::Server)
-			{
-			case ServerName::ORIGINS2:
-			{
-				typedef bool(__thiscall* tCEterPackManagerGetFromPack)(void* This, LPCVOID* pData, int a1, int a2, int a3, int a4, int a5, void* rMappedFile, const char* c_szFileName);
-				tCEterPackManagerGetFromPack CEterPackManagerGetFromPack = (tCEterPackManagerGetFromPack)(Globals::pCEterPackManagerGetFromPack);
-				CEterPackManagerGetFromPack((void*)Globals::iCEterPackManagerInstance, pData, 1, 63754643, 1, 1, 1, rMappedFile, c_szFileName);
-				break;
-			}
-			default:
-			{
-				ret = Globals::CEterPackManagerGetFromPack((void*)Globals::iCEterPackManagerInstance, rMappedFile, c_szFileName, pData);
-				break;
-			}
-			}
-			return ret;
+			return Globals::CResourceManagerGetResourcePointer((void*)Globals::iCResourceManagerInstance, name);
 		}
 		catch (...)
 		{
-			return false;
+			return NULL;
+		}
+	}
+	//#################################################################################################################################
+	static void ResourceReload(DWORD* instance)
+	{
+		try
+		{
+			return Globals::CResourceReload((void*)instance);
+		}
+		catch (...)
+		{
+		}
+	}
+	//#################################################################################################################################
+	static DWORD* GraphicImageGetTexturePointer(DWORD* instance)
+	{
+		try
+		{
+			return Globals::CGraphicImageGetTexturePointer((void*)instance);
+		}
+		catch (...)
+		{
+			return NULL;
+		}
+	}
+	//#################################################################################################################################
+	static DirectTexture GraphicTextureGetD3DTexture(DWORD* instance)
+	{
+		try
+		{
+			return Globals::CGraphicTextureGetD3DTexture((void*)instance);
+		}
+		catch (...)
+		{
+			return NULL;
 		}
 	}
 };

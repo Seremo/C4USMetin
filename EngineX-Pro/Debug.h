@@ -134,7 +134,6 @@ public:
 			BuildShop();
 		}
 		//ImGui::Text("GetItemCount:0x%x", (*(DWORD*)(GameFunctions::PlayerNEW_GetMainActorPtr() + 512)) - Globals::hEntryBaseAddress);
-
 		ImGui::Text("BaseAddress  "); ImGui::SameLine();
 		ImGui::Text(StringExtension::DWORDToHexString(Globals::hEntryBaseAddress).c_str());
 		ImGui::Text("CPythonPlayerInstance  "); ImGui::SameLine();

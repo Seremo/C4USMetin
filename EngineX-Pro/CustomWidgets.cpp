@@ -385,13 +385,16 @@ void ImGui::DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImV
 	//}
 }
 
-bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, const ImVec2& size, const ImVec2& img_size, bool selected, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col)
+bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, int count, const ImVec2& f_size, bool selected, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col)
 {
 	ImGuiWindow* window = GetCurrentWindow();
 	if (window->SkipItems)
 		return false;
 
+	ImVec2 size = ImVec2(32, 32 * 0.90f);
+	ImVec2 img_size = ImVec2(f_size.x, f_size.y * 0.90f);
 	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
 	std::string unique = identificator + "##itemimage";
 	ImGuiID id = window->GetID(unique.c_str());
 	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
@@ -440,6 +443,15 @@ bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, co
 	if (user_texture_id)
 	{
 		window->DrawList->AddImage(user_texture_id, img_bb.Min, img_bb.Max, uv0, uv1, GetColorU32(tint_col));
+		if (count > 1)
+		{
+			std::string text = std::to_string(count);
+			const ImVec2 label_size = CalcTextSize(text.c_str(), NULL, true);
+			const ImVec2 label_size_outline = ImVec2(label_size.x + 10.0f, label_size.y + 10.0f);
+			ImVec2 textMin = ImVec2(img_bb.Max.x - (label_size.x), img_bb.Max.y - 10.0f);
+			ImVec2 textMax = ImVec2(img_bb.Max.x, img_bb.Max.y);
+			RenderTextClipped(textMin, textMax, text.c_str(), NULL, &label_size, style.ButtonTextAlign, &img_bb);
+		}
 	}
 	return pressed;
 }
