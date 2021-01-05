@@ -19,7 +19,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("ProtectionBorder", ImVec2(ImGui::GetWindowWidth() - 20, 310), true);;
+		ImGui::BeginChild("ProtectionBorder", ImVec2(ImGui::GetWindowWidth() - 10, 310), true);;
 		ImGui::Checkbox("Whisper Logs", &Settings::PROTECTION_SHOW_WHISPER_LOGS_ENABLE);
 		ImGui::Checkbox("Whisper Balloon", &Settings::PROTECTION_SHOW_WHISPER_BALLOON_ENABLE);
 		ImGui::Checkbox("Whisper Beep", &Settings::PROTECTION_PLAY_WHISPER_BEEP_ENABLE);
@@ -40,7 +40,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DetectorBorder", ImVec2(ImGui::GetWindowWidth() - 20, 310), true);;
+		ImGui::BeginChild("DetectorBorder", ImVec2(ImGui::GetWindowWidth() - 10, 310), true);;
 		ImGui::Checkbox("Detect Player WaitHack", &Settings::MAIN_WH_DETECT_PLAYER_ENABLE);
 #ifdef FISHBOT
 		ImGui::Checkbox("Detect Player FishBot", &Settings::FISH_DETECT_PLAYER_ENABLE);

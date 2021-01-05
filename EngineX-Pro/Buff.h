@@ -296,7 +296,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("BuffSkillsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("BuffSkillsBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Buff Enable", &Settings::BUFF_ENABLE);
 		if (ImGui::BeginTable("##table1", 3))
 		{

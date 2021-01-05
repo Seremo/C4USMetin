@@ -1003,10 +1003,13 @@ void MainForm::Initialize()
 		0,
 	};
 	ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(&PoppinsMedium_compressed_data, PoppinsMedium_compressed_size, 13.0f, 0, ranges);
-	//ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahomabd.ttf", 12.0f, 0, ranges);
 	unsigned char* pixels;
 	int width, height, BYTEs_per_pixel;
 	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &BYTEs_per_pixel);
+
+	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+	static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+	io.Fonts->AddFontFromMemoryCompressedTTF(&FontAwesome_compressed_data, FontAwesome_compressed_size, 12.0f, &icons_config, icons_ranges);
 
 	font->AddRemapChar(0xA5, 0x0104);
 	font->AddRemapChar(0xC6, 0x0106);
@@ -1028,11 +1031,10 @@ void MainForm::Initialize()
 	font->AddRemapChar(0x9F, 0x017A);
 	font->AddRemapChar(0xBF, 0x017C);
 
-	//io.Fonts->AddFontFromMemoryCompressedTTF(RudaBold_compressed_data, RudaBold_compressed_size, 13.0f, 0, ranges);
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 	io.IniFilename = NULL;
 	ImGuiStyle* style = &ImGui::GetStyle();
-	style->WindowPadding = ImVec2(10, 10);
+	style->WindowPadding = ImVec2(5, 5);
 	style->WindowRounding = 5.0f;
 	style->FramePadding = ImVec2(5, 5);
 	style->FrameRounding = 4.0f;

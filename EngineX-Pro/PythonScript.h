@@ -27,7 +27,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("PythonBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("PythonBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::InputTextMultiline("##Code", &pythonBuffer[0], pythonBuffer.size(), ImVec2(ImGui::GetWindowWidth() - 40, ImGui::GetWindowHeight() - 80));
 		if (ImGui::Button("Execute"))
 		{

@@ -161,7 +161,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("RandomizerBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("RandomizerBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		//Przyciski
 		ImGui::Checkbox("Stop - Position Changed", &Settings::FISH_STOP_IF_POSITION_CHANGED_ENABLE); 	ImGui::SameLine();
 		ImGui::Checkbox("Stop - Equipment Full", &Settings::FISH_STOP_IF_INVENTORY_FULL_ENABLE);
@@ -187,7 +187,7 @@ public:
 		//Przynety
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("BaitBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("BaitBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Text("Bait Type Use");
 		ImGui::Checkbox("1 slot", &Settings::FISH_USE_FIRST_SLOT_ENABLE);
 
@@ -223,7 +223,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("KillBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("KillBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Kill Fish", &Settings::FISH_KILL_FISH_ENABLE);
 		ImGui::Columns(3, "KillColumns", false);
 
@@ -242,7 +242,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DropBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("DropBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Drop Trash", &Settings::FISH_DROP_TRASH_ENABLE);
 		ImGui::Separator();
 		ImGui::Columns(3, "DropColumns", false);
@@ -260,7 +260,7 @@ public:
 #ifdef DEVELOPER_MODE
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("SellBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("SellBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::PushItemWidth(150); ImGui::Checkbox("Sell Trash", &Settings::FISH_SELL_TRASH_ENABLE); ImGui::SameLine();
 		ImGui::InputInt("After % EQ Filled", &Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE, 5, 100);
 		ImGui::Separator();

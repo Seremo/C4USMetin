@@ -45,7 +45,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("ConfBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("ConfBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		vector<string> configs = FileExtension::GetDirectoryFiles(FileExtension::GetAppDataDirectory() + "\\EngineX\\", "mc"   /*format "exe"*/);
 		ImGui::PushItemWidth(200);
 		if (ImGui::Combo("Configs", &currentIndex, configs))
@@ -122,7 +122,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("BindBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("BindBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 
 		ImGui::Hotkey(hotkeyTime, "Boost         ", &Settings::MAIN_BOOST_KEY);
 		ImGui::Hotkey(hotkeyTime, "Relog         ", &Settings::MAIN_RELOG_KEY);

@@ -184,7 +184,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("WhisperBorder", ImVec2(ImGui::GetWindowWidth() - 20, 90), true);
+		ImGui::BeginChild("WhisperBorder", ImVec2(ImGui::GetWindowWidth() - 10, 90), true);
 		ImGui::Checkbox("Whisper", &Settings::SPAM_WISPER_ENABLE); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_WHISPER_TIME, 0.100, 1); ImGui::SameLine(); ImGui::ColorEdit4("##SpamWhisperColor", (float*)&Settings::SPAM_WHISPER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs);
 		ImGui::SameLine();
@@ -205,7 +205,7 @@ public:
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("NormalBorder", ImVec2(ImGui::GetWindowWidth() - 20, 90), true);
+		ImGui::BeginChild("NormalBorder", ImVec2(ImGui::GetWindowWidth() - 10, 90), true);
 		ImGui::Checkbox("Normal", &Settings::SPAM_NORMAL_ENABLE); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_NORMAL_TIME, 0.100, 1);
 		ImGui::SameLine();
@@ -228,7 +228,7 @@ public:
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("ShoutBorder", ImVec2(ImGui::GetWindowWidth() - 20, 90), true); ImGui::SameLine();
+		ImGui::BeginChild("ShoutBorder", ImVec2(ImGui::GetWindowWidth() - 10, 90), true); ImGui::SameLine();
 		ImGui::Checkbox("Shout", &Settings::SPAM_SHOUT_ENABLE); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::InputFloat("Time (s.ms)", &Settings::SPAM_SHOUT_TIME, 0.100, 1);
 		ImGui::SameLine();

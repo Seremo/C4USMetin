@@ -537,7 +537,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DungBot", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("DungBot", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		std::string PhaseText = "Phase:" + to_string(Phase);
 		ImGui::Text(PhaseText.c_str());
 		if (ImGui::Checkbox("On/Off", &Settings::DUNGEON_BOT_ENABLE)) {

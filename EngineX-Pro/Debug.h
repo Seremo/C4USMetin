@@ -120,7 +120,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("DebugBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("DebugBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Use Python", &Globals::UsePythonFunctions);
 		ImGui::InputText("Shop Name", &ShopName);
 		ImGui::Checkbox("Add WhitePearl", &whitePearlAdd);

@@ -76,7 +76,8 @@ enum ServerName
 	LUNA,
 	TASTRIA2,
 	WOM,
-	ARATHAR
+	ARATHAR,
+	EGORIA
 };
 //############################################################################
 //############################################################################
@@ -85,7 +86,7 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::TASTRIA2;
+ServerName SERVER = ServerName::EGORIA;
 
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
@@ -183,6 +184,8 @@ typedef int                 Py_ssize_t;
 #include"SplashScreen.h"
 #include "Logger.h"
 #include "popinsmedium.h"
+#include "fontawesome.h"
+#include "IconsFontAwesome5.h"
 #include "MainForm.h"
 #include "SimpleIni.h"
 

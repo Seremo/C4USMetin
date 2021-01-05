@@ -238,7 +238,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("FarmBotBorder", ImVec2(ImGui::GetWindowWidth() - 20, 150), true);
+		ImGui::BeginChild("FarmBotBorder", ImVec2(ImGui::GetWindowWidth() - 10, 150), true);
 		if (ImGui::Checkbox("Farm Enable", &Settings::FARM_ENABLE))
 		{
 			if (Settings::FARM_ENABLE == true)
@@ -269,7 +269,7 @@ public:
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("CordsBorder", ImVec2(ImGui::GetWindowWidth() - 20, 150), true);
+		ImGui::BeginChild("CordsBorder", ImVec2(ImGui::GetWindowWidth() - 10, 150), true);
 		if (ImGui::Button("Add Position"))
 		{
 			Settings::cordsMaps.push_back(GameFunctionsCustom::PlayerGetPixelPosition());

@@ -1,7 +1,29 @@
 
 #include "CustomWidgets.h"
 
+template<typename ... Args>
+std::string string_format(const std::string& format, Args ... args)
+{
+	int size = snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+	if (size <= 0) { throw std::runtime_error("Error during formatting."); }
+	std::unique_ptr<char[]> buf(new char[size]);
+	snprintf(buf.get(), size, format.c_str(), args ...);
+	return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
+}
 
+bool ImGui::Combo(const char* label, int* currIndex, std::map<int, std::string>& map)
+{
+	if (map.empty())
+	{
+		return false;
+	}
+	std::vector<std::string> vector_values;
+	for (auto value : map)
+	{
+		vector_values.push_back(string_format(value.second, 0));
+	}
+	return ImGui::Combo(label, currIndex, vector_getter, static_cast<void*>(&vector_values), vector_values.size());
+}
 
 bool ImGui::Combo(const char* label, int* currIndex, std::vector<std::string>& values)
 {
@@ -368,21 +390,7 @@ void ImGui::DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImV
 		return;
 
 	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
-	//if (border_col.w > 0.0f)
-	//	bb.Max += ImVec2(2, 2);
-	//ItemSize(bb);
-	//if (!ItemAdd(bb, 0))
-	//	return;
 	window->DrawList->AddImage(user_texture_id, bb.Min, bb.Max, uv0, uv1, GetColorU32(tint_col));
-	//if (border_col.w > 0.0f)
-	//{
-	//	window->DrawList->AddRect(bb.Min, bb.Max, GetColorU32(border_col), 0.0f);
-	//	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 1), bb.Max + ImVec2(1, 1), uv0, uv1, GetColorU32(tint_col));
-	//}
-	//else
-	//{
-	//	window->DrawList->AddImage(user_texture_id, bb.Min - ImVec2(15, 1), bb.Max + ImVec2(1, 1), uv0, uv1, GetColorU32(tint_col));
-	//}
 }
 
 bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, int count, const ImVec2& f_size, bool selected, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col)
@@ -400,14 +408,14 @@ bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, in
 	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
 	ImRect img_bb(window->DC.CursorPos, window->DC.CursorPos + img_size);
 	ItemSize(bb);
-	if (!ItemAdd(bb, 0))
+	if (!ItemAdd(img_bb, 0))
 		return false;
 
 	ImGuiSelectableFlags flags = 0;
 	ImGuiButtonFlags button_flags = 0;
 	const bool was_selected = selected;
 	bool hovered, held;
-	bool pressed = ButtonBehavior(bb, id, &hovered, &held, button_flags);
+	bool pressed = ButtonBehavior(img_bb, id, &hovered, &held, button_flags);
 
 	if (pressed || (hovered && (flags & ImGuiSelectableFlags_SetNavIdOnHover)))
 	{
@@ -456,14 +464,32 @@ bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, in
 	return pressed;
 }
 
-void ImGui::ImageAuto(DirectTexture user_texture_id, float scale, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col, const ImVec4& border_col) {
+void ImGui::CenterHorizontal(ImVec2 size)
+{
+	ImVec2 pos = GetCursorPos();
+	ImVec2 center = (ImGui::GetWindowSize() - size) * 0.5f;
+	SetCursorPos(ImVec2(center.x, pos.y));
+}
+
+void ImGui::CenterVertical(ImVec2 size)
+{
+	ImVec2 pos = GetCursorPos();
+	ImVec2 center = (ImGui::GetWindowSize() - size) * 0.5f;
+	SetCursorPos(ImVec2(pos.x, center.y));
+}
+
+void ImGui::ImageAuto(DirectTexture user_texture_id, float scale_width, float scale_height, bool center, const ImVec2& uv0, const ImVec2& uv1, const ImVec4& tint_col, const ImVec4& border_col) {
 	if (user_texture_id == NULL)
 		return;
 	D3DSURFACE_DESC desc;
 	user_texture_id->GetLevelDesc(0, &desc);
-	float width = desc.Width * scale;
-	float height = desc.Height * scale;
+	float width = desc.Width * scale_width;
+	float height = desc.Height * scale_height;
 	if (width > 0 && height > 0) {
+		if (center)
+		{
+			CenterHorizontal(ImVec2(width, height));
+		}
 		ImGui::Image(user_texture_id, ImVec2(width, height));
 	}
 }

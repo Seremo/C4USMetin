@@ -54,7 +54,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("SniffernBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("SniffernBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Send Enable", &PacketSendEnable); ImGui::SameLine(); ImGui::Checkbox("Show Return Address", &PacketSendReturnAddressEnable);
 		ImGui::Checkbox("Receive Enable", &PacketRecvEnable); ImGui::SameLine(); ImGui::Checkbox("Show Return Address", &PacketRecvReturnAddressEnable);
 		ImGui::EndChild();

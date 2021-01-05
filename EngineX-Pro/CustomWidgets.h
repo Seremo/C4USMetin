@@ -8,6 +8,7 @@
 #include <string>
 #include <functional>
 #include <vector>
+#include <memory>
 #ifdef DX9
 #define DirectDevice IDirect3DDevice9*
 #define DirectDevice2 LPDIRECT3DDEVICE9
@@ -29,6 +30,7 @@
 #pragma comment(lib, "d3d8.lib")
 #pragma comment(lib, "d3dx8.lib")
 #endif
+#include <map>
 
 namespace ImGui
 {
@@ -53,9 +55,12 @@ namespace ImGui
 	bool Selectable2(const char* label, bool selected = false, ImGuiSelectableFlags flags = 0, const ImVec2& size = ImVec2(0, 0));  // "bool selected" carry the selection state (read-only). Selectable() is clicked is returns true so you can modify your selection state. size.x==0.0: use remaining width, size.x>0.0: specify width. size.y==0.0: use label height, size.y>0.0: specify height
 	void DrawImagePos(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& pos, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
-	void ImageAuto(DirectTexture user_texture_id, float scale = 1.0f, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
+	void ImageAuto(DirectTexture user_texture_id, float scale_width = 1.0f, float scale_height = 1.0f, bool center = false,  const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	bool ItemImage(std::string id, ImTextureID user_texture_id, int count, const ImVec2& size, bool selected = false, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1));
+	void CenterVertical(ImVec2 size);
+	void CenterHorizontal(ImVec2 size);
 
 	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values);
+	bool Combo(const char* label, int* currIndex, std::map<int, std::string>& values);
 	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values);
 };

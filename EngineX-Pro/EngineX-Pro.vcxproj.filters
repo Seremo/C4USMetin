@@ -263,6 +263,12 @@
     <ClInclude Include="Inventory.h">
       <Filter>Core\Modules\Additional</Filter>
     </ClInclude>
+    <ClInclude Include="IconsFontAwesome5.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="fontawesome.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

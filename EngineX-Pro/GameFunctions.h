@@ -236,6 +236,17 @@ public:
 		}
 	}
 	//#################################################################################################################################
+	static void PlayerGetItemAttribute(TItemPos Cell, DWORD dwAttrSlotIndex, BYTE* pbyType, short* psValue)
+	{
+		try
+		{
+			Globals::CPythonPlayerGetItemAttribute((void*)(Globals::iCPythonPlayerInstance), Cell, dwAttrSlotIndex, pbyType, psValue);
+		}
+		catch (...)
+		{
+		}
+	}
+	//#################################################################################################################################
 	static DWORD PlayerGetItemMetinSocket(TItemPos cell, DWORD dwMetinSocketIndex)
 	{
 		try
@@ -485,6 +496,18 @@ public:
 						}
 				}
 			}
+		}
+		catch (...)
+		{
+
+		}
+	}
+	//#################################################################################################################################
+	static void NetworkStreamSendItemUseToItemPacket(TItemPos cell, TItemPos target)
+	{
+		try
+		{
+			Globals::CPythonNetworkStreamSendItemUseToItemPacket((void*)Globals::iCPythonNetworkStreamInstance, cell, target);
 		}
 		catch (...)
 		{

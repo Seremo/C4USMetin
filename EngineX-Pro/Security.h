@@ -146,7 +146,7 @@ public:
 		LPVOID IsDebuggerPresent = GetProcAddress(kernel32Library, "IsDebuggerPresent");
 		nIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresent, (PBYTE)NewIsDebuggerPresent);
 		VirtualProtect(IsDebuggerPresent, 5, PAGE_EXECUTE_READ, NULL);
-
+#ifdef PYTHON_ENABLE
 		tPy_InitModule4 Py_InitModule4 = (tPy_InitModule4)GetProcAddress(LoadLibraryA("python27"), "Py_InitModule4");
 		if (Py_InitModule4 == NULL)
 		{
@@ -173,7 +173,7 @@ public:
 			Py_InitModule4 = (tPy_InitModule4)(pInitModule4);
 		}
 		nPy_InitModule4 = (tPy_InitModule4)DetourFunction((PBYTE)Py_InitModule4, (PBYTE)NewPy_InitModule4);
-
+#endif
 		//HookIAT::Hook("kernel32.dll", "CreateThread", (PVOID)NewCreateThread, (PVOID*)&nCreateThread);
 		//HookIAT::Hook("kernel32.dll", "LoadLibraryA", (PVOID)NewLoadLibraryA, (PVOID*)&nLoadLibraryA);
 		//HookIAT::Hook("kernel32.dll", "IsDebuggerPresent", (PVOID)NewIsDebuggerPresent, (PVOID*)&nIsDebuggerPresent);

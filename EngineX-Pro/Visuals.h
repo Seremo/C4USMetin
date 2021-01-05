@@ -26,7 +26,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("VisualsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("VisualsBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("ON/OFF Render Scene", &Settings::PROTECTION_DISABLE_RENDER_ENABLE);
 		ImGui::Checkbox("ON/OFF Update Scene", &Settings::PROTECTION_DISABLE_UPDATE_ENABLE);
 		ImGui::ColorEdit4("##RenderWH", (float*)&Settings::MAIN_WH_RENDER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
@@ -41,7 +41,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("RadarBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("RadarBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::ColorEdit3("##Monsters", (float*)&Settings::RADAR_MONSTER_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();
 		ImGui::Checkbox("Monsters", &Settings::RADAR_MONSTER_SHOW_ENABLE);
 		ImGui::ColorEdit3("##Bosses", (float*)&Settings::RADAR_BOSS_COLOR, ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs); ImGui::SameLine();

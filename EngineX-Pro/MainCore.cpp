@@ -165,7 +165,14 @@ void MainCore::Initialize()
 	{
 		Globals::ReAddressingPython();
 	}
-	Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
+	try
+	{
+		Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
+	}
+	catch (...)
+	{
+		ConsoleOutput("[-] Wronh Hwnd");
+	}
 	Configuration::Instance().OnStart();
 	Hooks::Initialize();
 	string title = "";

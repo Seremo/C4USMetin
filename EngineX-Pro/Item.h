@@ -44,7 +44,7 @@ public:
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("PickupBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("PickupBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Pickup Enable", &Settings::ITEM_PICKUP_ENABLE); ImGui::SameLine();
 		ImGui::RadioButton("Normal", &Settings::ITEM_PICKUP_TYPE, 0); ImGui::SameLine();
 		ImGui::RadioButton("Range", &Settings::ITEM_PICKUP_TYPE, 1);
@@ -177,7 +177,7 @@ public:
 		static float ITEM_SLOT_RANDOM_MIN_TIME;
 		static float ITEM_SLOT_RANDOM_MAX_TIME;
 
-		ImGui::BeginChild("SlotsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("SlotsBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("Random +/- (s.ms)", &Settings::ITEM_SLOT_RANDOM_ENABLE); /*ImGui::SameLine();*/
 		ImGui::InputFloatMinMax("Min", &Settings::ITEM_SLOT_RANDOM_MIN_TIME, 0.0f, 100.0f, 0.100, 1);
 		ImGui::InputFloatMinMax("Max", &Settings::ITEM_SLOT_RANDOM_MAX_TIME, 0.0f, 100.0f, 0.100, 1);

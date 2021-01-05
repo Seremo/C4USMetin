@@ -255,7 +255,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("AtakBorder", ImVec2(ImGui::GetWindowWidth() - 20, 120), true);
+		ImGui::BeginChild("AtakBorder", ImVec2(ImGui::GetWindowWidth() - 10, 120), true);
 		if (ImGui::Checkbox("Auto Attack    ", &Settings::MAIN_ATTACK_ENABLE))
 		{
 			lastPosition = GameFunctionsCustom::PlayerGetPixelPosition();
@@ -276,7 +276,7 @@ public:
 
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("OtherBorder", ImVec2(ImGui::GetWindowWidth() - 20, 180), true);
+		ImGui::BeginChild("OtherBorder", ImVec2(ImGui::GetWindowWidth() - 10, 180), true);
 		ImGui::Checkbox("Wallhack Mob", &Settings::MAIN_WALL_MOB_ENABLE); ImGui::SameLine();
 		ImGui::Checkbox("Wallhack Object", &Settings::MAIN_WALL_OBJECT_ENABLE); ImGui::SameLine();
 		ImGui::Checkbox("Wallhack Terrain", &Settings::MAIN_WALL_TERRAIN_ENABLE);
@@ -297,7 +297,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("WHBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("WHBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("WaitHack", &Settings::MAIN_WH_ENABLE);
 		ImGui::RadioButton("Standard", &Settings::MAIN_WH_ATTACK_TYPE, 0);
 		ImGui::SameLine();
@@ -339,7 +339,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("MHUsager", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("MHUsager", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::Checkbox("HP Potion           ", &Settings::MAIN_RED_POTION_ENABLE);
 		ImGui::PushItemWidth(100); ImGui::SliderInt("Speed(ms)##1", &Settings::MAIN_RED_POTION_SPEED_VALUE, 1, 1000); ImGui::SameLine();
 		ImGui::PushItemWidth(100); ImGui::SliderInt("Below % HP", &Settings::MAIN_RED_POTION_PERCENTAGE_VALUE, 1, 100);
@@ -355,7 +355,7 @@ public:
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::SetNextWindowBgAlpha(0.75f);
-		ImGui::BeginChild("SkillsBorder", ImVec2(ImGui::GetWindowWidth() - 20, ImGui::GetWindowHeight() - 10), true);
+		ImGui::BeginChild("SkillsBorder", ImVec2(ImGui::GetWindowWidth() - 10, ImGui::GetWindowHeight() - 10), true);
 		ImGui::IconButton2(&Settings::MAIN_SKILL_1_ENABLE, "Skill 1", texture_Skill_0, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
 		ImGui::SameLine();
 		ImGui::IconButton2(&Settings::MAIN_SKILL_2_ENABLE, "Skill 2", texture_Skill_1, MainForm::ResourceMap["skill_on"], MainForm::ResourceMap["skill_off"], ImVec2(32, 32));
