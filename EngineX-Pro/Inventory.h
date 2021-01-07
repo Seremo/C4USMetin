@@ -452,14 +452,17 @@ public:
 							ImGui::BeginTooltip();
 							std::string name = GameFunctions::ItemDataGetName(currentVnum);
 							ImGui::TextColored(titleColor, StringExtension::ASCIIToUTF8(name.c_str()).c_str());
-							for (int bonus = 0; bonus < 5; bonus++)
+							if (Globals::Server != ServerName::METINPL)
 							{
-								BYTE bType;
-								short bValue;
-								GameFunctions::PlayerGetItemAttribute(TItemPos(INVENTORY, currentSlot), bonus, &bType, &bValue);
-								if (bType != 0)
+								for (int bonus = 0; bonus < 5; bonus++)
 								{
-									ImGui::TextColored(bonusColor, attributesMap[bType].c_str(), bValue);
+									BYTE bType;
+									short bValue;
+									GameFunctions::PlayerGetItemAttribute(TItemPos(INVENTORY, currentSlot), bonus, &bType, &bValue);
+									if (bType != 0)
+									{
+										ImGui::TextColored(bonusColor, attributesMap[bType].c_str(), bValue);
+									}
 								}
 							}
 							ImGui::EndTooltip();
@@ -495,10 +498,13 @@ public:
 			OnTabbarActions();
 			ImGui::EndTabItem();
 		}
-		if (ImGui::BeginTabItem("Bonus Switcher"))
+		if (Globals::Server != ServerName::METINPL)
 		{
-			OnTabbarBS();
-			ImGui::EndTabItem();
+			if (ImGui::BeginTabItem("Bonus Switcher"))
+			{
+				OnTabbarBS();
+				ImGui::EndTabItem();
+			}
 		}
 		ImGui::EndTabBar();
 		ImGui::EndTable();

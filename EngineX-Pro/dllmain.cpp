@@ -37,8 +37,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 					AllocConsole();
 					freopen("CONOUT$", "w", stdout);
 					Security::Initialize();
-				}
 #endif
+				}
 				_set_se_translator(ErrorTranslator);
 				Globals::hModule = hModule;
 				bool DXIsAlreadyLoaded = GetModuleHandleA("d3d8.dll") || GetModuleHandleA("d3d9.dll");

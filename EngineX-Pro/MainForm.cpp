@@ -1006,11 +1006,12 @@ void MainForm::Initialize()
 	unsigned char* pixels;
 	int width, height, BYTEs_per_pixel;
 	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height, &BYTEs_per_pixel);
-
-	ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-	static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-	io.Fonts->AddFontFromMemoryCompressedTTF(&FontAwesome_compressed_data, FontAwesome_compressed_size, 12.0f, &icons_config, icons_ranges);
-
+	if (Globals::Server != ServerName::METINPL)
+	{
+		ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+		static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+		io.Fonts->AddFontFromMemoryCompressedTTF(&FontAwesome_compressed_data, FontAwesome_compressed_size, 12.0f, &icons_config, icons_ranges);
+	}
 	font->AddRemapChar(0xA5, 0x0104);
 	font->AddRemapChar(0xC6, 0x0106);
 	font->AddRemapChar(0xCA, 0x0118);
