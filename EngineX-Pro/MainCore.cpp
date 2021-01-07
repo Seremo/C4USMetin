@@ -171,7 +171,11 @@ void MainCore::Initialize()
 	}
 	catch (...)
 	{
-		ConsoleOutput("[-] Wronh Hwnd");
+		ConsoleOutput("[-] Wrong Hwnd");
+	}
+	while (!GameFunctionsCustom::PlayerIsInstance())
+	{
+		Sleep(1);
 	}
 	Configuration::Instance().OnStart();
 	Hooks::Initialize();

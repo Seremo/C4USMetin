@@ -22,8 +22,10 @@ public:
 	
 
 	static Globals::tDirectEndScene nDirectEndScene;
+	static Globals::tDirectReset nDirectReset;
 	static Globals::tCInputKeyboardUpdateKeyboard nCInputKeyboardUpdateKeyboard;
 	static Globals::tCPythonNetworkStreamSendCommandPacket nCSendCommandPacket;
+
 	static void _fastcall NewCPythonApplicationRenderGame(void* This, void* EDX);
 	static bool _fastcall NewCActorInstanceTestActorCollision(void* This, void* EDX, DWORD* rVictim);
 	static bool _fastcall NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* c_rkBGObj);
@@ -37,8 +39,8 @@ public:
 
 	static bool _fastcall NewCNetworkStreamSend(void* This, void* EDX, int len, void* pDestBuf);
 
-	static bool _fastcall NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant);
-	//static int _stdcall NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, int len, int flags);
+	//static bool _fastcall NewCNetworkStreamSendAeldra(void* This, void* EDX, int len, void* pDestBuf, bool instant);
+	static int _stdcall NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, int len, int flags);
 
 	static bool _fastcall NewCNetworkStreamSendSequence(void* This, void* EDX);
 	static void _fastcall NewCPythonChatAppendChat(void* This, void* EDX, int iType, const char* c_szChat);
@@ -47,9 +49,9 @@ public:
 	static bool _fastcall NewCPythonApplicationProcess(void* This, void* EDX);
 
 	static HRESULT __stdcall NewDirectEndScene(void* This);
+	static HRESULT __stdcall NewDirectReset(void* This, D3DPRESENT_PARAMETERS* ppReset);
 	static void _fastcall NewCInputKeyboardUpdateKeyboard(void* This, void* EDX);
 	static bool _fastcall NewNetworkStreamSendCommandPacket(void* This, void* EDX, DWORD a1, DWORD a2, const char* a3);
-
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	static void Initialize();
 
@@ -73,6 +75,7 @@ Globals::tCPythonApplicationRenderGame Hooks::nCPythonApplicationRenderGame = NU
 Globals::tCPythonApplicationProcess Hooks::nCPythonApplicationProcess = NULL;
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
 Globals::tDirectEndScene Hooks::nDirectEndScene = NULL;
+Globals::tDirectReset Hooks::nDirectReset = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NULL;
 Globals::tCPythonNetworkStreamSendCommandPacket Hooks::nCSendCommandPacket = NULL;
 

@@ -4,11 +4,13 @@
 #define DirectDevice2 LPDIRECT3DDEVICE9
 #define DirectTexture LPDIRECT3DTEXTURE9
 #define EndSceneIndex 42
+#define ResetIndex 16
 #else
 #define DirectDevice IDirect3DDevice8*
 #define DirectDevice2 LPDIRECT3DDEVICE8
 #define DirectTexture LPDIRECT3DTEXTURE8
 #define EndSceneIndex 35
+#define ResetIndex 14
 #endif
 #include <VersionHelpers.h>
 class Device

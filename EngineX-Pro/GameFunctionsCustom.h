@@ -1389,7 +1389,9 @@ public:
 	{
 		if (Globals::Server == ServerName::AELDRA)
 		{
-			GameFunctions::NetworkStreamSendAttackPacket(uMotAttack, dwVIDVictim);
+			MemoryExtension::MemSet(Globals::pCPythonNetworkStreamSendOnClickPacket + 0x42, 0x50, 1);
+			GameFunctions::NetworkStreamSendOnClickPacket(dwVIDVictim);
+			MemoryExtension::MemSet(Globals::pCPythonNetworkStreamSendOnClickPacket + 0x42, 0x53, 1);
 			return true;
 		}
 		if (Globals::Server == ServerName::WOM)

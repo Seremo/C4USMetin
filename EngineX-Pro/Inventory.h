@@ -202,6 +202,9 @@ public:
 		case ServerName::METINPL:
 			iconPath = GetStr((DWORD)pItemData + 92);
 			break;
+		case ServerName::AELDRA:
+			iconPath = GetStr((DWORD)pItemData + 80);
+			break;
 		default:
 			iconPath = GetStr((DWORD)pItemData + 76);
 			break;

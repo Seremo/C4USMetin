@@ -86,8 +86,8 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::EGORIA;
-
+ServerName SERVER = ServerName::TASTRIA2;
+SOCKET socketAeldra;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
 //#define VERSION_PREMIUM

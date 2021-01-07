@@ -582,17 +582,30 @@ typedef struct command_attack
 	BYTE	bCRCMagicCubeFilePiece;
 } TPacketCGAttack;
 
-typedef struct command_attack2
+
+//typedef struct command_move
+//{
+//	BYTE		bHeader;
+//	BYTE		bFunc;
+//	BYTE		bArg;
+//	BYTE		bRot;
+//	LONG		lX;
+//	LONG		lY;
+//	DWORD		dwTime;
+//} TPacketCGMove;
+
+typedef struct command_move_aeldra
 {
-	BYTE	header;
-	BYTE	unk1;			// °ø°Ý À¯Çü
-	BYTE	size;
-	BYTE	unk2;
-	BYTE	unk3;
-	BYTE	unk4;
-	DWORD	dwVictimVID;	// Àû VID
-	BYTE	app37;
-} TPacketCGAttackAeldra;
+	WORD	header;
+	DWORD	size;
+	BYTE	unknown;//10
+	LONG		lX;
+	LONG		lY;
+	BYTE		bFunc;
+	BYTE		bArg;
+	BYTE		bRot;
+	DWORD	dwTime;
+} TPacketCGStatePacket;
 
 typedef struct command_sync_position
 {

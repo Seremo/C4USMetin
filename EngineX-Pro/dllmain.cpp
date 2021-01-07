@@ -28,17 +28,18 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		
 		case DLL_PROCESS_ATTACH:
 			{
+				if (Globals::Server != ServerName::AELDRA)
+				{
 #ifdef _DEBUG
-				_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+					_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+#ifdef DEVELOPER_MODE
+					AllocConsole();
+					freopen("CONOUT$", "w", stdout);
+					Security::Initialize();
+				}
 #endif
 				_set_se_translator(ErrorTranslator);
-#ifdef DEVELOPER_MODE
-				AllocConsole();
-				freopen("CONOUT$", "w", stdout);
-#else
-				//MiscExtension::OpenWebiste("http://www.cheats4us.pl");
-#endif
-				Security::Initialize();
 				Globals::hModule = hModule;
 				bool DXIsAlreadyLoaded = GetModuleHandleA("d3d8.dll") || GetModuleHandleA("d3d9.dll");
 				while (!MainCore::DXLoaded && !DXIsAlreadyLoaded)
@@ -52,9 +53,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				{
 					CloseHandle(hThreadNetword);
 				}
-				//CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::NetworkThread, NULL, NULL, NULL);
 #endif
-				//CreateThread(0, NULL, (LPTHREAD_START_ROUTINE)MainCore::Initialize, NULL, NULL, NULL);
 				HANDLE hThreadInit = ProcessExtension::CreateThreadSafe((LPTHREAD_START_ROUTINE)&MainCore::Initialize, hModule);
 				if (hThreadInit)
 				{

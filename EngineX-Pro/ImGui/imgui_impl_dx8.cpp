@@ -82,6 +82,8 @@ static void ImGui_ImplDX8_SetupRenderState(ImDrawData* draw_data)
     g_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
     g_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
     g_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+    g_pd3dDevice->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+    g_pd3dDevice->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
     //g_pd3dDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     //g_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
@@ -194,7 +196,7 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
          if (g_pd3dDevice->CreateStateBlock(D3DSBT_ALL, &d3d9_state_block) < 0)
              return;*/
 
-             // Backup the DX8 transform (DX8 documentation suggests that it is included in the StateBlock but it doesn't appear to)
+        // Backup the DX8 transform (DX8 documentation suggests that it is included in the StateBlock but it doesn't appear to)
         D3DMATRIX last_world, last_view, last_projection;//new
         g_pd3dDevice->GetTransform(D3DTS_WORLD, &last_world);//new
         g_pd3dDevice->GetTransform(D3DTS_VIEW, &last_view);//new
@@ -260,6 +262,8 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
                 else
                 {
                     const RECT r = { (LONG)(pcmd->ClipRect.x - clip_off.x), (LONG)(pcmd->ClipRect.y - clip_off.y), (LONG)(pcmd->ClipRect.z - clip_off.x), (LONG)(pcmd->ClipRect.w - clip_off.y) };
+                    const LPDIRECT3DTEXTURE8 texture = (LPDIRECT3DTEXTURE8)pcmd->TextureId;
+                    g_pd3dDevice->SetTexture(0, texture);
                     build_mask_vbuffer(&r);
                     g_pd3dDevice->SetRenderState(D3DRS_COLORWRITEENABLE, 0);
                     g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, true);
@@ -286,8 +290,6 @@ void ImGui_ImplDX8_RenderDrawData(ImDrawData* draw_data)
                     g_pd3dDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
                     g_pd3dDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_KEEP);
                     g_pd3dDevice->SetRenderState(D3DRS_STENCILREF, 0xFF);
-                    const LPDIRECT3DTEXTURE8 texture = (LPDIRECT3DTEXTURE8)pcmd->TextureId;
-                    g_pd3dDevice->SetTexture(0, texture);
                     //g_pd3dDevice->SetScissorRect(&r);
                     g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, (UINT)cmd_list->VtxBuffer.Size, pcmd->IdxOffset + global_idx_offset, pcmd->ElemCount / 3);
                 }
@@ -318,7 +320,7 @@ bool ImGui_ImplDX8_Init(IDirect3DDevice8* device)
 {
     // Setup back-end capabilities flags
     ImGuiIO& io = ImGui::GetIO();
-    io.BackendRendererName = "imgui_impl_DX8";
+    io.BackendRendererName = "cf0f1aa24cbb7951ebcf8dbda5f80855eba60fc7";
     io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;  // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
 
     g_pd3dDevice = device;
@@ -416,17 +418,13 @@ void ImGui_ImplDX8_InvalidateDeviceObjects()
 		g_DepthBuffer->Release();
 		g_DepthBuffer = nullptr;
 	}
-	if (LPDIRECT3DTEXTURE8 tex = (LPDIRECT3DTEXTURE8)ImGui::GetIO().Fonts->TexID)
-	{
-		tex->Release();
-		ImGui::GetIO().Fonts->TexID = 0;
-	}
-	g_FontTexture = NULL;
-    //if (!g_pd3dDevice)
-    //    return;
-    //if (g_pVB) { g_pVB->Release(); g_pVB = NULL; }
-    //if (g_pIB) { g_pIB->Release(); g_pIB = NULL; }
-    //if (g_FontTexture) { g_FontTexture->Release(); g_FontTexture = NULL; ImGui::GetIO().Fonts->TexID = NULL; } // We copied g_pFontTextureView to io.Fonts->TexID so let's clear that as well.
+    if (g_FontTexture) { g_FontTexture->Release(); g_FontTexture = NULL; ImGui::GetIO().Fonts->TexID = NULL; }
+    //if (LPDIRECT3DTEXTURE8 tex = (LPDIRECT3DTEXTURE8)ImGui::GetIO().Fonts->TexID)
+    //{
+    //    tex->Release();
+    //    g_FontTexture = NULL;
+    //    ImGui::GetIO().Fonts->TexID = 0;
+    //}
 }
 
 void ImGui_ImplDX8_NewFrame()

@@ -1494,6 +1494,14 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(46,  make_pair(ServerName::WOM,"CH3")), make_pair(55121, "51.83.214.65") },
 	{ make_pair(47,  make_pair(ServerName::WOM,"CH4")), make_pair(55131, "51.83.214.65") },
 	{ make_pair(48,  make_pair(ServerName::WOM,"CH5")), make_pair(55141, "51.83.214.65") },
+
+	{ make_pair(49,  make_pair(ServerName::AELDRA,"CH1")), make_pair(20014, "51.83.223.169") },
+	{ make_pair(50,  make_pair(ServerName::AELDRA,"CH2")), make_pair(20024, "51.83.223.169") },
+	{ make_pair(51,  make_pair(ServerName::AELDRA,"CH3")), make_pair(20034, "51.83.223.169") },
+	{ make_pair(52,  make_pair(ServerName::AELDRA,"CH4")), make_pair(20044, "51.83.223.169") },
+	{ make_pair(53,  make_pair(ServerName::AELDRA,"CH5")), make_pair(20054, "51.83.223.169") },
+	{ make_pair(54,  make_pair(ServerName::AELDRA,"CH6")), make_pair(20064, "51.83.223.169") },
+	{ make_pair(55,  make_pair(ServerName::AELDRA,"CH7")), make_pair(20074, "51.83.223.169") },
 };
 vector<string>												Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST =
 {
