@@ -56,6 +56,7 @@ namespace ImGui
 	void DrawImagePos(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& pos, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void DrawImage(ImTextureID user_texture_id, const ImVec2& size, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
 	void ImageAuto(DirectTexture user_texture_id, float scale_width = 1.0f, float scale_height = 1.0f, bool center = false,  const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1), const ImVec4& border_col = ImVec4(0, 0, 0, 0));
+	void ImageSwitcher(DirectTexture user_texture_id, const ImVec4& border_col);
 	bool ItemImage(std::string id, ImTextureID user_texture_id, int count, const ImVec2& size, bool selected = false, const ImVec2& uv0 = ImVec2(0, 0), const ImVec2& uv1 = ImVec2(1, 1), const ImVec4& tint_col = ImVec4(1, 1, 1, 1));
 	void CenterVertical(ImVec2 size);
 	void CenterHorizontal(ImVec2 size);

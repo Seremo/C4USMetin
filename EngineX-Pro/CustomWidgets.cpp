@@ -399,8 +399,8 @@ bool ImGui::ItemImage(std::string identificator, ImTextureID user_texture_id, in
 	if (window->SkipItems)
 		return false;
 
-	ImVec2 size = ImVec2(32, 32 * 0.90f);
-	ImVec2 img_size = ImVec2(f_size.x, f_size.y * 0.90f);
+	ImVec2 size = ImVec2(32, 33 * 0.90f);
+	ImVec2 img_size = ImVec2(f_size.x, f_size.y * 0.90f + 1.0f);
 	ImGuiContext& g = *GImGui;
 	const ImGuiStyle& style = g.Style;
 	std::string unique = identificator + "##itemimage";
@@ -490,7 +490,34 @@ void ImGui::ImageAuto(DirectTexture user_texture_id, float scale_width, float sc
 		{
 			CenterHorizontal(ImVec2(width, height));
 		}
-		ImGui::Image(user_texture_id, ImVec2(width, height));
+		ImGui::Image(user_texture_id, ImVec2(width, height), uv0, uv1, tint_col, border_col);
+	}
+}
+
+void ImGui::ImageSwitcher(DirectTexture user_texture_id, const ImVec4& border_col) 
+{
+	if (user_texture_id == NULL)
+		return;
+	D3DSURFACE_DESC desc;
+	user_texture_id->GetLevelDesc(0, &desc);
+	float width = desc.Width;
+	float height = desc.Height;
+	if (width > 0 && height > 0) {;
+		ImVec2 size = ImVec2(width, height);
+		ImGuiWindow* window = GetCurrentWindow();
+		if (window->SkipItems)
+			return;
+
+		ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
+		if (border_col.w > 0.0f)
+			bb.Max += ImVec2(2, 2);
+		ItemSize(bb);
+		if (!ItemAdd(bb, 0))
+			return;
+
+		window->DrawList->AddRectFilled(bb.Min, bb.Max, GetColorU32(border_col), 0.0f);
+		window->DrawList->AddImage(user_texture_id, bb.Min + ImVec2(1, 1), bb.Max - ImVec2(1, 1), ImVec2(0, 0), ImVec2(1, 1), GetColorU32(ImVec4(1, 1, 1, 1)));
+		//window->DrawList->AddImage(user_texture_id, bb.Min, bb.Max, uv0, uv1, GetColorU32(tint_col));
 	}
 }
 

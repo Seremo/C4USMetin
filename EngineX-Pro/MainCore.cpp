@@ -173,9 +173,12 @@ void MainCore::Initialize()
 	{
 		ConsoleOutput("[-] Wrong Hwnd");
 	}
-	while (!GameFunctionsCustom::PlayerIsInstance())
+	if (Globals::Server == ServerName::AELDRA)
 	{
-		Sleep(1);
+		while (!GameFunctionsCustom::PlayerIsInstance())
+		{
+			Sleep(1);
+		}
 	}
 	Configuration::Instance().OnStart();
 	Hooks::Initialize();
@@ -189,7 +192,7 @@ void MainCore::Initialize()
 	title += "Relase \n(Free - If you paid u have been scammed) ";
 #endif
 	title += " ";
-	MiscExtension::ShowBalloon(Globals::mainHwnd, "EngineX", title.c_str(), NULL);
+	MiscExtension::ShowBalloon(Globals::mainHwnd, "C4US.PL - MultiHack", title.c_str(), NULL);
 }
 ///##################################################################################################################
 void  MainCore::UpdateLoop()

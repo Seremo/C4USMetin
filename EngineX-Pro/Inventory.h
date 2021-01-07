@@ -68,9 +68,17 @@ public:
 	ImVec4 titleColor = ImVec4(0.9490f, 0.9058f, 0.7568f, 1.0f);
 	ImVec4 socketColor = ImVec4(0.5411f, 0.7254f, 0.5568f, 1.0f);
 	ImVec4 bonusColor = ImVec4(0.6911f, 0.8754f, 0.7068f, 1.0f);
+	ImVec4 inactiveSwitcher = ImVec4(1.0f, 0.0f, 0.0f, 0.2f);
+	ImVec4 finishedSwitcher = ImVec4(0.0f, 1.0f, 0.0f, 0.2f);
 
+	int bonusSwitcherSpeed = 10;
 	int bonusSlot[6] = { 0 };
 	bool bonusSlotRunning[6] = { 0 };
+
+	int bonusSlotPacketCount[6] = { 0 };
+	int bonusSlotChanged[6] = { 0 };
+
+	map < DWORD, int> lastLastItemAttributes[6];
 
 	int bonusIndexType[6][5];
 	int bonusIndexLastType[6][5];
@@ -124,8 +132,8 @@ public:
 		{
 			return;
 		}
-		//if (DynamicTimer::CheckAutoSet("BonusSwitcher", 50))
-		//{
+		if (DynamicTimer::CheckAutoSet("BonusSwitcher", bonusSwitcherSpeed))
+		{
 			for (int i = 0; i < 6; i++)
 			{
 				if (bonusSlot[i] != 0 && bonusSlotRunning[i])
@@ -166,26 +174,44 @@ public:
 						bonusIndexLastType[i][bonus] = bType;
 						bonusIndexLastValue[i][bonus] = bValue;
 					}
-					if (!map_compare(currentItemAttributes, lastItemAttributes))
+					if (!Match(slotItemAttributes, currentItemAttributes))
 					{
-						if (!Match(slotItemAttributes, currentItemAttributes))
+						if (!map_compare(currentItemAttributes, lastItemAttributes))
+						{
+							if (!map_compare(lastLastItemAttributes[i], lastItemAttributes))
+							{
+								bonusSlotChanged[i]++;
+							}
+							lastLastItemAttributes[i] = lastItemAttributes;
+						}
+						if (bonusSlotChanged[i] == bonusSlotPacketCount[i])
 						{
 							vector<DWORD> slots = GameFunctionsCustom::FindItemSlotsInInventory(71084);
 							GameFunctions::NetworkStreamSendItemUseToItemPacket(TItemPos(INVENTORY, slots[0]), TItemPos(INVENTORY, bonusSlot[i]));
+							bonusSlotPacketCount[i]++;
 						}
-						else
+					}
+					else
+					{
+						string title = "Bonus switcher slot ";
+						title += to_string(bonusSlot[i] + 1);
+						title += " completed after ";
+						title += to_string(bonusSlotPacketCount[i]);
+						title += " changes!";
+						MiscExtension::UpdateBalloon(Globals::mainHwnd, "C4US.PL - MultiHack", title.c_str(), NULL);
+						for (int bonus = 0; bonus < 5; bonus++)
 						{
-							for (int bonus = 0; bonus < 5; bonus++)
-							{
-								bonusIndexLastType[i][bonus] = 0;
-								bonusIndexLastValue[i][bonus] = 0;
-							}
-							bonusSlotRunning[i] = false;
+							bonusIndexLastType[i][bonus] = 0;
+							bonusIndexLastValue[i][bonus] = 0;
 						}
+						bonusSlotPacketCount[i] = 0;
+						bonusSlotChanged[i] = 0;
+						bonusSlotRunning[i] = false;
+						lastLastItemAttributes[i].clear();
 					}
 				}
 			}
-		//}
+		}
 	}
 
 	void OnRender()
@@ -247,10 +273,6 @@ public:
 				GameFunctions::NetworkStreamSendShopSellPacketNew(slot, GameFunctions::PlayerGetItemCount(TItemPos(INVENTORY, slot)));
 			}
 		}
-		if (ImGui::Button("Stack"))
-		{
-
-		}
 	}
 
 	string IDName(const char* btn, int id)
@@ -260,9 +282,10 @@ public:
 
 	void OnTabbarBS()
 	{
+		ImGui::SliderInt("Switchbot Speed", &bonusSwitcherSpeed, 0, 100);
 		ImGui::BeginTable("##tablebs", 3, ImGuiTableFlags_Borders, ImVec2(0.0f, 0.0f));
 		float width = 85.0f;
-		float height = 100.0f;
+		float height = 105.0f;
 		ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, width);
 		ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, width);
 		ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, width);
@@ -320,7 +343,7 @@ public:
 					ImGui::TableNextRow(ImGuiTableRowFlags_None, 100.0f);
 					ImGui::TableSetColumnIndex(0);
 					DirectTexture D3DTexture = GameFunctionsCustom::GetD3DTexture(GetItemIconPath(currentVnum).c_str());
-					ImGui::ImageAuto(D3DTexture);
+					ImGui::ImageSwitcher(D3DTexture, bonusSlotRunning[index] ? inactiveSwitcher : finishedSwitcher);
 					ImGui::TableSetColumnIndex(1);
 					ImGui::Text("Slot %d", bonusSlot[index] + 1);
 					if(ImGui::Button(IDName(ICON_FA_PLAY, index).c_str(), ImVec2(20.0f, 20.0f)))
@@ -338,7 +361,15 @@ public:
 					if (ImGui::Button(IDName(ICON_FA_TRASH, index).c_str(), ImVec2(20.0f, 20.0f)))
 					{
 						bonusSlot[index] = 0;
+						for (int bonus = 0; bonus < 5; bonus++)
+						{
+							bonusIndexLastType[index][bonus] = 0;
+							bonusIndexLastValue[index][bonus] = 0;
+						}
+						bonusSlotPacketCount[index] = 0;
+						bonusSlotChanged[index] = 0;
 						bonusSlotRunning[index] = false;
+						lastLastItemAttributes[index].clear();
 					}
 					if (ImGui::BeginPopupModal(IDName("Bonus Switcher", index).c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
 					{
@@ -384,7 +415,7 @@ public:
 			static ImGuiTableFlags flags = ImGuiTableFlags_Borders;//ImGuiTableFlags_RowBg
 			ImGui::BeginTable("##tableinventory", 5, flags, ImVec2(0.0f, 0.0f));
 			float width = 32.0f;
-			float height = 32.0f;
+			float height = 33.0f;
 			ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, width);
 			ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, width);
 			ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed, width);
