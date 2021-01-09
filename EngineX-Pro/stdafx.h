@@ -77,7 +77,8 @@ enum ServerName
 	TASTRIA2,
 	WOM,
 	ARATHAR,
-	EGORIA
+	EGORIA,
+	GLEVIA
 };
 //############################################################################
 //############################################################################
@@ -86,7 +87,7 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::METINPL;
+ServerName SERVER = ServerName::GLEVIA;
 SOCKET socketAeldra;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC

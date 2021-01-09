@@ -863,7 +863,7 @@ typedef struct CItemDataGlobal
 typedef MapaGlobal::std::map<DWORD, TCItemDataGlobal*> TItemMapGlobal;
 typedef std::map<DWORD, TCItemData*> TItemMap;
 
-char* sServerToClient[] = {
+const char* sServerToClient[] = {
 
 	"UNKNOWN",
 	"HEADER_GC_CHARACTER_ADD",
@@ -1122,7 +1122,7 @@ char* sServerToClient[] = {
 	"HEADER_GC_BINDUDP",
 	"HEADER_GC_HANDSHAKE"
 };
-char* sClientToServer[] = {
+const char* sClientToServer[] = {
 	"UNKNOWN",
 	"HEADER_CG_LOGIN",
 	"HEADER_CG_ATTACK",
