@@ -3,6 +3,7 @@ class MainCore
 {
 public:
 	static bool DXLoaded;
+	static bool isInitialized;
 	static void StartCrack();
 	static void Crack();
 	static void NetworkThread();

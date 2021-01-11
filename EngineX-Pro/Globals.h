@@ -2747,6 +2747,8 @@ void Globals::ReDeclarationInstances()
 		{
 		case ServerName::EGORIA:
 			break;
+		case ServerName::TASTRIA2:
+			break;
 		default:
 		{
 			Globals::PyRun_SimpleStringFlags = (tPyRun_SimpleStringFlags)PatternScan::FindPattern("55 8B EC 83 EC ? 68 ? ? ? ? E8 ? ? ? ? 83 C4 ? 89 45 ? 83 7D ? ? 75 ? 83 C8");

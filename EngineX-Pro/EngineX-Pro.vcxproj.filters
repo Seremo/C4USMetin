@@ -56,6 +56,33 @@
     <ClCompile Include="CustomWidgets.cpp">
       <Filter>ImGui\Custom</Filter>
     </ClCompile>
+    <ClCompile Include="IatHook.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="PageAllocator.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="Misc.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="MemProtector.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="MemAccessor.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="UID.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorLog.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="VFuncSwapHook.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="VTableSwapHook.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">
@@ -198,7 +225,6 @@
     <ClInclude Include="popinsmedium.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="HookIAT.h" />
     <ClInclude Include="Network.h">
       <Filter>Communication</Filter>
     </ClInclude>
@@ -324,6 +350,9 @@
     </Filter>
     <Filter Include="Core\Modules\Protection">
       <UniqueIdentifier>{420fae72-65a9-46de-9163-07fb96966534}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{9bf2adbc-ba02-4375-8929-6b0882885b44}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

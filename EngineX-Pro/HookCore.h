@@ -25,7 +25,9 @@ public:
 	static Globals::tDirectReset nDirectReset;
 	static Globals::tCInputKeyboardUpdateKeyboard nCInputKeyboardUpdateKeyboard;
 	static Globals::tCPythonNetworkStreamSendCommandPacket nCSendCommandPacket;
-
+	typedef bool(__stdcall* tScreenToClient)(HWND hWnd, LPPOINT lpPoint);
+	static uint64_t nScreenToClient;
+	static bool __stdcall NewScreenToClient(HWND hWnd, LPPOINT lpPoint);
 	static void _fastcall NewCPythonApplicationRenderGame(void* This, void* EDX);
 	static bool _fastcall NewCActorInstanceTestActorCollision(void* This, void* EDX, DWORD* rVictim);
 	static bool _fastcall NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* c_rkBGObj);
@@ -78,4 +80,5 @@ Globals::tDirectEndScene Hooks::nDirectEndScene = NULL;
 Globals::tDirectReset Hooks::nDirectReset = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NULL;
 Globals::tCPythonNetworkStreamSendCommandPacket Hooks::nCSendCommandPacket = NULL;
+uint64_t Hooks::nScreenToClient = NULL;
 

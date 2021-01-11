@@ -87,7 +87,7 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::GLEVIA;
+ServerName SERVER = ServerName::TASTRIA2;
 SOCKET socketAeldra;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
@@ -172,7 +172,6 @@ typedef int                 Py_ssize_t;
 #include "ProtectExtension.h"
 #include "ProcessExtension.h"
 #include "PatternScan.h"
-#include "PatternScan2.h"
 //
 
 
@@ -221,7 +220,10 @@ typedef int                 Py_ssize_t;
 #include "Debug.h"
 #include "Visuals.h"
 #include "Configuration.h"
-#include "HookIAT.h"
+#include "polyhook2/PE/IatHook.hpp"
+#include "polyhook2/Virtuals/VFuncSwapHook.hpp"
+#include "polyhook2/Virtuals/VTableSwapHook.hpp"
+
 #include "HookCore.h"
 #include "MainCore.h"
 #include "Security.h"

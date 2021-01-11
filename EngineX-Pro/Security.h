@@ -111,7 +111,7 @@ public:
 
 	static void Initialize()
 	{
-		HMODULE ntdllLibrary = LoadLibraryA("ntdll");
+		/*HMODULE ntdllLibrary = LoadLibraryA("ntdll");
 		HMODULE user32Library = LoadLibraryA("user32");
 		HMODULE kernel32Library = LoadLibraryA("kernel32");
 
@@ -177,6 +177,7 @@ public:
 		//HookIAT::Hook("kernel32.dll", "CreateThread", (PVOID)NewCreateThread, (PVOID*)&nCreateThread);
 		//HookIAT::Hook("kernel32.dll", "LoadLibraryA", (PVOID)NewLoadLibraryA, (PVOID*)&nLoadLibraryA);
 		//HookIAT::Hook("kernel32.dll", "IsDebuggerPresent", (PVOID)NewIsDebuggerPresent, (PVOID*)&nIsDebuggerPresent);
+		*/
 	}
 };
 

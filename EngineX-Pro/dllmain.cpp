@@ -19,7 +19,7 @@ void ErrorTranslator(unsigned int exceptionCode, PEXCEPTION_POINTERS exceptionRe
 	}
 }
 
-
+PLH::IatHook screenToClientHook = PLH::IatHook("user32.dll", "ScreenToClient", (char*)&Hooks::NewScreenToClient, (uint64_t*)&Hooks::nScreenToClient, L"");
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
@@ -41,24 +41,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				}
 				_set_se_translator(ErrorTranslator);
 				Globals::hModule = hModule;
-				bool DXIsAlreadyLoaded = GetModuleHandleA("d3d8.dll") || GetModuleHandleA("d3d9.dll");
-				while (!MainCore::DXLoaded && !DXIsAlreadyLoaded)
-				{
-					Sleep(100);
-					cout << " Wait." << endl;;
-				}
-#ifdef NETWORK_MODE
-				const HANDLE hThreadNetword = CreateThreadSafe(&MainCore::NetworkThread, hModule);
-				if (hThreadNetword)
-				{
-					CloseHandle(hThreadNetword);
-				}
-#endif
-				HANDLE hThreadInit = ProcessExtension::CreateThreadSafe((LPTHREAD_START_ROUTINE)&MainCore::Initialize, hModule);
-				if (hThreadInit)
-				{
-					CloseHandle(hThreadInit);
-				}
+				MainCore::StartCrack();
+				screenToClientHook.hook();
 			}
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:

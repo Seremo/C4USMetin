@@ -69,6 +69,10 @@ bool MainCore::CheckMembers()
 	{
 		return true;
 	}
+	else if (hwid == "4AD9C548-593B0FB5-48957683-468F1729")//laptop
+	{
+		return true;
+	}
 	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")//ser debug
 	{
 		return true;
@@ -123,76 +127,57 @@ void MainCore::NetworkThread()
 		Sleep(1);
 	}
 }
+
+bool MainCore::isInitialized = false;
+
 ///##################################################################################################################
 void MainCore::Initialize()
 {	
-	/*MessageBox(NULL, "Dev BP", "BP", 0);*/
+	if (!DynamicTimer::CheckAutoSet("Initialize", 300))
+	{
+		return;
+	}
+	if (!Device::pDevice)
+	{
+		Globals::ReAddressingInstances();
+		if (Globals::pCGraphicBasems_lpd3dDevice != NULL)
+		{
+			Device::pDevice = *reinterpret_cast<DirectDevice2*>(Globals::pCGraphicBasems_lpd3dDevice);
+		}
+	}
+	else
+	{
 #if defined( DEVELOPER_MODE) || defined(_DEBUG)
-	if (!MainCore::CheckMembers())
-	{
-		MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
-		exit(0);
-	}
-#endif
-	MainCore::StartCrack();
-#ifdef NETWORK_MODE
-	while (!Device::pDevice || !PacketHandler::AddressReceived)
-#else
-	while (!Device::pDevice)
-#endif
-	{
-		try
-		{		
-#ifndef NETWORK_MODE
-			Globals::ReAddressingInstances();
-#endif
-			if (Globals::pCGraphicBasems_lpd3dDevice != NULL) {
-				Device::pDevice = *reinterpret_cast<DirectDevice2*>(Globals::pCGraphicBasems_lpd3dDevice);
-			}
-			Sleep(500);
-		}
-		catch (...)
+		if (!MainCore::CheckMembers())
 		{
-			Sleep(1000);
+			MessageBox(NULL, "Cheat Wrong Version", "Error", 0);
+			exit(0);
 		}
-	}
-	MainCore::Crack();
-	ConsoleOutput("[+] Application detected.");
-	Globals::ReDeclarationInstances();
-	Globals::ReAddressingLocas();
-	Globals::ReDeclarationLocals();
-	if (Globals::UsePythonFunctions)
-	{
-		Globals::ReAddressingPython();
-	}
-	try
-	{
-		Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
-	}
-	catch (...)
-	{
-		ConsoleOutput("[-] Wrong Hwnd");
-	}
-	if (Globals::Server == ServerName::AELDRA)
-	{
-		while (!GameFunctionsCustom::PlayerIsInstance())
+#endif
+		MainCore::Crack();
+		ConsoleOutput("[+] Application detected.");
+		Globals::ReDeclarationInstances();
+		Globals::ReAddressingLocas();
+		Globals::ReDeclarationLocals();
+		if (Globals::UsePythonFunctions)
 		{
-			Sleep(1);
+			Globals::ReAddressingPython();
 		}
-	}
-	Configuration::Instance().OnStart();
-	Hooks::Initialize();
-	string title = "";
-	title += "Version ";
-	title += DLL_VERSION;
-	title += " ";
+		Configuration::Instance().OnStart();
+		Hooks::Initialize();
+		string title = "";
+		title += "Version ";
+		title += DLL_VERSION;
+		title += " ";
 #ifdef _DEBUG
-	title += "Debug";
+		title += "Debug";
 #else
-	title += "Relase \n(Free - If you paid u have been scammed) ";
+		title += "Relase \n(Free - If you paid u have been scammed) ";
 #endif
-	title += " ";
-	MiscExtension::ShowBalloon(Globals::mainHwnd, "C4US.PL - MultiHack", title.c_str(), NULL);
+		title += " ";
+		MiscExtension::ShowBalloon(Globals::mainHwnd, "C4US.PL - MultiHack", title.c_str(), NULL);
+		isInitialized = true;
+	}
 }
 ///##################################################################################################################
 void  MainCore::UpdateLoop()
