@@ -77,11 +77,11 @@ public:
 	}
 	static void Initialize()
 	{
-		HMODULE kernel32Library = GetModuleHandleA("kernel32.dll");
-		LPVOID GetThreadContextAddr = GetProcAddress(kernel32Library, "GetThreadContext");
-		nGetThreadContext = (tGetThreadContext)DetourFunction((PBYTE)GetThreadContextAddr, (PBYTE)NewGetThreadContext);
-		LPVOID IsDebuggerPresentAddr = GetProcAddress(kernel32Library, "IsDebuggerPresent");
-		nIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresentAddr, (PBYTE)NewIsDebuggerPresent);
+		//HMODULE kernel32Library = GetModuleHandleA("kernel32.dll");
+		//LPVOID GetThreadContextAddr = GetProcAddress(kernel32Library, "GetThreadContext");
+		//nGetThreadContext = (tGetThreadContext)DetourFunction((PBYTE)GetThreadContextAddr, (PBYTE)NewGetThreadContext);
+		//LPVOID IsDebuggerPresentAddr = GetProcAddress(kernel32Library, "IsDebuggerPresent");
+		//nIsDebuggerPresent = (tIsDebuggerPresent)DetourFunction((PBYTE)IsDebuggerPresentAddr, (PBYTE)NewIsDebuggerPresent);
 		/*HMODULE user32Library = LoadLibraryA("user32");
 		HMODULE kernel32Library = LoadLibraryA("kernel32");
 

@@ -21,7 +21,7 @@ void __stdcall NewSleep(DWORD miliseconds)
 {
 	Hooks::screenToClientHwBpHook = std::make_shared<PLH::HWBreakPointHook>((char*)&ScreenToClient, (char*)&Hooks::NewScreenToClient, GetCurrentThread());
 	Hooks::screenToClientHwBpHook->hook();
-	Security::Initialize();
+	//Security::Initialize();
 	sleepHook.Unhook();
 }
 

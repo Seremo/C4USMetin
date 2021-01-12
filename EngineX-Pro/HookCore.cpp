@@ -585,6 +585,7 @@ void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX)
 	nCInputKeyboardUpdateKeyboard(This);
 }
 
+std::shared_ptr<PLH::HWBreakPointHook> Hooks::screenToClientHwBpHook;
 bool __stdcall Hooks::NewScreenToClient(HWND hWnd, LPPOINT lpPoint)
 {
 	auto protObj = Hooks::screenToClientHwBpHook->getProtectionObject();
@@ -593,19 +594,11 @@ bool __stdcall Hooks::NewScreenToClient(HWND hWnd, LPPOINT lpPoint)
 		Globals::mainHwnd = hWnd;
 		MainCore::Initialize();
 	}
-	else
-	{
-		if (MainForm::IsInitialized)
-		{
-			MainCore::UpdateLoop();
-		}
-	}
 	return ScreenToClient(hWnd, lpPoint);
 }
 
 PLH::VFuncMap directxVFuncs;
 std::unique_ptr<PLH::VFuncSwapHook> endSceneAndResetHook = nullptr;
-
 HRESULT __stdcall Hooks::NewDirectEndScene(void* This)
 {
 	HRESULT ret = ((Globals::tDirectEndScene)directxVFuncs.at(EndSceneIndex))(This);
@@ -617,6 +610,7 @@ HRESULT __stdcall Hooks::NewDirectEndScene(void* This)
 		}
 		else
 		{
+			MainCore::UpdateLoop();
 			MainForm::Menu();
 		}
 	}
@@ -684,15 +678,15 @@ void Hooks::Initialize()
 		}
 		case ServerName::AELDRA:
 		{
-			nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
-			nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+			//nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+			//nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+			//nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+			//nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
 			nCNetworkStreamSendAeldra = (Globals::tCNetworkStreamSendAeldra)DetourFunction((PBYTE)GetProcAddress(LoadLibrary("wsock32.dll"), "send"), (PBYTE)NewCNetworkStreamSendAeldra);
-			nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
-			nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
-			nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
-			nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
-			nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
-			nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+			//nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+			//nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+			//nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+			//nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 			break;
 		}
 		case ServerName::METINPL:

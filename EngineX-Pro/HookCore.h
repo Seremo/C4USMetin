@@ -61,4 +61,3 @@ Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NU
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
 Globals::tDirectEndScene Hooks::nDirectEndScene = NULL;
 Globals::tDirectReset Hooks::nDirectReset = NULL;
-std::shared_ptr<PLH::HWBreakPointHook> Hooks::screenToClientHwBpHook;
