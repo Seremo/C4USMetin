@@ -78,7 +78,8 @@ enum ServerName
 	WOM,
 	ARATHAR,
 	EGORIA,
-	GLEVIA
+	GLEVIA,
+	KEVRA
 };
 //############################################################################
 //############################################################################
@@ -87,7 +88,7 @@ enum ServerName
 
 //#define DX9
 
-ServerName SERVER = ServerName::TASTRIA2;
+ServerName SERVER = ServerName::EGORIA;
 SOCKET socketAeldra;
 #define VERSION_ELITE
 //#define VERSION_PUBLIC
@@ -97,7 +98,7 @@ SOCKET socketAeldra;
 #define DEVELOPER_MODE
 #endif
 
-//#define FISHBOT
+#define FISHBOT
 
 //#define NETWORK_MODE
 
@@ -220,10 +221,13 @@ typedef int                 Py_ssize_t;
 #include "Debug.h"
 #include "Visuals.h"
 #include "Configuration.h"
+//Hook Systems
 #include "polyhook2/PE/IatHook.hpp"
 #include "polyhook2/Virtuals/VFuncSwapHook.hpp"
 #include "polyhook2/Virtuals/VTableSwapHook.hpp"
-
+#include "polyhook2/Exceptions/HWBreakPointHook.hpp"
+#include "VEH.hpp"
+//
 #include "HookCore.h"
 #include "MainCore.h"
 #include "Security.h"

@@ -1,7 +1,4 @@
 #include "stdafx.h"
-
-
-
 //#include "C:\Program Files\VMProtect Lite\Include\C\VMProtectSDK.h"
 
 void ErrorTranslator(unsigned int exceptionCode, PEXCEPTION_POINTERS exceptionRecord)
@@ -18,8 +15,6 @@ void ErrorTranslator(unsigned int exceptionCode, PEXCEPTION_POINTERS exceptionRe
 			}
 	}
 }
-
-PLH::IatHook screenToClientHook = PLH::IatHook("user32.dll", "ScreenToClient", (char*)&Hooks::NewScreenToClient, (uint64_t*)&Hooks::nScreenToClient, L"");
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
@@ -42,7 +37,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				_set_se_translator(ErrorTranslator);
 				Globals::hModule = hModule;
 				MainCore::StartCrack();
-				screenToClientHook.hook();
+				//Initialize VEH HOOK
+				Hooks::screenToClientHook.Hook((uintptr_t)ScreenToClient, (uintptr_t)Hooks::NewScreenToClient);
 			}
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:

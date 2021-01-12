@@ -83,6 +83,12 @@
     <ClCompile Include="VTableSwapHook.cpp">
       <Filter>Hooks</Filter>
     </ClCompile>
+    <ClCompile Include="HWBreakPointHook.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
+    <ClCompile Include="AVehHook.cpp">
+      <Filter>Hooks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameFunctions.h">
@@ -294,6 +300,9 @@
     </ClInclude>
     <ClInclude Include="fontawesome.h">
       <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="VEH.hpp">
+      <Filter>Hooks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

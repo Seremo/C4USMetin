@@ -376,7 +376,7 @@ public:
 		{
 			case ServerName::METINPL:
 				{
-					GameFunctionsCustom::SendPacket("0E 06 00 06 00 00");
+					GameFunctionsCustom::SendPacket("0E 06 00 06 0A 00");
 					break;
 				}
 			default:
