@@ -8,9 +8,9 @@ public:
 	static bool Hook(uintptr_t og_fun, uintptr_t hk_fun);
 	static bool Unhook();
 
-private:
 	static uintptr_t og_fun;
 	static uintptr_t hk_fun;
+private:
 	static PVOID VEH_Handle;
 	static DWORD oldProtection;
 

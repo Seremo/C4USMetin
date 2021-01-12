@@ -176,7 +176,6 @@ void MainCore::Initialize()
 #endif
 		title += " ";
 		MiscExtension::ShowBalloon(Globals::mainHwnd, "C4US.PL - MultiHack", title.c_str(), NULL);
-		Hooks::screenToClientHook.Unhook();
 		isInitialized = true;
 	}
 }

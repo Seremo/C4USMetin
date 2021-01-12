@@ -474,7 +474,7 @@ public:
 
 
 ServerName Globals::Server = SERVER;
-bool Globals::UsePythonFunctions = true;
+bool Globals::UsePythonFunctions = false;
 
 map<DWORD, TCItemData*> Globals::itemProtoList;
 map<DWORD, TGroundItemInstance*> Globals::groundItemList;
@@ -1041,16 +1041,16 @@ void Globals::ReAddressingInstances()
 		}
 		case ServerName::AELDRA://"CPythonGraphic::SetViewport(%d, %d, %d, %d) - Error"
 		{
-			pCPythonNetworkStreamInstance = Globals::hEntryBaseAddress + 0x21BB15C; // [100 ] [1 / 1]
-			pCPythonCharacterManagerInstance = Globals::hEntryBaseAddress + 0x21BB280; // [100 ] [1 / 1]
-			pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x21BB1B0; // [100 ] [1 / 1]
-			pCItemManagerInstance = Globals::hEntryBaseAddress + 0x21BB248; // [100 ] [1 / 1]
-			pCPythonItemInstance = Globals::hEntryBaseAddress + 0x21BE004;
-			pCPythonApplicationInstance = Globals::hEntryBaseAddress + 0x21BE010; // [100 ] [1 / 1]
-			pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x21BB24C; // [100 ] [1 / 1]
-			pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x21BB2B0; // [100 ] [1 / 1]
-			pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x21BB234; // [100 ] [1 / 1]
-			pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x21C41A0;
+			pCPythonNetworkStreamInstance = Globals::hEntryBaseAddress + 0x21D09F4; // [100 ] [1 / 1]
+			pCPythonCharacterManagerInstance = Globals::hEntryBaseAddress + 0x21D0B18; // [100 ] [1 / 1]
+			pCPythonBackgroundInstance = Globals::hEntryBaseAddress + 0x21D0A48; // [100 ] [1 / 1]
+			pCItemManagerInstance = Globals::hEntryBaseAddress + 0x21D0AE0; // [100 ] [1 / 1]
+			pCPythonItemInstance = Globals::hEntryBaseAddress + 0x21D389C;
+			pCPythonApplicationInstance = Globals::hEntryBaseAddress + 0x21D38B0; // [100 ] [1 / 1]
+			pCPythonNonPlayerInstance = Globals::hEntryBaseAddress + 0x21D0AE4; // [100 ] [1 / 1]
+			pCPythonPlayerInstance = Globals::hEntryBaseAddress + 0x21D0B48; // [100 ] [1 / 1]
+			pCResourceManagerInstance = Globals::hEntryBaseAddress + 0x21D0ACC; // [100 ] [1 / 1]
+			pCGraphicBasems_lpd3dDevice = Globals::hEntryBaseAddress + 0x21D9A48;
 			break;
 		}
 		case ServerName::GLEVIA://"CPythonGraphic::SetViewport(%d, %d, %d, %d) - Error"
@@ -2616,7 +2616,7 @@ void Globals::ReAddressingLocas()
 			pCPythonCharacterManagerGetInstancePtr = Globals::hEntryBaseAddress + 0x2B6A60;
 			pCPythonChatAppendChat = Globals::hEntryBaseAddress + 0x2C9E30;
 			pCPythonEventManagerRegisterEventSetFromString = Globals::hEntryBaseAddress + 0x2D76D0;
-			//pCPythonNetworkStreamConnectGameServer  none;
+			pCPythonNetworkStreamConnectGameServer  = Globals::hEntryBaseAddress + 0x18F1F90;
 			pCPythonNetworkStreamGetMainActorSkillGroup = Globals::hEntryBaseAddress + 0x2F22B0;
 			pCPythonNetworkStreamSendAddFlyTargetingPacket = Globals::hEntryBaseAddress + 0x30E800;
 			pCPythonNetworkStreamSendChatPacket = Globals::hEntryBaseAddress + 0x30F560;
@@ -2644,8 +2644,8 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerGetItemIndex = Globals::hEntryBaseAddress + 0x31E440;
 			pCPythonPlayerGetItemMetinSocket = Globals::hEntryBaseAddress + 0x31E4C0;
 			pCPythonPlayerGetRace = Globals::hEntryBaseAddress + 0x31E680;
-			//pCPythonPlayerGetStatus  none;
-			//pCPythonPlayerGetTargetVID  none;
+			pCPythonPlayerGetStatus = Globals::hEntryBaseAddress + 0x31E6B0;
+			pCPythonPlayerGetTargetVID = Globals::hEntryBaseAddress + 0x323390;
 			pCPythonPlayerIsSkillActive = Globals::hEntryBaseAddress + 0x31EDA0;
 			pCPythonPlayerIsSkillCoolTime = Globals::hEntryBaseAddress + 0x31EDD0;
 			pCPythonPlayerNEW_Fishing = Globals::hEntryBaseAddress + 0x322860;
@@ -2657,7 +2657,7 @@ void Globals::ReAddressingLocas()
 			pPyCallClassMemberFunc = Globals::hEntryBaseAddress + 0x441580;
 			pCInputKeyboardUpdateKeyboard = Globals::hEntryBaseAddress + 0x398D90;
 			pCInstanceBaseIsWaiting = Globals::hEntryBaseAddress + 0x29BDC0;
-			//pCInstanceBaseSetRotation  none;
+			pCInstanceBaseSetRotation = Globals::hEntryBaseAddress + 0x29C840;
 			pCInstanceBase__GetBackgroundHeight = Globals::hEntryBaseAddress + 0x292F10;
 			pCItemDataGetName = Globals::hEntryBaseAddress + 0x3D6AB0;
 			pCResourceReload = Globals::hEntryBaseAddress + 0x38AE20;
@@ -2665,9 +2665,9 @@ void Globals::ReAddressingLocas()
 			pCPythonPlayerGetItemCount = Globals::hEntryBaseAddress + 0x31E2A0;
 			//pCPythonPlayerGetMainCharacterIndex  none;
 			pCPythonPlayerGetName = Globals::hEntryBaseAddress + 0x31E5C0;
-			//pCPythonPlayerNEW_GetMainActorPtr  none;
+			pCPythonPlayerNEW_GetMainActorPtr = Globals::hEntryBaseAddress + 0x31F240;
 			pCPythonPlayerGetItemAttribute = Globals::hEntryBaseAddress + 0x31E1D0;
-			//pCPythonPlayer__OnPressActor  none;
+			pCPythonPlayer__OnPressActor = Globals::hEntryBaseAddress + 0x3244E0;
 			pCPythonPlayer__OnClickActor = Globals::hEntryBaseAddress + 0x323430;
 			pCPythonApplicationProcess = Globals::hEntryBaseAddress + 0x2A7E60;
 			pCPythonNetworkStreamSendOnClickPacket = Globals::hEntryBaseAddress + 0x311080;

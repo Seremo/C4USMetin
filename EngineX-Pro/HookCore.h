@@ -19,10 +19,10 @@ public:
 	static Globals::tDirectEndScene nDirectEndScene;
 	static Globals::tDirectReset nDirectReset;
 	static Globals::tCInputKeyboardUpdateKeyboard nCInputKeyboardUpdateKeyboard;
-	static VEHHook screenToClientHook;
+	static std::shared_ptr<PLH::HWBreakPointHook> screenToClientHwBpHook;
 	typedef bool(__stdcall* tScreenToClient)(HWND hWnd, LPPOINT lpPoint);
-	static uint64_t nScreenToClient;
 	static bool __stdcall NewScreenToClient(HWND hWnd, LPPOINT lpPoint);
+
 	static void _fastcall NewCPythonApplicationRenderGame(void* This, void* EDX);
 	static bool _fastcall NewCActorInstanceTestActorCollision(void* This, void* EDX, DWORD* rVictim);
 	static bool _fastcall NewCInstanceBaseAvoidObject(void* This, void* EDX, DWORD* c_rkBGObj);
@@ -61,5 +61,4 @@ Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NU
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
 Globals::tDirectEndScene Hooks::nDirectEndScene = NULL;
 Globals::tDirectReset Hooks::nDirectReset = NULL;
-VEHHook Hooks::screenToClientHook;
-uint64_t Hooks::nScreenToClient = NULL;
+std::shared_ptr<PLH::HWBreakPointHook> Hooks::screenToClientHwBpHook;

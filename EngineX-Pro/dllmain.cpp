@@ -16,6 +16,15 @@ void ErrorTranslator(unsigned int exceptionCode, PEXCEPTION_POINTERS exceptionRe
 	}
 }
 
+VEHHook sleepHook;
+void __stdcall NewSleep(DWORD miliseconds)
+{
+	Hooks::screenToClientHwBpHook = std::make_shared<PLH::HWBreakPointHook>((char*)&ScreenToClient, (char*)&Hooks::NewScreenToClient, GetCurrentThread());
+	Hooks::screenToClientHwBpHook->hook();
+	Security::Initialize();
+	sleepHook.Unhook();
+}
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
@@ -23,22 +32,20 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 		
 		case DLL_PROCESS_ATTACH:
 			{
+#ifdef DEVELOPER_MODE
 				if (Globals::Server != ServerName::AELDRA)
 				{
 #ifdef _DEBUG
 					_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-#ifdef DEVELOPER_MODE
 					AllocConsole();
 					freopen("CONOUT$", "w", stdout);
-					Security::Initialize();
-#endif
 				}
+#endif
 				_set_se_translator(ErrorTranslator);
 				Globals::hModule = hModule;
 				MainCore::StartCrack();
-				//Initialize VEH HOOK
-				Hooks::screenToClientHook.Hook((uintptr_t)ScreenToClient, (uintptr_t)Hooks::NewScreenToClient);
+				sleepHook.Hook((uintptr_t)Sleep, (uintptr_t)NewSleep);
 			}
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:
