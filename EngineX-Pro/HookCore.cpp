@@ -518,6 +518,7 @@ int _stdcall Hooks::NewCNetworkStreamSendAeldra(SOCKET s, const char* pDestBuf, 
 {
 	try
 	{
+		socketAeldra = s;
 		BYTE* recvBuff = new BYTE[len];
 		memcpy(recvBuff, pDestBuf, len);
 		string packetHex = StringExtension::MakeHexString((BYTE*)pDestBuf, len, true, true);

@@ -598,11 +598,11 @@ typedef struct command_move_aeldra
 {
 	WORD	header;
 	DWORD	size;
-	BYTE	unknown;//10
+	BYTE	unknown;
 	LONG		lX;
 	LONG		lY;
-	BYTE		bFunc;
-	BYTE		bArg;
+	WORD		bFunc;
+	WORD		bArg;
 	BYTE		bRot;
 	DWORD	dwTime;
 } TPacketCGStatePacket;

@@ -117,7 +117,8 @@ public:
 			}
 			else
 			{
-				return Globals::CPythonPlayerGetMainCharacterIndex((void*)(Globals::iCPythonPlayerInstance + 4));
+				return GetVIDByInstance(PlayerNEW_GetMainActorPtr());
+				//return Globals::CPythonPlayerGetMainCharacterIndex((void*)(Globals::iCPythonPlayerInstance + 4));
 			}
 		}
 		catch (...)
@@ -1243,26 +1244,28 @@ public:
 						return CPythonNetworkStreamSendCharacterStatePacket((void*)Globals::iCPythonNetworkStreamInstance, c_rkPPosDst, fDstRot, eFunc, uArg, 0);
 						break;
 					}
-				//case ServerName::AELDRA:
-				//{
-				//	TPacketCGStatePacket kPacketMove;
-				//	kPacketMove.header = 0x4E;
-				//	kPacketMove.size = sizeof(kPacketMove);
-				//	kPacketMove.unknown = 0x10;
-				//	GameFunctions::BackgroundLocalPositionToGlobalPosition((LONG&)c_rkPPosDst.x, (LONG&)c_rkPPosDst.y);
-				//	kPacketMove.lX = c_rkPPosDst.x;
-				//	kPacketMove.lY = c_rkPPosDst.y;
-				//	kPacketMove.bFunc = eFunc;
-				//	kPacketMove.bArg = uArg;
-				//	kPacketMove.bRot = fDstRot / 5.0f;
-				//	typedef int(__stdcall* ELTimer_GetServerMSec)();
-				//	ELTimer_GetServerMSec GetServerMSec = (ELTimer_GetServerMSec)(Globals::hEntryBaseAddress+ 0x368240);
-				//	kPacketMove.dwTime = GetServerMSec();
+				case ServerName::AELDRA:
+				{
+					TPacketCGStatePacket kPacketMove;
+					kPacketMove.header = 0x4E;
+					kPacketMove.size = sizeof(kPacketMove);
+					kPacketMove.unknown = 0x10;
+					LONG c_rkPPosDstX = c_rkPPosDst.x;
+					LONG c_rkPPosDstY = c_rkPPosDst.y;
+					GameFunctions::BackgroundLocalPositionToGlobalPosition(c_rkPPosDstX, c_rkPPosDstY);
+					kPacketMove.lX = c_rkPPosDstX;
+					kPacketMove.lY = c_rkPPosDstY;
+					kPacketMove.bFunc = eFunc;
+					kPacketMove.bArg = uArg;
+					kPacketMove.bRot = fDstRot / 5.0f;
+					typedef int(__stdcall* ELTimer_GetServerMSec)();
+					ELTimer_GetServerMSec GetServerMSec = (ELTimer_GetServerMSec)(Globals::hEntryBaseAddress+ 0x369680);
+					kPacketMove.dwTime = GetServerMSec();
 
-				//	Globals::tCNetworkStreamSendAeldra SendPacket = (Globals::tCNetworkStreamSendAeldra)GetProcAddress(LoadLibrary("wsock32.dll"), "send");
-				//	SendPacket(socketAeldra, (const char*)&kPacketMove, sizeof(kPacketMove), NULL);
-				//	break;
-				//}
+					Globals::tCNetworkStreamSendAeldra SendPacket = (Globals::tCNetworkStreamSendAeldra)GetProcAddress(LoadLibrary("wsock32.dll"), "send");
+					SendPacket(socketAeldra, (const char*)&kPacketMove, sizeof(kPacketMove), NULL);
+					break;
+				}
 				case ServerName::DEVERIA:
 					{
 						DWORD address = Globals::pCPythonNetworkStreamSendCharacterStatePacket;
