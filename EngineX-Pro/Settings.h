@@ -91,18 +91,35 @@ public:
 
 	static void LoadServerVariables()
 	{
-		if (Globals::Server == ServerName::METINPL)
+		switch (Globals::Server)
 		{
-			Settings::FISH_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));
-			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(22, true), make_pair(27824, "Weżoglów")));
-			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(23, true), make_pair(27825, "Skaber")));
-			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(24, true), make_pair(27826, "Krab Królewski")));
-			Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(25, true), make_pair(27827, "Rak Niebiański")));
-			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(42, true), make_pair(27854, "Martwy Weżoglów")));
-			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(43, true), make_pair(27855, "Martwy Skaber")));
-			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(44, true), make_pair(27856, "Martwy Krab Królewski")));
-			Settings::FISH_DROP_LIST.insert(make_pair(make_pair(45, true), make_pair(27857, "Martwy Rak Niebiański")));
-			Settings::INVENTORY_PAGE_COUNT = 2;
+			case ServerName::METINPL:
+			{
+				Settings::FISH_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27798, "Krewetki Słodkowodne")));
+				Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(22, true), make_pair(27824, "Weżoglów")));
+				Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(23, true), make_pair(27825, "Skaber")));
+				Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(24, true), make_pair(27826, "Krab Królewski")));
+				Settings::FISH_KILL_FISH_LIST.insert(make_pair(make_pair(25, true), make_pair(27827, "Rak Niebiański")));
+				Settings::FISH_DROP_LIST.insert(make_pair(make_pair(42, true), make_pair(27854, "Martwy Weżoglów")));
+				Settings::FISH_DROP_LIST.insert(make_pair(make_pair(43, true), make_pair(27855, "Martwy Skaber")));
+				Settings::FISH_DROP_LIST.insert(make_pair(make_pair(44, true), make_pair(27856, "Martwy Krab Królewski")));
+				Settings::FISH_DROP_LIST.insert(make_pair(make_pair(45, true), make_pair(27857, "Martwy Rak Niebiański")));
+				Settings::INVENTORY_PAGE_COUNT = 2;
+				break;
+			}
+			case ServerName::KEVRA:
+			{
+				Settings::FISH_BAIT_LIST.insert(make_pair(make_pair(1, true), make_pair(27900, "Skorupiak")));
+				Settings::FISH_DROP_LIST = {};
+				Settings::FISH_KILL_FISH_LIST = {};
+				Settings::FISH_SELL_LIST =
+				{
+					{ make_pair(1, true), make_pair(27803, "Karaś")},
+					{ make_pair(2, true), make_pair(27804, "Ryba Mandaryna")},
+					{ make_pair(3, true), make_pair(27823, "Złoty Karaś")},
+				};
+				break;
+			}
 		}
 	}
 
@@ -1502,6 +1519,15 @@ map< pair<DWORD, pair<DWORD, string>>, pair<DWORD, string>> Settings::SERVER_INF
 	{ make_pair(53,  make_pair(ServerName::AELDRA,"CH5")), make_pair(20054, "51.83.223.169") },
 	{ make_pair(54,  make_pair(ServerName::AELDRA,"CH6")), make_pair(20064, "51.83.223.169") },
 	{ make_pair(55,  make_pair(ServerName::AELDRA,"CH7")), make_pair(20074, "51.83.223.169") },
+
+	{ make_pair(56,  make_pair(ServerName::KEVRA,"CH1")), make_pair(30002, "54.38.85.102") },
+	{ make_pair(57,  make_pair(ServerName::KEVRA,"CH2")), make_pair(30012, "54.38.85.102") },
+	{ make_pair(58,  make_pair(ServerName::KEVRA,"CH3")), make_pair(30022, "54.38.85.102") },
+	{ make_pair(59,  make_pair(ServerName::KEVRA,"CH4")), make_pair(30032, "54.38.85.102") },
+	{ make_pair(60,  make_pair(ServerName::KEVRA,"CH5")), make_pair(30042, "54.38.85.102") },
+	{ make_pair(61,  make_pair(ServerName::KEVRA,"CH6")), make_pair(30052, "54.38.85.102") },
+	{ make_pair(62,  make_pair(ServerName::KEVRA,"CH7")), make_pair(30062, "54.38.85.102") },
+	{ make_pair(63,  make_pair(ServerName::KEVRA,"CH8")), make_pair(30072, "54.38.85.102") },
 };
 vector<string>												Settings::PROTECTION_DETECT_PLAYER_WHITE_LIST =
 {

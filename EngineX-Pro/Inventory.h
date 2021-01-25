@@ -231,6 +231,9 @@ public:
 		case ServerName::AELDRA:
 			iconPath = GetStr((DWORD)pItemData + 80);
 			break;
+		case ServerName::KEVRA:
+			iconPath = GetStr((DWORD)pItemData + 100);
+			break;
 		default:
 			iconPath = GetStr((DWORD)pItemData + 76);
 			break;

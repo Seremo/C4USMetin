@@ -654,6 +654,18 @@ typedef struct packet_fishing
 	BYTE dir;
 } TPacketGCFishing;
 
+typedef struct packet_fishing_kevra
+{
+	BYTE header;
+	BYTE subheader;
+	DWORD info;
+	BYTE dir;
+	BYTE click_count;
+	BYTE unk1;
+	BYTE unk2;
+	BYTE unk3;
+} TPacketGCFishingKevra;
+
 typedef struct packet_fishing_global
 {
 	BYTE header;

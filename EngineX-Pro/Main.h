@@ -29,6 +29,8 @@ private:
 	DirectTexture texture_Skill_5;
 	DirectTexture texture_Skill_None;
 
+	int chmuraCount = 50;
+
 	void  SetJobRaceTextures(int job, int race)
 	{
 
@@ -320,7 +322,8 @@ public:
 		ImGui::Checkbox("Player", &Settings::MAIN_WH_PLAYER);
 
 #ifdef DEVELOPER_MODE
-		ImGui::RadioButton("Skill", &Settings::MAIN_WH_WEAPON_TYPE, 2);
+		ImGui::RadioButton("Skill", &Settings::MAIN_WH_WEAPON_TYPE, 2); ImGui::SameLine();
+		ImGui::InputInt("Chmura Multipler", &chmuraCount, 0, 0);
 		ImGui::InputInt("Skill Number", &Settings::MAIN_WH_SKILL_VALUE, 1, 111); ImGui::SameLine();
 		ImGui::InputInt("Skill Time", &Settings::MAIN_WH_SKILL_COOLDOWN_TIME, 1, 10);
 		ImGui::Checkbox("Odpychanie", &Odpychanie); ImGui::SameLine();
@@ -748,7 +751,7 @@ private:
 				}
 				else 
 				{
-					for (int i = 0; i < 50; i++) 
+					for (int i = 0; i < chmuraCount; i++)
 					{
 						GameFunctions::NetworkStreamSendAddFlyTargetingPacket(vid, D3DVECTOR{ 0,0,0 });
 						GameFunctions::NetworkStreamSendShootPacket(Settings::MAIN_WH_SKILL_VALUE);

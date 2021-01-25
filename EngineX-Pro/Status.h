@@ -9,6 +9,7 @@ class Status :public IAbstractModuleBase, public Singleton<Status>
 	 string stringPlayerPositionY = "";
 	 string stringPlayerPositionZ = "";
 	 string stringTargetIndex = "";
+	 string stringTargetRank = "";
 	 string stringTargetVnum = "";
 	 string stringTargetDistance = "";
 	 string stringTargetType = "";
@@ -63,6 +64,9 @@ public:
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "VNUM Target:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringTargetVnum.c_str());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "VNUM Rank:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringTargetRank.c_str());
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Target Distance:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), stringTargetDistance.c_str());
@@ -122,7 +126,8 @@ public:
 			int targetVnum = 0;
 			if (targetIndex != NULL) {
 				targetVnum = GameFunctions::InstanceBaseGetVirtualNumber(GameFunctions::CharacterManagerGetInstancePtr(targetIndex));
-			}	
+			}
+			int bRank = GameFunctionsCustom::GetObjectRank(targetVnum);
 			int targetType = GameFunctionsCustom::InstanceGetInstanceTypeByVID(targetIndex);
 			const char* targetName = GameFunctionsCustom::InstanceGetNameByVID(targetIndex);
 			float distance = GameFunctionsCustom::PlayerGetCharacterDistance(targetIndex);
@@ -178,6 +183,15 @@ public:
 			else
 			{
 				stringTargetVnum = "-/-";
+			}
+
+			if (bRank != 0)
+			{
+				stringTargetRank = to_string(bRank);
+			}
+			else
+			{
+				stringTargetRank = "-/-";
 			}
 
 			if (playerIndex != 0)

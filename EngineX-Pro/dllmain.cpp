@@ -25,6 +25,14 @@ void __stdcall NewSleep(DWORD miliseconds)
 	sleepHook.Unhook();
 }
 
+void Initialize()
+{
+	while (!MainCore::isInitialized)
+	{
+		MainCore::Initialize();
+	}
+}
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
@@ -45,7 +53,18 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 				_set_se_translator(ErrorTranslator);
 				Globals::hModule = hModule;
 				MainCore::StartCrack();
-				sleepHook.Hook((uintptr_t)Sleep, (uintptr_t)NewSleep);
+				if (Globals::Server == ServerName::METINPL || Globals::Server == ServerName::GLEVIA)
+				{
+					HANDLE hThreadInit = ProcessExtension::CreateThreadSafe((LPTHREAD_START_ROUTINE)&Initialize, hModule);
+					if (hThreadInit)
+					{
+						CloseHandle(hThreadInit);
+					}
+				}
+				else
+				{
+					sleepHook.Hook((uintptr_t)Sleep, (uintptr_t)NewSleep);
+				}
 			}
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:

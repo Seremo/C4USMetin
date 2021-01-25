@@ -445,10 +445,6 @@ public:
 		}*/
 		
 #endif
-		if (Settings::FISH_SELL_TRASH_ENABLE && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE)
-		{
-			SellItems();
-		}
 		if (Settings::FISH_DROP_TRASH_ENABLE)
 		{
 			DropItems();
@@ -474,9 +470,7 @@ public:
 		D3DVECTOR oldPosition;
 		GameFunctions::InstanceBaseNEW_GetPixelPosition(GameFunctions::PlayerNEW_GetMainActorPtr(), &oldPosition);
 		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
-		{
-
-			
+		{	
 			vector< D3DVECTOR> distancePoints = MiscExtension::DivideTwoPointsByDistance(1000, oldPosition, Settings::FISH_CAST_TELEPORT_CORDS);
 			int i = 0;
 			for (vector< D3DVECTOR>::iterator it = distancePoints.begin(); it != distancePoints.end(); ++it)
@@ -488,7 +482,10 @@ public:
 			}
 		}
 #endif
-
+		if (Settings::FISH_SELL_TRASH_ENABLE && GameFunctionsCustom::InventoryEquippedPercentage() > Settings::FISH_SELL_TRASH_AFTER_PERCENTAGE)
+		{
+			SellItems();
+		}
 		Cast();
 #ifdef DEVELOPER_MODE
 		if (Settings::FISH_SHOP_CAST_TELEPORT_ENABLE)
@@ -577,30 +574,60 @@ public:
 
 	bool SellItems()
 	{
-		DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
-		if (!fishermanVid)
+		switch(Globals::Server)
 		{
-			Logger::Add(Logger::FISH, true, Logger::WHITE, "NO FISHERMAN!");
-			return false;
-		}
-		GameFunctions::NetworkStreamSendOnClickPacket(fishermanVid);
-		GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
-		for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_SELL_LIST.begin(); itor != Settings::FISH_SELL_LIST.end(); itor++)
-		{
-			if (itor->first.second)
+			case ServerName::KEVRA:
 			{
-				int i = 1;
-				vector<DWORD> slotList = GameFunctionsCustom::FindItemSlotsInInventory(itor->second.first);
-				for (vector<DWORD>::iterator it = slotList.begin(); it != slotList.end(); ++it, i++)
+				DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(15657);
+				if (!fishermanVid)
 				{
-
-					GameFunctions::NetworkStreamSendShopSellPacketNew(*it, 255);
-					Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("SELLED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), *it);
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "NO FISHERMAN!");
+					return false;
 				}
+				for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_SELL_LIST.begin(); itor != Settings::FISH_SELL_LIST.end(); itor++)
+				{
+					if (itor->first.second)
+					{
+						int i = 1;
+						vector<DWORD> slotList = GameFunctionsCustom::FindItemSlotsInInventory(itor->second.first);
+						for (vector<DWORD>::iterator it = slotList.begin(); it != slotList.end(); ++it, i++)
+						{
+							DWORD slot = *it;
+							GameFunctions::NetworkStreamSendGiveItemPacket(fishermanVid, TItemPos(INVENTORY, slot), 1);
+							Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("SELLED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), slot);
+						}
+					}
+				}
+				break;
+			}
+			default:
+			{
+				DWORD fishermanVid = GameFunctionsCustom::GetCloseObjectByVnum(9009);
+				if (!fishermanVid)
+				{
+					Logger::Add(Logger::FISH, true, Logger::WHITE, "NO FISHERMAN!");
+					return false;
+				}
+				GameFunctions::NetworkStreamSendOnClickPacket(fishermanVid);
+				GameFunctions::NetworkStreamSendScriptAnswerPacket(1);
+				for (map< pair<DWORD, bool>, pair<DWORD, string>>::iterator itor = Settings::FISH_SELL_LIST.begin(); itor != Settings::FISH_SELL_LIST.end(); itor++)
+				{
+					if (itor->first.second)
+					{
+						int i = 1;
+						vector<DWORD> slotList = GameFunctionsCustom::FindItemSlotsInInventory(itor->second.first);
+						for (vector<DWORD>::iterator it = slotList.begin(); it != slotList.end(); ++it, i++)
+						{
+
+							GameFunctions::NetworkStreamSendShopSellPacketNew(*it, 255);
+							Logger::Add(Logger::FISH, true, Logger::WHITE, StringExtension::StringFormat("SELLED %s FROM SLOT %d", itor->second.second.c_str()).c_str(), *it);
+						}
+					}
+				}
+				GameFunctions::NetworkStreamSendShopEndPacket();
+				break;
 			}
 		}
-
-		GameFunctions::NetworkStreamSendShopEndPacket();
 		return true;
 	}
 

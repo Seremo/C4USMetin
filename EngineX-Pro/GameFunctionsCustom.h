@@ -828,7 +828,15 @@ public:
 			TGroundItemInstanceMap m_GroundItemInstanceMap = *(TGroundItemInstanceMap*)(*reinterpret_cast<DWORD*>(*reinterpret_cast<DWORD*>(Globals::iCPythonItemInstance + 4) + 4));
 			for (TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin(); itor != m_GroundItemInstanceMap.end(); itor++)
 			{
-				string ownerShip = itor->second->stOwnership;
+				string ownerShip = "";
+				try
+				{
+					ownerShip = itor->second->stOwnership;
+				}
+				catch (...)
+				{
+
+				}
 				if (ownerShip == "" || ownerShip == player_name)
 				{
 					vidList.insert(std::make_pair(itor->first, itor->second));
@@ -983,7 +991,7 @@ public:
 	//#################################################################################################################################
 	static void Boost()
 	{
-		int BoostCount = 0;
+		static int BoostCount = 0;
 		DWORD* pCharInstance = GameFunctions::PlayerNEW_GetMainActorPtr();
 		if (pCharInstance != 0)
 		{
@@ -1078,39 +1086,70 @@ public:
 
 		return false;
 	}
+
+	static int GetObjectRank(DWORD mob_vnum)
+	{
+		BYTE bRank = 0;
+		switch (Globals::Server)
+		{
+		case ServerName::SAMIAS2:
+		{
+			DWORD* mob_info = (DWORD*)GameFunctions::NonPlayerGetTable(mob_vnum);
+			if (mob_info != NULL)
+			{
+				BYTE* rankPtr = reinterpret_cast<BYTE*>(mob_info);
+				rankPtr += 128;
+				bRank = *(BYTE*)rankPtr;
+			}
+			break;
+		}
+		case ServerName::KEVRA:
+		{
+			DWORD* mob_info = (DWORD*)GameFunctions::NonPlayerGetTable(mob_vnum);
+			if (mob_info != NULL)
+			{
+				BYTE* rankPtr = reinterpret_cast<BYTE*>(mob_info);
+				rankPtr += 0x7F;
+				bRank = *(BYTE*)rankPtr;
+			}
+			break;
+		}
+		case ServerName::CALLIOPE2:
+		{
+			DWORD* mob_info = (DWORD*)GameFunctions::NonPlayerGetTable(mob_vnum);
+			if (mob_info != NULL)
+			{
+				BYTE* rankPtr = reinterpret_cast<BYTE*>(mob_info);
+				rankPtr += 55;
+				bRank = *(BYTE*)rankPtr;
+			}
+			break;
+		}
+		default:
+		{
+			TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
+			if (mob_info != NULL)
+			{
+				bRank = mob_info->bRank;
+			}
+			break;
+		}
+		}
+		return bRank;
+	}
 	//#################################################################################################################################
 	static bool InstanceIsBoss(DWORD* instance)
 	{
 		DWORD mob_vnum = GameFunctions::InstanceBaseGetVirtualNumber(instance);
-		const TMobTable* mob_info = GameFunctions::NonPlayerGetTable(mob_vnum);
-		if (mob_info != NULL)
+		BYTE bRank = GetObjectRank(mob_vnum);
+		if (bRank >= 4 && bRank < 10)
 		{
-			BYTE bRank;
-			switch (Globals::Server)
-			{
-			case ServerName::SAMIAS2:
-				bRank = (*(BYTE*)(mob_info + 128));
-				break;
-			case ServerName::CALLIOPE2:
-				bRank = (*(BYTE*)(mob_info + 55));
-				break;
-			default:
-				bRank = mob_info->bRank;
-				break;
-			}
-
-			if (bRank >= 4 && bRank < 10)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return true;
 		}
-
-
-		return false;
+		else
+		{
+			return false;
+		}
 	}
 	//#################################################################################################################################
 	static void SendPacket(string packet)

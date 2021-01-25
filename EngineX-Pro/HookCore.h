@@ -14,6 +14,7 @@ public:
 	static Globals::tCPhysicsObjectIncreaseExternalForce nCPhysicsObjectIncreaseExternalForce;
 	static Globals::tCPythonApplicationRenderGame nCPythonApplicationRenderGame;
 	static Globals::tCPythonEventManagerRegisterEventSetFromString nCPythonEventManagerRegisterEventSetFromString;
+	static Globals::tCResourceManagerGetResourcePointer nCResourceManagerGetResourcePointer;
 	
 	static PLH::VFuncMap directxVTable;
 	static Globals::tDirectEndScene nDirectEndScene;
@@ -59,5 +60,6 @@ Globals::tCActorInstanceTestActorCollision Hooks::nCActorInstanceTestActorCollis
 Globals::tCPythonApplicationRenderGame Hooks::nCPythonApplicationRenderGame = NULL;
 Globals::tCInputKeyboardUpdateKeyboard Hooks::nCInputKeyboardUpdateKeyboard = NULL;
 Globals::tCPythonEventManagerRegisterEventSetFromString Hooks::nCPythonEventManagerRegisterEventSetFromString = NULL;
+Globals::tCResourceManagerGetResourcePointer Hooks::nCResourceManagerGetResourcePointer = NULL;
 Globals::tDirectEndScene Hooks::nDirectEndScene = NULL;
 Globals::tDirectReset Hooks::nDirectReset = NULL;

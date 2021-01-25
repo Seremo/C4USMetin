@@ -1636,11 +1636,11 @@ public:
 		}
 	}
 	//#################################################################################################################################
-	static const TMobTable* NonPlayerGetTable(int vid)
+	static TMobTable* NonPlayerGetTable(int vid)
 	{
 		try
 		{
-			return (const TMobTable*)Globals::CPythonNonPlayerGetTable((void*)Globals::iCPythonNonPlayerInstance, vid);
+			return (TMobTable*)Globals::CPythonNonPlayerGetTable((void*)Globals::iCPythonNonPlayerInstance, vid);
 		}
 		catch (...)
 		{

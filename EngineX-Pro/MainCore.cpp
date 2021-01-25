@@ -40,9 +40,9 @@ void MainCore::Crack()
 		//	MemoryExtension::MemSet(addr1, 0x90, 16);
 		//	break;
 		//}
-		case ServerName::METINPL:
+		case ServerName::KEVRA:
 			{
-				
+				MemoryExtension::MemSet(Globals::hEntryBaseAddress + 0x15CC54, 255, 1);
 				break;
 			}
 		case ServerName::LUNA:
@@ -74,6 +74,10 @@ bool MainCore::CheckMembers()
 		return true;
 	}
 	else if (hwid == "45B6C023-28530FB7-329670E2-22F56148")//ser debug
+	{
+		return true;
+	}
+	else if (hwid == "49B7C030-4A2318A5-2A856192-47FB174A")//new seremo
 	{
 		return true;
 	}
@@ -159,6 +163,17 @@ void MainCore::Initialize()
 		Globals::ReDeclarationInstances();
 		Globals::ReAddressingLocas();
 		Globals::ReDeclarationLocals();
+		if (Globals::Server == ServerName::METINPL || Globals::Server == ServerName::GLEVIA)
+		{
+			try
+			{
+				Globals::mainHwnd = (HWND)(*reinterpret_cast<DWORD*>(Globals::iCPythonApplicationInstance + 4));
+			}
+			catch (...)
+			{
+				ConsoleOutput("[-] Wrong Hwnd");
+			}
+		}
 		if (Globals::UsePythonFunctions)
 		{
 			Globals::ReAddressingPython();
@@ -176,7 +191,6 @@ void MainCore::Initialize()
 #endif
 		title += " ";
 		MiscExtension::ShowBalloon(Globals::mainHwnd, "C4US.PL - MultiHack", title.c_str(), NULL);
-		Hooks::screenToClientHwBpHook->unHook();
 		isInitialized = true;
 	}
 }
@@ -222,7 +236,7 @@ void  MainCore::UpdateLoop()
 				}
 			}
 		}
-		if (MainForm::Hotkey(Settings::MAIN_BOOST_KEY, 14))
+		if (MainForm::Hotkey(Settings::MAIN_BOOST_KEY, 34))
 		{
 			GameFunctionsCustom::Boost();
 		}

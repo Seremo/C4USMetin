@@ -6,6 +6,7 @@ void _fastcall Hooks::NewCPythonApplicationRenderGame(void* This, void* EDX)
 {
 	if (!Settings::PROTECTION_DISABLE_RENDER_ENABLE)
 	{
+		Device::pDevice->GetTransform(D3DTS_WORLD, &CRender::WorldStateCopy);
 		nCPythonApplicationRenderGame(This);
 		for (map< pair<DWORD, DWORD>, pair<bool, std::shared_ptr<IAbstractModuleBase>>> ::iterator itor = MainCore::moduleList.begin(); itor != MainCore::moduleList.end(); itor++)
 		{
@@ -370,6 +371,19 @@ bool _fastcall Hooks::NewCNetworkStreamRecv(void* This, void* EDX, int len, void
 #endif
 		}
 		break;
+	case ServerName::KEVRA:
+	{
+		if (header == 0x59 && len >= 11)
+		{
+			TPacketGCFishingKevra packet;
+			memcpy(&packet, destBuf, sizeof(TPacketGCFishingKevra));
+			if (packet.subheader == 2 && packet.info == GameFunctions::PlayerGetMainCharacterIndex())
+			{
+				Fish::Instance().AppendCastDirect(packet.click_count);
+			}
+		}
+		break;
+	}
 	case ServerName::METINPL:
 		if (header == 42 && len >= sizeof(TPacketGCFishing) && Settings::FISH_ENABLE)
 		{
@@ -586,6 +600,13 @@ void _fastcall Hooks::NewCInputKeyboardUpdateKeyboard(void* This, void* EDX)
 	nCInputKeyboardUpdateKeyboard(This);
 }
 
+DWORD* _fastcall Hooks::NewCResourceManagerGetResourcePointer(void* This, void* EDX, const char* c_szFileName)
+{
+	Fish::Instance().ParseMessage(c_szFileName);
+	//printf("Resource File: %s\n", c_szFileName);
+	return nCResourceManagerGetResourcePointer(This, c_szFileName);
+}
+
 std::shared_ptr<PLH::HWBreakPointHook> Hooks::screenToClientHwBpHook;
 bool __stdcall Hooks::NewScreenToClient(HWND hWnd, LPPOINT lpPoint)
 {
@@ -594,6 +615,10 @@ bool __stdcall Hooks::NewScreenToClient(HWND hWnd, LPPOINT lpPoint)
 	{
 		Globals::mainHwnd = hWnd;
 		MainCore::Initialize();
+	}
+	else
+	{
+		Hooks::screenToClientHwBpHook->unHook();
 	}
 	return ScreenToClient(hWnd, lpPoint);
 }
@@ -663,7 +688,6 @@ void Hooks::Initialize()
 		case ServerName::EGORIA:
 		case ServerName::GLEVIA:
 		case ServerName::WOM:
-		case ServerName::KEVRA:
 		{
 			nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
 			nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
@@ -675,6 +699,21 @@ void Hooks::Initialize()
 			nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 			nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
 			nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+			break;
+		}
+		case ServerName::KEVRA:
+		{
+			nCInstanceBaseAvoidObject = (Globals::tCInstanceBaseAvoidObject)DetourFunction((PBYTE)Globals::CInstanceBaseAvoidObject, (PBYTE)NewCInstanceBaseAvoidObject);
+			nCInstanceBaseBlockMovement = (Globals::tCInstanceBaseBlockMovement)DetourFunction((PBYTE)Globals::CInstanceBaseBlockMovement, (PBYTE)NewCInstanceBaseBlockMovement);
+			nCActorInstanceTestActorCollision = (Globals::tCActorInstanceTestActorCollision)DetourFunction((PBYTE)Globals::CActorInstanceTestActorCollision, (PBYTE)NewCActorInstanceTestActorCollision);
+			nCPhysicsObjectIncreaseExternalForce = (Globals::tCPhysicsObjectIncreaseExternalForce)DetourFunction((PBYTE)Globals::CPhysicsObjectIncreaseExternalForce, (PBYTE)NewCPhysicsObjectIncreaseExternalForce);
+			nCInputKeyboardUpdateKeyboard = (Globals::tCInputKeyboardUpdateKeyboard)DetourFunction((PBYTE)Globals::CInputKeyboardUpdateKeyboard, (PBYTE)NewCInputKeyboardUpdateKeyboard);
+			nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
+			nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
+			nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
+			nCNetworkStreamRecv = (Globals::tCNetworkStreamRecv)DetourFunction((PBYTE)Globals::CNetworkStreamRecv, (PBYTE)NewCNetworkStreamRecv);
+			nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
+			nCResourceManagerGetResourcePointer = (Globals::tCResourceManagerGetResourcePointer)DetourFunction((PBYTE)Globals::CResourceManagerGetResourcePointer, (PBYTE)NewCResourceManagerGetResourcePointer);
 			break;
 		}
 		case ServerName::AELDRA:
@@ -701,7 +740,6 @@ void Hooks::Initialize()
 			nCNetworkStreamSend = (Globals::tCNetworkStreamSend)DetourFunction((PBYTE)Globals::CNetworkStreamSend, (PBYTE)NewCNetworkStreamSend);
 			nCPythonApplicationRenderGame = (Globals::tCPythonApplicationRenderGame)DetourFunction((PBYTE)Globals::CPythonApplicationRenderGame, (PBYTE)NewCPythonApplicationRenderGame);
 			nPyCallClassMemberFunc = (Globals::tPyCallClassMemberFunc)DetourFunction((PBYTE)Globals::PyCallClassMemberFunc, (PBYTE)NewPyCallClassMemberFunc);
-			nCPythonChatAppendChat = (Globals::tCPythonChatAppendChat)DetourFunction((PBYTE)Globals::CPythonChatAppendChat, (PBYTE)NewCPythonChatAppendChat);
 			nCPythonEventManagerRegisterEventSetFromString = (Globals::tCPythonEventManagerRegisterEventSetFromString)DetourFunction((PBYTE)Globals::CPythonEventManagerRegisterEventSetFromString, (PBYTE)NewCPythonEventManagerRegisterEventSetFromString);
 			break;
 		}

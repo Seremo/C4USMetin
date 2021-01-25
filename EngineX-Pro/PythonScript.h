@@ -39,7 +39,10 @@ public:
 
 	void OnTabs()
 	{
-		MainForm::AddTab(34, "PythonScript");
+		if (Globals::Server == ServerName::METINPL)
+		{
+			MainForm::AddTab(34, "PythonScript");
+		}
 	}
 
 	void OnMenu()
